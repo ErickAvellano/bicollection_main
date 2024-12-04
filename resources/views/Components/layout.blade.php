@@ -42,7 +42,7 @@
                             <i class="fas fa-search"></i>
                         </button>
                         <!-- Dropdown for search suggestions -->
-                        <div id="searchSuggestions" class="list-group position-absolute w-100 mt-1" style="display: none; z-index: 1000;">
+                        <div id="searchSuggestions" class="mt-1 list-group position-absolute w-100" style="display: none; z-index: 1000;">
                             <!-- Suggestions will be dynamically added here -->
                         </div>
                     </div>
@@ -241,7 +241,7 @@
                 <ul class="navbar-nav mobile-nav">
                     <li class="nav-item">
                         <a class="nav-link d-flex align-items-center text-start" href="{{ route('dashboard') }}">
-                            <i class="fa-solid fa-arrow-left  return-hidden-icon"></i>
+                            <i class="fa-solid fa-arrow-left return-hidden-icon"></i>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -298,8 +298,8 @@
                         <a class="nav-link custom-dropdown-toggle" href="#" id="customCategoryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa-solid fa-bars-staggered pills-icon"></i> Category
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end p-0 custom-dropdown-width transition-dropdown" aria-labelledby="customCategoryDropdown">
-                            <li class="dropdown-item p-0">
+                        <ul class="p-0 dropdown-menu dropdown-menu-end custom-dropdown-width transition-dropdown" aria-labelledby="customCategoryDropdown">
+                            <li class="p-0 dropdown-item">
                                 <div class="container">
                                     <h5 class="mt-2 mb-2" style="color: black;">Browse Product by Category</h5>
                                     <div class="row category" >
@@ -310,10 +310,10 @@
                                             @endphp
                                             <div class="col-2 category-col">
                                                 <a href="{{ route('category.product', ['category_name' => $category->category_name]) }}">
-                                                    <div class="category-box border rounded text-center position-relative overflow-hidden">
+                                                    <div class="overflow-hidden text-center border rounded category-box position-relative">
                                                         <img src="{{ asset('images/assets/category/' . $filename) }}" alt="{{ $category->category_name }}" class="img-fluid w-100 h-100">
                                                         <div class="category-name-overlay position-absolute w-100 d-flex align-items-center justify-content-center">
-                                                            <p class="text-white font-weight-bold m-0">{{ $category->category_name }}</p>
+                                                            <p class="m-0 text-white font-weight-bold">{{ $category->category_name }}</p>
                                                         </div>
                                                     </div>
                                                 </a>
@@ -505,7 +505,7 @@
                 content: function () {
                     // Placeholder content to be replaced with AJAX response
                     return `
-                        <div class="text-center mb-3 mt-3" id="popover-cart-content">
+                        <div class="mt-3 mb-3 text-center" id="popover-cart-content">
                             <div class="spinner-border text-custom spinner-medium" role="status">
                                 <span class="visually-hidden">Loading...</span>
                             </div>
@@ -556,7 +556,7 @@
                             content += `
                                 <p style="margin-bottom:0; padding:0px 20px;" class="text-end"><strong>Total: ₱${response.totalCartAmount}</strong></p>
                                 <div style="text-align: center;">
-                                    <a href="/cart" class="btn btn-outline-custom btn-sm mb-2">Go to Cart</a>
+                                    <a href="/cart" class="mb-2 btn btn-outline-custom btn-sm">Go to Cart</a>
                                 </div>`;
                         }
 
@@ -827,7 +827,7 @@
                 content: function () {
                     // Placeholder content to be replaced with AJAX response
                     return `
-                        <div class="text-center mb-3 mt-3" id="popover-orders-content">
+                        <div class="mt-3 mb-3 text-center" id="popover-orders-content">
                             <div class="spinner-border text-custom spinner-medium" role="status">
                                 <span class="visually-hidden">Loading...</span>
                             </div>
@@ -851,27 +851,27 @@
                             data.orders.forEach(function (order) {
                                 if (order.order_status === 'pending') { // Only show pending orders
                                     content += `
-                                        <div class="card mb-3">
+                                        <div class="mb-3 card">
                                             <div class="card-body">
                                                 <div class="row align-items-start gx-3">
                                                     <div class="col-auto">
                                                         <img id="orderProductImage"
                                                             src="${order.orderItems[0].product_img_path ? '/storage/' + order.orderItems[0].product_img_path : 'https://via.placeholder.com/60'}"
                                                             alt="Product Image"
-                                                            class="img-fluid border"
+                                                            class="border img-fluid"
                                                             loading="lazy"
                                                             style="width: 60px; height: 60px; object-fit: cover;">
                                                     </div>
                                                     <div class="col">
-                                                        <p id="orderID" class="mb-0 mt-2 text-start"><strong>Order ID:</strong> ${order.order_id}</p>
+                                                        <p id="orderID" class="mt-2 mb-0 text-start"><strong>Order ID:</strong> ${order.order_id}</p>
                                                         <p id="customerUsername" class="mb-0 text-start"><strong>Order by:</strong> ${order.customer}</p>
                                                     </div>
                                                     <div class="col-auto text-end">
-                                                        <p id="orderQuantity" class="mb-0 mt-2 text-start"><strong>Qty:</strong> ${order.total_quantity}</p>
+                                                        <p id="orderQuantity" class="mt-2 mb-0 text-start"><strong>Qty:</strong> ${order.total_quantity}</p>
                                                         <p id="orderTotal" class="mb-0"><strong>Total:</strong> ₱${order.total_amount}</p>
                                                     </div>
                                                 </div>
-                                                <div class="row mt-2 align-items-center">
+                                                <div class="mt-2 row align-items-center">
                                                     <div class="col">
                                                         <p id="orderProductName" class="mb-0 text-start"><strong>Product Name:</strong> ${order.orderItems[0].product_name}</p>
                                                         <div class="d-flex align-items-center">
