@@ -604,21 +604,21 @@
 </section>
 <!--Popular Product-->
 <div class="container">
-    <div class="row mt-3">
+    <div class="mt-3 row">
         <div class="popular-product-header">
             <h3>Popular Product</h3>
             <hr class="line">
             <div class="button-group">
-                <button id="prevBtnPopular" class="btn btn-outline-dark btn-sm mb-2">
+                <button id="prevBtnPopular" class="mb-2 btn btn-outline-dark btn-sm">
                     <i class="fa-solid fa-chevron-left" style="font-size: 14px;"></i>
                 </button>
-                <button id="nextBtnPopular" class="btn btn-outline-dark btn-sm mb-2">
+                <button id="nextBtnPopular" class="mb-2 btn btn-outline-dark btn-sm">
                     <i class="fa-solid fa-chevron-right" style="font-size: 14px;"></i>
                 </button>
             </div>
         </div>
 
-        <div class="col-md-12 mt-3">
+        <div class="mt-3 col-md-12">
             <div id="productCarouselPopular" class="product-carousel">
                 @foreach($products as $product)
                     <a href="{{ route('product.view', $product->product_id) }}" class="product-link">
@@ -629,7 +629,7 @@
                                      alt="{{ $product->product_name }}">
                                 <div class="card-body">
                                     <h6 class="card-title product-title">{{ $product->product_name }}</h6>
-                                    <p class="card-price mb-1">₱{{ number_format($product->price, 2) }}</p>
+                                    <p class="mb-1 card-price">₱{{ number_format($product->price, 2) }}</p>
                                     @if($product->averageRating > 0)
                                         <p class="card-reviews">
                                             {{-- Display stars based on the rating --}}
@@ -645,7 +645,7 @@
                                             <span class="rating-value">{{ $product->averageRating }} / 5</span>
                                         </p>
                                     @endif
-                                    <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <div class="mt-2 d-flex justify-content-between align-items-center">
                                         <a href="{{ route('login') }}" class="btn btn-custom" >Add to Cart</a>
                                         <a href="{{ route('login') }}" class="btn btn-outline-danger wishlist-button" style="padding: 0.2rem 0;">
                                             <i class="fas fa-heart"></i>
@@ -666,7 +666,7 @@
     <!-- Merchant Card -->
     <div class="container">
         <div class="row">
-            <div class="col-md-12 mt-3">
+            <div class="mt-3 col-md-12">
                 <div class="row">
                     <div class="col-md-7">
 
@@ -678,8 +678,8 @@
             </div>
 
             <!-- Shop and Products Section -->
-            <div class="col-md-12 mt-3 mb-2">
-                <div class="d-flex overflow-hidden" style="gap:2px" id="productCarousel_partner">
+            <div class="mt-3 mb-2 col-md-12">
+                <div class="overflow-hidden d-flex" style="gap:2px" id="productCarousel_partner">
                     <!-- Shop Details -->
                     <div class="col-md-7">
                         <div style="display: flex; align-items: center; margin-bottom:20px;">
@@ -715,12 +715,12 @@
                                                 <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
                                                 <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
                                             </span></h5>
-                                            <p class="text-white text-start mb-0">
+                                            <p class="mb-0 text-white text-start">
                                                 <i class="fa-solid fa-location-dot" style="color: red;"></i>
                                                 {{ $shop->shop_street }}, {{ $shop->barangay }}, {{ $shop->city }}, {{ $shop->province }}
                                             </p>
-                                            <p class="text-white text-start mb-0 text-gray">
-                                                <i class="fa-solid fa-phone text-black"></i>
+                                            <p class="mb-0 text-white text-start text-gray">
+                                                <i class="text-black fa-solid fa-phone"></i>
                                                 @if($shop->merchant->contact_number)
                                                     @php
                                                         $contactNumber = $shop->merchant->contact_number;
@@ -743,7 +743,7 @@
                                                     No contact number set
                                                 @endif
                                             </p>
-                                            <p class="text-white text-start mb-0">
+                                            <p class="mb-0 text-white text-start">
 
 
                                             </p>
@@ -771,7 +771,7 @@
                                 @foreach($featuredProducts as $product)
                                     <a href="{{ route('product.view', $product->product_id) }}" class="text-decoration-none " style="text-decoration: none; color: inherit;">
                                         <div class="product-card-hover">
-                                            <div class="card mb-1" style="height: 72px; width:auto;">
+                                            <div class="mb-1 card" style="height: 72px; width:auto;">
                                                 <div class="card-body" style="padding: 10px;">
                                                     <div class="row">
                                                         <!-- Product Image -->
@@ -807,7 +807,7 @@
                                                                     <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
                                                                 @endif
                                                             </p>
-                                                            <p class="rating mb-0" style="font-size: 13px">₱{{ $product->price }}</p>
+                                                            <p class="mb-0 rating" style="font-size: 13px">₱{{ $product->price }}</p>
                                                         </div>
                                                     </div>
                                                     <!-- Add to Cart & Wishlist Buttons -->
@@ -835,32 +835,32 @@
 @if(isset($recentlyAddedProducts) && !empty($recentlyAddedProducts))
     <!-- Recently Added Product -->
     <div class="container recently-added-container">
-        <div class="row mt-4">
+        <div class="mt-4 row">
             <div class="recently-product-header">
                 <h3>Recently Added</h3>
                 <hr class="line">
                 <div class="button-group">
-                    <button id="prevBtnRecentlyAdded" class="btn btn-outline-dark btn-sm mb-2">
+                    <button id="prevBtnRecentlyAdded" class="mb-2 btn btn-outline-dark btn-sm">
                         <i class="fa-solid fa-chevron-left"></i>
                     </button>
-                    <button id="nextBtnRecentlyAdded" class="btn btn-outline-dark btn-sm mb-2">
+                    <button id="nextBtnRecentlyAdded" class="mb-2 btn btn-outline-dark btn-sm">
                         <i class="fa-solid fa-chevron-right"></i>
                     </button>
                 </div>
             </div>
 
-            <div class="col-md-12 mt-3">
-                <div id="productCarouselRecentlyAdded" class="d-flex overflow-hidden">
+            <div class="mt-3 col-md-12">
+                <div id="productCarouselRecentlyAdded" class="overflow-hidden d-flex">
                     @foreach($recentlyAddedProducts as $product)
                         <a href="{{ route('product.view', $product->product_id) }}" class="text-decoration-none product-link">
-                            <div class="product-item p-2 product-card-hover">
+                            <div class="p-2 product-item product-card-hover">
                                 <div class="card">
                                     <img src="{{ $product->images->first() ? Storage::url($product->images->first()->product_img_path1) : 'https://via.placeholder.com/150' }}"
                                         class="card-img-top"
                                         alt="{{ $product->product_name }}">
-                                    <div class="card-body text-center">
+                                    <div class="text-center card-body">
                                         <h6 class="card-title product-title">{{ $product->product_name }}</h6>
-                                        <p class="card-price mb-1">₱{{ number_format($product->price, 2) }}</p>
+                                        <p class="mb-1 card-price">₱{{ number_format($product->price, 2) }}</p>
                                         <p class="card-reviews">
                                             @if($product->averageRating > 0)
                                                 {{-- Display stars based on the rating --}}
@@ -883,7 +883,7 @@
                                                 <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
                                             @endif
                                         </p>
-                                        <div class="d-flex justify-content-between align-items-center mt-2">
+                                        <div class="mt-2 d-flex justify-content-between align-items-center">
                                             <a href="{{ route('login') }}" class="btn btn-custom" >Add to Cart</a>
                                             <a href="{{ route('login') }}" class="btn btn-outline-danger wishlist-button" style="padding: 0.2rem 0;">
                                                 <i class="fas fa-heart"></i>
@@ -903,20 +903,20 @@
 <!-- End Recently Added Product-->
 <!-- All Product Carousel -->
 <div class="container">
-    <div class="row mt-3">
+    <div class="mt-3 row">
         <div class="popular-product-header">
             <h3>All Products</h3>
             <hr class="line">
             <div class="button-group">
-                <button id="prevBtnProductAll" class="btn btn-outline-dark btn-sm mb-2">
+                <button id="prevBtnProductAll" class="mb-2 btn btn-outline-dark btn-sm">
                     <i class="fa-solid fa-chevron-left" style="font-size: 14px;"></i>
                 </button>
-                <button id="nextBtnProductAll" class="btn btn-outline-dark btn-sm mb-2">
+                <button id="nextBtnProductAll" class="mb-2 btn btn-outline-dark btn-sm">
                     <i class="fa-solid fa-chevron-right" style="font-size: 14px;"></i>
                 </button>
             </div>
         </div>
-        <div class="col-md-12 mt-3">
+        <div class="mt-3 col-md-12">
             <div id="productCarouselAll" class="product-carousel-product">
                 <!-- Loop through products -->
                 @foreach($allProducts as $product)
@@ -928,7 +928,7 @@
                                      alt="{{ $product->product_name }}">
                                 <div class="card-body">
                                     <h6 class="card-title">{{ $product->product_name }}</h6>
-                                    <p class="card-price mb-1">₱{{ number_format($product->price, 2) }}</p>
+                                    <p class="mb-1 card-price">₱{{ number_format($product->price, 2) }}</p>
                                     <p class="card-reviews">
                                         {{-- Display stars based on the rating if available --}}
                                         @if($product->averageRating > 0)
@@ -951,7 +951,7 @@
                                             <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
                                         @endif
                                     </p>
-                                    <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <div class="mt-2 d-flex justify-content-between align-items-center">
                                         <a href="{{ route('login') }}" class="btn btn-custom" >Add to Cart</a>
                                         <a href="{{ route('login') }}" class="btn btn-outline-danger wishlist-button" style="padding: 0.2rem 0;">
                                             <i class="fas fa-heart"></i>
@@ -1035,65 +1035,6 @@
     });
 </script>
 
-
-{{-- <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const productCarouselPopular = document.getElementById('productCarouselPopular');
-        const prevBtnPopular = document.getElementById('prevBtnPopular');
-        const nextBtnPopular = document.getElementById('nextBtnPopular');
-
-        const productItemWidth = document.querySelector('.product-item').offsetWidth;
-
-        // Scroll left
-        prevBtnPopular.addEventListener('click', function () {
-            productCarouselPopular.scrollBy({
-                left: -productItemWidth * 3, // Scroll 3 items at a time
-                behavior: 'smooth'
-            });
-        });
-
-        // Scroll right
-        nextBtnPopular.addEventListener('click', function () {
-            productCarouselPopular.scrollBy({
-                left: productItemWidth * 3, // Scroll 3 items at a time
-                behavior: 'smooth'
-            });
-        });
-    });
-</script> --}}
-{{-- <script defer>
-    document.addEventListener('DOMContentLoaded', function() {
-        const productCarouselAll = document.getElementById('productCarouselAll');
-        const prevBtnAll = document.getElementById('prevBtnProductAll');
-        const nextBtnAll = document.getElementById('nextBtnProductAll');
-
-        const scrollAmount = 600;
-
-        if (productCarouselAll && prevBtnAll && nextBtnAll) {
-            console.log("Elements found, initializing carousel...");
-            // Scroll left
-            prevBtnAll.addEventListener('click', function () {
-                console.log("Prev button clicked");
-                productCarouselAll.scrollBy({
-                    left: -scrollAmount,
-                    behavior: 'smooth'
-                });
-            });
-
-            // Scroll right
-            nextBtnAll.addEventListener('click', function () {
-                console.log("Next button clicked");
-                productCarouselAll.scrollBy({
-                    left: scrollAmount,
-                    behavior: 'smooth'
-                });
-            });
-        } else {
-            console.error("Carousel or buttons not found");
-        }
-    });
-</script> --}}
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Function to change the background image
@@ -1158,34 +1099,5 @@
         cycleImages(bannerImages, 7000);  // Cycle images every 7 seconds
     });
 </script>
-
-{{-- <script>
-    document.addEventListener('DOMContentLoaded', function () {
-    const prevBtn = document.getElementById('prevBtnRecentlyAdded');
-    const nextBtn = document.getElementById('nextBtnRecentlyAdded');
-    const productCarousel = document.getElementById('productCarouselRecentlyAdded');
-
-        // Set the scroll amount based on the card width
-        const scrollAmount = 200; // Adjust this value as needed
-
-        // Event listener for the previous button
-        prevBtn.addEventListener('click', function () {
-            productCarousel.scrollBy({
-                left: -scrollAmount,
-                behavior: 'smooth'
-            });
-        });
-
-        // Event listener for the next button
-        nextBtn.addEventListener('click', function () {
-            productCarousel.scrollBy({
-                left: scrollAmount,
-                behavior: 'smooth'
-            });
-        });
-    });
-
-</script> --}}
-
 
 @endsection
