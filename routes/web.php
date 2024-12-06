@@ -121,6 +121,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/order/verify', [OrderController::class, 'verify'])->name('order.verify');
     Route::post('/order/not-match', [OrderController::class, 'notMatch'])->name('order.notMatch');
     Route::get('/merchant/inventory', [InventoryController::class, 'index'])->name('inventory.index');
+    Route::get('/merchant/sales-report/pdf', [InventoryController::class, 'generatePDF'])->name('sales_report.pdf');
 
 
 
