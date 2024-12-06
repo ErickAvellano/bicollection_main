@@ -271,9 +271,9 @@
                                         ? asset('storage/' . $user->customer->customerImage->img_path)  // Customer image
                                         : asset('images/assets/default_profile.png'));  // Default image
                             @endphp
-                            <a class="nav-link d-flex align-items-center" href="{{ route('myprofile') }}">
+                            {{-- <a class="nav-link d-flex align-items-center" href="{{ route('myprofile') }}">
                                 <img src="{{ $profileImage }}" alt="User Avatar" class="rounded-circle" width="30" height="30">
-                            </a>
+                            </a> --}}
                         @else
                             <a class="nav-link d-flex align-items-center" href="{{ route('login') }}">
                                 <i class="fas fa-user"></i>
@@ -417,7 +417,7 @@
             @endif
         </div>
     </div>
-    
+
 @yield('content')
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
