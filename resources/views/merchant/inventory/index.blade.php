@@ -38,7 +38,21 @@
     </div>
 
     <ul class="nav nav-tabs" id="inventoryTabs" role="tablist">
-        <!-- Tab buttons here -->
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="inventory-tab" data-bs-toggle="tab" data-bs-target="#inventory" type="button" role="tab" aria-controls="inventory" aria-selected="true">Inventory</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="sales-report-tab" data-bs-toggle="tab" data-bs-target="#sales-report" type="button" role="tab" aria-controls="sales-report" aria-selected="false">Sales Report</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="order-report-tab" data-bs-toggle="tab" data-bs-target="#order-report" type="button" role="tab" aria-controls="order-report" aria-selected="false">Order Report</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="stock-alerts-tab" data-bs-toggle="tab" data-bs-target="#stock-alerts" type="button" role="tab" aria-controls="stock-alerts" aria-selected="false">Stock Alerts</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="product-categories-tab" data-bs-toggle="tab" data-bs-target="#product-categories" type="button" role="tab" aria-controls="product-categories" aria-selected="false">Product Categories</button>
+        </li>
     </ul>
 
     <div class="tab-content mt-3" id="inventoryTabsContent">
