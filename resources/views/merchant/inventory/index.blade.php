@@ -356,105 +356,124 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-        // Convert Laravel collections to arrays
-        const orderStatuses = @json($orderStatuses->toArray() ?? []);
-        const refundStatuses = @json($refundStatuses->toArray() ?? []);
+            // Convert Laravel collections to arrays
+            const orderStatuses = @json($orderStatuses->toArray() ?? []);
+            const refundStatuses = @json($refundStatuses->toArray() ?? []);
 
-        // Check if orderStatuses is empty and handle accordingly
-        if (Object.keys(orderStatuses).length === 0) {
-            document.getElementById('orderStatusChartContainer').innerHTML = '<p>No current data for Order Status</p>';
-        } else {
-            // Order Status Chart
-            const orderStatusCtx = document.getElementById('orderStatusChart').getContext('2d');
-            new Chart(orderStatusCtx, {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(orderStatuses),
-                    datasets: [{
-                        label: 'Order Status Distribution',
-                        data: Object.values(orderStatuses),
-                        backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)'],
-                        borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
-                        borderWidth: 1
-                    }]
+            // Function to display "No Data" message
+            function showNoDataMessage(chartCtx) {
+                chartCtx.font = '16px Arial';
+                chartCtx.textAlign = 'center';
+                chartCtx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+                chartCtx.fillText('No data available', chartCtx.canvas.width / 2, chartCtx.canvas.height / 2);
+            }
+
+            // Function to load the charts
+            function loadCharts() {
+                // Order Status Chart
+                const orderStatusCtx = document.getElementById('orderStatusChart').getContext('2d');
+                if (Object.keys(orderStatuses).length === 0) {
+                    showNoDataMessage(orderStatusCtx);
+                } else {
+                    new Chart(orderStatusCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: Object.keys(orderStatuses),
+                            datasets: [{
+                                label: 'Order Status Distribution',
+                                data: Object.values(orderStatuses),
+                                backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)'],
+                                borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false
+                        }
+                    });
                 }
-            });
-        }
 
-        // Check if refundStatuses is empty and handle accordingly
-        if (Object.keys(refundStatuses).length === 0) {
-            document.getElementById('refundStatusChartContainer').innerHTML = '<p>No current data for Refund Status</p>';
-        } else {
-            // Refund Status Chart
-            const refundStatusCtx = document.getElementById('refundStatusChart').getContext('2d');
-            new Chart(refundStatusCtx, {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(refundStatuses),
-                    datasets: [{
-                        label: 'Refund Status',
-                        data: Object.values(refundStatuses),
-                        backgroundColor: ['rgba(255, 159, 64, 0.2)', 'rgba(201, 203, 207, 0.2)'],
-                        borderColor: ['rgba(255, 159, 64, 1)', 'rgba(201, 203, 207, 1)'],
-                        borderWidth: 1
-                    }]
+                // Refund Status Chart
+                const refundStatusCtx = document.getElementById('refundStatusChart').getContext('2d');
+                if (Object.keys(refundStatuses).length === 0) {
+                    showNoDataMessage(refundStatusCtx);
+                } else {
+                    new Chart(refundStatusCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: Object.keys(refundStatuses),
+                            datasets: [{
+                                label: 'Refund Status',
+                                data: Object.values(refundStatuses),
+                                backgroundColor: ['rgba(255, 159, 64, 0.2)', 'rgba(201, 203, 207, 0.2)'],
+                                borderColor: ['rgba(255, 159, 64, 1)', 'rgba(201, 203, 207, 1)'],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false
+                        }
+                    });
                 }
+            }
+
+            // Call the loadCharts function to render the charts
+            loadCharts();
+
+            // Download Order Report as PDF
+            document.getElementById('downloadOrderReportBtn').addEventListener('click', function () {
+                // Convert the charts to base64 images
+                const orderStatusChartBase64 = document.getElementById('orderStatusChart').toDataURL('image/png');
+                const refundStatusChartBase64 = document.getElementById('refundStatusChart').toDataURL('image/png');
+
+                // Create a form dynamically
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = "{{ route('order_report.pdf') }}";
+                form.style.display = 'none';
+
+                // Add CSRF token input
+                const csrfInput = document.createElement('input');
+                csrfInput.type = 'hidden';
+                csrfInput.name = '_token';
+                csrfInput.value = "{{ csrf_token() }}";
+                form.appendChild(csrfInput);
+
+                // Add base64 chart data as input
+                const orderStatusInput = document.createElement('input');
+                orderStatusInput.type = 'hidden';
+                orderStatusInput.name = 'orderStatusChart';
+                orderStatusInput.value = orderStatusChartBase64;
+                form.appendChild(orderStatusInput);
+
+                const refundStatusInput = document.createElement('input');
+                refundStatusInput.type = 'hidden';
+                refundStatusInput.name = 'refundStatusChart';
+                refundStatusInput.value = refundStatusChartBase64;
+                form.appendChild(refundStatusInput);
+
+                // Add the orderStatuses and refundStatuses data
+                const orderStatusesInput = document.createElement('input');
+                orderStatusesInput.type = 'hidden';
+                orderStatusesInput.name = 'orderStatuses';
+                orderStatusesInput.value = JSON.stringify(orderStatuses);
+                form.appendChild(orderStatusesInput);
+
+                const refundStatusesInput = document.createElement('input');
+                refundStatusesInput.type = 'hidden';
+                refundStatusesInput.name = 'refundStatuses';
+                refundStatusesInput.value = JSON.stringify(refundStatuses);
+                form.appendChild(refundStatusesInput);
+
+                // Append the form to the body and submit it
+                document.body.appendChild(form);
+                form.submit();
             });
-        }
-
-        // Download Order Report as PDF
-        document.getElementById('downloadOrderReportBtn').addEventListener('click', function () {
-            // Convert the charts to base64 images
-            const orderStatusChartBase64 = document.getElementById('orderStatusChart').toDataURL('image/png');
-            const refundStatusChartBase64 = document.getElementById('refundStatusChart').toDataURL('image/png');
-
-            // Create a form dynamically
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = "{{ route('order_report.pdf') }}";
-            form.style.display = 'none';
-
-            // Add CSRF token input
-            const csrfInput = document.createElement('input');
-            csrfInput.type = 'hidden';
-            csrfInput.name = '_token';
-            csrfInput.value = "{{ csrf_token() }}";
-            form.appendChild(csrfInput);
-
-            // Add base64 chart data as input
-            const orderStatusInput = document.createElement('input');
-            orderStatusInput.type = 'hidden';
-            orderStatusInput.name = 'orderStatusChart';
-            orderStatusInput.value = orderStatusChartBase64;
-            form.appendChild(orderStatusInput);
-
-            const refundStatusInput = document.createElement('input');
-            refundStatusInput.type = 'hidden';
-            refundStatusInput.name = 'refundStatusChart';
-            refundStatusInput.value = refundStatusChartBase64;
-            form.appendChild(refundStatusInput);
-
-            // Add the orderStatuses and refundStatuses data
-            const orderStatusesInput = document.createElement('input');
-            orderStatusesInput.type = 'hidden';
-            orderStatusesInput.name = 'orderStatuses';
-            orderStatusesInput.value = JSON.stringify(orderStatuses);
-            form.appendChild(orderStatusesInput);
-
-            const refundStatusesInput = document.createElement('input');
-            refundStatusesInput.type = 'hidden';
-            refundStatusesInput.name = 'refundStatuses';
-            refundStatusesInput.value = JSON.stringify(refundStatuses);
-            form.appendChild(refundStatusesInput);
-
-            // Append the form to the body and submit it
-            document.body.appendChild(form);
-            form.submit();
         });
-    });
-
-
     </script>
+
     <script>
         $(document).ready(function () {
             $('#ordersTable').DataTable({
