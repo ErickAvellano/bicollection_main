@@ -65,7 +65,7 @@
     line-height: 1; 
 }
 .logo-img {
-    width: 200px;    /* Adjust the width as needed */
+    width: 100px;    /* Adjust the width as needed */
     height: auto;    /* Maintain aspect ratio */
 }
 
