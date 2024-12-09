@@ -56,13 +56,13 @@
                     </a>
 
                     <!-- Include the renamed modal component -->
-                    @include('Componentsss.delete-modal-product', [
+                    @include('Components.delete-modal-product', [
                         'productId' => $product->product_id,
                         'productName' => $product->product_name,
                         'productPrice' => $product->price,
                         'productQuantity' => $product->quantity_item,
                         'productImage' => $product->images->isNotEmpty() ? $product->images->first()->product_img_path1 : null,
-                    ])
+                    ])s
                 </td>
             </tr>
         @endforeach
