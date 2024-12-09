@@ -5,7 +5,6 @@
         <button id="downloadOrderReportBtn" class="btn" style="background-color: #228b22; color: white;">
             Download Order Report as PDF
         </button>
-        
     </div>
 
     <!-- Chart Overview -->
@@ -61,7 +60,7 @@
                     <tr>
                         <td>{{ $order->order_id }}</td>
                         <td>
-                            <span class="badge 
+                            <span class="badge
                                 @if($order->order_status === 'completed') bg-success
                                 @elseif($order->order_status === 'canceled') bg-danger
                                 @elseif($order->order_status === 'pending') bg-warning
@@ -81,4 +80,3 @@
         </tbody>
     </table>
 </div>
-
