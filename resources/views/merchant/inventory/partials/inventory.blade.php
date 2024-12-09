@@ -48,15 +48,15 @@
                 <td>
                     <a href="{{ route('product.view', $product->product_id) }}" class="btn btn-info btn-sm">View</a>
                     <a href="{{ route('inventory.edit', ['id' => $product->product_id]) }}" class="btn btn-warning btn-sm">Edit</a>
-                    <a href="javascript:void(0);" 
-                        class="btn btn-danger btn-sm" 
-                        data-bs-toggle="modal" 
+                    <a href="javascript:void(0);"
+                        class="btn btn-danger btn-sm"
+                        data-bs-toggle="modal"
                         data-bs-target="#deleteModal-{{ $product->product_id }}">
                         Delete
                     </a>
 
                     <!-- Include the renamed modal component -->
-                    @include('Components.delete-modal-product', [
+                    @include('Componentsss.delete-modal-product', [
                         'productId' => $product->product_id,
                         'productName' => $product->product_name,
                         'productPrice' => $product->price,
