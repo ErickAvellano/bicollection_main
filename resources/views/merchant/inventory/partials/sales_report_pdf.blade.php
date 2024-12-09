@@ -36,8 +36,27 @@
     </style>
 </head>
 <body>
+    <h2>Shop Name: {{ $merchantShopName }}</h2>
+    <h3>Registered Owner: {{ $salesData->isNotEmpty() ? $salesData->first()->merchant->firstname . ' ' . $salesData->first()->merchant->lastname : 'No owner found' }}</h3>
+    <h3>Report Date: {{ \Carbon\Carbon::now()->format('Y-m-d') }}</h3>
+
+    <h1>Sales Report Chart</h1>
+    <h2>Sales per Day</h2>
+    <img src="{{ $salesPerDayChartPath }}" alt="Sales per Day Chart" width="100%">
+
+    <h2>Sales per Month</h2>
+    <img src="{{ $salesPerMonthChartPath }}" alt="Sales per Month Chart" width="100%">
+
+    <h2>Sales per Year</h2>
+    <img src="{{ $salesPerYearChartPath }}" alt="Sales per Year Chart" width="100%">
+
+    <h2>Popular Products</h2>
+    <img src="{{ $popularProductsChartPath }}" alt="Popular Products Chart" width="100%">
+
+    <h2>Category Sales Trends</h2>
+    <img src="{{$categorySalesTrendChartPath}}" alt="Category Sales Trend Chart" width="100%">
+
     <h1>Sales Report</h1>
-    <a href="{{ route('sales_report.pdf') }}" class="btn">Download Sales Report as PDF</a>
     <table>
         <thead>
             <tr>
@@ -49,15 +68,27 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($salesData as $sale)
+            @if($salesData->isEmpty())
                 <tr>
-                    <td>{{ $sale->sales_id }}</td>
-                    <td>{{ $sale->product->product_name }}</td>
-                    <td>{{ $sale->quantity }}</td>
-                    <td>₱{{ number_format($sale->total_price, 2) }}</td>
-                    <td>{{ \Carbon\Carbon::parse($sale->sale_date)->format('F j, Y, g:i a') }}</td>
+                    <td colspan="5" class="text-center">No current data</td>
                 </tr>
-            @endforeach
+            @else
+                @foreach($salesData as $sale)
+                    <tr>
+                        <td>{{ $sale->sales_id }}</td>
+                        <td>
+                            @if($sale->product)
+                                {{ $sale->product->product_name }}
+                            @else
+                                <span class="text-danger">No product found</span>
+                            @endif
+                        </td>
+                        <td>{{ $sale->quantity }}</td>
+                        <td>₱ {{ number_format($sale->total_price, 2) }}</td>
+                        <td>{{ $sale->sale_date }}</td>
+                    </tr>
+                @endforeach
+            @endif
         </tbody>
     </table>
 </body>
