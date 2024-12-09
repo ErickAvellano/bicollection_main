@@ -476,14 +476,28 @@
 
     <script>
         $(document).ready(function () {
+            // Initialize the DataTable with sorting by the 5th column (Order Date) descending
             $('#ordersTable').DataTable({
-                order: [[4, 'desc']], // Default sort by Order Date descending
+                order: [[4, 'desc']], // Default sort by Order Date (5th column) descending
                 columnDefs: [
-                    { orderable: true, targets: '_all' } // Enable sorting for all columns
-                ]
+                    {
+                        orderable: true,
+                        targets: '_all'  // Enable sorting for all columns
+                    }
+                ],
+                responsive: true,  // Make the table responsive for different screen sizes
+                pageLength: 10,  // Set the default number of rows per page
+                lengthChange: false, // Disable length change dropdown
+                autoWidth: false,  // Adjust column width automatically
+                searching: true,  // Enable search functionality
+                info: true,  // Display table info (e.g., showing 1 to 10 of 50 entries)
+                language: {
+                    search: "Filter orders:", // Customizing search label
+                }
             });
         });
     </script>
+
 
 
 @endsection
