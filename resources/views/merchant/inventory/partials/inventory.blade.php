@@ -62,7 +62,7 @@
                         'productPrice' => $product->price,
                         'productQuantity' => $product->quantity_item,
                         'productImage' => $product->images->isNotEmpty() ? $product->images->first()->product_img_path1 : null,
-                    ])s
+                    ])
                 </td>
             </tr>
         @endforeach
