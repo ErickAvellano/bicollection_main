@@ -56,7 +56,7 @@
                     </a>
 
                     <!-- Include the renamed modal component -->
-                    @include('components.delete-modal-product', [
+                    @include('Components.delete-modal-product', [
                         'productId' => $product->product_id,
                         'productName' => $product->product_name,
                         'productPrice' => $product->price,
