@@ -927,7 +927,7 @@
                                      class="card-img-top"
                                      alt="{{ $product->product_name }}">
                                 <div class="card-body">
-                                    <h6 class="card-title">{{ $product->product_name }}</h6>
+                                    <h6 class="card-title product-title">{{ $product->product_name }}</h6>
                                     <p class="mb-1 card-price">₱{{ number_format($product->price, 2) }}</p>
                                     <p class="card-reviews">
                                         {{-- Display stars based on the rating if available --}}
