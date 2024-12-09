@@ -280,6 +280,9 @@ class InventoryController extends Controller
             if ($product) {
                 $product->quantity_item = $quantity;
                 $product->save();
+            } else {
+                $success = false; // If any product is not found, mark as failed
+                break;
             }
         }
 

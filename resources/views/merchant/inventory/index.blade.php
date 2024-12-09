@@ -29,6 +29,14 @@
         .pagination .page-item.disabled .page-link {
             color: #ccc; /* Disabled color */
         }
+
+        #inventoryTabs .nav-link{
+            color:black;
+        }
+
+        #inventoryTabs .nav-link.active {
+            color: #228b22 !important; /* Optional: Change text color to white */
+        }
     </style>
 @endsection
 
@@ -59,29 +67,32 @@
             <button class="nav-link" id="product-categories-tab" data-bs-toggle="tab" data-bs-target="#product-categories" type="button" role="tab" aria-controls="product-categories" aria-selected="false">Product Categories</button>
         </li>
     </ul>
-
+    
     <div class="tab-content mt-3" id="inventoryTabsContent">
         <div class="tab-pane fade show active" id="inventory" role="tabpanel" aria-labelledby="inventory-tab">
             @include('merchant.inventory.partials.inventory')
         </div>
-
+    
         <div class="tab-pane fade" id="sales-report" role="tabpanel" aria-labelledby="sales-report-tab">
             @include('merchant.inventory.partials.sales_report')
         </div>
-
+    
         <div class="tab-pane fade" id="order-report" role="tabpanel" aria-labelledby="order-report-tab">
             @include('merchant.inventory.partials.order_report')
         </div>
-
+    
         <div class="tab-pane fade" id="stock-alerts" role="tabpanel" aria-labelledby="stock-alerts-tab">
             @include('merchant.inventory.partials.stock_alerts')
         </div>
-
+    
         <div class="tab-pane fade" id="product-categories" role="tabpanel" aria-labelledby="product-categories-tab">
             @include('merchant.inventory.partials.product_categories')
         </div>
-    </div>
+    </div>    
 </div>
+
+@include('Components.status-modal')
+
 
 @endsection
 
@@ -92,63 +103,66 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const urlParams = new URLSearchParams(window.location.search);
-            const activeTab = urlParams.get('nav') || 'inventory';
+            const activeTab = urlParams.get('nav') || 'inventory'; // Default to 'inventory' if no nav query param
 
-            // Always activate the 'inventory' tab
-            const inventoryTabElement = document.querySelector('#inventory-tab');
-            if (inventoryTabElement) {
-                inventoryTabElement.classList.add('active');
-                inventoryTabElement.setAttribute('aria-selected', 'true');
-                const inventoryTabContent = document.querySelector(inventoryTabElement.getAttribute('data-bs-target'));
-                inventoryTabContent.classList.add('show', 'active');
-            }
+            // Deactivate all tabs and hide all content initially
+            document.querySelectorAll('#inventoryTabs .nav-link').forEach(tab => {
+                tab.classList.remove('active');
+                tab.setAttribute('aria-selected', 'false');
+            });
 
-            // Activate the additional tab specified in the 'nav' parameter
-            if (activeTab !== 'inventory') {
-                const activeTabElement = document.querySelector(`#${activeTab}-tab`);
-                if (activeTabElement) {
-                    activeTabElement.classList.add('active');
-                    activeTabElement.setAttribute('aria-selected', 'true');
-                    const activeTabContent = document.querySelector(activeTabElement.getAttribute('data-bs-target'));
-                    if (activeTabContent) {
-                        activeTabContent.classList.add('show', 'active');
-                    }
+            document.querySelectorAll('.tab-pane').forEach(content => {
+                content.classList.remove('show', 'active');
+            });
+
+            // Activate the tab corresponding to the 'nav' query parameter
+            const activeTabElement = document.querySelector(`#${activeTab}-tab`);
+            if (activeTabElement) {
+                activeTabElement.classList.add('active');
+                activeTabElement.setAttribute('aria-selected', 'true');
+
+                // Show the corresponding content for this tab
+                const activeTabContent = document.querySelector(activeTabElement.getAttribute('data-bs-target'));
+                if (activeTabContent) {
+                    activeTabContent.classList.add('show', 'active');
                 }
             }
 
-            // Add event listeners for tab switching without reloading
+            // Add event listeners to switch tabs without reloading
             document.querySelectorAll('#inventoryTabs .nav-link').forEach(tab => {
                 tab.addEventListener('click', function (event) {
-                    event.preventDefault(); // Prevent default behavior
+                    event.preventDefault(); // Prevent default behavior (which causes page reload)
 
                     const selectedTab = tab.id.replace('-tab', '');
 
-                    // Update tab activation
+                    // Deactivate all tabs and hide all content
                     document.querySelectorAll('#inventoryTabs .nav-link').forEach(link => {
                         link.classList.remove('active');
                         link.setAttribute('aria-selected', 'false');
                     });
-
-                    tab.classList.add('active');
-                    tab.setAttribute('aria-selected', 'true');
-
-                    // Show the correct tab content
                     document.querySelectorAll('.tab-pane').forEach(content => {
                         content.classList.remove('show', 'active');
                     });
+
+                    // Activate the clicked tab and show its content
+                    tab.classList.add('active');
+                    tab.setAttribute('aria-selected', 'true');
 
                     const targetContent = document.querySelector(tab.getAttribute('data-bs-target'));
                     if (targetContent) {
                         targetContent.classList.add('show', 'active');
                     }
 
-                    // Update the URL without refreshing
+                    // Update the URL without refreshing the page
                     const newUrl = new URL(window.location.href);
-                    newUrl.searchParams.set('nav', selectedTab);
-                    window.history.replaceState(null, '', newUrl.toString());
+                    newUrl.searchParams.set('nav', selectedTab); // Set the 'nav' query parameter
+                    window.history.replaceState(null, '', newUrl.toString()); // Update the URL in browser
                 });
             });
         });
+
+
+
     </script>
 
     <script>
@@ -541,14 +555,30 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        alert('Stock quantities updated successfully!');
+                        // Update modal content for success
+                        $('#statusModalIcon').removeClass('fa-xmark').addClass('fa-solid fa-circle-check check-icon'); // Success icon
+                        $('#statusModalMessage').text('Stock quantities updated successfully!');
+                        $('#statusModal').modal('show');
+
+                        setTimeout(() => {
+                            $('#statusModal').modal('hide');
+                        }, 1000);
                     } else {
-                        alert('Error updating stock quantities.');
+                        // Update modal content for failure
+                        $('#statusModalIcon').removeClass('fa-circle-check').addClass('fa-solid fa-xmark'); // Error icon
+                        $('#statusModalMessage').text('Error updating stock quantities.');
+                        $('#statusModal').modal('show');
+                        
+                        setTimeout(() => {
+                            $('#statusModal').modal('hide');
+                        }, 1000);
                     }
                 })
                 .catch(error => {
-                    console.error('Error:', error);
-                    alert('There was an error updating the stock quantities.');
+                    // Update modal content for network error
+                    // $('#statusModalIcon').removeClass('fa-circle-check').addClass('fa-solid fa-xmark');
+                    // $('#statusModalMessage').text('There was an error updating the stock quantities.');
+                    // $('#statusModal').modal('show');
                 });
             });
         });
