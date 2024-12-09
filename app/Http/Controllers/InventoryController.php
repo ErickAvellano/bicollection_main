@@ -106,7 +106,7 @@ class InventoryController extends Controller
                     ];
                 }), // Convert the sales collection to an array
             ];
-        }); 
+        });
         // Order Report
 
         $orders = Order::with(['customer', 'payment'])  // Load related customer and payment data
@@ -233,7 +233,7 @@ class InventoryController extends Controller
 
         $currentDate = now()->format('Y-m-d');
         $previousDate = now()->subMonth()->format('Y-m-d');
-        
+
         // Create a folder for the merchant in storage/app/merchants/
         $merchantFolder = storage_path('app/public/merchant/' . $merchantShopName);
         if (!file_exists($merchantFolder)) {
@@ -268,6 +268,24 @@ class InventoryController extends Controller
         // Return the PDF as a download
         return $pdf->download($merchantShopName . '_sales_report_' . $currentDate . '.pdf');
     }
+    public function updateStock(Request $request)
+    {
+        $productIds = $request->input('product_ids');
+        $quantities = $request->input('quantities');
+
+        foreach ($productIds as $index => $productId) {
+            $quantity = $quantities[$index];
+            $product = Product::find($productId);
+
+            if ($product) {
+                $product->quantity_item = $quantity;
+                $product->save();
+            }
+        }
+
+        return response()->json(['success' => true]);
+    }
+
 
 
 

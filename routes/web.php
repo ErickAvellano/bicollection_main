@@ -125,6 +125,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/merchant/inventory/order-report', [InventoryController::class, 'getOrderReport'])->name('order-report');
     Route::match(['get', 'post'], '/order-report/pdf', [InventoryController::class, 'generateOrderReportPDF'])->name('order_report.pdf');
 
+    Route::post('/update-stock', [InventoryController::class, 'updateStock'])->name('update.stock');
+
 
 
     // Merchant registration steps

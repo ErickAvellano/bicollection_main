@@ -498,6 +498,66 @@
         });
     </script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Event listener for plus and minus buttons
+            const quantityButtons = document.querySelectorAll('.quantity-btn');
+
+            quantityButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    // Get the row (tr) element
+                    const row = this.closest('tr');
+
+                    // Find the visible quantity input
+                    const visibleInput = row.querySelector('.quantity-input');
+
+                    let quantity = parseInt(visibleInput.value);
+
+                    // Increase or decrease quantity based on the action
+                    if (this.dataset.action === 'increase') {
+                        quantity++;
+                    } else if (this.dataset.action === 'decrease' && quantity > 1) { // Prevent negative quantity
+                        quantity--;
+                    }
+
+                    // Update the visible input value
+                    visibleInput.value = quantity;
+                });
+            });
+
+            // Optional: Form submission with AJAX
+            document.getElementById('stock-form').addEventListener('submit', function(event) {
+                event.preventDefault();  // Prevent default form submission
+
+                let formData = new FormData(this);
+
+                // Append CSRF token manually for the AJAX request
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                formData.append('_token', csrfToken);
+                fetch("{{ route('update.stock') }}", {  // Ensure this is the correct route
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Stock quantities updated successfully!');
+                    } else {
+                        alert('Error updating stock quantities.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('There was an error updating the stock quantities.');
+                });
+            });
+        });
+    </script>
+
+
+
+
+
 
 
 @endsection
