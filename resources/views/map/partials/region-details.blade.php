@@ -191,7 +191,7 @@
             <div class="col-md-12 mb-4 text-center map-container-region img-hover-zoom--point-zoom">
                 <div style="width: {{ $width }}; height: {{ $height }}; margin: 0 auto; display: flex; justify-content: center; align-items: center;">
                     <img class="map-image"
-                        src="{{ asset('images/assets/map/' . $region->name . 'landmark' . '.png') }}"
+                        src="{{ asset('images/assets/map/' .  strtolower($region->name) . 'landmark' . '.png') }}"
                         alt="{{ ucfirst($region->name) }} Map"
                         style="object-fit: cover; filter: drop-shadow(0px 1px 50px rgba(31, 123, 145, 0.9)); max-width: 100%; height: auto;">
                     <h2 style="position: absolute;
@@ -227,7 +227,7 @@
             <div class="col-md-7 text-center map-container-region img-hover-zoom--point-zoom">
                 <div style="width: {{ $width }}; height: {{ $height }}; margin: 0 auto; display: flex; justify-content: center; align-items: center;">
                     <img class="map-image"
-                        src="{{ asset('images/assets/map/' . $region->name . 'landmark' . '.png') }}"
+                        src="{{ asset('images/assets/map/' .  strtolower($region->name) . 'landmark' . '.png') }}"
 
                         alt="{{ ucfirst($region->name) }} Map"
                         style="object-fit: cover; filter: drop-shadow(0px 1px 50px rgba(31, 123, 145, 0.9)); max-width: 100%; height: auto;">
