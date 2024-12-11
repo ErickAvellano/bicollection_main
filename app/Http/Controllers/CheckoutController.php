@@ -80,7 +80,10 @@ class CheckoutController extends Controller
         $defaultAddress = $customer->addresses()->latest()->first();
 
         // Set the display address
-     $displayAddress = $address ? $address->display_address : $defaultAddress->display_address;
+        $displayAddress = $address 
+            ? $address->display_address 
+            : ($defaultAddress ? $defaultAddress->display_address : null);
+
 
         // Calculate merchandise subtotal
         $merchandiseSubtotal = $cartItems->sum(function ($cartItem) {
@@ -114,6 +117,37 @@ class CheckoutController extends Controller
 
         ));
     }
+    public function updateContactNumber(Request $request)
+    {
+        // Validate the contact number
+        $request->validate([
+            'contact_number' => 'required|digits_between:10,15'
+        ], [
+            'contact_number.required' => 'The contact number is required.',
+            'contact_number.digits_between' => 'The contact number must be between 10 and 15 digits.'
+        ]);
+    
+        try {
+            // Retrieve the customer record associated with the authenticated user
+            $customer = Customer::where('user_id', Auth::id())->first(); // Match the `user_id` column in `customer` table
+    
+            if (!$customer) {
+                return response()->json(['success' => false, 'message' => 'Customer record not found.'], 404);
+            }
+    
+            // Update the contact number
+            $customer->update([
+                'contact_number' => $request->contact_number
+            ]);
+    
+            return response()->json(['success' => true, 'message' => 'Contact number updated successfully for the customer!']);
+        } catch (\Exception $e) {
+            // Handle unexpected errors
+            return response()->json(['success' => false, 'message' => 'Failed to update contact number. Please try again later.'], 500);
+        }
+    }
+    
+    
 
     
 

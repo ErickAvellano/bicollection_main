@@ -336,7 +336,14 @@
             <!-- Contact Number Section -->
             <div class="contact-number-section d-flex">
                 <p class="mb-1" style="margin-right: 10px;">
-                    <strong>Contact Number:</strong> {{ $customer->contact_number }}
+                    <strong>Contact Number:</strong>  @if (!empty($customer->contact_number))
+                    {{ $customer->contact_number }}
+                @else
+                    <span class="text-danger">
+                        <i class="fa-solid fa-circle-exclamation me-1"></i>
+                        Please add your contact number
+                    </span>
+                @endif
                 </p>
                 <a href="#" class="change-link text-success ms-2" data-bs-toggle="modal" data-bs-target="#changeContactModal" style="font-weight: bold; font-size: 14px;">
                     Change
@@ -347,11 +354,15 @@
                 <p class="mb-1" style="margin-right: 10px;">
                     <strong>Shipping Address:</strong>
                     <i class="fa-solid fa-truck-fast custom-icon"></i>
-                        {{ $defaultAddress->house_street }}, {{ $defaultAddress->barangay }},
-                        {{ $defaultAddress->city }}, {{ $defaultAddress->province }},
-                        {{ $defaultAddress->postalcode }}, {{ $defaultAddress->region }}
+                
+                    @if ($defaultAddress)
+                        {{ $defaultAddress->house_street ?? '' }}, {{ $defaultAddress->barangay ?? '' }},
+                        {{ $defaultAddress->city ?? '' }}, {{ $defaultAddress->province ?? '' }},
+                        {{ $defaultAddress->postalcode ?? '' }}, {{ $defaultAddress->region ?? '' }}
                         <span class="default-badge">Default</span>
-
+                    @else
+                        <span class="text-danger">Add or press 'Change' to change your shipping address</span>
+                    @endif
                 </p>
                 <a href="#" class="change-link text-success ms-2" data-bs-toggle="modal" data-bs-target="#selectAddressModal" style="font-weight: bold; font-size: 14px;">
                     Change
@@ -516,12 +527,25 @@
                     @csrf
                     <!-- Option for Registered Address -->
                     <div class="form-check mb-3 custom-radio">
-                        <input class="form-check-input" type="radio" name="addressOption" id="defaultAddress" value="default" checked>
+                        <input 
+                            class="form-check-input" 
+                            type="radio" 
+                            name="addressOption" 
+                            id="defaultAddress" 
+                            value="default" 
+                            {{ !$defaultAddress ? 'disabled' : 'checked' }}>
+
                         <label class="form-check-label" for="defaultAddress">
                             Use Default Address:
-                            <p><i class="fa-solid fa-location-dot custom-icon"></i>
-                                {{ $address->house_street }}, {{ $address->barangay }}, {{ $address->city }}, {{ $address->region }}, {{ $address->sorsogon }}, {{ $address->postalcode }}
-                            </p>
+                            @if ($defaultAddress)
+                                <p><i class="fa-solid fa-location-dot custom-icon"></i>
+                                    {{ $defaultAddress->house_street ?? '' }}, {{ $defaultAddress->barangay ?? '' }},
+                                    {{ $defaultAddress->city ?? '' }}, {{ $defaultAddress->province ?? '' }},
+                                    {{ $defaultAddress->postalcode ?? '' }}, {{ $defaultAddress->region ?? '' }}
+                                </p>
+                            @else
+                                <p class="text-danger">No default address is set</p>
+                            @endif
                         </label>
                     </div>
 
@@ -621,6 +645,10 @@
                         <label for="newContactNumber" class="form-label">New Contact Number:</label>
                         <input type="text" class="form-control" id="newContactNumber" name="new_contact_number" placeholder="Enter new contact number" required>
                     </div>
+                    <small class="form-text text-muted mt-2">
+                        <i class="fa-solid fa-info-circle me-1"></i>
+                        Updating this will also update your contact number.
+                    </small>
                 </form>
             </div>
 
@@ -727,6 +755,8 @@
     </div>
 </div>
 
+@include('Components.status-modal')
+
 @endsection
 
 @section('scripts')
@@ -748,12 +778,12 @@
                     addressesContent.style.display = 'none';
                     selectedAddressOptionInput.value = 'default';
                     hiddenCompleteAddressInput.value = `
-                        {{ $defaultAddress->house_street }},
-                        {{ $defaultAddress->barangay }},
-                        {{ $defaultAddress->city }},
-                        {{ $defaultAddress->province }},
-                        {{ $defaultAddress->postalcode }},
-                        {{ $defaultAddress->region }}
+                        {{ $defaultAddress->house_street ?? '' }},
+                        {{ $defaultAddress->barangay ?? '' }},
+                        {{ $defaultAddress->city ?? '' }},
+                        {{ $defaultAddress->province ?? '' }},
+                        {{ $defaultAddress->postalcode ?? '' }},
+                        {{ $defaultAddress->region ?? '' }}
                     `.trim();
                     updateAddressUI({ addressOption: 'default' });
                     console.log('Selected: Default Registered Address');
@@ -779,12 +809,12 @@
                     // Set hidden form values for default address
                     selectedAddressOptionInput.value = 'default';
                     hiddenCompleteAddressInput.value = `
-                        {{ $defaultAddress->house_street }},
-                        {{ $defaultAddress->barangay }},
-                        {{ $defaultAddress->city }},
-                        {{ $defaultAddress->province }},
-                        {{ $defaultAddress->postalcode }},
-                        {{ $defaultAddress->region }}
+                        {{ $defaultAddress->house_street ?? '' }},
+                        {{ $defaultAddress->barangay ?? '' }},
+                        {{ $defaultAddress->city ?? '' }},
+                        {{ $defaultAddress->province ?? '' }},
+                        {{ $defaultAddress->postalcode ?? '' }},
+                        {{ $defaultAddress->region ?? '' }}
                     `.trim(); // Clear custom address input
                     updateAddressUI({ addressOption: 'default' });
                 } else if (customAddressRadio && customAddressRadio.checked) {
@@ -839,9 +869,9 @@
                             <div class="d-flex align-items-center">
                                 <span style="font-weight: bold;">Shipping Address:</span>
                                 <i class="fa-solid fa-truck-fast mx-2 custom-icon" style="color: #4caf50;"></i>
-                                <span>{{ $defaultAddress->house_street }}, {{ $defaultAddress->barangay }},
-                                    {{ $defaultAddress->city }}, {{ $defaultAddress->province }},
-                                    {{ $defaultAddress->postalcode }}, {{ $defaultAddress->region }}</span>
+                                <span>{{ $defaultAddress->house_street ?? '' }}, {{ $defaultAddress->barangay ?? '' }},
+                                    {{ $defaultAddress->city ?? '' }}, {{ $defaultAddress->province ?? '' }},
+                                    {{ $defaultAddress->postalcode ?? '' }}, {{ $defaultAddress->region ?? '' }}</span>
                                 <span class="default-badge">Default</span>
                             </div>
                             <a href="#" class="change-link text-success ms-3" data-bs-toggle="modal" data-bs-target="#selectAddressModal" style="font-weight: bold; font-size: 14px;">
@@ -1035,45 +1065,8 @@
     }
     });
 </script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const saveContactNumberBtn = document.getElementById('saveContactNumberBtn');
-        const newContactNumberInput = document.getElementById('newContactNumber');
 
-        // Handle the click event for saving the contact number
-        saveContactNumberBtn.addEventListener('click', function() {
-            const newContactNumber = newContactNumberInput.value.trim();
 
-            // Validate the new contact number
-            if (!newContactNumber) {
-                alert('Please enter a new contact number.');
-                return;
-            }
-
-            // Update the UI with the new contact number
-            updateContactUI(newContactNumber);
-
-            // Close the modal
-            $('#changeContactModal').modal('hide');
-        });
-
-        // Function to update the contact number display in the UI
-        function updateContactUI(newContactNumber) {
-            const contactDisplay = document.querySelector('.contact-number-section');
-
-            // Update the inner HTML of the contact number container
-            contactDisplay.innerHTML = `
-                <div class="d-flex align-items-center">
-                    <span style="font-weight: bold;">Contact Number:</span>
-                    <span class="mx-2" style="margin-right: 10px;">${newContactNumber}</span>
-                </div>
-                <a href="#" class="change-link text-success ms-3" data-bs-toggle="modal" data-bs-target="#changeContactModal" style="font-weight: bold; font-size: 14px;">
-                    Change
-                </a>
-            `;
-        }
-    });
-</script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Get all voucher select buttons
@@ -1095,6 +1088,103 @@
         });
     });
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const saveContactNumberBtn = document.getElementById('saveContactNumberBtn');
+        const newContactNumberInput = document.getElementById('newContactNumber');
+        let contactNumber = null; // Variable to keep track of the contact number
+
+        // Handle the click event for saving the contact number
+        saveContactNumberBtn.addEventListener('click', function () {
+            const newContactNumber = newContactNumberInput.value.trim();
+
+            // Validate the new contact number
+            if (!newContactNumber || !/^\d+$/.test(newContactNumber)) {
+                alert('Please enter a valid contact number.');
+                return;
+            }
+
+            // Show saving state
+            saveContactNumberBtn.textContent = "Saving...";
+            saveContactNumberBtn.disabled = true;
+
+            // Send the new contact number to the server
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            fetch('/update-contact-number', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                body: JSON.stringify({
+                    contact_number: newContactNumber
+                })
+            })
+                .then(response => {
+                    if (!response.ok) throw new Error(`Request failed with status ${response.status}`);
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        // Update the UI with the new contact number
+                        updateContactUI(newContactNumber);
+
+                        // Update the contactNumber variable with the new value
+                        contactNumber = newContactNumber;
+
+                        // Close the modal
+                        $('#changeContactModal').modal('hide');
+
+                        // Show success modal
+                        $('#statusModalIcon').removeClass('fa-xmark').addClass('fa-solid fa-circle-check check-icon'); // Success icon
+                        $('#statusModalMessage').text('Contact number updated successfully!');
+                        $('#statusModal').modal('show');
+
+                        setTimeout(() => {
+                            $('#statusModal').modal('hide');
+                        }, 1000);
+                    } else {
+                        // Show error modal
+                        $('#statusModalIcon').removeClass('fa-circle-check').addClass('fa-solid fa-circle-xmark'); // Error icon
+                        $('#statusModalMessage').text('Failed to update the contact number. Please try again.');
+                        $('#statusModal').modal('show');
+
+                        setTimeout(() => {
+                            $('#statusModal').modal('hide');
+                        }, 1000);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error updating contact number:", error);
+                    alert("An error occurred while updating the contact number.");
+                })
+                .finally(() => {
+                    // Reset the button state
+                    saveContactNumberBtn.textContent = "Save";
+                    saveContactNumberBtn.disabled = false;
+                });
+        });
+
+        // Function to update the contact number display in the UI
+        function updateContactUI(newContactNumber) {
+            const contactDisplay = document.querySelector('.contact-number-section');
+
+            // Update the inner HTML of the contact number container
+            contactDisplay.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <span style="font-weight: bold;">Contact Number:</span>
+                    <span class="mx-2" style="margin-right: 10px;">${newContactNumber}</span>
+                </div>
+                <a href="#" class="change-link text-success ms-3" data-bs-toggle="modal" data-bs-target="#changeContactModal" style="font-weight: bold; font-size: 14px;">
+                    Change
+                </a>
+            `;
+        }
+    });
+</script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const placeOrderBtn = document.getElementById('placeOrderBtn');
@@ -1123,11 +1213,23 @@
         // Initially hide the spinner on page load
         hideSpinner();
 
+        function validateShippingAddress() {
+            const shippingAddress = getFinalShippingAddress();
+            if (!shippingAddress) {
+                alert("Please provide a valid shipping address before placing the order.");
+                return false;
+            }
+            return true;
+        }
+
         // Handle "Place Order" button click
         if (placeOrderBtn) {
             placeOrderBtn.addEventListener('click', function() {
                 const shippingAddress = getFinalShippingAddress();
 
+                if (!validateShippingAddress()) {
+                    return; // Stop further execution if the address is invalid
+                }
                 // Get contact number
                 let contactNumber = document.querySelector('.contact-number-section p');
                 if (contactNumber) {

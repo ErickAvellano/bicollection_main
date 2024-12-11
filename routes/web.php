@@ -127,6 +127,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/update-stock', [InventoryController::class, 'updateStock'])->name('update.stock');
 
+    Route::post('/update-contact-number', [CheckoutController::class, 'updateContactNumber'])->name('update.contact.number');
 
 
     // Merchant registration steps

@@ -565,7 +565,7 @@
                         }, 1000);
                     } else {
                         // Update modal content for failure
-                        $('#statusModalIcon').removeClass('fa-circle-check').addClass('fa-solid fa-xmark'); // Error icon
+                        $('#statusModalIcon').removeClass('fa-circle-check').addClass('fa-solid fa-circle-xmark'); // Error icon
                         $('#statusModalMessage').text('Error updating stock quantities.');
                         $('#statusModal').modal('show');
                         
