@@ -1051,6 +1051,9 @@
         <p>No shop found for the merchant.</p>
     @endif
 @endif
+
+@include('Components.footer')
+
 @include('Components.add-to-cart')
 @include('Components.favorite-success-modal')
 @endsection
