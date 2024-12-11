@@ -544,7 +544,7 @@
                                     {{ $defaultAddress->postalcode ?? '' }}, {{ $defaultAddress->region ?? '' }}
                                 </p>
                             @else
-                                <p class="text-danger">No default address is set</p>
+                                <p class="text-danger">No default address is set, Please update it in My Account</p>
                             @endif
                         </label>
                     </div>
