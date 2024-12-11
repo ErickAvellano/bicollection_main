@@ -732,7 +732,6 @@
     });
 
 </script>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
     const editButtonaddress = document.getElementById('editButtonaddress');
@@ -740,10 +739,9 @@
     const saveButtonaddress = document.getElementById('saveButtonaddress');
     const formFields = document.querySelectorAll('#addressForm input, #addressForm select');
 
-    // Check if address data exists
+
     const hasAddressData = @json($address ? true : false);
 
-    // Variable to store original form data
     let originalFormData = {};
 
     if (hasAddressData) {
@@ -757,14 +755,14 @@
         cancelButtonaddress.style.display = 'inline-block';
     }
 
-    // Function to capture original form data
+
     function captureOriginalFormData() {
         formFields.forEach(field => {
             originalFormData[field.id] = field.value;
         });
     }
 
-    // Function to restore original form data
+
     function restoreOriginalFormData() {
         formFields.forEach(field => {
             if (originalFormData.hasOwnProperty(field.id)) {
@@ -774,7 +772,7 @@
     }
 
     editButtonaddress.addEventListener('click', function() {
-        captureOriginalFormData(); // Capture data before enabling editing
+        captureOriginalFormData();
         formFields.forEach(field => field.disabled = false);
         editButtonaddress.style.display = 'none';
         saveButtonaddress.style.display = 'inline-block';
@@ -782,17 +780,17 @@
     });
 
     cancelButtonaddress.addEventListener('click', function() {
-        restoreOriginalFormData(); // Restore the original data
+        restoreOriginalFormData(); 
         formFields.forEach(field => field.disabled = true);
         editButtonaddress.style.display = 'inline-block';
         saveButtonaddress.style.display = 'none';
         cancelButtonaddress.style.display = 'none';
     });
 
-    // Populate the regions dropdown
+
     populateRegions();
 
-    // Event listeners for dropdown changes
+
     document.getElementById('region').addEventListener('change', function() {
         const selectedText = this.options[this.selectedIndex].textContent;
         document.getElementById('selectedRegion').value = selectedText;
@@ -886,27 +884,26 @@
                 const citySelect = document.getElementById('city');
                 citySelect.innerHTML = '<option selected disabled>-- Select City/Municipality --</option>';
 
-                // Combine cities and municipalities into one array
+
                 const combinedData = [
                     ...cities.map(city => ({ ...city, isCity: true })),
                     ...municipalities.map(municipality => ({ ...municipality, isCity: false }))
                 ];
 
-                // Create options for each city/municipality
                 combinedData.forEach(location => {
                     const option = document.createElement('option');
                     option.value = location.code;
                     option.textContent = location.name;
-                    option.dataset.isCity = location.isCity; // Set the isCity attribute
+                    option.dataset.isCity = location.isCity; 
                     citySelect.appendChild(option);
                 });
 
-                // Pre-select city/municipality if data exists
+
                 if (selectedCity) {
                     const prefilledOption = Array.from(citySelect.options).find(option => option.textContent === selectedCity);
                     if (prefilledOption) {
                         citySelect.value = prefilledOption.value;
-                        updateBarangays(); // Trigger barangay update
+                        updateBarangays(); 
                     }
                 }
             })
@@ -917,7 +914,7 @@
         const citySelect = document.getElementById('city');
         const cityCode = citySelect.value;
         const selectedBarangay = document.getElementById('selectedBarangay').value;
-        const isCity = citySelect.selectedOptions[0].dataset.isCity === 'true'; // Correctly identify if it's a city
+        const isCity = citySelect.selectedOptions[0].dataset.isCity === 'true'; 
 
         const endpoint = isCity
             ? `https://psgc.gitlab.io/api/cities/${cityCode}/barangays.json`
@@ -948,7 +945,6 @@
                     });
                 }
 
-                // Pre-select barangay if data exists
                 if (selectedBarangay) {
                     const prefilledOption = Array.from(barangaySelect.options).find(option => option.textContent === selectedBarangay);
                     if (prefilledOption) {

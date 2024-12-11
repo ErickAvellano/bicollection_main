@@ -170,7 +170,7 @@
     <div class="row">
         <div class="col-md-7 text-center map-container">
             <div style="width: {{ $width }}; height: {{ $height }};">
-                <img class="map-image" src="{{ asset("images/assets/map/landmark/{$region->name}.png") }}" alt="{{ ucfirst($region) }} Map" style="object-fit: cover; filter: drop-shadow(0px 1px 50px rgba(137, 216, 236, 0.9)); width: 90%;">
+                <img class="map-image" src="{{ asset("images/assets/map/{$region->name}.png") }}" alt="{{ ucfirst($region) }} Map" style="object-fit: cover; filter: drop-shadow(0px 1px 50px rgba(137, 216, 236, 0.9)); width: 90%;">
             </div>
         </div>
 
