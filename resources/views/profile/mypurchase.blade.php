@@ -562,7 +562,7 @@
                     <div class="modal-footer">
                         <div class=" d-flex justify-content-end">
                             <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-custom" id="submitButton">Submit Review</button>
+                            <button type="submit" class="btn btn-custom" id="submitButton" disabled>Submit Review</button>
                         </div>
                     </div>
                 </form>
@@ -1556,6 +1556,12 @@
         }
     </script>
     <script>
+        function toggleSpinner(show) {
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            if (loadingSpinner) {
+                loadingSpinner.style.display = show ? 'block' : 'none';
+            }
+        }
         document.addEventListener('DOMContentLoaded', function () {
             const reviewForm = document.getElementById('reviewForm');
             const submitButton = document.getElementById('submitButton');
@@ -1563,9 +1569,18 @@
 
             // Enable submit button if all required fields are filled
             reviewForm.addEventListener('input', function () {
-                const allFilled = [...reviewForm.querySelectorAll('input[required]')];
+                const allFilled = [...reviewForm.querySelectorAll('input[required], textarea[required], select[required], input[type="file"][required]')].every(field => {
+                    if (field.type === 'file') {
+                        return field.files.length > 0; // Check if file input has files
+                    } else {
+                        return field.value.trim() !== ''; // Check if input/textarea has non-empty value
+                    }
+                });
+
+                // Enable/disable the submit button
                 submitButton.disabled = !allFilled;
             });
+
 
             // Set `order_id` dynamically when opening the "Item Received" modal
             document.querySelectorAll('[data-bs-toggle="modal"][data-order-id]').forEach(button => {
@@ -1598,38 +1613,61 @@
                 })
                     .then(response => response.json())
                     .then(data => {
-                        if (data.status === 'success') {
-                             // Close the modal
-                            $('#changeContactModal').modal('hide');
-                            // Show success modal
-                            $('#statusModalIcon').removeClass('fa-xmark').addClass('fa-solid fa-circle-check check-icon'); // Success icon
-                            $('#statusModalMessage').text('Review submitted successfully');
-                            $('#statusModal').modal('show');
-
-                            setTimeout(() => {
-                                $('#statusModal').modal('hide');
-                            }, 1000);
-                            resetForm();
-                            submitButton.disabled = true;
-                            toggleSpinner(false);
-                            // Hide the review modal
-                            const reviewModal = document.getElementById('reviewModal');
-                            const modalInstance = bootstrap.Modal.getInstance(reviewModal) || new bootstrap.Modal(reviewModal);
-                            modalInstance.hide();
-                            // Refresh the "To-Rate" content and decrement the count
-                            refreshToRateContent();
-                        } else if (data.status === 'error') {
-                            showErrorModal(data.errors);
+                        toggleSpinner(false);
+                        if (data.success) {
+                            handleSuccess();
+                        } else {
+                            handleError('Error submitting review. Please try again later.');
                         }
                     })
                     .catch(error => {
                         toggleSpinner(false);
                         console.error('Error submitting review:', error);
-                        showErrorModal('An unexpected error occurred.');
+                        handleError('An unexpected error occurred.');
                     });
             }
 
-            // Function to refresh the "To-Rate" content dynamically
+            function handleSuccess() {
+                // Close any relevant modals
+                $('#changeContactModal').modal('hide');
+
+                // Show success modal
+                $('#statusModalIcon')
+                    .removeClass('fa-xmark')
+                    .addClass('fa-solid fa-circle-check check-icon');
+                $('#statusModalMessage').text('Review submitted successfully');
+                $('#statusModal').modal('show');
+
+                // Hide success modal after 1 second
+                setTimeout(() => {
+                    $('#statusModal').modal('hide');
+                }, 1000);
+
+                resetForm();
+                submitButton.disabled = true;
+
+                // Hide the review modal
+                const reviewModal = document.getElementById('reviewModal');
+                const modalInstance = bootstrap.Modal.getInstance(reviewModal) || new bootstrap.Modal(reviewModal);
+                modalInstance.hide();
+
+                // Refresh the "To-Rate" content and update counts
+                refreshToRateContent();
+            }
+
+            function handleError(message) {
+                $('#statusModalIcon')
+                    .removeClass('fa-circle-check')
+                    .addClass('fa-solid fa-circle-xmark');
+                $('#statusModalMessage').text(message);
+                $('#statusModal').modal('show');
+
+                setTimeout(() => {
+                    $('#statusModal').modal('hide');
+                }, 1000);
+            }
+
+            // Refresh the "To-Rate" content dynamically
             function refreshToRateContent() {
                 const contentContainer = document.getElementById('purchaseContent');
                 const loadingSpinner = document.getElementById('loadingSpinner'); // Reference to the spinner element
@@ -1639,7 +1677,7 @@
 
                 fetch('/mypurchase?status=to-rate', {
                     headers: {
-                        'X-Requested-With': 'XMLHttpRequest', // Ensure Laravel recognizes this as an AJAX request
+                        'X-Requested-With': 'XMLHttpRequest',
                     },
                 })
                     .then(response => {
@@ -1651,38 +1689,38 @@
                     .then(data => {
                         // Hide the spinner
                         loadingSpinner.style.display = 'none';
-                        openReviewModal();
-                        decrementToRateCount();
                         // Update the content container with the new HTML
                         contentContainer.innerHTML = data.html;
+
+                        decrementToRateCount();
                     })
                     .catch(error => {
                         console.error('Error refreshing content:', error);
-
-                        // Hide the spinner
                         loadingSpinner.style.display = 'none';
-
                         contentContainer.innerHTML = '<p>Error refreshing content. Please try again later.</p>';
                     });
             }
 
-            // Function to decrement the "To-Rate" count
+            // Decrement the "To-Rate" count and increment "Completed" count
             function decrementToRateCount() {
-                const toRateCountElement = document.querySelector('[data-status="to-rate"] .text-custom');
-                if (toRateCountElement) {
-                    const currentCount = parseInt(toRateCountElement.textContent.replace(/[()]/g, ''), 10); // Extract the current count
-                    if (!isNaN(currentCount) && currentCount > 0) {
-                        toRateCountElement.textContent = `(${currentCount - 1})`; // Decrement the count
+                const toRateElement = document.querySelector('[data-status="to-rate"] .text-custom');
+                const completedElement = document.querySelector('[data-status="completed"] .text-custom');
+
+                if (toRateElement) {
+                    const currentToRate = parseInt(toRateElement.textContent.replace(/[()]/g, ''), 10);
+                    if (!isNaN(currentToRate) && currentToRate > 0) {
+                        toRateElement.textContent = `(${currentToRate - 1})`;
                     }
                 }
-                const toRateCountElement = document.querySelector('[data-status="completed"] .text-custom');
-                if (toRateCountElement) {
-                    const currentCount = parseInt(toRateCountElement.textContent.replace(/[()]/g, ''), 10); // Extract the current count
-                    if (!isNaN(currentCount)) {
-                        toRateCountElement.textContent = `(${currentCount + 1})`; // Increment the count
+
+                if (completedElement) {
+                    const currentCompleted = parseInt(completedElement.textContent.replace(/[()]/g, ''), 10);
+                    if (!isNaN(currentCompleted)) {
+                        completedElement.textContent = `(${currentCompleted + 1})`;
                     }
                 }
             }
+
             // Reset form and clear image previews
             function resetForm() {
                 reviewForm.reset();
@@ -1691,35 +1729,8 @@
                 });
             }
 
-            // Error modal
-            function showErrorModal(errors) {
-                const errorMessages = Array.isArray(errors)
-                    ? errors.map(error => `<li>${error}</li>`).join('')
-                    : `<li>${errors}</li>`;
-
-                const errorModalHtml = `
-                    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-sm">
-                            <div class="modal-content">
-                                <div class="modal-body text-center">
-                                    <h1><i class="fa-regular fa-circle-xmark text-danger"></i></h1>
-                                    <p>Error!</p>
-                                    <ul class="text-start">${errorMessages}</ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                document.body.insertAdjacentHTML('beforeend', errorModalHtml);
-                const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
-                errorModal.show();
-                document.getElementById('errorModal').addEventListener('hidden.bs.modal', function () {
-                    document.getElementById('errorModal').remove();
-                });
-            }
-
             // Image upload box preview
-            document.querySelectorAll('.file-input').forEach((fileInput) => {
+            document.querySelectorAll('.file-input').forEach(fileInput => {
                 fileInput.addEventListener('change', function (event) {
                     const file = event.target.files[0];
                     const box = fileInput.closest('.image-upload-box');
@@ -1747,8 +1758,14 @@
                     }
                 });
             });
+
+            function toggleSpinner(show) {
+                const spinner = document.getElementById('loadingSpinner');
+                spinner.style.display = show ? 'block' : 'none';
+            }
         });
     </script>
+
 
 
     

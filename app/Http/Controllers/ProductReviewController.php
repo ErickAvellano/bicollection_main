@@ -82,11 +82,8 @@ class ProductReviewController extends Controller
                 'image_5' => $imagePaths['image_5'],
             ]);
 
-            // Log review creation success
-            Log::info('Review created successfully', ['review_id' => $review->id]);
         } catch (\Exception $e) {
             // Log review creation errors
-            Log::error('Failed to create review', ['error' => $e->getMessage()]);
             return response()->json(['status' => 'error', 'message' => 'Failed to submit review. Please try again.'], 500);
         }
 
@@ -107,8 +104,6 @@ class ProductReviewController extends Controller
             return response()->json(['status' => 'error', 'message' => 'Failed to update order status.'], 500);
         }
 
-        // Return success response
-        Log::info('Review submitted successfully');
-        return response()->json(['status' => 'success', 'message' => 'Review submitted successfully!']);
+        return response()->json(['success' => true]);
     }
 }
