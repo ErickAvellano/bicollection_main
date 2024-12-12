@@ -647,7 +647,7 @@
     </div>
 </div>
 
-@include('components.status-modal')
+@include('Components.status-modal')
 
 @endsection
 
