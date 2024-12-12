@@ -311,7 +311,7 @@
                                     Item Received
                                 </a>
                             @elseif ($purchase->order_status === 'to-rate')
-                                <a href="#" id="rateProductButton" class="btn btn-outline-custom me-2" data-order-id="{{ $purchase->order_id }}" onclick="openReviewModal(event)">Rate Product</a>
+                                <a href="#" id="rateProductButton" class="btn btn-outline-custom me-2" data-order-id="{{ $purchase->order_id }}" data-product-id="{{ $orderItem->product->product_id }}" onclick="openReviewModal(event)">Rate Product</a>
                             @elseif ($purchase->order_status === 'cancel')
                                 <span class="btn btn-danger me-2 disabled">Order Cancelled</span>
                             @elseif ($purchase->order_status === 'pending')
@@ -477,7 +477,7 @@
                             <i class="fa-regular fa-star fa-lg star" data-value="5"></i>
                             <span id="productQualityDescription" class="ms-2 text-warning" style="display: none;">Amazing</span>
                         </div>
-                        <input type="text" name="rating" id="reviewRatingInput" value="" required>
+                        <input type="hidden" name="rating" id="reviewRatingInput" value="" required>
                     </div>
                     <div class="card mb-3" id="expandedFields" style="display: none;">
                         <div class="card-body">
@@ -526,7 +526,7 @@
                             <i class="fa-regular fa-star fa-lg star" data-value="5"></i>
                             <span id="merchantServiceDescription" class="ms-2 text-warning" style="display: none;">Amazing</span>
                         </div>
-                        <input type="text" name="merchant_service_rating" id="merchantServiceRatingInput" value="" required>
+                        <input type="hidden" name="merchant_service_rating" id="merchantServiceRatingInput" value="" required>
                     </div>
 
                     <!-- Platform Rating -->
@@ -540,7 +540,7 @@
                             <i class="fa-regular fa-star fa-lg star" data-value="5"></i>
                             <span id="platformDescription" class="ms-2 text-warning" style="display: none;">Amazing</span>
                         </div>
-                        <input type="text" name="platform_rating" id="platformRatingInput" value="" required>
+                        <input type="hidden" name="platform_rating" id="platformRatingInput" value="" required>
                     </div>
 
                     <div class="form-group d-flex align-items-center">
@@ -562,7 +562,7 @@
                     <div class="modal-footer">
                         <div class=" d-flex justify-content-end">
                             <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-custom" id="submitButton" disabled>Submit Review</button>
+                            <button type="submit" class="btn btn-custom" id="submitButton">Submit Review</button>
                         </div>
                     </div>
                 </form>
@@ -1554,7 +1554,8 @@
                 loadingSpinner.style.display = show ? 'block' : 'none';
             }
         }
-
+    </script>
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
             const reviewForm = document.getElementById('reviewForm');
             const submitButton = document.getElementById('submitButton');
@@ -1598,7 +1599,16 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.status === 'success') {
-                            showSuccessModal(data.message);
+                             // Close the modal
+                            $('#changeContactModal').modal('hide');
+                            // Show success modal
+                            $('#statusModalIcon').removeClass('fa-xmark').addClass('fa-solid fa-circle-check check-icon'); // Success icon
+                            $('#statusModalMessage').text('Review submitted successfully');
+                            $('#statusModal').modal('show');
+
+                            setTimeout(() => {
+                                $('#statusModal').modal('hide');
+                            }, 1000);
                             resetForm();
                             submitButton.disabled = true;
                             toggleSpinner(false);
@@ -1641,6 +1651,7 @@
                     .then(data => {
                         // Hide the spinner
                         loadingSpinner.style.display = 'none';
+                        openReviewModal();
                         decrementToRateCount();
                         // Update the content container with the new HTML
                         contentContainer.innerHTML = data.html;
@@ -1677,28 +1688,6 @@
                 reviewForm.reset();
                 document.querySelectorAll('.image-upload-box').forEach(box => {
                     box.innerHTML = '<span class="text-success fw-bold">+</span>';
-                });
-            }
-
-            // Success modal
-            function showSuccessModal(message) {
-                const successModalHtml = `
-                    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-sm">
-                            <div class="modal-content">
-                                <div class="modal-body text-center">
-                                    <h1><i class="fa-regular fa-circle-check text-success"></i></h1>
-                                    <p>${message || 'Review submitted successfully!'}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                document.body.insertAdjacentHTML('beforeend', successModalHtml);
-                const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-                successModal.show();
-                document.getElementById('successModal').addEventListener('hidden.bs.modal', function () {
-                    document.getElementById('successModal').remove();
                 });
             }
 
@@ -1760,6 +1749,9 @@
             });
         });
     </script>
+
+
+    
     {{-- ;s --}}
     {{-- <script>
         let currentOrderId = null; // Store the order ID for the current cancellation
