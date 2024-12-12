@@ -537,13 +537,13 @@
 
                                         <!-- Product Details -->
                                         <div style="flex-grow: 1;">
-                                            <p>
+                                            <p class="text-start">
                                                 <a href="/merchant/product/${cartItem.product_id}" class="product-link">
                                                     ${cartItem.product_name}
                                                 </a>
                                             </p>
-                                            <p>Qty: ${cartItem.quantity}</p>
-                                            <p>Subtotal: ₱${cartItem.subtotal}</p>
+                                            <p class="text-start">Qty: ${cartItem.quantity}</p>
+                                            <p class="text-start">Subtotal: ₱${cartItem.subtotal}</p>
                                         </div>
 
                                         <!-- Remove Button (X) -->
