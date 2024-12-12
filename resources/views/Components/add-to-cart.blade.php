@@ -48,9 +48,9 @@
                 <div id="productDetails" style="display: flex;">
                     <!-- Add the image element -->
                     <img id="productImage" src="" alt="Product Image" style="width: 80px; height: 80px; margin-right: 20px; object-fit: cover;">
-
                     <div class="d-flex flex-column justify-content-start align-items-start">
                         <p id="productName"></p>
+                        <p style="font-size:0.8rem;" id="productVariation"></p>
                         <p style="font-size:0.8rem;" id="quantity"></p>
                         <p style="font-size:1rem;" id="cartTotal"></p>
                     </div>

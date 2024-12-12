@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Interactive 3D Vase</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
+    .controls {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 10px;
+      border-radius: 5px;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+  <div class="controls">
+    <label for="curve">Curve:</label>
+    <input type="range" id="curve" min="1" max="10" step="0.1" value="5">
+    <label for="height">Height:</label>
+    <input type="range" id="height" min="5" max="20" step="0.5" value="10">
+    <br>
+    <label for="vaseColor">Vase Color:</label>
+    <input type="color" id="vaseColor" value="#ffa500">
+    <div class="camera-controls">
+        <button id="view1">View 1</button>
+        <button id="view2">View 2</button>
+        <button id="view3">View 3</button>
+      </div>
+  </div>
+  <canvas id="vase-canvas"></canvas>
+  <script>
+    const canvas = document.getElementById('vase-canvas');
+    const renderer = new THREE.WebGLRenderer({ canvas });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.9, 1000);
+    camera.position.set(0, 30,20); // Adjusted for better view
+
+    // Vase Material
+    let vaseMaterial = new THREE.MeshPhongMaterial({ color: 0xffa500, shininess: 100 });
+
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0x404040, 0.5); // Soft ambient light
+    scene.add(ambientLight);
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    directionalLight.position.set(20, 50, 10);
+    scene.add(directionalLight);
+
+    const pointLight = new THREE.PointLight(0xffffff, 1);
+    pointLight.position.set(10, 20, 20);
+    scene.add(pointLight);
+
+    // Vase Mesh
+    let vaseMesh;
+
+    // Function to Create Vase Geometry
+    function createVase(curve, height) {
+      const points = [];
+      for (let i = 0; i <= 10; i++) {
+        const radius = Math.sin((i / 10) * Math.PI) * curve + 1; // Curve adjustment
+        points.push(new THREE.Vector2(radius, (i / 10) * height)); // Y-axis height
+      }
+      const geometry = new THREE.LatheGeometry(points, 32); // Revolve the curve
+      if (vaseMesh) scene.remove(vaseMesh); // Remove the previous vase
+      vaseMesh = new THREE.Mesh(geometry, vaseMaterial);
+      scene.add(vaseMesh);
+    }
+
+    // Initial Vase
+    let curve = parseFloat(document.getElementById('curve').value);
+    let height = parseFloat(document.getElementById('height').value);
+    createVase(curve, height);
+
+    // Animation Loop
+    function animate() {
+      requestAnimationFrame(animate);
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // Update Vase Shape on Input Change
+    document.getElementById('curve').addEventListener('input', (event) => {
+      curve = parseFloat(event.target.value);
+      createVase(curve, height);
+    });
+    document.getElementById('height').addEventListener('input', (event) => {
+      height = parseFloat(event.target.value);
+      createVase(curve, height);
+    });
+
+    // Update Vase Color Dynamically
+    document.getElementById('vaseColor').addEventListener('input', (event) => {
+      const color = event.target.value;
+      vaseMaterial.color.set(color); // Update the vase material color
+    });
+
+    // Handle Window Resizing
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+</body>
+</html>

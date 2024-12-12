@@ -689,6 +689,7 @@
                     if (response.success) {
                         // Update modal with product details
                         $('#productName').text(response.product_name);
+                        $('#productVariation').text(`Variation: ${response.product_variation}`);
                         $('#quantity').text(`Quantity: ${response.quantity}`);
                         $('#cartTotal').text(`Total: ₱${response.cart_total}`);
                         $('#cartItemCount').text(response.cart_item_count);

@@ -41,7 +41,7 @@ class CartController extends Controller
         // Pass data to the view
         return view('profile.cart', compact('groupedCartItems', 'subtotal', 'shippingCost', 'packagingCost', 'totalAmount'));
     }
-
+ 
 
     public function add(Request $request, $productId)
     {
@@ -92,6 +92,7 @@ class CartController extends Controller
                 'success' => 'Product added to cart successfully!',
                 'product_name' => $product->product_name,
                 'product_image' => $productImage,
+                'product_variation' => optional($product->variations->first())->variation_name,
                 'quantity' => $cartItem->quantity,
                 'cart_total' => number_format($cartTotal, 2),
                 'cart_item_count' => $cartItemCount,

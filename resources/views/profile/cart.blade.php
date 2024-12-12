@@ -90,6 +90,11 @@
     .quantity-control button {
         border-radius: 0;
     }
+    .d-flex.mb-3 {
+        border-bottom: 1px solid #ddd; /* Adjust the color and thickness as needed */
+        padding-bottom: 15px; /* Add some space below the content */
+        margin-bottom: 15px; /* Add some spacing between rows */
+    }
 
 </style>
 @endsection
@@ -143,10 +148,18 @@
                             <!-- Product Details -->
                             <div class="flex-grow-1">
                                 <h6 class="mb-1">{{ $cartItem->product->product_name }}</h6>
-                                <div class="text-muted">
-                                    <span>Variations:</span> <span>{{ $cartItem->product_variation }}</span>
+                                <div class="d-flex align-items-center">
+                                    <label for="variation-select-{{ $cartItem->cart_id }}" class="me-2">Variations:</label>
+                                    <select id="variation-select-{{ $cartItem->cart_id }}" class="form-select variation-select" style="width: 150px;">
+                                        @foreach($cartItem->product->variations as $variation)
+                                            <option value="{{ $variation->product_variation_id }}" 
+                                                {{ $cartItem->product_variation_id == $variation->product_variation_id ? 'selected' : '' }}>
+                                                {{ $variation->variation_name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
-                                <div>
+                                <div class="mt-3">
                                     <span class="text-muted text-decoration-line-through">₱{{ number_format($cartItem->product->price + 500, 2) }}</span>
                                     <span class="fw-bold ms-2 text-danger cart-item-price" data-price="{{ $cartItem->product->price }}">
                                         ₱{{ number_format($cartItem->product->price, 2) }}
@@ -166,12 +179,11 @@
 
                             <!-- Actions Section -->
                             <div class="d-flex flex-column justify-content-between text-end ms-4">
-                                <button class="btn btn-link text-danger p-0 remove-item-cart" data-id="{{ $cartItem->cart_id }}">
+                                <button class="btn btn-link text-danger p-0 remove-item-cart" style="text-decoration:none;" data-id="{{ $cartItem->cart_id }}">
                                     Delete
                                 </button>
                             </div>
                         </div>
-                        <hr>
                         @endforeach
                     </div>
                 </div>
@@ -200,6 +212,27 @@
         </div>
     </div>
 </div>
+
+<div id="deleteConfirmationModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Remove Item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to remove this item from your cart?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" id="confirmDelete" class="btn btn-danger">Remove</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@include('Components.status-modal')
 @endsection
 
 @section('scripts')
@@ -257,14 +290,24 @@
         const inputField = $(this).siblings('input');
         let currentQuantity = parseInt(inputField.val());
 
+        if (action === 'decrease' && currentQuantity === 1) {
+            // Show modal to confirm deletion
+            $('#deleteConfirmationModal').modal('show');
+
+            // Set up event listener for modal confirmation button
+            $('#confirmDelete').off('click').on('click', function () {
+                removeCartItem(cartId); // Call function to remove the cart item
+                $('#deleteConfirmationModal').modal('hide'); // Hide the modal after confirmation
+            });
+
+            return; // Exit function to prevent further execution
+        }
+
         // Update quantity based on action
         if (action === 'increase') {
             currentQuantity += 1; // Increment the quantity
-        } else if (action === 'decrease') {
-            if (currentQuantity > 1) {
-                currentQuantity -= 1; // Decrement the quantity only if greater than 1
-            }
-            updateCartCount();
+        } else if (action === 'decrease' && currentQuantity > 1) {
+            currentQuantity -= 1; // Decrement the quantity
         }
 
         // Update input field value
@@ -283,7 +326,7 @@
             data: {
                 quantity: currentQuantity // Pass the updated quantity
             },
-            success: function(response) {
+            success: function (response) {
                 console.log('Quantity updated successfully:', response);
 
                 // Assuming the response contains the updated price per item from the database
@@ -299,72 +342,117 @@
                 // Update the total display after changing the quantity
                 updateTotalDisplay();
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.error('Error updating quantity:', error);
             }
         });
     });
 
-    // Update totals on page load
-    document.addEventListener('DOMContentLoaded', function() {
-        recalculateTotals();
-    });
-</script>
-    <script>
-        $(document).ready(function () {
-            // Event listener for delete button
-            $(document).on('click', '.remove-item-cart', function (e) {
-                e.preventDefault();
-
-                const cart_id = $(this).data('id'); // Get the cart item id
-
-                if (cart_id && confirm('Are you sure you want to delete this item?')) {
-                    removeCartItem(cart_id, $(this));  // Call the remove function and pass 'this' to target the row
+    // Function to remove a cart item
+    function removeCartItem(cartId) {
+        $.ajax({
+            url: `/cart/remove/${cartId}`,
+            type: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (response) {
+                if (response.success) {
+                    console.log('Item removed successfully:', response);
+                    $(`#cart-item-${cartId}`).closest('.d-flex.mb-3').remove(); // Remove item from DOM
+                    recalculateTotals(); // Update totals
+                    updateCartCount(); // Update cart count
+                } else {
+                    alert('Failed to remove item from cart.');
                 }
-            });
-
-            // Function to remove cart item via AJAX
-            function removeCartItem(cart_id, buttonElement) {
-                $.ajax({
-                    url: `/cart/remove/${cart_id}`,  // Ensure the URL matches your delete route
-                    type: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  // Include CSRF token in headers
-                    },
-                    success: function(response) {
-                        console.log('Response from server:', response);  // Log the server response
-                        if (response.success) {
-                            // Remove the deleted cart item from the DOM
-                            buttonElement.closest('.card').remove(); // Remove the entire card that contains the product
-                            alert('Item removed successfully.');
-                            updateCartCount();  // Update the cart count after an item is removed
-                        } else {
-                            alert('Error removing item from cart.');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.log('XHR:', xhr);  // Log the full error
-                        console.log('Status:', status);
-                        console.log('Error:', error);
-                        alert('Error removing item from cart.');
-                    }
-                });
-            }
-
-            // Function to update cart count in the icon
-            function updateCartCount() {
-                $.ajax({
-                    url: '{{ route("cart.count") }}', // Ensure this URL matches your route for fetching cart count
-                    type: 'GET',
-                    success: function(response) {
-                        $('#cart-count').text(response.cartItemCount); // Update the cart count span with the value from the server
-                    },
-                    error: function() {
-                        console.error('Failed to load cart item count');
-                    }
-                });
+            },
+            error: function (xhr, status, error) {
+                console.error('Error removing cart item:', error);
             }
         });
-    </script>
+    }
+
+    // Update totals on page load
+    document.addEventListener('DOMContentLoaded', function () {
+        recalculateTotals();
+    });
+
+</script>
+<script>
+    $(document).ready(function () {
+        // Event listener for delete button
+        $(document).on('click', '.remove-item-cart', function (e) {
+            e.preventDefault();
+
+            const cart_id = $(this).data('id'); // Get the cart item id
+            if (cart_id) {
+                removeCartItem(cart_id, $(this)); // Call the remove function and pass 'this' to target the row
+            }
+        });
+
+        function removeCartItem(cart_id, buttonElement) {
+            $.ajax({
+                url: `/cart/remove/${cart_id}`, // Ensure the URL matches your delete route
+                type: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token in headers
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Select the product row to be removed
+                        const productRow = buttonElement.closest('.d-flex.mb-3');
+
+                        // Remove the product row
+                        productRow.remove();
+
+                        // Check if the parent card is empty after removing the product
+                        const cardBody = buttonElement.closest('.card-body');
+                        if ($(cardBody).find('.d-flex.mb-3').length === 0) {
+                            // If no products remain in the card, remove the entire card
+                            buttonElement.closest('.card').remove();
+                        }
+
+                        // Close the modal
+                        $('#changeContactModal').modal('hide');
+                        // Show success modal
+                        $('#statusModalIcon').removeClass('fa-xmark').addClass('fa-solid fa-circle-check check-icon'); // Success icon
+                        $('#statusModalMessage').text('Item removed successfully');
+                        $('#statusModal').modal('show');
+
+                        setTimeout(() => {
+                            $('#statusModal').modal('hide');
+                        }, 1000);
+
+                        updateCartCount(); // Update the cart count after an item is removed
+                        recalculateTotals(); // Recalculate totals after deletion
+                    } else {
+                        alert('Error removing item from cart.');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log('XHR:', xhr); // Log the full error
+                    console.log('Status:', status);
+                    console.log('Error:', error);
+                    alert('Error removing item from cart.');
+                }
+            });
+        }
+
+        // Function to update cart count in the icon
+        function updateCartCount() {
+            $.ajax({
+                url: '{{ route("cart.count") }}', // Ensure this URL matches your route for fetching cart count
+                type: 'GET',
+                success: function(response) {
+                    $('#cart-count').text(response.cartItemCount); // Update the cart count span with the value from the server
+                },
+                error: function() {
+                    console.error('Failed to load cart item count');
+                }
+            });
+        }
+    });
+</script>
+
 @endsection
 

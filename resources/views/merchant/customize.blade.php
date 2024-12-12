@@ -1,7 +1,7 @@
 @extends('Components.layout')
 
 @section('styles')
-<style>
+    <style>
         body {
             font-family: "Futura PT", sans-serif;
             background: #fafafa;
@@ -128,11 +128,11 @@
         .pattern-options button.selected {
         border: 2px solid #228b22;
         background-color: #a0c8a0;
-}
+        }
 
-        button.save {
+        button.remove, button.save {
             width: 100%;
-            padding: 15px;
+            padding: 10px;
             background-color: #228b22;
             color: white;
             border: none;
@@ -140,8 +140,15 @@
             cursor: pointer;
         }
 
-        button.save:hover {
+        button.remove:hover, button.save:hover {
             background-color: #1e7e1e;
+        }
+
+        /* Container for buttons (optional if needed) */
+        .button {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         @media (max-width: 768px) {
@@ -162,20 +169,27 @@
     </style>
 @endsection
 @section('content')
-    <div class="container">
-        <!-- Product Preview -->
-        <div class="box product-preview">
-            <h2>Product Preview</h2>
-            <!-- Pot Shape in SVG -->
-            <svg viewBox="0 0 120 150">
-                <!-- Pot base -->
-                <ellipse id="pot-base" cx="60" cy="130" rx="50" ry="10" fill="#5C4033" stroke="#4d2d18" stroke-width="2" />
-                <!-- Pot body -->
-                <path id="pot-body" d="M 25 30 L 95 30 L 80 120 L 40 120 Z" fill="#8B4513" stroke="#4d2d18" stroke-width="2" />
-                <!-- Pot rim -->
-                <rect id="pot-rim" x="20" y="20" width="80" height="20" fill="#A0522D" stroke="#4d2d18" stroke-width="2" />
+<div class="container">
+    <!-- Product Preview -->
+    <div class="box product-preview">
+        <h2>Product Preview</h2>
+        <!-- Pot Shape in SVG -->
+        <svg viewBox="0 0 120 150" xmlns="http://www.w3.org/TR/SVG2/">
+            <!-- Pot rim -->
+            <path id="pot-rim" d="M19.5,20 h80 a15,15 0 0 1 10,10 v7 a15,15 0 0 1 -10,10 h-80 a15,15 0 0 1 -10,-10 v-7 a15,15 0 0 1 10,-10" fill="#D97E47" />
 
-            <!-- Patterns -->
+            <!-- Pot body -->
+            <path id="pot-body" d="M20,47 h80 l-10,85 h-60 l-10,-85 z" fill="#D97E47" />
+
+            <!-- Pattern Overlay (Now Above the Body and Matching its Shape) -->
+            <g id="pattern-overlay" opacity="0.8">
+                <path id="pattern-path" d="M20,47 h80 l-10,85 h-60 l-10,-85 z" fill="url(#dot-pattern)" />
+            </g>
+
+            <!-- Pot base -->
+            <path id="pot-base" d="M45,125 h50l-10,13 h-50l-10,-13 z" fill="#D97E47" />
+
+            <!-- Pattern Definitions -->
             <defs>
                 <pattern id="dot-pattern" width="10" height="10" patternUnits="userSpaceOnUse">
                     <circle cx="5" cy="5" r="3" fill="#e3bc9a" />
@@ -190,105 +204,135 @@
                     <circle cx="10" cy="7" r="5" fill="#e3bc9a" />
                     <circle cx="10" cy="13" r="5" fill="#e3bc9a" />
                 </pattern>
+            </defs>
+        </svg>
 
-            </svg>
+    </div>
+
+    <!-- Product Customization -->
+    <div class="box customization">
+        <h2>Product Customization</h2>
+        <label for="pot-type">Pot Type</label>
+        <select class="material-select">
+            <option value="" disabled selected>---Select Pot Type---</option>
+            <option value="ceramic">Ceramic</option>
+            <option value="plastic">Plastic</option>
+            <option value="clay">Clay</option>
+        </select>
+
+        <label for="material">Select Material</label>
+        <select class="material-select">
+            <option value="" disabled selected>---Select Material---</option>
+            <option value="ceramic">Ceramic</option>
+            <option value="plastic">Plastic</option>
+            <option value="clay">Clay</option>
+        </select>
+
+        <label>Rim</label>
+        <div class="color-options" id="rim-options">
+            <div style="background-color: red;" data-color="red"></div>
+            <div style="background-color: green;" data-color="green"></div>
+            <div style="background-color: brown;" data-color="brown"></div>
+            <div style="background-color: black;" data-color="black"></div>
+            <div style="background-color: pink;" data-color="pink"></div>
+        </div>
+        
+        <label>Body</label>
+        <div class="color-options" id="body-options">
+            <div style="background-color: red;" data-color="red"></div>
+            <div style="background-color: green;" data-color="green"></div>
+            <div style="background-color: brown;" data-color="brown"></div>
+            <div style="background-color: black;" data-color="black"></div>
+            <div style="background-color: pink;" data-color="pink"></div>
         </div>
 
-        <!-- Product Customization -->
-        <div class="box customization">
-            <h2>Product Customization</h2>
-            <label for="pot-type">Pot Type</label>
-            <select class="material-select">
-                <option value="" disabled selected>---Select Pot Type---</option>
-                <option value="ceramic">Ceramic</option>
-                <option value="plastic">Plastic</option>
-                <option value="clay">Clay</option>
-            </select>
+        <label>Base</label>
+        <div class="color-options" id="base-options">
+            <div style="background-color: red;" data-color="red"></div>
+            <div style="background-color: green;" data-color="green"></div>
+            <div style="background-color: brown;" data-color="brown"></div>
+            <div style="background-color: black;" data-color="black"></div>
+            <div style="background-color: pink;" data-color="pink"></div>
+        </div>
 
-            <label for="material">Select Material</label>
-            <select class="material-select">
-                <option value="" disabled selected>---Select Material---</option>
-                <option value="ceramic">Ceramic</option>
-                <option value="plastic">Plastic</option>
-                <option value="clay">Clay</option>
-            </select>
+        <label>Pattern</label>
+        <div class="pattern-options">
+            <button>Dot</button>
+            <button>Stripe</button>
+            <button>Flower</button>
+        </div>
 
-            <label>Body</label>
-            <div class="color-options" id="body-options">
-                <div style="background-color: red;" data-color="red"></div>
-                <div style="background-color: green;" data-color="green"></div>
-                <div style="background-color: brown;" data-color="brown"></div>
-                <div style="background-color: black;" data-color="black"></div>
-                <div style="background-color: pink;" data-color="pink"></div>
-            </div>
-
-            <label>Rim</label>
-            <div class="color-options" id="rim-options">
-                <div style="background-color: red;" data-color="red"></div>
-                <div style="background-color: green;" data-color="green"></div>
-                <div style="background-color: brown;" data-color="brown"></div>
-                <div style="background-color: black;" data-color="black"></div>
-                <div style="background-color: pink;" data-color="pink"></div>
-            </div>
-
-            <label>Base</label>
-            <div class="color-options" id="base-options">
-                <div style="background-color: red;" data-color="red"></div>
-                <div style="background-color: green;" data-color="green"></div>
-                <div style="background-color: brown;" data-color="brown"></div>
-                <div style="background-color: black;" data-color="black"></div>
-                <div style="background-color: pink;" data-color="pink"></div>
-            </div>
-
-            <label>Pattern</label>
-            <div class="pattern-options">
-                <button>Dot</button>
-                <button>Stripe</button>
-                <button>Flower</button>
-            </div>
-
+        <div class="button">
+            <button class="remove">Remove Pattern</button>
             <button class="save">Save</button>
         </div>
+    </div>
 @endsection
 @section('scripts')
-    <script>
-        // Get the SVG elements
-        const potBody = document.getElementById('pot-body');
-        const potRim = document.getElementById('pot-rim');
-        const potBase = document.getElementById('pot-base');
+<script>
+    // Get the SVG elements
+    const potRim = document.getElementById('pot-rim');
+    const potBody = document.getElementById('pot-body');
+    const potBase = document.getElementById('pot-base');
 
-        // Function to add color selection functionality
-        function addColorSelection(optionGroupId, targetElement) {
-            const options = document.getElementById(optionGroupId).children;
-            for (let option of options) {
-                option.addEventListener('click', function () {
-                    const selectedColor = this.getAttribute('data-color');
-                    targetElement.setAttribute('fill', selectedColor);
-                });
-            }
+    // Function to add color selection functionality
+    function addColorSelection(optionGroupId, targetElement) {
+        const options = document.getElementById(optionGroupId).children;
+        for (let option of options) {
+            option.addEventListener('click', function () {
+                const selectedColor = this.getAttribute('data-color');
+                targetElement.setAttribute('fill', selectedColor);
+            });
         }
+    }
 
-        // Add color selection for Rim, Body, and Base
-        addColorSelection('rim-options', potRim);
-        addColorSelection('body-options', potBody);
-        addColorSelection('base-options', potBase);
+    // Add color selection for Rim, Body, and Base
+    addColorSelection('rim-options', potRim);
+    addColorSelection('body-options', potBody);
+    addColorSelection('base-options', potBase);
 
-        // Pattern options
-        const patternButtons = document.querySelectorAll('.pattern-options button');
-        patternButtons.forEach(button => {
-            button.addEventListener('click', function() {
+    // Pattern options
+    const patternButtons = document.querySelectorAll('.pattern-options button');
+    patternButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Show the pattern overlay again (in case it was hidden)
+            patternOverlay.style.display = 'block';
+            
+            // Remove the selected class from all buttons
             patternButtons.forEach(btn => btn.classList.remove('selected'));
+            
+            // Add the selected class to the clicked button
             this.classList.add('selected');
+            
+            // Get the pattern name from the button's text content (Dot, Stripe, Flower)
             const pattern = this.textContent.toLowerCase();
-            potBody.setAttribute('fill', 'url(#' + pattern + '-pattern)');
-
-
+            
+            // Apply the selected pattern to the overlay path
+            patternPath.setAttribute('fill', `url(#${pattern}-pattern)`);
         });
     });
 
-        // Save button
-        document.querySelector('.save').addEventListener('click', function() {
-            alert('Saved!');
+    // Get all Remove Pattern buttons (since it's now a class, it returns a NodeList)
+    const removePatternBtns = document.querySelectorAll('.remove');
+
+    const patternOverlay = document.getElementById('pattern-overlay');
+    const patternPath = document.getElementById('pattern-path');
+
+    // Loop through each Remove Pattern button and add the event listener
+    removePatternBtns.forEach(removePatternBtn => {
+        removePatternBtn.addEventListener('click', function() {
+            // Hide the pattern overlay by setting its display property to 'none'
+            patternOverlay.style.display = 'none';
+            
+            // Reset the pattern path (remove the applied pattern)
+            patternPath.setAttribute('fill', 'none');
         });
-    </script>
+    });
+
+    // Save button
+    document.querySelector('.save').addEventListener('click', function() {
+        alert('Saved!');
+    });
+
+</script>
 @endsection
