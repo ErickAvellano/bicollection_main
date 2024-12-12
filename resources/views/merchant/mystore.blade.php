@@ -667,25 +667,25 @@
                 <div class="menu-container">
                     <ul class="nav nav-tabs mb-3" id="productTabs" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link active {{ request()->get('nav') == 'Home' || !request()->has('nav') ? 'active' : '' }}" 
+                            <a class="nav-link active {{ request()->get('nav') == 'Home' || !request()->has('nav') ? 'active' : '' }}"
                                href="#" data-nav="Home" role="tab">
                                 Home
                             </a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link {{ request()->get('nav') == 'Allproduct' ? 'active' : '' }}" 
+                            <a class="nav-link {{ request()->get('nav') == 'Allproduct' ? 'active' : '' }}"
                                href="#" data-nav="Allproduct" role="tab">
                                 All Products
                             </a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link {{ request()->get('nav') == 'Category' ? 'active' : '' }}" 
+                            <a class="nav-link {{ request()->get('nav') == 'Category' ? 'active' : '' }}"
                                href="#" data-nav="Category" role="tab">
                                 Category
                             </a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link {{ request()->get('nav') == 'More' ? 'active' : '' }}" 
+                            <a class="nav-link {{ request()->get('nav') == 'More' ? 'active' : '' }}"
                                href="#" data-nav="More" role="tab">
                                 More
                             </a>
@@ -694,7 +694,7 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 
     <div id="tabContentContainer"></div>
@@ -796,7 +796,7 @@
     </div>
 </div>
 
-
+@include('Components.add-to-cart')
 
 @endsection
 
@@ -1068,27 +1068,27 @@
         document.addEventListener('DOMContentLoaded', () => {
             const tabs = document.querySelectorAll('#productTabs .nav-link');
             const contentContainer = document.getElementById('tabContentContainer');
-    
+
             // Handle tab click
             tabs.forEach(tab => {
                 tab.addEventListener('click', event => {
                     event.preventDefault(); // Prevent default link behavior
-    
+
                     const navValue = tab.getAttribute('data-nav').toLowerCase();
                     const baseUrl = window.location.pathname; // Retain the base URL (without domain)
-    
+
                     // Update the URL without refreshing the page
                     history.pushState({}, '', `${baseUrl}?nav=${navValue}`);
-    
+
                     // Update the active tab
                     tabs.forEach(t => t.classList.remove('active'));
                     tab.classList.add('active');
-    
+
                     // Perform an AJAX request to fetch the content
                     fetchContent(navValue);
                 });
             });
-    
+
             // Fetch content from the server based on the selected tab
             function fetchContent(navValue) {
                 fetch(`/merchant/partial/${navValue}`)
@@ -1101,7 +1101,7 @@
                         console.error('Error fetching content:', error);
                     });
             }
-    
+
             // Fetch content on page load based on current nav query
             const urlParams = new URLSearchParams(window.location.search);
             const activeNav = urlParams.get('nav') || 'home'; // Default to 'home' if no 'nav' param
@@ -1114,7 +1114,7 @@
             $('.nav-link').on('click', function() {
                 // Remove 'active' class from all links
                 $('.nav-link').removeClass('active');
-                
+
                 // Add 'active' class to the clicked tab
                 $(this).addClass('active');
             });
