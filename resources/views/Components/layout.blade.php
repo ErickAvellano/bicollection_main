@@ -673,52 +673,7 @@
 
     </script>
     {{-- Add to Cart --}}
-    <script>
-        $(document).on('click', '.add-to-cart', function(e) {
-            e.preventDefault(); // Prevent the default anchor behavior
-
-            const productId = $(this).data('product-id'); // Get the product ID from data attribute
-
-            $.ajax({
-                url: `/cart/add/${productId}`, // Adjust URL to match your route
-                type: 'POST',
-                data: {
-                    _token: $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
-                },
-                success: function(response) {
-                    if (response.success) {
-                        // Update modal with product details
-                        $('#productName').text(response.product_name);
-                        $('#productVariation').text(`Variation: ${response.product_variation}`);
-                        $('#quantity').text(`Quantity: ${response.quantity}`);
-                        $('#cartTotal').text(`Total: ₱${response.cart_total}`);
-                        $('#cartItemCount').text(response.cart_item_count);
-                        $('#totalCartAmount').text(`Cart Total: ₱${response.total_cart_amount}`);
-
-                        // Update product image if available
-                        if (response.product_image) {
-                            $('#productImage').attr('src', `/storage/${response.product_image}`);
-                        }
-
-                        // Update the "Proceed to Checkout" link with cart ID
-                        $('#checkoutLink').attr('href', `/checkout?cart_id=${response.cart_id}`);
-
-                        // Show the modal
-                        $('#successModal').modal('show');
-
-                        // Update cart count after successfully adding an item
-                        updateCartCount(); // Update Cart Count
-                    } else {
-                        // alert('Unexpected response from server');
-                    }
-                },
-                // error: function(xhr) {
-                //     console.error(xhr); // Log the entire error response
-                //     alert(xhr.responseJSON ? xhr.responseJSON.error : 'An unexpected error occurred.');
-                // }
-            });
-        });
-    </script>
+    
     {{-- Search --}}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -1015,14 +970,6 @@
             }
         });
     </script>
-
-    <script>
-        function openChat() {
-            alert('Opening chat...');
-            // Redirect to a chat page or open a modal
-            // window.location.href = "/chat";
-        }
-    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const dropdown = document.querySelector('.dropdown'); // Get the dropdown element
@@ -1146,6 +1093,7 @@
         });
 
     </script>
+ 
     @yield('scripts')
 </body>
 </html>

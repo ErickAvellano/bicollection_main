@@ -208,7 +208,7 @@
         <!-- Display the total items and price -->
         <div class="d-flex align-items-center">
             <span class="me-3">Total (<span class="total-items">0</span> item): <span class="fw-bold text-danger total-price">₱0.00</span></span>
-            <button class="btn btn-custom px-5">Check Out</button>
+            <button class="btn btn-custom px-5" id="checkout-button">Check Out</button>
         </div>
     </div>
 </div>
@@ -453,6 +453,58 @@
         }
     });
 </script>
+
+{{-- changing product vartiations --}}
+<script>
+    $(document).on('change', '.variation-select', function () {
+        const cartId = $(this).attr('id').split('-')[2]; // Extract cart ID from the select element's ID
+        const selectedVariationId = $(this).val(); // Get the selected variation ID
+
+        // Send AJAX request to update the variation in the backend
+        $.ajax({
+            url: `/cart/update-variation/${cartId}`, // Update route for the variation
+            type: 'PATCH',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), // CSRF token for security
+            },
+            data: {
+                product_variation_id: selectedVariationId, // Send the selected variation ID
+            },
+            success: function (response) {
+                if (response.success) {
+                } else {
+                }
+            },
+            error: function (xhr, status, error) {
+            },
+        });
+    });
+
+</script>
+<script>
+    $('#checkout-button').on('click', function () {
+        // Collect selected cart item IDs
+        const selectedCartIds = [];
+        $('.cart-item-checkbox:checked').each(function () {
+            const cartId = $(this).attr('id').split('-')[2]; // Extract cart_id from checkbox ID
+            selectedCartIds.push(cartId);
+        });
+
+        // Check if any items are selected
+        if (selectedCartIds.length === 0) {
+            alert('Please select at least one item to proceed to checkout.');
+            return;
+        }
+
+        // Redirect to the existing checkout route with selected cart IDs as a query string
+        const queryString = `cart_ids=${selectedCartIds.join(',')}`;
+        window.location.href = `/checkout?${queryString}`;
+    });
+
+
+</script>
+
+
 
 @endsection
 

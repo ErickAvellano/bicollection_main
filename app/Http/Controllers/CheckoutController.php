@@ -22,41 +22,25 @@ class CheckoutController extends Controller
     public function index(Request $request)
     {
         $customerId = Auth::id(); // Get the authenticated user's ID
-        $cartId = $request->query('cart_id'); // Get the cart_id from the URL
+        $cartId = $request->query('cart_id'); // Single cart ID
+        $cartIds = $request->query('cart_ids'); // Multiple cart IDs
 
-        // Fetch the cart item for the given cart_id and customer_id
-        $cartItem = Cart::where('cart_id', $cartId)
-            ->where('customer_id', $customerId)
-            ->where('status', 'active')
-            ->first();
-
-        if (!$cartItem) {
-            return redirect()->route('cart.show')->with('error', 'No active cart item found.');
+        // Handle single or multiple cart IDs
+        if ($cartIds) {
+            // If cart_ids is a string, convert it to an array
+            if (!is_array($cartIds)) {
+                $cartIds = explode(',', $cartIds);
+            }
+        } elseif ($cartId) {
+            // If only cart_id is provided, convert it into an array for uniform processing
+            $cartIds = [$cartId];
+        } else {
+            return redirect()->route('cart.show')->with('error', 'No cart items selected.');
         }
 
-        // Get the merchant_id from the cart item
-        $merchantId = $cartItem->merchant_id;
-
-        if (is_null($merchantId)) {
-            return redirect()->route('cart.show')->with('error', 'Merchant ID not found in cart.');
-        }
-
-        // Fetch the merchant's mode of payment ID from the merchant_mop table
-        $merchantMop = MerchantMop::where('merchant_id', $merchantId)->get();
-
-        $gcashMop = $merchantMop->where('account_type', 'GCash')->first();
-        $codMop = $merchantMop->where('account_type', 'COD')->where('cod_terms_accepted', 1)->first();
-
-        $merchantSupportsGCash = $gcashMop !== null;
-        $merchantSupportsCOD = $codMop !== null;
-
-        // Set the IDs for GCash and COD
-        $gcashMopId = $gcashMop ? $gcashMop->merchant_mop_id : null;
-        $codMopId = $codMop ? $codMop->merchant_mop_id : null;
-
-        // Retrieve cart items for the given cart ID and current user
+        // Retrieve cart items for the given cart IDs and customer ID
         $cartItems = Cart::with('product.images', 'product.variations')
-            ->where('cart_id', $cartId)
+            ->whereIn('cart_id', $cartIds)
             ->where('customer_id', $customerId)
             ->where('status', 'active')
             ->get();
@@ -65,29 +49,56 @@ class CheckoutController extends Controller
             return redirect()->route('cart.show')->with('error', 'No active cart items found.');
         }
 
-        // Fetch customer and their latest address
+        // Get the merchant ID (assuming all items belong to the same merchant for simplicity)
+        $merchantId = $cartItems->first()->merchant_id;
+
+        if (is_null($merchantId)) {
+            return redirect()->route('cart.show')->with('error', 'Merchant ID not found in cart.');
+        }
+
+        // Fetch the merchant's modes of payment
+        $merchantMop = MerchantMop::where('merchant_id', $merchantId)->get();
+        $gcashMop = $merchantMop->where('account_type', 'GCash')->first();
+        $codMop = $merchantMop->where('account_type', 'COD')->where('cod_terms_accepted', 1)->first();
+
+        $merchantSupportsGCash = $gcashMop !== null;
+        $merchantSupportsCOD = $codMop !== null;
+
+        // Set GCash and COD Mop IDs
+        $gcashMopId = $gcashMop ? $gcashMop->merchant_mop_id : null;
+        $codMopId = $codMop ? $codMop->merchant_mop_id : null;
+
+        // Fetch customer details
         $customer = Customer::find($customerId);
 
+        // Fetch the latest address of the customer
         $address = $customer->addresses()->latest()->first();
 
         // Check if there is an existing 'pending' order with a custom shipping address
         $orderShippingAddress = Order::where('customer_id', $customerId)
-        ->where('order_status', 'pending')
-        ->latest()
-        ->value('shipping_address'); // Assuming you store it as a full string
+            ->where('order_status', 'pending')
+            ->latest()
+            ->value('shipping_address'); // Assuming you store it as a full string
 
         // Fetch the default address from the user's address records
         $defaultAddress = $customer->addresses()->latest()->first();
 
         // Set the display address
-        $displayAddress = $address 
-            ? $address->display_address 
+        $displayAddress = $address
+            ? $address->display_address
             : ($defaultAddress ? $defaultAddress->display_address : null);
-
 
         // Calculate merchandise subtotal
         $merchandiseSubtotal = $cartItems->sum(function ($cartItem) {
-            $productPrice = $cartItem->product->variations->first()->price ?? $cartItem->product->price;
+            // Find the variation directly by product_variation_id stored in the cart
+            $selectedVariation = $cartItem->product->variations
+                ->where('product_variation_id', $cartItem->product_variation_id)
+                ->first();
+        
+            // Use the variation price, or fall back to the product's base price
+            $productPrice = $selectedVariation ? $selectedVariation->price : $cartItem->product->price;
+        
+            // Calculate subtotal for this cart item
             return $cartItem->quantity * $productPrice;
         });
 
@@ -101,7 +112,7 @@ class CheckoutController extends Controller
         return view('checkout', compact(
             'cartItems',
             'customer',
-            'cartId',
+            'cartIds',
             'address',
             'merchandiseSubtotal',
             'merchantId',
@@ -114,9 +125,9 @@ class CheckoutController extends Controller
             'displayAddress',
             'orderShippingAddress',
             'defaultAddress'
-
         ));
     }
+
     public function updateContactNumber(Request $request)
     {
         // Validate the contact number

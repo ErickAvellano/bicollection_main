@@ -85,7 +85,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/cart/update/{cartId}', [CartController::class, 'update'])->name('cart.update');
     Route::get('/cart-tooltip', [CartController::class, 'getCartTooltip'])->name('cart.tooltip');
     Route::get('/cart/count', [CartController::class, 'getCartItemCount'])->name('cart.count');
+    Route::patch('/cart/update-variation/{cart_id}', [CartController::class, 'updateVariation'])->name('cart.update.variation');
 
+    
     Route::post('/buy-now', [CartController::class, 'buyNow'])->name('cart.buyNow');
 
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');

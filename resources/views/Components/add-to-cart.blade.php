@@ -16,7 +16,7 @@
     .btn-continue{
         background-color: transparent;
     }
-    .btn-continue:hover, 
+    .btn-continue:hover,
     .btn-continue:active{
         border-color: #228b22;
         color: #228b22;
@@ -50,7 +50,12 @@
                     <img id="productImage" src="" alt="Product Image" style="width: 80px; height: 80px; margin-right: 20px; object-fit: cover;">
                     <div class="d-flex flex-column justify-content-start align-items-start">
                         <p id="productName"></p>
-                        <p style="font-size:0.8rem;" id="productVariation"></p>
+                         <!-- Dropdown for selecting variations -->
+                        <div style="display: flex; align-items: center;">
+                            <label for="variation-Select" style="margin-right: 10px; font-size: 0.8rem;">Change Variation:</label>
+                            <select id="variationSelect" class="form-select" style="width: auto; min-width: 100px; max-width: 300px; font-size: 0.7rem;">
+                            </select>
+                        </div>
                         <p style="font-size:0.8rem;" id="quantity"></p>
                         <p style="font-size:1rem;" id="cartTotal"></p>
                     </div>
@@ -63,3 +68,123 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).on('click', '.add-to-cart', function (e) {
+        e.preventDefault();
+
+        const productId = $(this).data('product-id'); // Get the product ID
+
+        $.ajax({
+            url: `/cart/add/${productId}`,
+            type: 'POST',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content') // CSRF token
+            },
+            success: function (response) {
+                if (response.success) {
+                    // Reset modal content
+                    $('#productName').text('');
+                    $('#productDetails select').remove(); // Remove any previous dropdowns
+                    $('#quantity').text('');
+                    $('#cartTotal').text('');
+                    $('#productImage').attr('src', '');
+                    $('#productDetails').attr('data-cart-id', '');
+
+                    // Set product details
+                    $('#productName').text(response.product_name);
+                    $('#quantity').text(`Quantity: ${response.quantity}`);
+                    $('#cartTotal').text(`Total: ₱${response.cart_total}`);
+                    $('#cartItemCount').text(response.cart_item_count);
+                    $('#totalCartAmount').text(`Cart Total: ₱${response.total_cart_amount}`);
+
+                    // Update the product image if available
+                    if (response.product_image) {
+                        $('#productImage').attr('src', `/storage/${response.product_image}`);
+                    }
+
+                    // Set the cart_id as a data attribute
+                    $('#productDetails').attr('data-cart-id', response.cart_id);
+
+                    // Dynamically add a dropdown for variations under #productDetails
+                    const dropdownHTML = `
+                        <select id="variation-select-${response.cart_id}" class="form-select variation-select" style="width: auto; min-width: 100px; max-width: 300px; font-size: 0.7rem;">
+                        </select>`;
+
+                    // Replace the existing dropdown dynamically
+                    $('#productDetails')
+                        .find('select#variationSelect') // Locate the existing dropdown
+                        .remove(); // Remove the old dropdown to avoid duplicates
+
+                    // Add the new dropdown HTML after the label
+                    $('#productDetails')
+                        .find('label[for="variation-Select"]') // Target the label for the dropdown
+                        .after(dropdownHTML);
+
+                    // Populate the new dropdown dynamically with variations
+                    const variationSelect = $(`#variation-select-${response.cart_id}`);
+                    variationSelect.empty(); // Clear any existing options
+
+                    if (response.product_variations && response.product_variations.length > 0) {
+                        response.product_variations.forEach(variation => {
+                            const isSelected =
+                                response.product_variation_id === variation.product_variation_id ? 'selected' : '';
+                            variationSelect.append(
+                                `<option value="${variation.product_variation_id}" ${isSelected}>
+                                    ${variation.variation_name}
+                                </option>`
+                            );
+                        });
+                    } else {
+                        variationSelect.append('<option value="">No variations available</option>');
+                    }
+
+                    // Update the "Proceed to Checkout" link with the cart ID
+                    $('#checkoutLink').attr('href', `/checkout?cart_id=${response.cart_id}`);
+
+                    // Show the modal
+                    $('#successModal').modal('show');
+                }
+            },
+            error: function (xhr) {
+                console.error('Error:', xhr.responseJSON ? xhr.responseJSON.error : 'An unexpected error occurred.');
+                alert(xhr.responseJSON ? xhr.responseJSON.error : 'An unexpected error occurred.');
+            }
+        });
+    });
+
+    // Handle variation changes
+    $(document).on('change', '.variation-select', function () {
+        const cartId = $('#productDetails').data('cart-id'); // Get the cart ID from #productDetails
+        const selectedVariationId = $(this).val(); // Get the selected variation ID
+
+        // Log the cart ID and selected variation ID for debugging
+        console.log('Cart ID:', cartId);
+        console.log('Selected Variation ID:', selectedVariationId);
+
+        // Ensure both cartId and selectedVariationId are valid
+        if (!cartId || !selectedVariationId) {
+            alert('Invalid cart or variation ID.');
+            return;
+        }
+
+        // Send AJAX request to update the variation in the backend
+        $.ajax({
+            url: `/cart/update-variation/${cartId}`, // Update route for the variation
+            type: 'PATCH',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), // CSRF token for security
+            },
+            data: {
+                product_variation_id: selectedVariationId, // Send the selected variation ID
+            },
+            success: function (response) {
+                if (response.success) {
+                } else {
+                }
+            },
+            error: function (xhr, status, error) {
+            },
+        });
+    });
+
+</script>

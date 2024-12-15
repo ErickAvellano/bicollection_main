@@ -41,28 +41,30 @@ class CartController extends Controller
         // Pass data to the view
         return view('profile.cart', compact('groupedCartItems', 'subtotal', 'shippingCost', 'packagingCost', 'totalAmount'));
     }
- 
+
 
     public function add(Request $request, $productId)
     {
         try {
             $user = Auth::user();
 
-            // Log the product and user information for debugging
-            Log::info('Add to Cart Attempt', ['user' => $user, 'productId' => $productId]);
-
             // Retrieve the product by ID
-            $product = Product::with('images')->find($productId);
+            $product = Product::with('variations', 'images')->find($productId);
 
             if (!$product) {
-                Log::error('Product not found', ['productId' => $productId]);
                 return response()->json(['error' => 'Product not found.'], 404);
             }
+
+            $productVariationId = $product->variations->first()->product_variation_id ?? null;
+
 
             // Check if the product is already in the cart
             $cartItem = Cart::where('customer_id', $user->user_id)
                 ->where('product_id', $productId)
+
                 ->first();
+
+            
 
             if ($cartItem) {
                 // If it exists, update the quantity
@@ -72,6 +74,7 @@ class CartController extends Controller
                 // Create a new cart entry and assign it to $cartItem
                 $cartItem = Cart::create([
                     'customer_id' => $user->user_id,
+                    'product_variation_id' => $productVariationId,
                     'merchant_id' => $product->merchant_id,
                     'quantity' => 1,
                     'status' => 'active',
@@ -87,25 +90,30 @@ class CartController extends Controller
             // Retrieve the first product image
             $productImage = $product->images->first() ? $product->images->first()->product_img_path1 : null;
 
-            // Return the response with updated data
+            // Return the response with updated data and variations
             return response()->json([
                 'success' => 'Product added to cart successfully!',
                 'product_name' => $product->product_name,
                 'product_image' => $productImage,
                 'product_variation' => optional($product->variations->first())->variation_name,
+                'product_variations' => $product->variations->map(function ($variation) {
+                    return [
+                        'product_variation_id' => $variation->product_variation_id,
+                        'variation_name' => $variation->variation_name,
+                    ];
+                }),
                 'quantity' => $cartItem->quantity,
                 'cart_total' => number_format($cartTotal, 2),
                 'cart_item_count' => $cartItemCount,
                 'total_cart_amount' => number_format($totalCartAmount, 2),
-                'cart_id' => $cartItem->cart_id,  // Use the ID of the created or updated cart item
+                'cart_id' => $cartItem->cart_id,
             ]);
 
         } catch (\Exception $e) {
-            // Log the exception for further debugging
-            Log::error('Error adding product to cart', ['error' => $e->getMessage()]);
             return response()->json(['error' => 'There was an error adding the product to the cart.'], 500);
         }
     }
+
 
 
     public function remove($cartId)
@@ -222,6 +230,29 @@ class CartController extends Controller
             Log::error("Buy Now Error: " . $e->getMessage()); // Log the error message
             return response()->json(['success' => false, 'message' => 'Failed to add to cart'], 500);
         }
+    }
+    public function updateVariation(Request $request, $cartId)
+    {
+        // Validate the incoming request
+        $validated = $request->validate([
+            'product_variation_id' => 'required|integer|exists:product_variation,product_variation_id',
+        ]);
+
+        // Find the cart item by ID
+        $cartItem = Cart::where('cart_id', $cartId)
+            ->where('customer_id', Auth::id()) // Ensure it belongs to the logged-in user
+            ->where('status', 'active') // Ensure the cart item is active
+            ->first();
+
+        if (!$cartItem) {
+            return response()->json(['success' => false, 'message' => 'Cart item not found.'], 404);
+        }
+
+        // Update the product variation
+        $cartItem->product_variation_id = $validated['product_variation_id'];
+        $cartItem->save();
+
+        return response()->json(['success' => true, 'message' => 'Product variation updated successfully.']);
     }
 
 

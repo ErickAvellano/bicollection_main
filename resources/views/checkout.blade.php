@@ -332,7 +332,12 @@
                     </p>
                 </div>
             </div>
-            <input type="hidden" id="cartId" name="cart_id" value="{{ $cartId }}">
+            @if (isset($cartIds) && is_array($cartIds))
+                <input type="hidden" id="cartIds" name="cart_ids" value="{{ implode(',', $cartIds) }}">
+            @else
+                <input type="hidden" id="cartId" name="cart_id" value="{{ $cartId }}">
+            @endif
+
             <!-- Contact Number Section -->
             <div class="contact-number-section d-flex">
                 <p class="mb-1" style="margin-right: 10px;">
@@ -391,10 +396,10 @@
                 <!-- Product Details -->
                 <div class="product-details">
                     <p class="product-name" data-product-id="{{ $cartItem->product->product_id }}">{{ $cartItem->product->product_name }}</p>
-                    <p class="product-variation" data-variation-id="{{ $cartItem->product->variations->first()->product_variation_id ?? '' }}">
+                    <p class="product-variation" data-variation-id="{{ $cartItem->product->variations->where('product_variation_id', $cartItem->product_variation_id)->first()->product_variation_id ?? '' }}">
                         Variation:
-                        {{ $cartItem->product->variations->first()->variation_name ?? 'Default' }}
-                    </p>
+                        {{ $cartItem->product->variations->where('product_variation_id', $cartItem->product_variation_id)->first()->variation_name ?? 'Default' }}
+                    </p>                    
                 </div>
 
                 <!-- Product Price -->
@@ -1192,6 +1197,7 @@
         const paymentMethodInput = document.getElementById('paymentMethod');
         const paymentMethodIdInput = document.getElementById('paymentMethodId');
         const cartIdInput = document.getElementById('cartId');
+        const cartIdsInput = document.getElementById('cartIds');
         const loadingSpinner = document.getElementById('loadingSpinner'); // Spinner element
 
         let orderItems = []; // Define orderItems globally
@@ -1274,10 +1280,14 @@
                 });
 
                 const cartId = cartIdInput ? cartIdInput.value : null;
-                if (!cartId) {
+                const cartIds = cartIdsInput ? cartIdsInput.value : null;
+
+                if (!cartId && !cartIds) {
                     alert('Cart ID is missing.');
                     return;
                 }
+
+                let cartIdentifier = cartId ? cartId : cartIds; 
 
                 let totalPaymentElement = document.querySelector('.summary-total p.total-amount');
                 let totalPayment = totalPaymentElement ? parseFloat(totalPaymentElement.innerText.replace('₱', '').replace(',', '')) : 0;
@@ -1285,7 +1295,7 @@
                 let orderData = {
                     merchant_id: "{{ $merchantId }}",
                     merchant_mop_id: paymentMethodIdInput ? paymentMethodIdInput.value : null,
-                    cart_id: cartId,
+                    cart_id: cartIdentifier,
                     shipping_address: shippingAddress,
                     contact_number: contactNumber,
                     total_amount: totalPayment,
@@ -1300,15 +1310,23 @@
         }
 
         // Handle "Proceed to Payment" button click
-                if (proceedToPaymentBtn) {
+        if (proceedToPaymentBtn) {
             proceedToPaymentBtn.addEventListener('click', function() {
                 const shippingAddress = getFinalShippingAddress();
                 const cartId = cartIdInput ? cartIdInput.value : null;
+                const cartIds = cartIdsInput ? cartIdsInput.value : null;
+
+                if (!cartId && !cartIds) {
+                    alert('Cart ID is missing.');
+                    return;
+                }
+
+                let cartIdentifier = cartId ? cartId : cartIds; 
 
                 const orderData = {
                     merchant_id: "{{ $merchantId }}",
                     merchant_mop_id: paymentMethodIdInput ? paymentMethodIdInput.value : null,
-                    cart_id: cartId,
+                    cart_id: cartIdentifier,
                     shipping_address: shippingAddress,
                     contact_number: document.querySelector('.contact-number-section p')?.innerText.split(': ')[1],
                     total_amount: parseFloat(document.querySelector('.summary-total p.total-amount')?.innerText.replace('₱', '').replace(',', '')),

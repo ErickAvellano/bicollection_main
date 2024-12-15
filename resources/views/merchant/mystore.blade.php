@@ -1054,10 +1054,9 @@
         $(document).ready(function() {
             // Show the modal if contact number or MOP is not set
             @if(!$merchant->contact_number || !$merchantMop)
-                $('#contactMopModal').fadeIn();  // Adjusted to use fadeIn for custom modal
+                $('#contactMopModal').fadeIn(); 
             @endif
-
-            // Dismiss the custom modal on 'Later' button or close icon
+            //Close the modal
             $('.custom-close, .btn-secondary').on('click', function() {
                 $('#contactMopModal').fadeOut();
             });
