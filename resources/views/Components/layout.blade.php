@@ -673,7 +673,90 @@
 
     </script>
     {{-- Add to Cart --}}
-    
+    <script>
+        $(document).on('click', '.add-to-cart', function (e) {
+            e.preventDefault();
+
+            const productId = $(this).data('product-id'); // Get the product ID
+
+            $.ajax({
+                url: `/cart/add/${productId}`,
+                type: 'POST',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content') // CSRF token
+                },
+                success: function (response) {
+                    if (response.success) {
+                        // Reset modal content
+                        $('#productName').text('');
+                        $('#productDetails select').remove(); // Remove any previous dropdowns
+                        $('#quantity').text('');
+                        $('#cartTotal').text('');
+                        $('#productImage').attr('src', '');
+                        $('#productDetails').attr('data-cart-id', '');
+
+                        // Set product details
+                        $('#productName').text(response.product_name);
+                        $('#quantity').text(`Quantity: ${response.quantity}`);
+                        $('#cartTotal').text(`Total: ₱${response.cart_total}`);
+                        $('#cartItemCount').text(response.cart_item_count);
+                        $('#totalCartAmount').text(`Cart Total: ₱${response.total_cart_amount}`);
+
+                        // Update the product image if available
+                        if (response.product_image) {
+                            $('#productImage').attr('src', `/storage/${response.product_image}`);
+                        }
+
+                        // Set the cart_id as a data attribute
+                        $('#productDetails').attr('data-cart-id', response.cart_id);
+
+                        // Dynamically add a dropdown for variations under #productDetails
+                        const dropdownHTML = `
+                            <select id="variation-select-${response.cart_id}" class="form-select variation-select" style="width: auto; min-width: 100px; max-width: 300px; font-size: 0.7rem;">
+                            </select>`;
+
+                        // Replace the existing dropdown dynamically
+                        $('#productDetails')
+                            .find('select#variationSelect') // Locate the existing dropdown
+                            .remove(); // Remove the old dropdown to avoid duplicates
+
+                        // Add the new dropdown HTML after the label
+                        $('#productDetails')
+                            .find('label[for="variation-Select"]') // Target the label for the dropdown
+                            .after(dropdownHTML);
+
+                        // Populate the new dropdown dynamically with variations
+                        const variationSelect = $(`#variation-select-${response.cart_id}`);
+                        variationSelect.empty(); // Clear any existing options
+
+                        if (response.product_variations && response.product_variations.length > 0) {
+                            response.product_variations.forEach(variation => {
+                                const isSelected =
+                                    response.product_variation_id === variation.product_variation_id ? 'selected' : '';
+                                variationSelect.append(
+                                    `<option value="${variation.product_variation_id}" ${isSelected}>
+                                        ${variation.variation_name}
+                                    </option>`
+                                );
+                            });
+                        } else {
+                            variationSelect.append('<option value="">No variations available</option>');
+                        }
+
+                        // Update the "Proceed to Checkout" link with the cart ID
+                        $('#checkoutLink').attr('href', `/checkout?cart_id=${response.cart_id}`);
+
+                        // Show the modal
+                        $('#successModal').modal('show');
+                    }
+                },
+                error: function (xhr) {
+                    console.error('Error:', xhr.responseJSON ? xhr.responseJSON.error : 'An unexpected error occurred.');
+                    alert(xhr.responseJSON ? xhr.responseJSON.error : 'An unexpected error occurred.');
+                }
+            });
+        });
+    </script>
     {{-- Search --}}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
