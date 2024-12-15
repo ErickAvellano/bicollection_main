@@ -41,8 +41,6 @@ class CartController extends Controller
         // Pass data to the view
         return view('profile.cart', compact('groupedCartItems', 'subtotal', 'shippingCost', 'packagingCost', 'totalAmount'));
     }
-
-
     public function add(Request $request, $productId)
     {
         try {
@@ -61,11 +59,7 @@ class CartController extends Controller
             // Check if the product is already in the cart
             $cartItem = Cart::where('customer_id', $user->user_id)
                 ->where('product_id', $productId)
-
                 ->first();
-
-            
-
             if ($cartItem) {
                 // If it exists, update the quantity
                 $cartItem->quantity++;
@@ -113,9 +107,6 @@ class CartController extends Controller
             return response()->json(['error' => 'There was an error adding the product to the cart.'], 500);
         }
     }
-
-
-
     public function remove($cartId)
     {
         // Find the cart item by ID
@@ -155,9 +146,6 @@ class CartController extends Controller
         // Return an error response if item not found
         return response()->json(['success' => false, 'message' => 'Item not found'], 404);
     }
-
-
-
     public function getCartTooltip()
     {
         $user = Auth::user();
@@ -192,9 +180,6 @@ class CartController extends Controller
             'totalCartAmount' => number_format($totalCartAmount, 2),
         ]);
     }
-
-
-
     public function getCartItemCount()
     {
         $user = Auth::user();
@@ -254,6 +239,61 @@ class CartController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Product variation updated successfully.']);
     }
+    public function viewAddToCart(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            if (!$user) {
+                return response()->json(['error' => 'User not authenticated.'], 401);
+            }
+
+            $productId = $request->input('product_id');
+            $variationId = $request->input('product_variation_id');
+            $quantity = $request->input('quantity', 1); 
+
+            // Find the product and check variation
+            $product = Product::with('variations')->find($productId);
+            if (!$product) {
+                return response()->json(['error' => 'Product not found.'], 404);
+            }
+
+            if (!$product->variations->contains('product_variation_id', $variationId)) {
+                return response()->json(['error' => 'Invalid variation selected.'], 400);
+            }
+
+            // Add or update cart item
+            $cartItem = Cart::where('customer_id', $user->user_id)
+                            ->where('product_id', $productId)
+                            ->where('product_variation_id', $variationId)
+                            ->first();
+
+            if ($cartItem) {
+                $cartItem->quantity += $quantity; // Increment by the selected quantity
+                $cartItem->save();
+            } else {
+                Cart::create([
+                    'customer_id' => $user->user_id,
+                    'product_id' => $productId,
+                    'product_variation_id' => $variationId,
+                    'merchant_id' => $product->merchant_id,
+                    'quantity' => $quantity,
+                    'status' => 'active'
+                ]);
+            }
+
+            return response()->noContent(200); // Return success with no content
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Internal server error.'], 500);
+        }
+    }
+
+
+    
+
+
+
+
 
 
 

@@ -233,9 +233,6 @@
             padding: 0 20px 20px 20px;
             height:500px;
         }
-        .container{
-            margin-top: 1rem;
-        }
 
         .sticky-footer{
             display:none;
@@ -470,9 +467,9 @@
 @section('content')
 <div class="container">
     <nav class="top-crumb" aria-label="breadcrumb" style="margin-left:20px">
-        <ol class="breadcrumb mb-2">
+        <ol class="breadcrumb mb-2 mt-3">
             <li class="breadcrumb-item"><a href="{{ route('home') }}">BiCollection</a></li>
-            <li class="breadcrumb-item"><a href="#">{{ $product->category->category_name }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('category.product', ['category_name' => $product->category->category_name]) }}">{{ $product->category->category_name }}</a></li>
             <li class="breadcrumb-item"><a href="#">{{ $product->subcategory->category_name }}</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ $product->product_name }}</li>
         </ol>
@@ -647,16 +644,35 @@
                 <!-- Product Variations -->
                 <div class="product-options d-flex align-items-start justify-content-between">
                     <!-- Product Variations -->
-                    @if($product->variations->isNotEmpty())
+                    @if($product->variations->count() > 1)
                         <div class="product-variations">
                             <h5 class="font-weight-bold">Select Variation</h5>
                             <div class="d-flex flex-wrap gap-2 mt-2">
                                 @foreach($product->variations as $variation)
-                                    <input type="radio" class="btn-check" name="product_variation" id="variation{{ $variation->product_variation_id }}" value="{{ $variation->product_variation_id }}" autocomplete="off">
-                                    <label class="btn btn-outline-secondary variation-button" for="variation{{ $variation->product_variation_id }}">{{ $variation->variation_name }}</label>
-                                    @endforeach
+                                    <input type="radio"
+                                        class="btn-check"
+                                        name="product_variation"
+                                        id="variation{{ $variation->product_variation_id }}"
+                                        value="{{ $variation->product_variation_id }}"
+                                        autocomplete="off">
+                                    <label class="btn btn-outline-secondary variation-button"
+                                        for="variation{{ $variation->product_variation_id }}">
+                                        {{ $variation->variation_name }}
+                                    </label>
+                                @endforeach
                             </div>
                         </div>
+                    @elseif($product->variations->count() === 1)
+                        {{-- Render the single variation input but hide it from the user --}}
+                        @php
+                            $singleVariation = $product->variations->first();
+                        @endphp
+                        <input type="radio"
+                            class="btn-check"
+                            name="product_variation"
+                            id="variation{{ $singleVariation->product_variation_id }}"
+                            value="{{ $singleVariation->product_variation_id }}"
+                            checked hidden>
                     @endif
 
                     <!-- Quantity Selector -->
@@ -683,8 +699,11 @@
 
                 <!-- Action Buttons -->
                 <div class="button-group">
-                    <a href="#" class="btn btn-outline-custom add-to-cart" data-product-id="{{ $product->product_id }}">
-                        <i class="fas fa-shopping-cart" style="margin-right: 4px;"></i> Add to Cart</a>
+                    <a href="#" 
+                        class="btn btn-outline-custom add-to-cart-btn" 
+                        data-product-id="{{ $product->product_id }}">
+                        <i class="fas fa-shopping-cart" style="margin-right: 4px;"></i> Add to Cart
+                    </a>
                     <button class="btn btn-custom" onclick="buyNow()">Buy Now</button>
                 </div>
             </div>
@@ -718,7 +737,7 @@
                     @endif
                     <h5 class="card-title mb-0 fw-bold">{{ $shop->shop_name ?? 'Store Name' }}</h5>
                 </div>
-                <a href="#" class="btn btn-outline-success">View Store</a>
+                <a href="#" class="btn btn-outline-custom">View Store</a>
             </div>
         </div>
     </section>
@@ -882,15 +901,21 @@
         </div>
     </div>
 </div>
-@include('Components.add-to-cart')
+
+
 <footer class="sticky-footer text-end">
     <div class="footer-content ">
-        <a href="#" class="btn btn-outline-custom add-to-cart" data-product-id="{{ $product->product_id }}">
-            <i class="fa-solid fa-cart-plus"></i></a>
+        <a class="btn btn-outline-custom add-to-cart-btn" data-product-id="{{ $product->product_id }}">
+            <i class="fas fa-shopping-cart" style="margin-right: 4px;"></i> Add to Cart
+        </a>
         <button class="btn btn-custom" onclick="buyNow()">Buy Now</button>
     </div>
 </footer>
+
+@include('Components.status-modal')
+
 @endsection
+
 
 
 @section('scripts')
@@ -959,8 +984,6 @@
         })
         .then(response => {
             if (!response.ok) {
-                // Log response status and text if the server responds with an error
-                console.error('Server error:', response.status, response.statusText);
                 throw new Error('Server error');
             }
             return response.json();
@@ -974,6 +997,75 @@
         })
         .catch(error => console.error('Error:', error));
     }
+</script>
+<script>
+    $(document).ready(function () {
+        let selectedVariationId = null; // Initialize globally to hold the variation ID
+        // Add to Cart Button Logic
+        $('.add-to-cart-btn').click(function (e) {
+            e.preventDefault();
 
-    </script>
+            let productId = $(this).data('product-id');
+            let quantity = parseInt($('#quantityInput').val()); // Get quantity input value
+
+            // Check for variations
+            if ($('input[name="product_variation"]').length > 0) {
+                // Auto-select the first variation if there's only one
+                if ($('input[name="product_variation"]').length === 1) {
+                    let firstVariation = $('input[name="product_variation"]').first();
+                    firstVariation.prop('checked', true);
+                    selectedVariationId = firstVariation.val(); // Assign the auto-selected value
+                }
+
+                // Get the selected variation
+                selectedVariationId = $('input[name="product_variation"]:checked').val();
+
+                if (!selectedVariationId) {
+                    alert('Please select a variation before adding to cart.');
+                    return;
+                }
+            }
+
+            // AJAX request to add product to cart
+            $.ajax({
+                url: '/cart/view/add',
+                type: 'POST',
+                data: {
+                    product_id: productId,
+                    product_variation_id: selectedVariationId,
+                    quantity: quantity, // Include quantity
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function () {
+                    $('#statusModalIcon').removeClass('fa-xmark').addClass('fa-solid fa-circle-check check-icon');
+                    $('#statusModalMessage').text('Product added to cart successfully!');
+                    $('#statusModal').modal('show');
+                    setTimeout(() => {
+                        $('#statusModal').modal('hide');
+                    }, 1000);
+                    updateCartCount();
+                },
+                error: function (xhr) {
+                    console.error('Failed to add product to cart.', xhr.responseJSON?.error || 'Unknown error');
+                }
+            });
+        });
+
+        // Function to update cart count dynamically
+        function updateCartCount() {
+            $.ajax({
+                url: '{{ route("cart.count") }}',
+                type: 'GET',
+                success: function (response) {
+                    $('#cart-count').text(response.cartItemCount);
+                },
+                error: function () {
+                    console.error('Failed to update cart count.');
+                }
+            });
+        }
+    });
+</script>
+
+
 @endsection

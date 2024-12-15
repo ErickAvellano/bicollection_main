@@ -748,6 +748,8 @@
 
                         // Show the modal
                         $('#successModal').modal('show');
+
+                        updateCartCount();
                     }
                 },
                 error: function (xhr) {

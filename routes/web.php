@@ -81,6 +81,7 @@ Route::middleware('auth')->group(function () {
     // Cart Route
     Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
     Route::post('/cart/add/{productId}', [CartController::class, 'add'])->name('cart.add');
+    Route::post('/cart/view/add', [CartController::class, 'viewaddToCart'])->name('view.addtocart');
     Route::delete('/cart/remove/{cartId}', [CartController::class, 'remove'])->name('cart.remove');
     Route::patch('/cart/update/{cartId}', [CartController::class, 'update'])->name('cart.update');
     Route::get('/cart-tooltip', [CartController::class, 'getCartTooltip'])->name('cart.tooltip');
