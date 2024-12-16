@@ -144,12 +144,26 @@
                     </div>
 
                     <!-- Profile Image -->
-                    <div style="position: absolute; top: 120px; left: 20px;">
-                        <img src="{{ $shop->shop_img ? Storage::url($shop->shop_img) : ('images/assets/default_profile.png') }}" 
+                    <div style="position: absolute; top: 120px; left: 20px; display: flex; align-items: center;">
+                        <!-- Profile Image -->
+                        <img src="{{ $shop->shop_img ? Storage::url($shop->shop_img) : asset('images/assets/default_profile.png') }}" 
                              alt="Shop Profile" 
-                             class="rounded-circle border border-2 border-white" 
+                             class="rounded-circle border border-2 border-white me-3"
                              style="width: 100px; height: 100px; object-fit: cover;">
-                             <h4 class="fw-bold">{{ $shop->shop_name }} <i class="fa-solid fa-check-circle text-primary"></i></h4>
+                    
+                        <!-- Shop Name and Edit -->
+                        <div style="display: flex; flex-direction: column;">
+                            <!-- Edit Button -->
+                            <div>
+                                <a href="#" class="text-primary" style="font-size: 0.9em;" onclick="editShopName()">Edit Name</a>
+                            </div>
+                    
+                            <!-- Shop Name -->
+                            <h4 class="fw-bold mb-0" id="shopName" contenteditable="true" style="cursor: text; display: inline-block;">
+                                {{ $shop->shop_name }} 
+                                <i class="fa-solid fa-check-circle text-primary"></i>
+                            </h4>
+                        </div>
                     </div>
                     <!-- Shop Content -->
                     <div class="p-3 text-center" style="margin-top: 40px;">
