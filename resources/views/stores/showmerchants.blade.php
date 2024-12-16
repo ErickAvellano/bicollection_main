@@ -133,8 +133,8 @@
 <div class="container mt-4">
     <div class="row">
         @foreach ($shops as $shop)
-            <div class="col-md-4 mb-4">
-                <div class="card shadow-sm rounded-lg" style="position: relative; overflow: hidden; border: 2px solid #6c5ce7;">
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm rounded-lg" style="position: relative; overflow: hidden;">
                     <!-- Cover Image -->
                     <div style="height: 180px; overflow: hidden;">
                         <img src="{{ $shop->coverphotopath ? Storage::url($shop->coverphotopath) : asset('images/default-bg.jpg') }}" 
