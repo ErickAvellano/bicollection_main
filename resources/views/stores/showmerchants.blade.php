@@ -144,28 +144,26 @@
                     </div>
 
                     <!-- Profile Image -->
-                    <div id="shopCard" style="position: relative; display: flex; align-items: center; background: #333;">
+                    <div style="position: absolute; top: 120px; left: 20px; display: flex; align-items: center;">
                         <!-- Profile Image -->
                         <img src="{{ $shop->shop_img ? Storage::url($shop->shop_img) : asset('images/assets/default_profile.png') }}" 
                              alt="Shop Profile" 
-                             class="rounded-circle border border-2 me-3" 
+                             class="rounded-circle border border-2 border-white me-3"
                              style="width: 100px; height: 100px; object-fit: cover;">
-                    
                         <!-- Shop Name -->
-                        <div style="position: absolute; top: 10px; left: 110px; width: 400px; display: flex; flex-direction: column;">
+                        <div style="position: absolute; top: 10px; left: 110px; width:500px; display: flex; flex-direction: column;">
                             <!-- Shop Name -->
-                            <h5 class="fw-bold mb-0 shop-name" id="shopName" style="display: inline-block;">
+                            <h5 class="fw-bold mb-0" id="shopName" style="display: inline-block;">
                                 {{ $shop->shop_name }} 
-                                <i class="fa-solid fa-check-circle text-success verified-icon" title="Verified"></i>
+                                <i class="fa-solid fa-check-circle text-success" title="Verified"></i>
                             </h5>
-                            <!-- Star Ratings -->
                             <div class="mb-2">
                                 @for ($i = 1; $i <= 5; $i++)
-                                    <i class="fa fa-star text-warning star-icon"></i>
-                                @endfor
-                            </div>
+                                   <i class="fa fa-star text-warning"></i>
+                               @endfor
+                           </div>
                         </div>
-                    </div>                    
+                    </div>
                     <!-- Shop Content -->
                     <div class="p-3 text-center" style="margin-top: 40px;">
                         <!-- Ratings -->
@@ -188,35 +186,5 @@
 @endsection
 
 @section('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const shopCard = document.getElementById('shopCard');
-        const shopName = document.getElementById('shopName');
-        const verifiedIcon = document.querySelector('.verified-icon');
-        const starIcons = document.querySelectorAll('.star-icon');
-
-        // Function to calculate background brightness
-        function getBackgroundBrightness(element) {
-            const bgColor = window.getComputedStyle(element).backgroundColor;
-
-            // Extract RGB values
-            const rgb = bgColor.match(/\d+/g).map(Number);
-            const brightness = (0.299 * rgb[0]) + (0.587 * rgb[1]) + (0.114 * rgb[2]);
-            return brightness;
-        }
-
-        // Apply styles based on brightness
-        const brightness = getBackgroundBrightness(shopCard);
-        if (brightness < 128) {
-            shopName.style.color = '#ffffff'; 
-            verifiedIcon.classList.remove('text-success');
-            verifiedIcon.classList.add('text-light'); 
-            starIcons.forEach(icon => {
-                icon.classList.remove('text-warning');
-                icon.classList.add('text-light'); 
-            });
-        }
-    });
-</script>
 
 @endsection
