@@ -263,17 +263,17 @@
         background-color: #28a745;
         color: white;
         padding: 15px 25px;
-        border-radius: 10px 10px 0 0; /* Rounded top corners */
+        border-radius: 10px 10px 0 0;
         border: none;
         cursor: pointer;
         font-size: 16px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        width: 120px;  /* Adjust width as needed */
+        width: 120px;  
         text-align: center;
     }
 
     .chat-btn:hover {
-        background-color: #218838; /* Slightly darker green on hover */
+        background-color: #218838; 
     }
 
     /* Chat Modal (Optional) */
@@ -307,24 +307,20 @@
         font-size: 20px;
         color: #333;
     }
-    /* Adjusting card dimensions and layout */
     .product-card {
-        width: 13rem; /* Adjust width */
+        width: 13rem; 
         height: auto;
-        margin-bottom: 15px; /* Reduce margin between product cards */
+        margin-bottom: 15px; 
     }
-
-    /* Ensuring uniform image display */
     .product-card img {
         width: 100%;
-        height: 180px; /* Uniform image height */
+        height: 180px; 
         object-fit: cover;
         border-radius: 5px 5px 0 0;
     }
 
-    /* Adjusting card body padding */
     .product-card .card-body {
-        padding: 8px; /* Reduce padding for compact look */
+        padding: 8px; 
     }
 
     .product-card .card-title {
@@ -336,32 +332,27 @@
     .product-card .card-text {
         font-size: 13px;
     }
-
-    /* Reducing margin and padding in container */
     .featured-products-container,
     .allproduct-products-container {
-        padding: 10px 0; /* Reduce top/bottom padding of container */
+        padding: 10px 0; 
     }
-
-    /* Adjusting row spacing */
     .featured-products-row,
     .allproduct-products-row {
         margin-left: 0;
         margin-right: 0;
-        gap: 5px; /* Add gap between product cards */
+        gap: 5px; 
     }
     .btn-link-custom{
         color:#218838;
         border: none;
-        outline: none; /* Remove the outline that appears when focused */
-        box-shadow: none; /* Remove the default focus shadow */
+        outline: none; 
+        box-shadow: none; 
     }
     .btn .btn-link-custom:focus,
     .btn .btn-link-custom:active {
-        outline: none; /* Remove any focus outline */
-        box-shadow: none; /* Remove the box shadow on click/hold */
+        outline: none;
+        box-shadow: none; 
     }
-    /* Container for the floating buttons */
     .floating-buttons {
         position: fixed;
         bottom: 20px;
@@ -370,15 +361,15 @@
         display: flex;
         flex-direction: row;
         align-items: flex-end;
-        gap: 15px; /* Space between the buttons */
+        gap: 15px;
     }
 
-    /* Style for Add Product button */
+   
     .btn-add-product {
-        background-color: #218838; /* Dark red background */
+        background-color: #218838; 
         color: white;
         padding: 10px 20px;
-        border-radius: 30px; /* Rounded corners */
+        border-radius: 30px; 
         border: none;
         font-size: 16px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -387,9 +378,9 @@
         align-items: center;
     }
 
-    /* Style for Settings (cog) button */
+   
     .btn-settings {
-        background-color: #218838; /* Dark red background */
+        background-color: #218838;
         color: white;
         padding: 12px;
         border-radius: 50%;
@@ -402,11 +393,11 @@
         align-items: center;
     }
 
-    /* Add hover effect */
+
     .btn-add-product:hover, .btn-settings:hover {
-        background-color: #1a692b; /* Slightly darker red on hover */
+        background-color: #1a692b; 
     }
-    /* Modal related styles */
+
     .modal {
         display: none;
         position: fixed;
@@ -436,12 +427,12 @@
         right: 20px;
         top: 20px;
         cursor: pointer;
-        background: none; /* Remove background */
-        border: none; /* Remove border */
-        font-size: 20px; /* Adjust size */
-        color: #333; /* Adjust color */
-        padding: 5px; /* Optional padding for better spacing */
-        outline: none; /* Remove focus outline */
+        background: none; 
+        border: none;
+        font-size: 20px; 
+        color: #333; 
+        padding: 5px;
+        outline: none;
         font-size:30px;
     }
     /* Modal-specific product card adjustments */
@@ -455,21 +446,20 @@
         object-fit: cover;
     }
     .btn-custom {
-        background-color: #228b22; /* Custom background color */
-        border-color: #228b22; /* Custom border color */
-        color: #fff; /* Custom text color */
+        background-color: #228b22; 
+        border-color: #228b22; 
+        color: #fff; 
     }
     .btn-custom:hover,
     .btn-custom:focus {
-        background-color: #fafafa;; /* Custom hover background color */
-        border-color: #228b22;; /* Custom hover border color */
+        background-color: #fafafa;; 
+        border-color: #228b22;; 
         color: black;
     }
     .btn-select{
-        border-color: #228b22; /* Custom border color */
+        border-color: #228b22; 
         color: #333;
     }
-    /* Basic button styling */
 
     #card1, #card2 {
         position: relative;
@@ -478,13 +468,13 @@
     }
 
     #editButtons1, #editButtons2 {
-        display: none; /* Initially hidden */
+        display: none;
         position: absolute;
         bottom: 20px;
         right: 20px;
         z-index: 10;
-        gap: 10px; /* Add spacing between buttons */
-        flex-direction: row; /* Ensure buttons are aligned horizontally */
+        gap: 10px; 
+        flex-direction: row; 
     }
     .modal-backdrop{
         display: none;
@@ -566,22 +556,21 @@
     .search-container, .search-icon{
         display: none;
     }
-    /* Default state for all tabs */
     .nav-tabs .nav-link {
-        color: black !important; /* Default color is black */
-        background-color: transparent !important; /* Keep background transparent */
+        color: black !important;
+        background-color: transparent !important; 
     }
 
     /* Active state for the clicked tab */
     .nav-tabs .nav-link.active {
-        color: #228b22 !important; /* Active tab color */
-        font-weight: bold; /* Optional: Make active tab bold */
-        background-color: transparent !important; /* Optional: Keep background transparent */
+        color: #228b22 !important;
+        font-weight: bold; 
+        background-color: transparent !important; 
     }
 
     /* Hover effect (optional) */
     .nav-tabs .nav-link:hover {
-        color: #228b22 !important; /* Change color on hover */
+        color: #228b22 !important; 
     }
 
 </style>
