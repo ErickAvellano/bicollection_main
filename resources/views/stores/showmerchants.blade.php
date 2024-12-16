@@ -153,11 +153,6 @@
                     
                         <!-- Shop Name and Edit -->
                         <div style="display: flex; flex-direction: column;">
-                            <!-- Edit Button -->
-                            <div>
-                                <a href="#" class="text-primary" style="font-size: 0.9em;" onclick="editShopName()">Edit Name</a>
-                            </div>
-                    
                             <!-- Shop Name -->
                             <h4 class="fw-bold mb-0" id="shopName" contenteditable="true" style="cursor: text; display: inline-block;">
                                 {{ $shop->shop_name }} 
