@@ -137,7 +137,7 @@
                 <div class="card shadow-sm rounded-lg" style="position: relative; overflow: hidden; border: 2px solid #6c5ce7;">
                     <!-- Cover Image -->
                     <div style="height: 180px; overflow: hidden;">
-                        <img src="{{ asset('images/shops/' . $shop->coverphotopath) }}" 
+                        <img src="{{ $shop->coverphotopath ? Storage::url($shop->coverphotopath) : asset('images/default-bg.jpg') }}" 
                              alt="Cover Photo" 
                              class="w-100" 
                              style="object-fit: cover; height: 100%;">
@@ -145,7 +145,7 @@
 
                     <!-- Profile Image -->
                     <div style="position: absolute; top: 130px; left: 20px;">
-                        <img src="{{ asset('images/shops/' . $shop->shop_img) }}" 
+                        <img src="{{ $shop->shop_img ? Storage::url($shop->shop_img) : ('images/assets/default_profile.png') }}" 
                              alt="Shop Profile" 
                              class="rounded-circle border border-2 border-white" 
                              style="width: 80px; height: 80px; object-fit: cover;">
