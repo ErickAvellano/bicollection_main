@@ -141,6 +141,13 @@
                              alt="Cover Photo"
                              class="w-100"
                              style="object-fit: cover; height: 100%;">
+                             <div style="
+                                position: absolute;
+                                top: 0; left: 0;
+                                width: 100%; height: 100%;
+                                background: rgba(0, 0, 0, 0.4); /* Darker overlay with transparency */
+                                pointer-events: none;">
+                            </div>
                     </div>
 
                     <!-- Profile Image -->
@@ -151,7 +158,7 @@
                              class="rounded-circle border border-2 border-white me-3"
                              style="width: 100px; height: 100px; object-fit: cover;">
                         <!-- Shop Name -->
-                        <div style="position: absolute; top: 10px; left: 110px; width:500px; display: flex; flex-direction: column;">
+                        <div style="position: absolute; top: 10px; left: 110px; width:400px; display: flex; flex-direction: column;">
                             <!-- Shop Name -->
                             <h5 class="fw-bold mb-0" id="shopName" style="display: inline-block;">
                                 {{ $shop->shop_name }}
