@@ -148,7 +148,7 @@
                         <img src="{{ $shop->shop_img ? Storage::url($shop->shop_img) : ('images/assets/default_profile.png') }}" 
                              alt="Shop Profile" 
                              class="rounded-circle border border-2 border-white" 
-                             style="width: 80px; height: 80px; object-fit: cover;">
+                             style="width: 100px; height: 100px; object-fit: cover;">
                     </div>
 
                     <!-- Shop Content -->
