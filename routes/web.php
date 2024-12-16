@@ -46,6 +46,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 Route::get('/categories', [CategoryController::class, 'showCategories'])->name('categories');
 Route::get('/categories/{category_name}/products', [CategoryController::class, 'showProduct'])->name('category.product');
 Route::get('/subcategory/{subcategory}/products', [CategoryController::class, 'showSubProducts'])->name('subcategory.products');
+Route::get('/merchants', [StoreController::class, 'showMerchants'])->name('merchants.index');
 
 
 Route::middleware('auth')->group(function () {

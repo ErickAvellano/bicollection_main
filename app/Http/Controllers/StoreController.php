@@ -7,7 +7,7 @@ use App\Models\Shop;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ShopDesign;
-
+use App\Models\Application;
 class StoreController extends Controller
 {
     public function viewStore($shopId)
@@ -60,5 +60,29 @@ class StoreController extends Controller
         // Fallback if the tab is not valid
         return response('Not Found', 404);
     }
+    public function showMerchants()
+    {
+        // Fetch all verified shops with their related applications
+        $shops = Shop::with('applications')
+            ->select(
+                'shop_id',
+                'merchant_id',
+                'shop_name',
+                'description',
+                'shop_img',
+                'coverphotopath',
+                'shop_street',
+                'province',
+                'city',
+                'barangay',
+                'verification_status'
+            )
+            ->where('verification_status', 'Verified')
+            ->get();
+
+        // Pass the data to the Blade file
+        return view('stores.showmerchants', compact('shops'));
+    }
+
 
 }

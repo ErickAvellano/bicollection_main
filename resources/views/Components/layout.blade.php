@@ -327,7 +327,7 @@
                     </li>
                     <!-- Other menu items -->
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa-solid fa-store pills-icon"></i> Stores</a>
+                        <a class="nav-link" href="{{ route('merchants.index') }}"><i class="fa-solid fa-store pills-icon"></i> Merchants</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('merchant.customize') }}"><i class="fa-regular fa-pen-to-square pills-icon"></i> Customize a Product</a>
@@ -410,7 +410,7 @@
             @else
                 <a href="#">
                     <i class="fa-solid fa-cog"></i>
-                    <span class="login-text ms-2">Guest</span> <!-- Display something for non-logged-in users -->
+                    <span class="login-text ms-2">Guest</span> <!--non-logged-in users -->
                 </a>
                 <a href="{{ route('login') }}">
                     Login <i class="fas fa-sign-in-alt"></i>
@@ -518,7 +518,7 @@
             // Function to fetch and update cart data in popover
             function updateCartPopover() {
                 $.ajax({
-                    url: '/cart-tooltip',  // Ensure this route is correct
+                    url: '/cart-tooltip',
                     type: 'GET',
                     success: function (response) {
                         let content = '';
@@ -554,7 +554,7 @@
                                     <hr>`;
                             });
 
-                            content += `</div>`; // End of the scrollable container
+                            content += `</div>`;
                             content += `
                                 <p style="margin-bottom:0; padding:0px 20px;" class="text-end"><strong>Total: ₱${response.totalCartAmount}</strong></p>
                                 <div style="text-align: center;">
@@ -571,7 +571,7 @@
                             document.querySelectorAll('.remove-item').forEach(button => {
                                 button.addEventListener('click', function () {
                                     const cartId = this.getAttribute('data-cart-id');
-                                    removeCartItem(cartId);  // Call the function to remove the item
+                                    removeCartItem(cartId);
                                 });
                             });
                         }
@@ -594,10 +594,10 @@
             // Function to remove cart item via AJAX
             function removeCartItem(cart_id) {
                 $.ajax({
-                    url: `/cart/remove/${cart_id}`,  // Ensure the URL matches your delete route
+                    url: `/cart/remove/${cart_id}`,
                     type: 'DELETE',
                     headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  // Include CSRF token in headers
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function (response) {
                         if (response.success) {
@@ -622,7 +622,7 @@
             // Function to update cart count in the icon
             function updateCartCount() {
                 $.ajax({
-                    url: '{{ route("cart.count") }}',  // Ensure this URL matches your route for fetching cart count
+                    url: '{{ route("cart.count") }}',
                     type: 'GET',
                     success: function (response) {
                         $('#cart-count').text(response.cartItemCount);
@@ -655,10 +655,10 @@
         // Function to update cart count in the icon
         function updateCartCount() {
             $.ajax({
-                url: '{{ route("cart.count") }}', // Ensure this URL matches your route for fetching cart count
+                url: '{{ route("cart.count") }}',
                 type: 'GET',
                 success: function(response) {
-                    $('#cart-count').text(response.cartItemCount); // Update the cart count span with the value from the server
+                    $('#cart-count').text(response.cartItemCount);
                 },
                 // error: function() {
                 //     console.error('Failed to load cart item count');
@@ -666,7 +666,7 @@
             });
         }
 
-        // On page load, update the cart count
+        // update the cart count
         $(document).ready(function () {
             updateCartCount(); // Update the cart count on page load
         });
@@ -677,19 +677,19 @@
         $(document).on('click', '.add-to-cart', function (e) {
             e.preventDefault();
 
-            const productId = $(this).data('product-id'); // Get the product ID
+            const productId = $(this).data('product-id');
 
             $.ajax({
                 url: `/cart/add/${productId}`,
                 type: 'POST',
                 data: {
-                    _token: $('meta[name="csrf-token"]').attr('content') // CSRF token
+                    _token: $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function (response) {
                     if (response.success) {
                         // Reset modal content
                         $('#productName').text('');
-                        $('#productDetails select').remove(); // Remove any previous dropdowns
+                        $('#productDetails select').remove();
                         $('#quantity').text('');
                         $('#cartTotal').text('');
                         $('#productImage').attr('src', '');
@@ -717,17 +717,17 @@
 
                         // Replace the existing dropdown dynamically
                         $('#productDetails')
-                            .find('select#variationSelect') // Locate the existing dropdown
-                            .remove(); // Remove the old dropdown to avoid duplicates
+                            .find('select#variationSelect')
+                            .remove(); /
 
                         // Add the new dropdown HTML after the label
                         $('#productDetails')
-                            .find('label[for="variation-Select"]') // Target the label for the dropdown
+                            .find('label[for="variation-Select"]')
                             .after(dropdownHTML);
 
                         // Populate the new dropdown dynamically with variations
                         const variationSelect = $(`#variation-select-${response.cart_id}`);
-                        variationSelect.empty(); // Clear any existing options
+                        variationSelect.empty();
 
                         if (response.product_variations && response.product_variations.length > 0) {
                             response.product_variations.forEach(variation => {
@@ -799,7 +799,7 @@
                                     // Check if image URL exists and create an image element
                                     if (product.image_url) {
                                         const productImage = document.createElement('img');
-                                        productImage.src = product.image_url; // Use the provided image URL from the backend
+                                        productImage.src = product.image_url;
                                         productImage.alt = product.product_name;
                                         productImage.style.width = '40px';
                                         productImage.style.height = '40px';
@@ -892,7 +892,7 @@
                                         style="max-height: 350px; overflow-y: auto; overflow-x: hidden; font-family: Arial, sans-serif;">`;
 
                             data.orders.forEach(function (order) {
-                                if (order.order_status === 'pending') { // Only show pending orders
+                                if (order.order_status === 'pending') {
                                     content += `
                                         <div class="mb-3 card">
                                             <div class="card-body">
@@ -929,7 +929,7 @@
                                 }
                             });
 
-                            content += `</div>`; // Close orders container
+                            content += `</div>`;
                         }
 
                         // Inject the content into the popover
@@ -963,7 +963,7 @@
             // Show order popover and fetch data when hovering over the icon
             orderIcon.addEventListener('mouseenter', function () {
                 isHoveringIcon = true;
-                updateOrdersPopover(); // Fetch and update the orders data
+                updateOrdersPopover();
                 orderPopover.show();
             });
 
@@ -995,13 +995,13 @@
     <script>
         // Function to update the order count in the icon
         function updateOrderCount() {
-            const orderCountBadge = document.getElementById('order-count'); // Check if the badge element exists
-            const orderIcon = document.getElementById('orderIcon'); // Check if the icon element exists
+            const orderCountBadge = document.getElementById('order-count'); /
+            const orderIcon = document.getElementById('orderIcon');
 
             // Proceed only if both elements exist
             if (orderCountBadge && orderIcon) {
                 $.ajax({
-                    url: '/order-count',  // Ensure this URL matches your route for fetching order count
+                    url: '/order-count',
                     type: 'GET',
                     success: function(response) {
                         // Check if response and orderCount exist
@@ -1010,9 +1010,9 @@
 
                             // Update the order count span if there are orders
                             if (orderCount > 0) {
-                                $('#order-count').text(orderCount).show(); // Show the badge with the order count
+                                $('#order-count').text(orderCount).show();
                             } else {
-                                $('#order-count').hide(); // Hide the badge if no orders
+                                $('#order-count').hide();
                             }
                         }
                     },
@@ -1029,11 +1029,11 @@
         $(document).ready(function () {
             updateOrderCount(); // Update the order count on page load
 
-            // Refresh order count periodically (e.g., every 30 seconds)
+            // Refresh order count every 30 seconds
             setInterval(updateOrderCount, 30000);
         });
 
-        // Ensure badge stays visible when hovering over the icon or popover
+        // badge stays visible when hovering over the icon or popover
         document.addEventListener('DOMContentLoaded', function () {
             const orderIcon = document.getElementById('orderIcon');
             const orderCountBadge = document.getElementById('order-count');
@@ -1041,15 +1041,15 @@
             if (orderIcon && orderCountBadge) {
                 orderIcon.addEventListener('mouseenter', function () {
                     if (parseInt(orderCountBadge.textContent) > 0) {
-                        orderCountBadge.style.display = 'inline-block'; // Ensure badge is visible
+                        orderCountBadge.style.display = 'inline-block';
                     }
                 });
 
                 orderIcon.addEventListener('mouseleave', function () {
                     if (parseInt(orderCountBadge.textContent) > 0) {
-                        orderCountBadge.style.display = 'inline-block'; // Keep badge visible if there are orders
+                        orderCountBadge.style.display = 'inline-block';
                     } else {
-                        orderCountBadge.style.display = 'none'; // Hide badge if no orders
+                        orderCountBadge.style.display = 'none';
                     }
                 });
             }
@@ -1057,22 +1057,22 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const dropdown = document.querySelector('.dropdown'); // Get the dropdown element
-            const dropdownToggle = document.querySelector('.dropdown-toggle'); // Dropdown toggle (link or button)
-            const dropdownMenu = document.querySelector('.dropdown-menu'); // Dropdown menu
+            const dropdown = document.querySelector('.dropdown');
+            const dropdownToggle = document.querySelector('.dropdown-toggle');
+            const dropdownMenu = document.querySelector('.dropdown-menu');
 
             // Show dropdown on hover
             dropdown.addEventListener('mouseenter', function () {
-                dropdownToggle.classList.add('show'); // Add Bootstrap's "show" class
-                dropdownMenu.classList.add('show'); // Add Bootstrap's "show" class to display the dropdown
-                dropdownMenu.style.display = 'block'; // Optional for extra control
+                dropdownToggle.classList.add('show');
+                dropdownMenu.classList.add('show');
+                dropdownMenu.style.display = 'block';
             });
 
             // Hide dropdown when mouse leaves
             dropdown.addEventListener('mouseleave', function () {
-                dropdownToggle.classList.remove('show'); // Remove the "show" class
-                dropdownMenu.classList.remove('show'); // Remove the "show" class
-                dropdownMenu.style.display = 'none'; // Optional for extra control
+                dropdownToggle.classList.remove('show');
+                dropdownMenu.classList.remove('show');
+                dropdownMenu.style.display = 'none';
             });
              dropdownToggle.addEventListener('click', function (e) {
             e.preventDefault();
@@ -1082,22 +1082,22 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const dropdown = document.querySelector('.dropdown'); // Get the dropdown element
-            const customdropdownToggle = document.querySelector('.custom-dropdown-toggle'); // Dropdown toggle (link or button)
-            const dropdownMenu = document.querySelector('.dropdown-menu'); // Dropdown menu
+            const dropdown = document.querySelector('.dropdown');
+            const customdropdownToggle = document.querySelector('.custom-dropdown-toggle');
+            const dropdownMenu = document.querySelector('.dropdown-menu');
 
             // Show dropdown on hover
             dropdown.addEventListener('mouseenter', function () {
-                customdropdownToggle.classList.add('show'); // Add Bootstrap's "show" class
-                dropdownMenu.classList.add('show'); // Add Bootstrap's "show" class to display the dropdown
-                dropdownMenu.style.display = 'block'; // Optional for extra control
+                customdropdownToggle.classList.add('show');
+                dropdownMenu.classList.add('show');
+                dropdownMenu.style.display = 'block';
             });
 
             // Hide dropdown when mouse leaves
             dropdown.addEventListener('mouseleave', function () {
-                customdropdownToggle.classList.remove('show'); // Remove the "show" class
-                dropdownMenu.classList.remove('show'); // Remove the "show" class
-                dropdownMenu.style.display = 'none'; // Optional for extra control
+                customdropdownToggle.classList.remove('show');
+                dropdownMenu.classList.remove('show');
+                dropdownMenu.style.display = 'none';
             });
                 dropdownToggle.addEventListener('click', function (e) {
             e.preventDefault();
@@ -1116,7 +1116,7 @@
                 url: `/favorites/toggle/${productId}`,
                 type: 'POST',
                 data: {
-                    _token: $('meta[name="csrf-token"]').attr('content') // Include CSRF token
+                    _token: $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function (response) {
                     if (response.success) {
@@ -1125,7 +1125,7 @@
                             // Change to unfavorite state
                             button.removeClass('btn-outline-danger').addClass('btn-danger');
                             button.find('i').addClass('text-white');
-                            button.attr('title', 'Unfavorite'); // Update title
+                            button.attr('title', 'Unfavorite');
 
                             // Show success modal
                             $('#favoriteModalMessage').text('Product has been added to favorites!');
@@ -1133,13 +1133,13 @@
                             // Change to favorite state
                             button.removeClass('btn-danger').addClass('btn-outline-danger');
                             button.find('i').removeClass('text-white');
-                            button.attr('title', 'Favorite'); // Update title
+                            button.attr('title', 'Favorite');
 
-                            // Show success modal
+
                             $('#favoriteModalMessage').text('Product has been removed from favorites!');
                         }
 
-                        // Display the modal
+
                                   $('#favoriteSuccessModal').modal('show');
                         setTimeout(function () {
                             $('#favoriteSuccessModal').modal('hide');
@@ -1149,7 +1149,7 @@
                     }
                 },
                 error: function (xhr) {
-                    console.error(xhr.responseText); // Log full error response
+                    console.error(xhr.responseText);
                 }
             });
         });
@@ -1160,7 +1160,7 @@
                 url: '{{ route('favorites.count') }}',
                 type: 'GET',
                 success: function (response) {
-                    $('#favorites-count').text(response.count); // Update the badge count
+                    $('#favorites-count').text(response.count);
                 },
                 error: function (xhr) {
                     console.error('Failed to fetch favorites count:', xhr.responseText);
@@ -1172,13 +1172,13 @@
         $(document).ready(function () {
             updateFavoritesCount();
         });
-        // Optionally, call it after favorite toggle success
+
         $(document).on('click', '.favorite-button', function () {
-            setTimeout(updateFavoritesCount, 500); // Delay to allow backend to update
+            setTimeout(updateFavoritesCount, 500);
         });
 
     </script>
- 
+
     @yield('scripts')
 </body>
 </html>

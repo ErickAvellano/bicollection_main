@@ -57,7 +57,7 @@ class Shop extends Model
     }
     public function applications()
     {
-        return $this->hasMany(Application::class, 'shop_id', 'shop_id');
+        return $this->hasOne(Application::class, 'shop_id', 'shop_id');
     }
 
     public function merchant()
