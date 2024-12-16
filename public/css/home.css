@@ -1,31 +1,31 @@
-/* General Styles */
+
 body {
     font-family: "Futura PT", sans-serif;
     background: #fafafa;
     margin: 0;
 }
 .navbar {
-    background-color: #228b22; /* Green background */
-    padding: 0 70px; /* Padding left and right */
+    background-color: #228b22; 
+    padding: 0 70px; 
     margin: 0;
     width: 100%;
-    z-index: 1000; /* Stay above other content */
-    transition: all 0.3s ease; /* Smooth transition for all changes */
+    z-index: 1000;
+    transition: all 0.3s ease; 
 }
 .text-custom{
     color: #228b22;
 }
 
 
-/* Class for fixed navbar */
-    .sticky {
-    position: fixed; /* Fix position when sticky */
-    top: 0; /* Always at the top */
+
+.sticky {
+    position: fixed; 
+    top: 0;
     left: 0;
     right: 0;
 }
 .content {
-    height: 2000px; /* Just for demonstration, make body tall enough to scroll */
+    height: 2000px; 
 }
 
 .spinner-medium {
@@ -35,14 +35,14 @@ body {
 
 .nav-pills{
     padding:3px;
-    transition: all 0.3s ease; /* Smooth transition for all changes */
+    transition: all 0.3s ease; 
 }
 .fixed-nav {
     position: fixed;
     top: 65px;
     left: 0;
     right: 0;
-    z-index: 999; /* Ensure it stays above other content */
+    z-index: 999; 
 }
 .pills-icon{
     color:#228b22;
@@ -60,45 +60,45 @@ body {
     font-size: 30px;
     margin: 0;
     display: flex;
-    align-items: center; /* Vertically center the brand text */
+    align-items: center; 
 }
 
 .navbar-brand .text-color2 {
-    color: #fafafa; /* Yellow color */
+    color: #fafafa; 
 }
 
 .navbar-toggler {
     display: flex;
-    align-items: center; /* Center vertically */
-    justify-content: center; /* Center horizontally */
-    border: none; /* Remove any border if present */
-    background-color: transparent; /* Make background transparent */
+    align-items: center;
+    justify-content: center;
+    border: none; 
+    background-color: transparent; 
     padding-left: 10px;
 }
 
 .navbar-toggler .fa-bars {
-    color: white; /* Change to your desired color */
-    font-size: 1.3em; /* Adjust size as needed */
+    color: white; 
+    font-size: 1.3em; 
 }
 .navbar-toggler .fa-bars:active,
 .navbar-toggler .fa-bars:focus {
     color:
-    outline: none; /* Remove outline */
-    border-shadow: none; /* Remove border */
+    outline: none; 
+    border-shadow: none; 
     box-shadow: none;
 }
 .navbar-toggler.custom-toggler:focus,
 .navbar-toggler.custom-toggler:active {
-    outline: none; /* Remove outline */
-    border: none; /* Remove border */
+    outline: none; 
+    border: none;
 }
 
 .navbar-nav {
     display: flex;
-    align-items: center; /* Vertically center nav items */
-    margin: 0; /* Remove default margin */
-    padding: 0; /* Remove default padding */
-    list-style: none; /* Remove default list style */
+    align-items: center; 
+    margin: 0; 
+    padding: 0; 
+    list-style: none;
 }
 .container-fluid {
     padding: 5px 0;
@@ -106,16 +106,16 @@ body {
 .navbar-nav .nav-item {
     display: flex;
     align-items: center;
-    margin: 0 5px; /* Add margin between items */
-    padding: 0; /* Remove default padding */
+    margin: 0 5px; 
+    padding: 0; 
 }
 
 .navbar-nav .nav-link {
     color: white;
     font-size: 20px;
     display: flex;
-    align-items: center; /* Vertically center link content */
-    padding: 10px; /* Add padding inside the links */
+    align-items: center;
+    padding: 10px; 
     margin: 0;
 }
 
@@ -171,7 +171,7 @@ body {
     width: 20px;
     height:20px;
     text-align: center;
-    opacity: 0.7; /* You can adjust opacity */
+    opacity: 0.7;
 }
 
 .navbar-nav .application .nav-link::after {
@@ -203,7 +203,7 @@ body {
     width: 20px;
     height:20px;
     text-align: center;
-    opacity: 0.7; /* You can adjust opacity */
+    opacity: 0.7; 
 }
 .navbar-nav .payment .nav-link::after {
     content: "0";
@@ -234,7 +234,7 @@ body {
     width: 20px;
     height:20px;
     text-align: center;
-    opacity: 0.7; /* You can adjust opacity */
+    opacity: 0.7;
 }
 
 
@@ -251,7 +251,7 @@ body {
 
 /* Popover arrow customization */
 .bs-popover-auto .arrow::before {
-    background-color: #f8f9fa !important; /* Change arrow color to match background */
+    background-color: #f8f9fa !important; 
 }
 
 .orderpover{
@@ -261,7 +261,7 @@ body {
 
 /* Popover arrow customization */
 .orderpover .arrow::before {
-    background-color: #f8f9fa !important; /* Change arrow color to match background */
+    background-color: #f8f9fa !important;
 }
 
 
@@ -278,20 +278,19 @@ body {
 }
 
 .cart-items-container {
-    max-height: 200px; /* Adjust the height as per your requirements */
-    overflow-y: auto;  /* Enable scrolling if content exceeds max height */
-    padding-right: 10px; /* Add padding to prevent scrollbar from overlapping content */
+    max-height: 200px; 
+    overflow-y: auto;  
+    padding-right: 10px; 
 }
 
-/* Add some custom styles to improve the look and feel */
 .cart-item {
     margin-bottom: 10px;
     padding: 5px 0;
-    border-bottom: 1px solid #ddd; /* Add a subtle border to separate items */
+    border-bottom: 1px solid #ddd;
 }
 
 .cart-item img {
-    border-radius: 5px; /* Add slight rounding to the product images */
+    border-radius: 5px;
 }
 
 .cart-item button.remove-item {
@@ -307,11 +306,11 @@ body {
         color: #000;
     }
     .product-link:hover {
-        color: #228b22; /* Change color on hover, for example to a blue shade */
+        color: #228b22; 
     }
     .form-control .search-control {
         border-radius: 20px;
-        padding-right: 2.5rem; /* Space for the icon */
+        padding-right: 2.5rem;
         width:400px !important;
     }
 
@@ -325,7 +324,7 @@ body {
         color: #212529;
         background-color: #fff;
         background-clip: padding-box;
-        border: 1px solid #228b22; /* Changed border color */
+        border: 1px solid #228b22; 
         border-radius: 0.25rem;
         transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     }
@@ -334,9 +333,9 @@ body {
     .form-control:focus {
         color: #212529;
         background-color: #fff;
-        border-color: #228b22; /* Changed focus border color */
+        border-color: #228b22; 
         outline: 0;
-        box-shadow: 0 0 0 0.25rem rgba(34, 139, 34, 0.25); /* Changed focus shadow color */
+        box-shadow: 0 0 0 0.25rem rgba(34, 139, 34, 0.25); 
     }
 
     /* Disabled state */
@@ -367,8 +366,8 @@ body {
     }
 
     .form-select:focus {
-        border-color: #228b22; /* Changed select focus border color */
-        box-shadow: 0 0 0 0.25rem rgba(34, 139, 34, 0.25); /* Changed select focus shadow color */
+        border-color: #228b22; 
+        box-shadow: 0 0 0 0.25rem rgba(34, 139, 34, 0.25); 
     }
     .return-hidden-icon{
         display:none;
@@ -405,14 +404,14 @@ body {
 }
 
 .login-text {
-    color: white; /* Text color */
-    line-height: 1.2; /* Adjust line height for better spacing */
-    font-size: 13px; /* Font size */
+    color: white; 
+    line-height: 1.2; 
+    font-size: 13px;
     margin: 0;
 }
 
 .login-text:hover {
-    color: #ffd700; /* Text color on hover */
+    color: #ffd700; 
 }
 
 .fa-user,
@@ -433,9 +432,9 @@ body {
 }
 
 .navbar-nav .nav-link span {
-    line-height: normal; /* Reset line height */
-    vertical-align: middle; /* Align text vertically */
-    margin-left: 5px; /* Adjust as needed */
+    line-height: normal; 
+    vertical-align: middle; 
+    margin-left: 5px; 
 }
 
 .cart-text {
@@ -458,7 +457,7 @@ body {
     transition: 0.5s;
     display: flex;
     flex-direction: column;
-    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3); /* Stronger shadow */
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
     padding-top: 24px;
 }
 
@@ -487,7 +486,7 @@ body {
     list-style-type: none;
     padding: 0;
     margin: 0;
-    flex-grow: 1; /* Allow the ul to grow and fill the available space */
+    flex-grow: 1; 
 }
 
 .sidebar ul li {
@@ -539,7 +538,7 @@ body {
 
 /* Nav links color */
 .secondary-menu .nav-link {
-    font-weight: bold; /* Bold text */
+    font-weight: bold;
     color:#212529;
 }
 
@@ -549,7 +548,7 @@ body {
 .category-sidebar {
     position: fixed;
     top: 0;
-    right: -350px; /* Initially hide off-screen */
+    right: -350px; 
     width: 350px;
     height: 100%;
     background-color: #f9f9f9;
@@ -561,7 +560,7 @@ body {
 }
 
 .category-sidebar.show {
-    right: 0; /* Slide in the sidebar */
+    right: 0; 
 }
 
 .sidebar-header {
@@ -580,36 +579,35 @@ body {
     cursor: pointer;
 }
 .custom-dropdown-width {
-    width: 1000px; /* Set this to the desired width */
+    width: 1000px; 
 }
 
 .btn-custom {
-    background-color: #228b22; /* Custom background color */
-    border-color: #228b22; /* Custom border color */
-    color: #fff; /* Custom text color */
+    background-color: #228b22; 
+    border-color: #228b22;
+    color: #fff; 
 }
 
 .btn-custom:hover,
 .btn-custom:focus {
-    background-color: #fafafa; /* Custom hover background color */
-    border-color: #228b22; /* Custom hover border color */
+    background-color: #fafafa; 
+    border-color: #228b22; 
     color: #228b22;
 }
 
 .nav-item.dropdown:hover .dropdown-menu {
-    display: block;            /* Show the dropdown on hover */
-    margin-top: 0;             /* Remove any excess margin */
-    top: 101%;                 /* Position directly below the parent */
-    left: 0;                   /* Align with the parent element */
-    transform: none;           /* Remove Bootstrap's default transform */
-    position: absolute;        /* Ensure it is positioned relative to the parent */
-    z-index: 1000;             /* Keep it above other content */
+    display: block;        
+    margin-top: 0;        
+    top: 101%;                
+    left: 0;                  
+    transform: none;          
+    position: absolute;       
+    z-index: 1000;           
 }
 
-/* Optional: Fine-tune padding if needed */
 .dropdown-menu {
-    padding: 0.5rem 0.5rem; /* Adjust padding for better spacing */
-    --bs-dropdown-link-active-bg: transparent; /* Or set to your desired color */
+    padding: 0.5rem 0.5rem; 
+    --bs-dropdown-link-active-bg: transparent; 
     --bs-dropdown-link-color: #000000;
 }
 
@@ -620,36 +618,36 @@ body {
 
 /* Initially hide the hover content */
 .category-hover-content {
-    visibility: hidden;  /* Hidden initially */
+    visibility: hidden;  
     opacity: 0;
     position: absolute;
     top: 0;
     left: 0;
-    background: rgba(0, 0, 0, 0.6);  /* Semi-transparent background */
+    background: rgba(0, 0, 0, 0.6); 
     color: #fff;
     width: 100%;
     padding: 10px;
     text-align: center;
-    transition: opacity 0.3s ease, visibility 0s 0.3s;  /* Smooth transition for opacity */
+    transition: opacity 0.3s ease, visibility 0s 0.3s;  
 }
 
 /* Show hover content on hover */
 .category-item:hover .category-hover-content {
-    visibility: visible; /* Make content visible */
-    opacity: 1;  /* Fade in */
-    transition: opacity 0.3s ease, visibility 0s 0s;  /* Instant visibility change */
+    visibility: visible; 
+    opacity: 1; 
+    transition: opacity 0.3s ease, visibility 0s 0s;  
 }
 
 /* Category box style */
 .category-box {
-    height: 100px; /* Adjust the height as needed */
-    border: 2px solid #4CAF50; /* Optional: Green border */
+    height: 100px; /
+    border: 2px solid #4CAF50;
     position: relative;
 }
 
 /* Image inside category box */
 .category-box img {
-    object-fit: cover;  /* Ensure the image covers the box */
+    object-fit: cover; 
     height: 100%;
     width: 100%;
 }
@@ -657,15 +655,15 @@ body {
 /* Overlay style on category box */
 .category-name-overlay {
     bottom: 0;
-    height: 40px; /* Adjust height as needed */
-    background: linear-gradient(to top, rgba(76, 175, 80, 0.9), rgba(76, 175, 80, 0.1)); /* Green gradient */
+    height: 40px;
+    background: linear-gradient(to top, rgba(76, 175, 80, 0.9), rgba(76, 175, 80, 0.1)); 
 }
 
 /* Optional: Style the category row */
 .row.category {
-    padding: 10px; /* Add some padding inside the border */
-    border-radius: 8px; /* Optional: Rounded corners */
-    background-color: #f9f9f9; /* Optional: Light background */
+    padding: 10px; 
+    border-radius: 8px; 
+    background-color: #f9f9f9; 
 }
 
 /* For dropdown transition effect (for showing/hiding categories) */
@@ -678,7 +676,7 @@ body {
 
 
 .transition-dropdown.show {
-    max-height: 1000px; /* Enough to show the dropdown content */
+    max-height: 1000px; 
     opacity: 1;
 }
     .breadcrumb a {
@@ -741,12 +739,12 @@ body {
 
 /* Sticky class to make the nav fixed at the top */
 .mobile-nav.sticky {
-    display: flex; /* Make it visible when sticky */
+    display: flex;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 
 
@@ -778,65 +776,65 @@ body {
     height: 60px;
 }
 .btn-custom {
-    color: #fff; /* White text color */
-    background-color: #228b22; /* Forest green background */
-    border-color: #228b22; /* Forest green border */
+    color: #fff;
+    background-color: #228b22;
+    border-color: #228b22; 
 }
 
 .btn-custom:hover {
-    color: #fff; /* White text color */
-    background-color: #1c781c; /* Darker forest green on hover */
-    border-color: #1a6e1a; /* Darker border on hover */
+    color: #fff;
+    background-color: #1c781c;
+    border-color: #1a6e1a; 
 }
 
 .btn-custom:focus,
 .btn-custom.focus {
     color: #fff;
-    background-color: #1c781c; /* Darker forest green for focus */
+    background-color: #1c781c; 
     border-color: #1a6e1a;
-    box-shadow: 0 0 0 0.25rem rgba(34, 139, 34, 0.5); /* Green focus outline */
+    box-shadow: 0 0 0 0.25rem rgba(34, 139, 34, 0.5); 
 }
 
 .btn-custom:active,
 .btn-custom.active,
 .show > .btn-custom.dropdown-toggle {
     color: #fff;
-    background-color: #1a6e1a; /* Even darker forest green for active state */
+    background-color: #1a6e1a; 
     border-color: #186618;
 }
 
 .btn-custom:disabled,
 .btn-custom.disabled {
     color: #fff;
-    background-color: #228b22; /* Same color as normal */
+    background-color: #228b22;
     border-color: #228b22;
-    opacity: 0.65; /* Reduced opacity for disabled state */
+    opacity: 0.65; 
 }
 .btn-outline-custom {
-    color: #228b22; /* Forest green text color */
-    background-color: transparent; /* Transparent background */
-    border-color: #228b22; /* Forest green border */
+    color: #228b22; 
+    background-color: transparent; 
+    border-color: #228b22; 
 }
 
 .btn-outline-custom:hover {
-    color: #fff; /* White text on hover */
-    background-color: #228b22; /* Solid forest green background on hover */
-    border-color: #228b22; /* Solid forest green border */
+    color: #fff; 
+    background-color: #228b22; 
+    border-color: #228b22; 
 }
 
 .btn-outline-custom:focus,
 .btn-outline-custom.focus {
     color: #fff;
-    background-color: #228b22; /* Solid forest green for focus */
+    background-color: #228b22;
     border-color: #228b22;
-    box-shadow: 0 0 0 0.25rem rgba(34, 139, 34, 0.5); /* Green focus outline */
+    box-shadow: 0 0 0 0.25rem rgba(34, 139, 34, 0.5);
 }
 
 .btn-outline-custom:active,
 .btn-outline-custom.active,
 .show > .btn-outline-custom.dropdown-toggle {
     color: #fff;
-    background-color: #1c781c; /* Darker forest green for active state */
+    background-color: #1c781c;
     border-color: #1a6e1a;
 }
 
@@ -848,15 +846,15 @@ body {
     opacity: 0.65; /* Reduced opacity for disabled state */
 }
 .full-star {
-    color: #FFD700; /* Gold */
+    color: #FFD700; 
 }
 
 .half-star {
-    color: #FFD700; /* Gold */
+    color: #FFD700; 
 }
 
 .empty-star {
-    color: #C0C0C0; /* Gray */
+    color: #C0C0C0; 
 }
 .check-icon{
     color: #228b22;
@@ -870,8 +868,8 @@ body {
 /* Mobile View: Show mobile navigation, hide desktop navigation */
 @media (max-width: 576px) {
     .navbar {
-        padding-left: 15px; /* Reduce padding for smaller screens */
-        padding-right: 10px; /* Reduce padding for smaller screens */
+        padding-left: 15px; 
+        padding-right: 10px; 
     }
     .nav-link .fa-house,
     .nav-link .fa-table-list,
@@ -890,20 +888,20 @@ body {
     .navbar-brand {
         display: flex;
         align-items: center;
-        font-size: 21px; /* Adjust font size for smaller screens */
+        font-size: 21px;
         margin: 10px 0px 10px 10px;
     }
 
     .navbar-toggler.custom-toggler {
-        padding: 0; /* Remove padding for small screens */
-        margin: 0; /* Ensure no default margin */
+        padding: 0; 
+        margin: 0; 
         box-shadow: none;
     }
     .navbar-nav {
         display: flex;
         align-items: center;
-        margin: 0; /* Ensure no default margin */
-        padding: 0; /* Ensure no default padding */
+        margin: 0;
+        padding: 0; 
         flex-direction: row;
     }
     .fa-user,
@@ -914,10 +912,10 @@ body {
         margin: 0;
     }
     .navbar-nav .nav-link {
-        /* Adjust font size for smaller screens */
+
         display: flex;
         align-items: center;
-        padding: 0 5px; /* Adjust as needed */
+        padding: 0 5px;
         margin: 0;
     }
 
@@ -935,11 +933,11 @@ body {
     }
 
     .mobile-nav {
-        display: flex !important; /* Show mobile navigation */
+        display: flex !important; 
     }
 
     .desktop-nav {
-        display: none !important; /* Hide desktop navigation */
+        display: none !important; 
     }
 
     /* Smooth transitions for collapse */
@@ -953,10 +951,10 @@ body {
 
     /* Mobile Search Form */
     #mobile-search-form {
-        background-color: #228b22; /* Match the navbar background */
+        background-color: #228b22; 
         padding: 10px;
         width: 100%;
-        z-index: 1000; /* Ensure it appears above other content */
+        z-index: 1000; 
         border-radius: 0px 0px 30px 30px;
     }
 }
@@ -964,7 +962,7 @@ body {
 .secondary-menu {
     display: none;
 }
-@media (min-width: 992px) { /* Adjust the breakpoint as needed */
+@media (min-width: 992px) {
     .secondary-menu {
         display: block;
     }
@@ -976,7 +974,7 @@ body {
         padding-right: 0;
     }
     .navbar {
-        padding: 0 30px; /* Adjust padding for tablets */
+        padding: 0 30px;
         flex-wrap: nowrap;
         align-content: normal;
         justify-content: space-betweenm;
@@ -986,24 +984,24 @@ body {
     .navbar-nav {
         display: flex;
         align-items: center;
-        margin: 0; /* Ensure no default margin */
-        padding: 0; /* Ensure no default padding */
+        margin: 0;
+        padding: 0; 
         flex-direction: row;
     }
 
     .navbar-nav .nav-link {
-        font-size: 17px; /* Adjust font size for smaller screens */
+        font-size: 17px; 
         display: flex;
         align-items: center;
-        padding: 0 5px; /* Adjust as needed */
+        padding: 0 5px;
         margin: 0;
     }
     .navbar-brand {
-        font-size: 28px; /* Adjust font size for tablets */
+        font-size: 28px; 
     }
 
     .navbar-nav .nav-link {
-        font-size: 18px; /* Adjust font size for tablets */
+        font-size: 18px;
     }
     .navbar-toggler.custom-toggler {
         box-shadow: none;
@@ -1014,15 +1012,15 @@ body {
 
 
     .form-control {
-        border-radius: 15px; /* Slightly smaller radius for tablets */
-        padding-right: 2rem; /* Slightly smaller padding for tablets */
+        border-radius: 15px; 
+        padding-right: 2rem; 
     }
     .mobile-nav {
-        display: none !important; /* Show mobile navigation */
+        display: none !important; 
     }
 
     .desktop-nav {
-        display: flex !important; /* Hide desktop navigation */
+        display: flex !important;
     }
 }
 @media (max-width: 846px) {
@@ -1034,14 +1032,14 @@ body {
 /* Large Desktop View: Default styles for large desktops */
 @media (min-width: 1025px) {
     .navbar {
-        padding: 0 70px; /* Default padding for large desktops */
+        padding: 0 70px;
     }
 
     .navbar-brand {
-        font-size: 30px; /* Default font size for large desktops */
+        font-size: 30px;
     }
 
     .navbar-nav .nav-link {
-        font-size: 20px; /* Default font size for large desktops */
+        font-size: 20px; 
     }
 }
