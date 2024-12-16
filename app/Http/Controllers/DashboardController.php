@@ -24,11 +24,11 @@ class DashboardController extends Controller
         $user = Auth::user();
         $query = $request->input('search');
         $searchResults = collect();
-        $favorites = []; // Default to an empty array
+        $favorites = [];
         $products = Product::with('merchant.shop')->get();
 
         if (!$user) {
-            // User is not authenticated, redirect to home or login page
+            //redirect to home or login page
             return redirect()->route('home');
         }
 

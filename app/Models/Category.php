@@ -9,19 +9,18 @@ class Category extends Model
 {
     use HasFactory;
 
-    // If your table name doesn't follow Laravel's naming convention (i.e., it's not 'categories')
+
     protected $table = 'category';
     
-    protected $primaryKey = 'category_id'; // Define the actual primary key
+    protected $primaryKey = 'category_id'; 
 
-    public $incrementing = true; // Specify if the primary key is auto-incrementing
+    public $incrementing = true; 
 
-    protected $keyType = 'int'; // Specify the type of the primary key
+    protected $keyType = 'int';
 
-    // Optional: Disable timestamps if they are not used
+    
     public $timestamps = true;
 
-    // The fields that are mass assignable
     protected $fillable = [
         'category_name',
         'category_description',
@@ -29,19 +28,18 @@ class Category extends Model
         'created_at'
     ];
 
-    // This defines a relationship where a category may have subcategories
+
     public function subcategories()
     {
         return $this->hasMany(Category::class, 'parentcategoryID', 'category_id');
     }
 
-    // This defines the inverse relationship, where a category may be a subcategory of another category
+   
     public function parentCategory()
     {
         return $this->belongsTo(Category::class, 'parentcategoryID', 'category_id');
     }
 
-    // You may also have a relationship to products, depending on how your database is structured
     public function products()
     {
         return $this->hasMany(Product::class, 'category_id');

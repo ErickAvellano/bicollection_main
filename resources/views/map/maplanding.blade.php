@@ -263,10 +263,8 @@
                                     <p class="card-text" style="font-size: 13px;"><strong>Price: ${{ $product->price }}</strong></p>
                                     <div class="d-flex justify-content-between">
                                         <a href="#" class="btn btn-primary btn-sm mt-auto">Add to cart</a>
-
-                                        <!-- Heart Icon -->
                                         <button class="btn btn-outline-danger btn-sm wishlist-button" data-product-id="{{ $product->id }}">
-                                            <i class="far fa-heart"></i> <!-- Font Awesome Heart Icon -->
+                                            <i class="far fa-heart"></i> 
                                         </button>
                                     </div>
                                 </div>
@@ -312,17 +310,16 @@
 </div>
 @endsection
 
-@section('script')
 <script>
     document.querySelectorAll('.product-link').forEach(link => {
         link.addEventListener('click', function (e) {
-            e.preventDefault(); // Prevent default anchor behavior
+            e.preventDefault(); 
 
-            const category = this.dataset.category; // Get the category from the data attribute
+            const category = this.dataset.category; 
 
             if (category === 'all') {
                 document.querySelector('.allproduct-products-container').style.display = 'block'; // Show all products
-                document.querySelector('.category-products-container').style.display = 'none'; // Hide category products
+                document.querySelector('.category-products-container').style.display = 'none'; 
             } else {
                 // Hide all products and show only the selected category products
                 document.querySelector('.allproduct-products-container').style.display = 'none';
@@ -330,13 +327,13 @@
 
                 categoryProducts.forEach(product => {
                     if (product.dataset.category === category) {
-                        product.parentElement.parentElement.parentElement.style.display = 'block'; // Show matched category product
+                        product.parentElement.parentElement.parentElement.style.display = 'block'; 
                     } else {
-                        product.parentElement.parentElement.parentElement.style.display = 'none'; // Hide unmatched category product
+                        product.parentElement.parentElement.parentElement.style.display = 'none'; 
                     }
                 });
 
-                document.querySelector('.category-products-container').style.display = 'block'; // Show category products
+                document.querySelector('.category-products-container').style.display = 'block'; 
             }
         });
     });

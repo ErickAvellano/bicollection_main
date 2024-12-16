@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Application; // Make sure you have this model created
+use App\Models\Application; 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Customer;
 use App\Models\Shop;
@@ -18,7 +18,7 @@ class AdminDashboardController extends Controller
         $application = Application::findOrFail($id);
 
         // Update the shop's verification status to Verified
-        $shop = Shop::find($application->shop_id); // Assuming shop_id exists in the application
+        $shop = Shop::find($application->shop_id);
         if ($shop) {
             $shop->verification_status = 'Verified';
             $shop->save(); // Save the updated status
@@ -33,10 +33,10 @@ class AdminDashboardController extends Controller
         $application = Application::findOrFail($id);
 
         // Update the shop's verification status to Rejected
-        $shop = Shop::find($application->shop_id); // Assuming shop_id exists in the application
+        $shop = Shop::find($application->shop_id); 
         if ($shop) {
             $shop->verification_status = 'Rejected';
-            $shop->save(); // Save the updated status
+            $shop->save(); 
         }
 
         return response()->json(['message' => 'Application declined successfully.']);
@@ -46,8 +46,6 @@ class AdminDashboardController extends Controller
         $transactionCount = Order::count();
         $customerCount = Customer::count();
         $applications = Application::with(['shop.merchant'])->whereHas('shop')->get();
-
-        // Define an empty collection for transactions (to avoid undefined variable errors)
         $transactions = collect();
 
         return view('admin.admindashboard', [
@@ -55,7 +53,7 @@ class AdminDashboardController extends Controller
             'customerCount' => $customerCount,
             'applications' => $applications,
             'viewType' => 'dashboard',
-            'transactions' => $transactions, // Pass transactions
+            'transactions' => $transactions, 
         ]);
     }
 
@@ -65,7 +63,7 @@ class AdminDashboardController extends Controller
         $transactionCount = Order::count();
         $customerCount = Customer::count();
         $applications = Application::with(['shop.merchant'])->whereHas('shop')->get();
-        $transactions = []; // Define transactions as an empty array
+        $transactions = []; 
 
         return view('admin.admindashboard', [
             'customerCount' => $customerCount,
@@ -104,7 +102,7 @@ class AdminDashboardController extends Controller
             'viewType' => 'customers',
             'transactionCount' => $transactionCount,
             'applications' => $applications,
-            'transactions' => $transactions, // Pass transactions to the view
+            'transactions' => $transactions, 
         ]);
     }
 
@@ -131,8 +129,8 @@ class AdminDashboardController extends Controller
             'transactions' => $transactions,
             'transactionCount' => $transactionCount,
             'viewType' => 'transactions',
-            'applications' => $applications, // Added applications
-            'customerCount' => $customerCount, // Added customerCount
+            'applications' => $applications, 
+            'customerCount' => $customerCount, 
         ]);
     }
 

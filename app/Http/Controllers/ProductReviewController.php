@@ -12,18 +12,13 @@ use App\Models\Order;
 
 class ProductReviewController extends Controller
 {
-    // Handle rating submission
     public function showRatingPage($rating, $productId)
     {
-        // Render the view with the parameters
         return view('orders.rating', compact('rating', 'productId'));
     }
     public function store(Request $request)
     {
-        // Log the incoming request data for debugging
-        Log::info('Review submission request received', ['request_data' => $request->all()]);
-
-        // Validate the request data, including optional images
+        // Validate data, including optional images
         $validator = Validator::make($request->all(), [
             'product_id' => 'required|integer',
             'order_id' => 'required|integer',
@@ -40,8 +35,6 @@ class ProductReviewController extends Controller
         ]);
 
         if ($validator->fails()) {
-            // Log validation errors
-            Log::error('Review validation failed', ['errors' => $validator->errors()]);
             return response()->json(['status' => 'error', 'errors' => $validator->errors()], 422);
         }
 
@@ -53,8 +46,6 @@ class ProductReviewController extends Controller
                     $path = $request->file("image_$i")->store('product_reviews', 'public');
                     $imagePaths["image_$i"] = $path;
                 } catch (\Exception $e) {
-                    // Log file upload errors
-                    Log::error('File upload failed', ['image_index' => $i, 'error' => $e->getMessage()]);
                     return response()->json(['status' => 'error', 'message' => 'Failed to upload image. Please try again.'], 500);
                 }
             } else {
@@ -83,11 +74,9 @@ class ProductReviewController extends Controller
             ]);
 
         } catch (\Exception $e) {
-            // Log review creation errors
             return response()->json(['status' => 'error', 'message' => 'Failed to submit review. Please try again.'], 500);
         }
 
-        // Update the order status
         try {
             $order = Order::find($request->order_id);
             if ($order) {
@@ -95,12 +84,8 @@ class ProductReviewController extends Controller
                 $order->updated_at = now();
                 $order->save();
 
-                // Log order status update success
-                Log::info('Order status updated successfully', ['order_id' => $order->id, 'status' => $order->order_status]);
             }
         } catch (\Exception $e) {
-            // Log order update errors
-            Log::error('Failed to update order status', ['order_id' => $request->order_id, 'error' => $e->getMessage()]);
             return response()->json(['status' => 'error', 'message' => 'Failed to update order status.'], 500);
         }
 

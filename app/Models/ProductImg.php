@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class ProductImg extends Model
 {
     use HasFactory;
-    protected $table = 'product_img'; // Specify the table name if it's not the plural of the model name
-    protected $primaryKey = 'product_img_id'; // Specify the primary key
+    protected $table = 'product_img'; 
+    protected $primaryKey = 'product_img_id'; 
     public $timestamps = false;
     protected $fillable = [
         'product_id',

@@ -9,8 +9,8 @@ class Cart extends Model
 {
     use HasFactory;
 
-    protected $table = 'cart'; // Specify the table name if different from convention
-    protected $primaryKey = 'cart_id'; // Specify primary key if different from 'id'
+    protected $table = 'cart'; 
+    protected $primaryKey = 'cart_id'; 
 
     protected $fillable = [
         'customer_id',

@@ -9,22 +9,16 @@ class MerchantMop extends Model
 {
     use HasFactory;
 
-    // Specify the table associated with the model
     protected $table = 'merchant_mop';
 
-    // Specify the primary key column
     protected $primaryKey = 'merchant_mop_id';
 
-    // Indicates if the IDs are auto-incrementing
     public $incrementing = true;
 
-    // Set the primary key type
     protected $keyType = 'int';
 
-    // Enable timestamps for created_at (if using timestamps)
     public $timestamps = true;
 
-    // Allow mass assignment for these columns
     protected $fillable = [
         'merchant_id',
         'account_type',
@@ -32,14 +26,10 @@ class MerchantMop extends Model
         'description',
         'account_name',
         'account_number',
-        'gcash_qr_code', // Add this if GCash QR code is also managed here
+        'gcash_qr_code',
         'gcash_number',
         'created_at',
     ];
-
-    /**
-     * Define relationships with other models
-     */
 
     // Relationship to the Merchant model
     public function merchant()
@@ -47,11 +37,6 @@ class MerchantMop extends Model
         return $this->belongsTo(Merchant::class, 'merchant_id');
     }
 
-    /**
-     * Accessors and Mutators
-     */
-
-    // Accessor for formatted account type
     public function getFormattedAccountTypeAttribute()
     {
         return ucfirst($this->account_type);

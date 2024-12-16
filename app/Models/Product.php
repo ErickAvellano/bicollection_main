@@ -55,10 +55,9 @@ class Product extends Model
     {
         return $this->hasMany(ProductReview::class, 'product_id');
     }
-     // Accessor for calculating the average rating
      public function getAverageRatingAttribute()
      {
-         return round($this->reviews->avg('rating'), 1) ?? 0; // Rounds to 1 decimal, defaults to 0 if no reviews
+         return round($this->reviews->avg('rating'), 1) ?? 0; 
      }
      public function bicollectionSales()
     {

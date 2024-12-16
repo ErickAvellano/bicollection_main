@@ -16,13 +16,10 @@ class User extends Authenticatable
 {
     use Notifiable, HasFactory;
 
-    // Specify the table associated with the model
     protected $table = 'user';
 
-    // Specify the primary key of the table
     protected $primaryKey = 'user_id';
 
-    // Define the fillable attributes
     protected $fillable = [
         'email',
         'username',
@@ -32,13 +29,11 @@ class User extends Authenticatable
         'verification_token',
     ];
 
-    // Hide these attributes when serializing the model
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    // Cast attributes to appropriate types
     protected $casts = [
         'type' => 'string',
         'email_verified' => 'boolean',
@@ -46,8 +41,6 @@ class User extends Authenticatable
         'modified_at' => 'datetime',
         'last_login' => 'datetime',
     ];
-
-    // Disable automatic timestamps for the model
     public $timestamps = false;
 
     /**
@@ -83,9 +76,7 @@ class User extends Authenticatable
         });
     }
 
-    /**
-     * Define the relationship with the CustomerImage model.
-     */
+
     public function customerImage()
     {
         return $this->hasOne(CustomerImage::class, 'customer_id', 'customer_id');
@@ -101,11 +92,11 @@ class User extends Authenticatable
     }
     public function isMerchant()
     {
-        return $this->type === 'merchant'; // Assuming 'type' column defines user role
+        return $this->type === 'merchant'; 
     }
     public function isCustomer()
     {
-        return $this->type === 'customer'; // Assuming 'type' column defines user role
+        return $this->type === 'customer';
     }
     public function shop()
     {
@@ -117,7 +108,7 @@ class User extends Authenticatable
     }
     public function isAdmin()
     {
-        return $this->type === 'admin'; // Assuming 'type' column defines user role
+        return $this->type === 'admin'; 
     }
 
 

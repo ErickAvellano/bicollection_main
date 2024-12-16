@@ -96,15 +96,15 @@ class PaymentController extends Controller
             // Handle file upload
             if ($request->hasFile('gcash_receipt')) {
                 $file = $request->file('gcash_receipt');
-                $filePath = $file->store('gcash_receipts', 'public'); // Save the file in 'public/gcash_receipts'
+                $filePath = $file->store('gcash_receipts', 'public'); 
 
                 // Find or create a new payment record
                 $payment = Payment::firstOrNew(['order_id' => $order->order_id]);
-                $payment->customer_id = $order->customer_id; // Assuming 'customer_id' is available in 'Order' model
+                $payment->customer_id = $order->customer_id;
                 $payment->payment_method = 'GCash';
                 $payment->amount = $order->total_amount;
                 $payment->receipt_img = $filePath;
-                $payment->payment_status = 'To-review'; // Set initial status
+                $payment->payment_status = 'To-review'; 
                 $payment->save();
 
                 // Update order status
@@ -120,14 +120,14 @@ class PaymentController extends Controller
                 try {
                     Mail::to($customer->email)->send(new OrderPaymentConfirmation($order, true, $orderItems));
                 } catch (\Exception $e) {
-                    // Handle email sending failure for customer
+                    
                 }
 
                 // Send email to merchant
                 try {
                     Mail::to($merchant->email)->send(new OrderPaymentConfirmation($order, false, $orderItems));
                 } catch (\Exception $e) {
-                    // Handle email sending failure for merchant
+                    
                 }
 
                 // Return success response

@@ -41,7 +41,7 @@ class MapController extends Controller
         $regionName = $regionMapping[$regionAlias] ?? null;
 
         if (!$regionName) {
-            abort(404); // Handle case where the alias does not exist
+            abort(404); 
         }
 
         // Fetch the region information
@@ -57,8 +57,8 @@ class MapController extends Controller
             'masbate' => ['width' => '550px', 'height' => 'auto'],
         ];
 
-        $width = $dimensions[$regionAlias]['width'] ?? '800px';  // Default width if region not found
-        $height = $dimensions[$regionAlias]['height'] ?? '600px'; // Default height if region not found
+        $width = $dimensions[$regionAlias]['width'] ?? '800px';  
+        $height = $dimensions[$regionAlias]['height'] ?? '600px';
 
         // Fetch shops located in the selected province
         $shops = Shop::where('province', $regionName)->get();

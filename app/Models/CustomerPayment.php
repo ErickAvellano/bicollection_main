@@ -18,10 +18,8 @@ class CustomerPayment extends Model
     // Enable auto-incrementing
     public $incrementing = true;
 
-    // Disable timestamps if not needed
     public $timestamps = false;
 
-    // Specify the fillable fields
     protected $fillable = [
         'customer_id',
         'account_type',

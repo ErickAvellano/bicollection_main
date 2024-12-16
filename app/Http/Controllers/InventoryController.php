@@ -150,28 +150,25 @@ class InventoryController extends Controller
     {
         $user = Auth::user();
 
-        // Check if the user type is 'merchant', otherwise redirect to dashboard
+       
         if ($user->type !== 'merchant') {
-            return redirect()->route('dashboard'); // Or any other route you want to redirect non-merchants to
+            return redirect()->route('dashboard'); 
         }
 
         $orders = Order::with('customer')->where('merchant_id', $user->user_id)->get();
 
-        // Decode base64 chart images
+
         $orderStatusChartData = $request->input('orderStatusChart');
         $refundStatusChartData = $request->input('refundStatusChart');
 
-        // Fetch merchant shop name
         $merchantShopName = $user->shop->shop_name ?? 'default';
 
-        // Fetch order statuses grouped by order_status
         $orderStatuses = Order::select('order_status', DB::raw('COUNT(*) as count'))
             ->where('merchant_id', $user->user_id)
             ->groupBy('order_status')
             ->get()
             ->pluck('count', 'order_status');
 
-        // Calculate completed revenue
         $completedRevenue = $orders->where('order_status', 'completed')->sum('total_amount');
 
         $currentDate = now()->format('Y-m-d');
@@ -179,7 +176,7 @@ class InventoryController extends Controller
         // Create a folder for the merchant in storage/app/merchants/
         $merchantFolder = storage_path('app/public/merchant/' . $merchantShopName);
         if (!file_exists($merchantFolder)) {
-            mkdir($merchantFolder, 0755, true);  // Create folder if it doesn't exist
+            mkdir($merchantFolder, 0755, true); 
         }
 
         // Save the charts in the merchant's folder
@@ -193,7 +190,7 @@ class InventoryController extends Controller
         // Pass the orderStatuses and other data to the PDF view
         $pdf = PDF::loadView('merchant.inventory.partials.order_report_pdf', [
             'orders' => $orders,
-            'orderStatuses' => $orderStatuses, // This is the correct variable
+            'orderStatuses' => $orderStatuses, 
             'completedRevenue' => $completedRevenue,
             'orderStatusChartPath' => $orderStatusChartPath,
             'refundStatusChartPath' => $refundStatusChartPath,
@@ -281,7 +278,7 @@ class InventoryController extends Controller
                 $product->quantity_item = $quantity;
                 $product->save();
             } else {
-                $success = false; // If any product is not found, mark as failed
+                $success = false; 
                 break;
             }
         }

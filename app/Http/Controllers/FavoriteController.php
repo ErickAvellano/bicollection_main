@@ -17,7 +17,7 @@ class FavoriteController extends Controller
     
         // Retrieve favorite items for the authenticated user
         $favorites = Favorite::where('customer_id', $user->user_id)
-            ->with('product.images') // Load product and image details
+            ->with('product.images') 
             ->get();
     
         // Extract product IDs for checking

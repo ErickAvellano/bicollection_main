@@ -13,9 +13,8 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        // Check if the user is authenticated
+        // Check if the user 
         if (Auth::check()) {
-            // Redirect to dashboard if authenticated
             return redirect()->route('dashboard');
         }
         $query = $request->input('search');
@@ -24,7 +23,7 @@ class HomeController extends Controller
         // Fetch all products with their merchant and shop information
         $products = Product::with('merchant.shop')->get();
 
-        // Fetch recently added products (e.g., last 10 products)
+        // Fetch recently added products 
         $recentlyAddedProducts = Product::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
             ->orderBy('created_at', 'desc')
             ->get();

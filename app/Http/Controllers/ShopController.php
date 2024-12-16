@@ -15,10 +15,9 @@ class ShopController extends Controller
 {
     public function showStore()
     {
-        $user = Auth::user(); // Get the authenticated user
+        $user = Auth::user(); 
 
-        // Find the shop related to the merchant user
-        $shop = $user->shop; // Assuming there's a relationship between user and shop
+        $shop = $user->shop; 
 
         $merchant = $user->merchant;
 
@@ -38,9 +37,9 @@ class ShopController extends Controller
         // If no shop design exists, create a new one
         if (!$shopDesign) {
             $shopDesign = new ShopDesign();
-            $shopDesign->shop_id = $shopId; // Set the shop_id
-            $shopDesign->featuredProduct = ''; // Initialize if needed
-            $shopDesign->save(); // Save the new shop design
+            $shopDesign->shop_id = $shopId; 
+            $shopDesign->featuredProduct = ''; 
+            $shopDesign->save(); 
         }
 
         // Get the shop design ID
@@ -53,8 +52,8 @@ class ShopController extends Controller
         $products = Product::where('merchant_id', $user->user_id)->with('images', 'variations')->get();
 
         // Fetch featured products based on IDs
-        $featuredProductIds = explode(',', $shopDesign->featuredProduct); // Convert comma-separated string to array
-        $featuredProducts = Product::whereIn('product_id', $featuredProductIds)->get(); // Fetch featured products
+        $featuredProductIds = explode(',', $shopDesign->featuredProduct); 
+        $featuredProducts = Product::whereIn('product_id', $featuredProductIds)->get();
 
         // Pass the necessary data to the view
         return view('merchant.mystore', compact('shop', 'merchant', 'merchantMop', 'shopId', 'shopDesignId', 'products', 'featuredProducts', 'featuredProductIds', 'display1', 'display2'));
@@ -66,8 +65,8 @@ class ShopController extends Controller
 
         // Validate the uploaded files
         $request->validate([
-            'shop_img' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validate shop profile image
-            'cover_photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048' // Validate cover photo
+            'shop_img' => 'image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'cover_photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048' 
         ]);
 
         // Handling profile image
@@ -119,7 +118,7 @@ class ShopController extends Controller
         // Check if the provided tab is valid
         if (in_array(strtolower($nav), $validTabs)) {
             $user = Auth::user();
-            $shop = $user->shop; // Get the authenticated user's shop
+            $shop = $user->shop; 
 
             if (!$shop) {
                 return response('Shop not found', 404);
@@ -132,9 +131,9 @@ class ShopController extends Controller
             // If no shop design exists, create a new one
             if (!$shopDesign) {
                 $shopDesign = new ShopDesign();
-                $shopDesign->shop_id = $shopId; // Set the shop_id
-                $shopDesign->featuredProduct = ''; // Initialize if needed
-                $shopDesign->save(); // Save the new shop design
+                $shopDesign->shop_id = $shopId; 
+                $shopDesign->featuredProduct = ''; 
+                $shopDesign->save(); 
             }
 
             // Get the shop design ID
@@ -152,18 +151,16 @@ class ShopController extends Controller
 
             // Handle specific tab views and pass necessary data
             if ($nav == 'home') {
-                return view('merchant.partials.home', compact('featuredProducts', 'products', 'display1', 'display2')); // Pass both featuredProducts and products
+                return view('merchant.partials.home', compact('featuredProducts', 'products', 'display1', 'display2')); 
             }
 
             if ($nav == 'allproduct') {
-                return view('merchant.partials.all-products', compact('products')); // Only pass products for All Products
+                return view('merchant.partials.all-products', compact('products')); 
             }
 
-            // For other tabs, you can add similar logic if needed
             return view("merchant.partials.$nav");
         }
 
-        // Fallback if the tab is not valid
         return response('Not Found', 404);
     }
 

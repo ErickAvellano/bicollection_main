@@ -22,7 +22,7 @@ class PurchaseController extends Controller
             abort(403, 'Unauthorized access. Only customers are allowed.');
         }
 
-        $customerId = $customer->customer_id; // Retrieve the customer's ID
+        $customerId = $customer->customer_id;
         $username = $customer->username;
 
         // Define an array to store the counts for each status
@@ -66,7 +66,7 @@ class PurchaseController extends Controller
             $query->where('order_status', 'completed');
         } elseif ($status === 'to-rate') {
             $query->where('order_status','to-rate')
-                ->whereDoesntHave('productReviews'); // Exclude orders with reviews
+                ->whereDoesntHave('productReviews');
         } elseif ($status === 'to-refund') {
             $query->where('order_status', 'to-refund');
         }elseif ($status === 'cancel') {
@@ -83,7 +83,7 @@ class PurchaseController extends Controller
         $ratingOrders = Order::with(['orderItems.product.images'])
             ->where('customer_id', $customerId)
             ->where('order_status', 'to-rate')
-            ->whereDoesntHave('productReviews') // Exclude orders with reviews
+            ->whereDoesntHave('productReviews') 
             ->get();
 
         // If it's an AJAX request, return a partial view

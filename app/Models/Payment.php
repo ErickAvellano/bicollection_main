@@ -9,13 +9,10 @@ class Payment extends Model
 {
     use HasFactory;
 
-    // Define the table associated with the model
     protected $table = 'payment';
 
-    // Define the primary key
     protected $primaryKey = 'payment_id';
 
-    // Specify the fields that can be mass assigned
     protected $fillable = [
         'order_id',
         'customer_id',
@@ -28,24 +25,16 @@ class Payment extends Model
         'payment_status',
     ];
 
-    // Indicate if the model should manage timestamps
-    public $timestamps = false; // Since you have 'created_at' but no 'updated_at'
+    public $timestamps = false;
 
-    // Define custom timestamp column names if needed
     const CREATED_AT = 'created_at';
     const UPDATED_AT = null;
 
-    /**
-     * Define a relationship to the Order model.
-     */
     public function order()
     {
         return $this->belongsTo(Order::class, 'order_id');
     }
 
-    /**
-     * Define a relationship to the Customer model.
-     */
     public function customer()
     {
         return $this->belongsTo(Customer::class, 'customer_id');

@@ -17,7 +17,6 @@ class OrderTrackingController extends Controller
             'reference_number' => 'required|string|max:255',
         ]);
 
-        // Logic to track the order using the reference number
         $referenceNumber = $request->input('reference_number');
 
         // Here, you would typically query the database or call an API to get the order status

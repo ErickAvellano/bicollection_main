@@ -11,7 +11,7 @@ class CustomerAddressController extends Controller
 {
     public function store(Request $request)
     {
-        // Validate the incoming request data
+        // Validate request data
         $validatedData = $request->validate([
             'customer_id' => 'required|integer|exists:customer,customer_id',
             'house_street' => 'required|string|max:255',
@@ -31,7 +31,7 @@ class CustomerAddressController extends Controller
 
         // Update or create the address
         $customer->addresses()->updateOrCreate(
-            ['customer_id' => $customer->customer_id], // condition
+            ['customer_id' => $customer->customer_id], 
             [
                 'house_street' => $validatedData['house_street'],
                 'region' => $validatedData['selectedRegion'],

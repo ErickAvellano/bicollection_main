@@ -9,13 +9,10 @@ class ProductReview extends Model
 {
     use HasFactory;
 
-    // Specify the table name if it's not the default pluralized form
     protected $table = 'product_reviews';
 
-    // Specify the primary key if it's not 'id'
     protected $primaryKey = 'product_reviews_id';
 
-    // Define the attributes that are mass assignable
     protected $fillable = [
         'product_id',
         'order_id',
@@ -34,23 +31,16 @@ class ProductReview extends Model
         'image_5',
     ];
 
-    // Define the attributes that should be cast to specific types
     protected $casts = [
         'review_date' => 'datetime',
         'is_approved' => 'boolean',
     ];
 
-    /**
-     * Define a relationship with the Product model.
-     */
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id');
     }
 
-    /**
-     * Define a relationship with the User model.
-     */
     public function customer()
     {
         return $this->belongsTo(User::class, 'customer_id');

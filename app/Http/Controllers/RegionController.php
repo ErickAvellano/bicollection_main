@@ -30,13 +30,12 @@ class RegionController extends Controller
         $regionName = $regionMapping[$name] ?? null;
 
         if (!$regionName) {
-            abort(404); // Handle case where the alias does not exist
+            abort(404); 
         }
 
         // Fetch the region information
         $region = Region::where('name', $regionName)->firstOrFail();
 
-        // Define dimensions for the six provinces
         $dimensions = [
             'camnorte' => [
                 'width' => '420px',
@@ -89,14 +88,15 @@ class RegionController extends Controller
         ];
 
         // Get dimensions for the region or use defaults
-        $width = $dimensions[$name]['width'] ?? '800px';  // Default width if not found
-        $height = $dimensions[$name]['height'] ?? '600px'; // Default height if not found
+        $width = $dimensions[$name]['width'] ?? '800px';  
+        $height = $dimensions[$name]['height'] ?? '600px'; 
 
         // Get position values
         $top = $dimensions[$name]['top'] ?? 'auto';
         $right = $dimensions[$name]['right'] ?? 'auto';
         $bottom = $dimensions[$name]['bottom'] ?? 'auto';
         $left = $dimensions[$name]['left'] ?? 'auto';
+        
         // Fetch shops located in the selected province
         $shops = Shop::where('province', $regionName)->get();
 
@@ -104,16 +104,12 @@ class RegionController extends Controller
             Log::info("No shops found for region: {$regionName}");
         }
 
-        // Fetch merchants from those shops
         $merchantIds = $shops->pluck('merchant_id');
 
-        // Fetch products from those merchants
         $products = Product::whereIn('merchant_id', $merchantIds)->get();
 
-        // Get the product list from the region (assuming it’s comma-separated)
         $productList = explode(',', $region->products_list);
 
-        // Fetch categories based on the product list
         $categories = Category::whereIn('category_id', $productList)->get();
 
         if ($categories->isEmpty()) {

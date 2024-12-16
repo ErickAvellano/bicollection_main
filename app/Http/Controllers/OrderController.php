@@ -63,10 +63,10 @@ class OrderController extends Controller
 
         // Apply filtering and sorting based on the selected option
         if ($sort === 'GCash' || $sort === 'COD') {
-            // Filter orders by payment method (GCash or COD)
+            // Filter orders by payment method 
             $query->whereHas('payment', function ($q) use ($sort) {
                 $q->where('payment_method', $sort);
-            })->orderBy('created_at', 'desc'); // Sort by creation date
+            })->orderBy('created_at', 'desc'); 
         } elseif ($sort === 'date') {
             // Sort by creation date only
             $query->orderBy('created_at', 'desc');
@@ -118,9 +118,6 @@ class OrderController extends Controller
         try {
             $customerId = Auth::id();
             $cartId = $validatedData['cart_id'];
-
-            // Log the received cart ID for debugging
-            Log::info('Received cart_id:', ['cart_id' => $cartId]);
 
             // Start transaction
             DB::beginTransaction();
@@ -187,18 +184,15 @@ class OrderController extends Controller
                 $merchant = Merchant::find($validatedData['merchant_id']);
 
                 // Send email to customer
-                //Mail::to($customer->email)->send(new OrderConfirmation($order, true, $orderItems));
+                Mail::to($customer->email)->send(new OrderConfirmation($order, true, $orderItems));
 
                 // Send email to merchant
-                //Mail::to($merchant->email)->send(new OrderConfirmation($order, false, $orderItems));
+                Mail::to($merchant->email)->send(new OrderConfirmation($order, false, $orderItems));
 
                 return response()->json(['success' => true, 'message' => 'Order placed successfully! Please pay upon delivery.']);
             }
         } catch (Exception $e) {
             DB::rollBack();
-
-            // Log error for debugging
-            Log::error('Error placing order: ' . $e->getMessage());
 
             return response()->json(['success' => false, 'message' => 'An error occurred while placing the order.'], 500);
         }
@@ -235,18 +229,16 @@ class OrderController extends Controller
             if (!$currentMerchantId) {
                 return response()->json(['error' => 'User not authenticated'], 401);
             }
-
-            // Fetch orders with status 'pending' for the current merchant
             $orders = Order::with(['customer', 'orderItems.productImg', 'payment'])
                 ->where('merchant_id', $currentMerchantId)
-                ->where('order_status', 'pending') // Only get pending orders
+                ->where('order_status', 'pending') 
                 ->get();
 
             if ($orders->isEmpty()) {
                 return response()->json(['orders' => []]);
             }
 
-            // Transform orders to a simplified structure
+
             $formattedOrders = $orders->map(function ($order) {
                 return [
                     'order_id' => $order->order_id,
@@ -352,8 +344,8 @@ class OrderController extends Controller
     {
         // Validate the request
         $request->validate([
-            'order_id' => 'required|exists:order,order_id',  // Ensure order_id exists in the 'order' table
-            'payment_status' => 'required|string'  // Ensure payment_status is a valid string
+            'order_id' => 'required|exists:order,order_id',  
+            'payment_status' => 'required|string'  
         ]);
 
         // Retrieve the order ID and payment status from the request
@@ -396,7 +388,7 @@ class OrderController extends Controller
                 return response()->json([
                     'success' => true,
                     'message' => 'Payment status updated successfully.',
-                    'redirect' => $status === 'To-pay' ? '/orders' : null // Redirect only for "To-pay"
+                    'redirect' => $status === 'To-pay' ? '/orders' : null
                 ]);
             } else {
                 return response()->json([

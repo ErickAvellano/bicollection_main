@@ -21,18 +21,18 @@ class CheckoutController extends Controller
 {
     public function index(Request $request)
     {
-        $customerId = Auth::id(); // Get the authenticated user's ID
-        $cartId = $request->query('cart_id'); // Single cart ID
-        $cartIds = $request->query('cart_ids'); // Multiple cart IDs
+        $customerId = Auth::id(); 
+        $cartId = $request->query('cart_id'); 
+        $cartIds = $request->query('cart_ids');
 
         // Handle single or multiple cart IDs
         if ($cartIds) {
-            // If cart_ids is a string, convert it to an array
+           
             if (!is_array($cartIds)) {
                 $cartIds = explode(',', $cartIds);
             }
         } elseif ($cartId) {
-            // If only cart_id is provided, convert it into an array for uniform processing
+          
             $cartIds = [$cartId];
         } else {
             return redirect()->route('cart.show')->with('error', 'No cart items selected.');
@@ -71,7 +71,7 @@ class CheckoutController extends Controller
         // Fetch customer details
         $customer = Customer::find($customerId);
 
-        // Fetch the latest address of the customer
+        // Fetch the latest address ofcustomer
         $address = $customer->addresses()->latest()->first();
 
         // Check if there is an existing 'pending' order with a custom shipping address
@@ -103,7 +103,7 @@ class CheckoutController extends Controller
         });
 
         // Set a fixed shipping subtotal (can be dynamic based on address or other factors)
-        $shippingSubtotal = 58; // Example fixed value
+        $shippingSubtotal = 58; 
 
         // Calculate total payment
         $totalPayment = $merchandiseSubtotal + $shippingSubtotal;
@@ -140,7 +140,7 @@ class CheckoutController extends Controller
     
         try {
             // Retrieve the customer record associated with the authenticated user
-            $customer = Customer::where('user_id', Auth::id())->first(); // Match the `user_id` column in `customer` table
+            $customer = Customer::where('user_id', Auth::id())->first(); 
     
             if (!$customer) {
                 return response()->json(['success' => false, 'message' => 'Customer record not found.'], 404);

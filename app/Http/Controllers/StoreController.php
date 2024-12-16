@@ -15,17 +15,15 @@ class StoreController extends Controller
         // Fetch the shop using shopId
         $shop = Shop::find($shopId);
 
-        // Check if the shop exists
         if (!$shop) {
             return redirect()->back()->with('error', 'Shop not found.');
         }
 
-        // Fetch products using the merchant_id from the shop
         $products = Product::where('merchant_id', $shop->merchant_id)->with('images', 'variations')->get();
 
-        // Fetch featured products based on IDs (assuming you have this logic)
-        $featuredProductIds = explode(',', $shop->featuredProduct ?? ''); // Get featured product IDs
-        $featuredProducts = Product::whereIn('product_id', $featuredProductIds)->with('images')->get(); // Fetch featured products
+        // Fetch featured products based on IDs 
+        $featuredProductIds = explode(',', $shop->featuredProduct ?? '');
+        $featuredProducts = Product::whereIn('product_id', $featuredProductIds)->with('images')->get(); 
 
         // Pass the necessary data to the view
         return view('merchant.viewstore', compact('shop', 'products', 'featuredProducts'));
@@ -48,12 +46,11 @@ class StoreController extends Controller
             $merchant = $shop->merchant;
             $products = Product::where('merchant_id', $merchant->merchant_id)->with('images')->get();
 
-            // Fetch featured products based on IDs in shop design
             $shopDesign = ShopDesign::where('shop_id', $shop->shop_id)->first();
             $featuredProductIds = explode(',', $shopDesign->featuredProduct);
             $featuredProducts = Product::whereIn('product_id', $featuredProductIds)->get();
 
-            // Use the mapped view name to load the correct partial view
+          
             return view("merchant.partials." . $viewMap[strtolower($nav)], compact('featuredProducts', 'products'));
         }
 
@@ -62,7 +59,6 @@ class StoreController extends Controller
     }
     public function showMerchants()
     {
-        // Fetch all verified shops with their related applications
         $shops = Shop::with('applications')
             ->select(
                 'shop_id',
@@ -80,7 +76,6 @@ class StoreController extends Controller
             ->where('verification_status', 'Verified')
             ->get();
 
-        // Pass the data to the Blade file
         return view('stores.showmerchants', compact('shops'));
     }
 

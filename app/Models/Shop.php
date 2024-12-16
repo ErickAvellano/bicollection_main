@@ -64,5 +64,4 @@ class Shop extends Model
     {
         return $this->belongsTo(Merchant::class, 'merchant_id', 'merchant_id');
     }
-    // Define other relationships if necessary, e.g., for products, orders, etc.
 }

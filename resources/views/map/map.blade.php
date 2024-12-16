@@ -628,10 +628,9 @@
             <div class="col-md-8 d-flex justify-content-center align-items-center flex-column" style="z-index: 2; position: relative;">
                 <div class="map-container" style="overflow: visible;">
                     <div class="map-content" style="overflow: visible;">
-                        <!-- Example clickable region wrapped in an anchor tag -->
                         <a href="#" class="region-link" class="region-link" data-name="camnorte" style="text-decoration: none;">
                             <div class="region camnorte">
-                                <img src="{{ asset('images/assets/map/camarinesnorte2.png') }}" alt="Cam Norte" style="filter: drop-shadow(-2px 3px 2px rgba(0, 0, 0, 0.5));">
+                                <img src="{{ asset('images/assets/map/camarinesnorte2.png') }}" loading="lazy" alt="Cam Norte" style="filter: drop-shadow(-2px 3px 2px rgba(0, 0, 0, 0.5));">
                                 <div class="region-name camnorte">Camarines Norte</div>
                                 <div class="hover-overlay camnorte-overlay" >
                                     <div class="hover-content" style="z-index: 3; position: absolute; bottom: 0; background: linear-gradient(to top, rgba(76, 175, 80, 0.9), rgba(76, 175, 80, 0.1)); width: 100%; text-align: center;">
@@ -642,7 +641,7 @@
                         </a>
                         <a href="#" class="region-link" data-name="camsur" style="text-decoration: none;">
                             <div class="region camsur" >
-                                <img src="{{ asset('images/assets/map/camarinessur2.png') }}" alt="Cam Sur" style="filter: drop-shadow(-2px 3px 2px rgba(0, 0, 0, 0.5));">
+                                <img src="{{ asset('images/assets/map/camarinessur2.png') }}" loading="lazy" alt="Cam Sur" style="filter: drop-shadow(-2px 3px 2px rgba(0, 0, 0, 0.5));">
                                 <div class="region-name camsur">Camarines<br><span>Sur</span></div>
                                 <div class="hover-overlay camsur-overlay" >
                                     <div class="hover-content " style="z-index: 3; position: absolute; bottom: 0; background: linear-gradient(to top, rgba(76, 175, 80, 0.9), rgba(76, 175, 80, 0.1)); width: 100%; text-align: center;">
@@ -653,7 +652,7 @@
                         </a>
                         <a href="#" class="region-link"  data-name="albay" style="text-decoration: none;">
                             <div class="region albay">
-                                <img src="{{ asset('images/assets/map/albay2.png') }}" alt="Albay" style="filter: drop-shadow(-2px 3px 2px rgba(0, 0, 0, 0.5));">
+                                <img src="{{ asset('images/assets/map/albay2.png') }}" loading="lazy" alt="Albay" style="filter: drop-shadow(-2px 3px 2px rgba(0, 0, 0, 0.5));">
                                 <div class="region-name albay">Albay</div>
                                 <div class="hover-overlay albay-overlay" >
                                     <div class="hover-content" style="z-index: 3; position: absolute; bottom: 0; background: linear-gradient(to top, rgba(76, 175, 80, 0.9), rgba(76, 175, 80, 0.1)); width: 100%; text-align: center;">
@@ -664,7 +663,7 @@
                         </a>
                         <a href="#" class="region-link"   data-name="sorsogon" style="text-decoration: none;">
                             <div class="region sorsogon">
-                                <img src="{{ asset('images/assets/map/sorsogon2.png') }}" alt="Sorsogon" style="filter: drop-shadow(-2px 3px 2px rgba(0, 0, 0, 0.5));">
+                                <img src="{{ asset('images/assets/map/sorsogon2.png') }}" loading="lazy" alt="Sorsogon" style="filter: drop-shadow(-2px 3px 2px rgba(0, 0, 0, 0.5));">
                                 <div class="region-name sorsogon">Sorsogon</div>
                                 <div class="hover-overlay sorsogon-overlay" >
                                     <div class="hover-content" style="z-index: 3; position: absolute; bottom: 0; background: linear-gradient(to top, rgba(76, 175, 80, 0.9), rgba(76, 175, 80, 0.1)); width: 100%; text-align: center;">
@@ -675,7 +674,7 @@
                         </a>
                         <a href="#" class="region-link" data-name="catanduanes" style="text-decoration: none;">
                             <div class="region catanduanes" >
-                                <img src="{{ asset('images/assets/map/catanduanes2.png') }}" alt="Catanduanes" style="filter: drop-shadow(-2px 3px 2px rgba(0, 0, 0, 0.5));">
+                                <img src="{{ asset('images/assets/map/catanduanes2.png') }}" loading="lazy" alt="Catanduanes" style="filter: drop-shadow(-2px 3px 2px rgba(0, 0, 0, 0.5));">
                                 <div class="region-name catanduanes">Catanduanes</div>
                                 <div class="hover-overlay catanduanes-overlay">
                                 <div class="hover-content" style="z-index: 3; position: absolute; bottom: 0; background: linear-gradient(to top, rgba(76, 175, 80, 0.9), rgba(76, 175, 80, 0.1)); width: 100%; text-align: center;">
@@ -686,7 +685,7 @@
                         </a>
                         <a href="#" class="region-link" data-name="masbate"  style="text-decoration: none;">
                             <div class="region masbate">
-                                <img src="{{ asset('images/assets/map/masbate2.png') }}" alt="Masbate" style="filter: drop-shadow(-2px 3px 2px rgba(0, 0, 0, 0.5));">
+                                <img src="{{ asset('images/assets/map/masbate2.png') }}" loading="lazy" alt="Masbate" style="filter: drop-shadow(-2px 3px 2px rgba(0, 0, 0, 0.5));">
                                 <div class="region-name masbate">Masbate</div>
                                 <div class="hover-overlay masbate-overlay">
                                     <div class="hover-content" style="z-index: 3; position: absolute; bottom: 0; background: linear-gradient(to top, rgba(76, 175, 80, 0.9), rgba(76, 175, 80, 0.1)); width: 100%; text-align: center;">
@@ -718,7 +717,6 @@
             <i class="fa-solid fa-xmark"></i>
         </span>
         <div id="region-content">
-            <!-- The content from region-details.blade.php will be injected here -->
         </div>
     </div>
 </div>
@@ -730,145 +728,138 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var modal = document.getElementById('regionDetailsMapModal');
-        var closeBtn = modal.querySelector('.mapmodal-close');
-        var modalBodyContent = document.getElementById('region-content');
+        document.addEventListener('DOMContentLoaded', function () {
+            var modal = document.getElementById('regionDetailsMapModal');
+            var closeBtn = modal.querySelector('.mapmodal-close');
+            var modalBodyContent = document.getElementById('region-content');
 
-        if (!modalBodyContent) {
-            console.error('The modal content element (#region-content) is missing from the DOM.');
-            return;
-        }
+            if (!modalBodyContent) {
+                console.error('The modal content element (#region-content) is missing from the DOM.');
+                return;
+            }
 
-        // Event listener for anchor tags with class 'region-link'
-        document.querySelectorAll('.region-link').forEach(function (anchor) {
-            anchor.addEventListener('click', function (event) {
-                event.preventDefault();
+            // Event listener for anchor tags with class 'region-link'
+            document.querySelectorAll('.region-link').forEach(function (anchor) {
+                anchor.addEventListener('click', function (event) {
+                    event.preventDefault();
 
-                var name = this.getAttribute('data-name');  // Get the alias (e.g., camnorte)
+                    var name = this.getAttribute('data-name');  // Get the alias (e.g., camnorte)
 
-                // Fetch region details via AJAX
-                fetch(`/region-details/${name}`)
-                    .then(response => response.text())
-                    .then(data => {
-                        // Insert the fetched data into the modal
-                        modalBodyContent.innerHTML = data;
+                    // Fetch region details via AJAX
+                    fetch(`/region-details/${name}`)
+                        .then(response => response.text())
+                        .then(data => {
+                            // Insert the fetched data into the modal
+                            modalBodyContent.innerHTML = data;
 
-                        // Show the modal
-                        modal.style.display = 'block';
+                            // Show the modal
+                            modal.style.display = 'block';
 
-                        // Call a function to reinitialize event listeners on the newly loaded content
-                        reinitializeRegionDetailsScripts();
-                    })
-                    .catch(error => {
-                        console.error('Error loading region details:', error);
-                        modalBodyContent.innerHTML = "Unable to load region details.";
-                    });
+                            // Call a function to reinitialize event listeners on the newly loaded content
+                            reinitializeRegionDetailsScripts();
+                        })
+                        .catch(error => {
+                            console.error('Error loading region details:', error);
+                            modalBodyContent.innerHTML = "Unable to load region details.";
+                        });
+                });
+            });
+
+            // Event listener to close the modal
+            closeBtn.addEventListener('click', function () {
+                modal.style.display = 'none';
+            });
+
+            // Close modal if user clicks outside of the modal content
+            window.addEventListener('click', function (event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
             });
         });
 
-        // Event listener to close the modal
-        closeBtn.addEventListener('click', function () {
-            modal.style.display = 'none';
-        });
+        function reinitializeRegionDetailsScripts() {
+        const productLinks = document.querySelectorAll('.product-link-map');
 
-        // Close modal if user clicks outside of the modal content
-        window.addEventListener('click', function (event) {
-            if (event.target == modal) {
-                modal.style.display = 'none';
-            }
-        });
-    });
+        productLinks.forEach(link => {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
 
-    function reinitializeRegionDetailsScripts() {
-    const productLinks = document.querySelectorAll('.product-link-map');
+                // Get selected category ID
+                const categoryId = this.getAttribute('data-category');
+                const regionName = document.getElementById('region_name').value;
 
-    productLinks.forEach(link => {
-        link.addEventListener('click', function (event) {
-            event.preventDefault();
+                fetch(`/products/filter/${categoryId}/${regionName}`, {
+                    method: 'GET',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json(); // Parse the JSON response
+                })
+                .then(data => {
+                    // Get the product list container
+                    const productList = document.getElementById('product-list');
 
-            // Get selected category ID
-            const categoryId = this.getAttribute('data-category');
-            const regionName = document.getElementById('region_name').value;
+                    // Clear current products
+                    productList.innerHTML = '';
 
-            fetch(`/products/filter/${categoryId}/${regionName}`, {
-                method: 'GET',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json(); // Parse the JSON response
-            })
-            .then(data => {
-                // Get the product list container
-                const productList = document.getElementById('product-list');
+                    // Check if the data array is empty
+                    if (data.length === 0) {
+                        productList.innerHTML = `
+                            <div class="text-center">
+                                <p class ="card-text">No current products listed</p>
+                            </div>
+                        `;
+                    } else {
+                        let productContent = `<div class="d-flex flex-wrap justify-content-start" style="padding:0 20px;">`;
 
-                // Clear current products
-                productList.innerHTML = '';
-
-                // Check if the data array is empty
-                if (data.length === 0) {
-                    productList.innerHTML = `
-                        <div class="text-center">
-                            <p class ="card-text">No current products listed</p>
-                        </div>
-                    `;
-                } else {
-                    // Add the outer div for flex and padding
-                    let productContent = `<div class="d-flex flex-wrap justify-content-start" style="padding:0 20px;">`;
-
-                    // Iterate over the products and create product HTML elements
-                    data.forEach(product => {
-                        const productItem = `
-                            <a href="/product/${product.id}" class="text-decoration-none product-item" data-category="${product.category_id}" style="color: inherit;">
-                                <div class="product-item p-1">
-                                    <div class="card product-card product-card-hover" style="width: 9rem; border: 2px solid transparent; transition: transform 0.3s, border-color 0.3s; position: relative;">
-                                        <img src="${product.image_url}" class="card-img-top" alt="${product.name}" style="width: 100%; height: 110px; object-fit: cover;">
-                                        <div class="card-body text-center" style="padding: 10px 0;">
-                                            <h6 class="card-title" style="font-size: 0.85rem; font-weight: bold;">${product.name}</h6>
-                                            <p class="card-text" style="font-size: 12px; color: #555;"><strong>₱${product.price}</strong></p>
-                                            <p class="card-text" style="font-size: 11px; color: #555;">No reviews</p>
-                                            <div class="d-flex justify-content-between align-items-center mt-2">
-                                                <a href="#" class="btn btn-custom btn-sm add-to-cart" data-product-id="${product.id}" style="font-size: 12px;">
-                                                    <i class="fas fa-shopping-cart" style="margin-right: 4px;"></i> Add to Cart
-                                                </a>
-                                                <a href="#" class="btn btn-outline-danger btn-sm" style="width: 2rem; font-size: 12px;">
-                                                    <i class="fas fa-heart"></i>
-                                                </a>
+                        data.forEach(product => {
+                            const productItem = `
+                                <a href="/product/${product.id}" class="text-decoration-none product-item" data-category="${product.category_id}" style="color: inherit;">
+                                    <div class="product-item p-1">
+                                        <div class="card product-card product-card-hover" style="width: 9rem; border: 2px solid transparent; transition: transform 0.3s, border-color 0.3s; position: relative;">
+                                            <img src="${product.image_url}" class="card-img-top" alt="${product.name}" style="width: 100%; height: 110px; object-fit: cover;">
+                                            <div class="card-body text-center" style="padding: 10px 0;">
+                                                <h6 class="card-title" style="font-size: 0.85rem; font-weight: bold;">${product.name}</h6>
+                                                <p class="card-text" style="font-size: 12px; color: #555;"><strong>₱${product.price}</strong></p>
+                                                <p class="card-text" style="font-size: 11px; color: #555;">No reviews</p>
+                                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                                    <a href="#" class="btn btn-custom btn-sm add-to-cart" data-product-id="${product.id}" style="font-size: 12px;">
+                                                        <i class="fas fa-shopping-cart" style="margin-right: 4px;"></i> Add to Cart
+                                                    </a>
+                                                    <a href="#" class="btn btn-outline-danger btn-sm" style="width: 2rem; font-size: 12px;">
+                                                        <i class="fas fa-heart"></i>
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </a>`;
+                                </a>`;
 
-                        // Append each productItem to the productContent
-                        productContent += productItem;
-                    });
+                            productContent += productItem;
+                        });
 
-                    // Close the flex wrapper div
-                    productContent += '</div>';
+                        productContent += '</div>';
 
-                    // Finally, set the productContent inside the product list
-                    productList.innerHTML = productContent;
-                }
-            })
-            .catch(error => {
-                console.error('Fetch error:', error);
+                        productList.innerHTML = productContent;
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                });
+
+                productLinks.forEach(link => link.classList.remove('active'));
+
+                this.classList.add('active');
             });
-
-            // Remove the active class from all links
-            productLinks.forEach(link => link.classList.remove('active'));
-
-            // Add the active class to the clicked link
-            this.classList.add('active');
         });
-    });
-}
+    }
 </script>
 <style>
     // Select all images with the zoom effect
@@ -878,8 +869,8 @@
     img.addEventListener('mousemove', function (e) {
         // Get image dimensions and mouse position relative to the image
         const rect = img.getBoundingClientRect();
-        const offsetX = e.clientX - rect.left; // X-coordinate inside image
-        const offsetY = e.clientY - rect.top;  // Y-coordinate inside image
+        const offsetX = e.clientX - rect.left; 
+        const offsetY = e.clientY - rect.top;  
 
         // Calculate the transform-origin as percentage of the image dimensions
         const originX = (offsetX / rect.width) * 100;

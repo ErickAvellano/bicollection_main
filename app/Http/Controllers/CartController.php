@@ -114,18 +114,17 @@ class CartController extends Controller
 
         // If the item is found, delete it
         if ($cartItem) {
-            $cartItem->delete(); // Deletes the item from the cart
+            $cartItem->delete();
             return response()->json(['success' => true]);
         }
 
-        // If the cart item is not found, return an error response
         return response()->json(['error' => 'Item not found.'], 404);
     }
     public function update(Request $request, $cartId)
     {
         // Validate the request
         $request->validate([
-            'quantity' => 'required|integer|min:1', // Ensure quantity is a positive integer
+            'quantity' => 'required|integer|min:1', 
         ]);
 
         // Find the cart item
@@ -139,20 +138,18 @@ class CartController extends Controller
             // Return a success response
             return response()->json(['success' => true,
                 'quantity' => $cartItem->quantity,
-                'updatedPrice' => $cartItem->product->price // Return the updated price from the database
+                'updatedPrice' => $cartItem->product->price 
             ]);
         }
 
-        // Return an error response if item not found
         return response()->json(['success' => false, 'message' => 'Item not found'], 404);
     }
     public function getCartTooltip()
     {
         $user = Auth::user();
 
-        // Retrieve cart items for the logged-in user with product and product images
         $cartItems = Cart::where('customer_id', $user->user_id)
-            ->with('product.images') // Load product and images
+            ->with('product.images') 
             ->get();
 
         // Calculate the total amount in the cart
@@ -212,21 +209,20 @@ class CartController extends Controller
             return response()->json(['success' => true, 'cart_id' => $cartItem->cart_id]);
 
         } catch (\Exception $e) {
-            Log::error("Buy Now Error: " . $e->getMessage()); // Log the error message
             return response()->json(['success' => false, 'message' => 'Failed to add to cart'], 500);
         }
     }
     public function updateVariation(Request $request, $cartId)
     {
-        // Validate the incoming request
+        // Validate request
         $validated = $request->validate([
             'product_variation_id' => 'required|integer|exists:product_variation,product_variation_id',
         ]);
 
         // Find the cart item by ID
         $cartItem = Cart::where('cart_id', $cartId)
-            ->where('customer_id', Auth::id()) // Ensure it belongs to the logged-in user
-            ->where('status', 'active') // Ensure the cart item is active
+            ->where('customer_id', Auth::id()) 
+            ->where('status', 'active') 
             ->first();
 
         if (!$cartItem) {
@@ -268,7 +264,7 @@ class CartController extends Controller
                             ->first();
 
             if ($cartItem) {
-                $cartItem->quantity += $quantity; // Increment by the selected quantity
+                $cartItem->quantity += $quantity; 
                 $cartItem->save();
             } else {
                 Cart::create([
@@ -281,7 +277,7 @@ class CartController extends Controller
                 ]);
             }
 
-            return response()->noContent(200); // Return success with no content
+            return response()->noContent(200); 
 
         } catch (\Exception $e) {
             return response()->json(['error' => 'Internal server error.'], 500);

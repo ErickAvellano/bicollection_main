@@ -15,7 +15,6 @@ class CategoryController extends Controller
 
     public function index()
     {
-        // Fetch categories from the database (assuming you have a Category model)
         $categories = Category::all();
 
         // Pass categories to the view
@@ -23,7 +22,6 @@ class CategoryController extends Controller
     }
     public function showProduct(Request $request, $category_name)
     {
-        // Get the authenticated user or set to null
         $user = Auth::user();
         $favorites = [];
     
@@ -43,7 +41,7 @@ class CategoryController extends Controller
         // Fetch products for category and subcategories
         $products = Product::with('images')->whereIn('category_id', $all_category_ids)->get();
     
-        // Handle AJAX request for "All Products"
+        // Handle AJAX 
         if ($request->ajax()) {
             return view('category.partials.product-list', compact('products', 'favorites'))->render();
         }
@@ -57,7 +55,7 @@ class CategoryController extends Controller
     {
         
         try {
-            $user = Auth::user(); // Get the authenticated user
+            $user = Auth::user(); 
             $favorites = [];
 
             if ($user) {
@@ -72,15 +70,14 @@ class CategoryController extends Controller
             // Fetch products only for this subcategory
             $products = Product::where('subcategory_id', $subcategory_id)->get();
 
-            // Check if the request is AJAX
+            // AJAX
             if ($request->ajax()) {
                 return view('category.partials.product-list', compact('products', 'favorites'))->render();
             }
             $user = Auth::user();
             $favorites = Favorite::where('customer_id', $user->user_id)
-            ->pluck('product_id') // Get only the product IDs
+            ->pluck('product_id')
             ->toArray();
-            // For normal requests, return the full view
             return view('subcategory.products', compact('subcategory', 'products', 'favorites'));
         } catch (\Exception $e) {
             return response()->json(['error' => 'Something went wrong.'], 500);

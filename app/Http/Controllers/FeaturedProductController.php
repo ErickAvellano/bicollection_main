@@ -20,19 +20,17 @@ class FeaturedProductController extends Controller
         // Check if the shop design record exists
         $shopDesign = ShopDesign::find($request->shop_design_id);
 
-        // If it doesn't exist, create a new entry
         if (!$shopDesign) {
             $shopDesign = new ShopDesign();
-            $shopDesign->shop_id = $request->shop_id; // Set the shop_id
+            $shopDesign->shop_id = $request->shop_id; 
         }
 
-        // Update the featured products as a comma-separated string
+        // Update the featured products
         $shopDesign->featuredProduct = $request->featuredProduct;
 
-        // Save the shop design (either creating or updating)
         $shopDesign->save();
 
-        // Redirect back with a success message
+        // success message
         return redirect()->back()->with('success', 'Featured products added successfully.');
     }
     

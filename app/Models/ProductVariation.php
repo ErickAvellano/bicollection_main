@@ -9,8 +9,8 @@ class ProductVariation extends Model
 {
     use HasFactory;
 
-    protected $table = 'product_variation'; // Specify the table name if it's not the plural of the model name
-    protected $primaryKey = 'product_variation_id'; // Specify the primary key
+    protected $table = 'product_variation'; 
+    protected $primaryKey = 'product_variation_id'; 
     public $timestamps = false;
     protected $fillable = [
         'product_id',
@@ -21,7 +21,6 @@ class ProductVariation extends Model
         'product_status',
     ];
 
-    // Define relationship
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id', 'product_id');

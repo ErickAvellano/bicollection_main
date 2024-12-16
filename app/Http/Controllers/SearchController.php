@@ -14,8 +14,8 @@ class SearchController extends Controller
     public function search(Request $request)
     {
         $query = $request->input('query');
-        $categoryIds = $request->input('category_ids', []); // An array of selected category IDs
-        $priceRanges = $request->input('price_ranges', []); // Array of selected price ranges (updated)
+        $categoryIds = $request->input('category_ids', []); 
+        $priceRanges = $request->input('price_ranges', []);
         $sort = $request->input('sort', 'best_match');
         $newArrivals = $request->input('new_arrivals', 0);
 

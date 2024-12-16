@@ -19,16 +19,14 @@ use App\Models\ProductReview;
 
 class ProductController extends Controller
 {
-    // Show the form for creating a new product
     public function create()
     {
-        // Fetch categories where `parentcategoryID` is NULL (main categories)
         $categories = Category::whereNull('parentcategoryID')->get();
 
         // Fetch all subcategories
         $subcategories = Category::whereNotNull('parentcategoryID')->get();
 
-        // Returning the view from resources/views/merchant/product/create.blade.php
+        // Return
         return view('merchant.product.create', compact('categories', 'subcategories'));
     }
     public function inventorycreate()
@@ -36,24 +34,22 @@ class ProductController extends Controller
         if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'You must be logged in to access this page.');
         }
-
-        // Ensure the authenticated user is a merchant
         $user = Auth::user();
         if ($user->type !== 'merchant') {
             return redirect()->route('home')->with('error', 'Unauthorized access. Only merchants can view this page.');
         }
-        // Fetch categories where `parentcategoryID` is NULL (main categories)
+    
         $categories = Category::whereNull('parentcategoryID')->get();
 
         // Fetch all subcategories
         $subcategories = Category::whereNotNull('parentcategoryID')->get();
 
-        // Returning the view from resources/views/merchant/product/create.blade.php
+       // Return
         return view('merchant.inventory.create', compact('categories', 'subcategories'));
     }
 
 
-    // Store the newly created product
+
     public function store(Request $request)
     {
         if (!Auth::check()) {
@@ -138,7 +134,7 @@ class ProductController extends Controller
                             if (empty($productImages->$imageField)) {
                                 $productImages->$imageField = $variationImagePath;
                                 $productImages->save();
-                                break; // Stop after finding the first empty slot
+                                break; //stop
                             }
                         }
                     }
@@ -178,7 +174,7 @@ class ProductController extends Controller
             'category_id' => 'required|exists:category,category_id',
             'subcategory_id' => 'required|exists:category,category_id',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif',
-            'variations.*.attribute' => 'nullable|string|max:255',  // Make variations optional
+            'variations.*.attribute' => 'nullable|string|max:255',  
             'variations.*.image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
             'variations.*.quantity_item' => 'nullable|integer',
             'variations.*.price' => 'nullable|numeric',
@@ -242,7 +238,7 @@ class ProductController extends Controller
                         if (empty($productImages->$imageField)) {
                             $productImages->$imageField = $variationImagePath;
                             $productImages->save();
-                            break; // Stop after finding the first empty slot
+                            break; // Stop 
                         }
                     }
                 }
@@ -273,26 +269,21 @@ class ProductController extends Controller
         // Directly query image paths from the database for this product
         $images = DB::table('product_img')->where('product_id', $product->product_id)->first();
 
-        // Fetch categories and subcategories if needed for the edit form
         $categories = Category::whereNull('parentcategoryID')->get();
         $subcategories = Category::whereNotNull('parentcategoryID')->get();
 
-        // Return the edit view with the product and image data
         return view('merchant.product.edit', compact('product', 'categories', 'subcategories', 'images', 'variations'));
     }
     public function inventoryedit($id)
     {
-        // Fetch the product by ID
         $product = Product::findOrFail($id);
         $variations = $product->variations;
-        // Directly query image paths from the database for this product
+ 
         $images = DB::table('product_img')->where('product_id', $product->product_id)->first();
 
-        // Fetch categories and subcategories if needed for the edit form
         $categories = Category::whereNull('parentcategoryID')->get();
         $subcategories = Category::whereNotNull('parentcategoryID')->get();
 
-        // Return the edit view with the product and image data
         return view('merchant.inventory.edit', compact('product', 'categories', 'subcategories', 'images', 'variations'));
     }
 
@@ -307,7 +298,7 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Validate the form data
+        // Validate data
         $validatedData = $request->validate([
             'product_name' => 'required|string|max:255',
             'description' => 'required|string',
@@ -338,11 +329,10 @@ class ProductController extends Controller
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $key => $image) {
                 $path = $image->store('products', 'public');
-                $imagePaths['product_img_path' . ($key + 1)] = $path; // Generate paths for each product image slot
+                $imagePaths['product_img_path' . ($key + 1)] = $path; 
             }
         }
 
-        // Ensure that the product images record exists
         $productImages = ProductImg::firstOrCreate(
             ['product_id' => $product->product_id],
             [
@@ -354,29 +344,23 @@ class ProductController extends Controller
             ]
         );
 
-        // Update the product image paths (if new images were uploaded)
         foreach ($imagePaths as $key => $path) {
             if ($path) {
-                if (empty($productImages->$key)) {  // Only update if the slot is empty
+                if (empty($productImages->$key)) {  
                     $productImages->$key = $path;
                 }
             }
         }
-
-        // Save the updated product images
         $productImages->save();
 
-        // Handle product variations (create or update)
         if ($request->variations) {
             foreach ($request->variations as $index => $variation) {
                 $variationImagePath = null;
 
-                // Handle image upload for variations
                 if (isset($variation['image'])) {
                     $variationImagePath = $variation['image']->store('products', 'public');
                 }
 
-                // Use updateOrCreate for variations
                 ProductVariation::updateOrCreate(
                     [
                         'product_id' => $product->product_id,
@@ -397,13 +381,11 @@ class ProductController extends Controller
                         $imageSlotField = 'product_img_path' . $i;
                         if (empty($productImages->$imageSlotField)) {
                             $productImages->$imageSlotField = $variationImagePath;
-                            break; // Stop after assigning the first empty slot
+                            break; // Stop 
                         }
                     }
                 }
             }
-
-            // Save product image updates after variation image handling
             $productImages->save();
         }
 
@@ -442,7 +424,7 @@ class ProductController extends Controller
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $key => $image) {
                 $path = $image->store('products', 'public');
-                $imagePaths['product_img_path' . ($key + 1)] = $path; // Generate paths for each product image slot
+                $imagePaths['product_img_path' . ($key + 1)] = $path; 
             }
         }
 
@@ -458,10 +440,9 @@ class ProductController extends Controller
             ]
         );
 
-        // Update the product image paths (if new images were uploaded)
         foreach ($imagePaths as $key => $path) {
             if ($path) {
-                if (empty($productImages->$key)) {  // Only update if the slot is empty
+                if (empty($productImages->$key)) {  
                     $productImages->$key = $path;
                 }
             }
@@ -470,7 +451,7 @@ class ProductController extends Controller
         // Save the updated product images
         $productImages->save();
 
-        // Handle product variations (create or update)
+        // Handle product variations 
         if ($request->variations) {
             foreach ($request->variations as $index => $variation) {
                 $variationImagePath = null;
@@ -480,7 +461,6 @@ class ProductController extends Controller
                     $variationImagePath = $variation['image']->store('products', 'public');
                 }
 
-                // Use updateOrCreate for variations
                 ProductVariation::updateOrCreate(
                     [
                         'product_id' => $product->product_id,
@@ -493,21 +473,18 @@ class ProductController extends Controller
                         'product_status' => 1,
                     ]
                 );
-
-                // Assign variation image to product_img_path if the product image slot is empty
                 if ($variationImagePath) {
-                    // Find the first available empty product_img_path slot
+                    
                     for ($i = 1; $i <= 5; $i++) {
                         $imageSlotField = 'product_img_path' . $i;
                         if (empty($productImages->$imageSlotField)) {
                             $productImages->$imageSlotField = $variationImagePath;
-                            break; // Stop after assigning the first empty slot
+                            break; // Stop 
                         }
                     }
                 }
             }
 
-            // Save product image updates after variation image handling
             $productImages->save();
         }
 
@@ -522,7 +499,7 @@ class ProductController extends Controller
             $shop = $product->merchant->shop;
 
             // Fetch approved reviews for the product
-            $reviews = ProductReview::with('customerImage') // Include customer image
+            $reviews = ProductReview::with('customerImage') 
                 ->where('product_id', $id)
                 ->where('is_approved', 0)
                 ->orderBy('review_date', 'desc')
