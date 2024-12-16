@@ -151,24 +151,23 @@
                              class="rounded-circle border border-2 border-white me-3"
                              style="width: 100px; height: 100px; object-fit: cover;">
                     
-                        <!-- Shop Name and Edit -->
-                        <div style="display: flex; flex-direction: column;">
+                        <!-- Shop Name -->
+                        <div style="position: absolute; top: 30px; left: 110px; width:500px; display: flex; flex-direction: column;">
                             <!-- Shop Name -->
-                            <h4 class="fw-bold mb-0" id="shopName" contenteditable="true" style="cursor: text; display: inline-block;">
+                            <div class="mb-2">
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <i class="fa fa-star text-warning"></i>
+                                @endfor
+                            </div>
+                            <h5 class="fw-bold mb-0" id="shopName" contenteditable="true" style="display: inline-block;">
                                 {{ $shop->shop_name }} 
                                 <i class="fa-solid fa-check-circle text-primary"></i>
-                            </h4>
+                            </h5>
                         </div>
                     </div>
                     <!-- Shop Content -->
                     <div class="p-3 text-center" style="margin-top: 40px;">
                         <!-- Ratings -->
-                        <div class="mb-2">
-                            @for ($i = 1; $i <= 5; $i++)
-                                <i class="fa fa-star text-warning"></i>
-                            @endfor
-                        </div>
-
                         <!-- Details -->
                         <div class="text-start px-4">
                             <p><strong>Location:</strong> {{ $shop->province }}, {{ $shop->city }}</p>
