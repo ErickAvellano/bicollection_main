@@ -137,24 +137,24 @@
                 <div class="card shadow-sm rounded-lg" style="position: relative; overflow: hidden;">
                     <!-- Cover Image -->
                     <div style="height: 180px; overflow: hidden;">
-                        <img src="{{ $shop->coverphotopath ? Storage::url($shop->coverphotopath) : asset('images/default-bg.jpg') }}" 
-                             alt="Cover Photo" 
-                             class="w-100" 
+                        <img src="{{ $shop->coverphotopath ? Storage::url($shop->coverphotopath) : asset('images/default-bg.jpg') }}"
+                             alt="Cover Photo"
+                             class="w-100"
                              style="object-fit: cover; height: 100%;">
                     </div>
 
                     <!-- Profile Image -->
                     <div style="position: absolute; top: 120px; left: 20px; display: flex; align-items: center;">
                         <!-- Profile Image -->
-                        <img src="{{ $shop->shop_img ? Storage::url($shop->shop_img) : asset('images/assets/default_profile.png') }}" 
-                             alt="Shop Profile" 
+                        <img src="{{ $shop->shop_img ? Storage::url($shop->shop_img) : asset('images/assets/default_profile.png') }}"
+                             alt="Shop Profile"
                              class="rounded-circle border border-2 border-white me-3"
                              style="width: 100px; height: 100px; object-fit: cover;">
                         <!-- Shop Name -->
                         <div style="position: absolute; top: 10px; left: 110px; width:500px; display: flex; flex-direction: column;">
                             <!-- Shop Name -->
                             <h5 class="fw-bold mb-0" id="shopName" style="display: inline-block;">
-                                {{ $shop->shop_name }} 
+                                {{ $shop->shop_name }}
                                 <i class="fa-solid fa-check-circle text-success" title="Verified"></i>
                             </h5>
                             <div class="mb-2">
@@ -186,5 +186,31 @@
 @endsection
 
 @section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const shopNameElement = document.getElementById('shopName');
+        const verifiedIcon = document.getElementById('verifiedIcon');
 
+        // Function to calculate brightness of the background
+        function getElementBrightness(element) {
+            const bgColor = window.getComputedStyle(element).backgroundColor;
+
+            // Extract RGB values
+            const rgb = bgColor.match(/\d+/g).map(Number);
+            const brightness = (0.299 * rgb[0]) + (0.587 * rgb[1]) + (0.114 * rgb[2]);
+            return brightness;
+        }
+
+        // Calculate background brightness for the shopName's parent
+        const parentElement = shopNameElement.parentElement;
+        const brightness = getElementBrightness(parentElement);
+
+        // Apply changes if the background is dark
+        if (brightness < 128) { // Threshold for dark backgrounds
+            shopNameElement.style.color = '#ffffff'; // White text for shop name
+            verifiedIcon.classList.remove('text-success'); // Remove default green
+            verifiedIcon.classList.add('text-light'); // Apply white color
+        }
+    });
+</script>
 @endsection
