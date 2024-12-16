@@ -150,19 +150,18 @@
                              alt="Shop Profile" 
                              class="rounded-circle border border-2 border-white me-3"
                              style="width: 100px; height: 100px; object-fit: cover;">
-                    
                         <!-- Shop Name -->
-                        <div style="position: absolute; top: 30px; left: 110px; width:500px; display: flex; flex-direction: column;">
+                        <div style="position: absolute; top: 10px; left: 110px; width:500px; display: flex; flex-direction: column;">
                             <!-- Shop Name -->
+                            <h5 class="fw-bold mb-0" id="shopName" style="display: inline-block;">
+                                {{ $shop->shop_name }} 
+                                <i class="fa-solid fa-check-circle text-success" title="Verified"></i>
+                            </h5>
                             <div class="mb-2">
                                 @for ($i = 1; $i <= 5; $i++)
-                                    <i class="fa fa-star text-warning"></i>
-                                @endfor
-                            </div>
-                            <h5 class="fw-bold mb-0" id="shopName" contenteditable="true" style="display: inline-block;">
-                                {{ $shop->shop_name }} 
-                                <i class="fa-solid fa-check-circle text-primary"></i>
-                            </h5>
+                                   <i class="fa fa-star text-warning"></i>
+                               @endfor
+                           </div>
                         </div>
                     </div>
                     <!-- Shop Content -->
