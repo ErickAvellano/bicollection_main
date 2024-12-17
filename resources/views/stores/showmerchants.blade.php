@@ -148,10 +148,12 @@
                     <div style="position: absolute; top: 120px; left: 20px; display: flex; align-items: center;">
                         <!-- Profile Image -->
                         <img src="{{ $shop->shop_img ? Storage::url($shop->shop_img) : asset('images/assets/default_profile.png') }}"
-                             alt="Shop Profile" class="rounded-circle border border-2 border-white me-3" style="width: 100px; height: 100px; object-fit: cover;">
+                             alt="Shop Profile" 
+                             class="rounded-circle border border-2 border-white me-3" 
+                             style="width: 100px; height: 100px; object-fit: cover;">
+
                         <!-- Shop Name -->
                         <div style="position: absolute; top: 0px; left: 110px; width:400px; display: flex; flex-direction: column;">
-                            <!-- Shop Name -->
                             <h5 class="fw-bold mb-0" id="shopName" style="display: inline-block; color:white;">
                                 {{ $shop->shop_name }}
                                 <i class="fa-solid fa-check-circle text-custom" title="Verified"></i>
@@ -159,33 +161,34 @@
                             <div class="mb-1">
                                 @for ($i = 1; $i <= 5; $i++)
                                    <i class="fa fa-star text-warning"></i>
-                               @endfor
-                           </div>
-                           <div class="mb-0" style="display: grid; grid-template-columns: 20px auto 1fr; align-items: center;">
+                                @endfor
+                            </div>
+                            <div class="mb-0" style="display: grid; grid-template-columns: 20px auto; gap: 5px;">
                                 <i class="fa-solid fa-location-dot text-danger"></i>
-                                <strong>:</strong>
-                                    <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($shop->shop_street . ', ' . $shop->barangay . ', ' . $shop->city . ', ' . $shop->province) }}"
+                                <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($shop->shop_street . ', ' . $shop->barangay . ', ' . $shop->city . ', ' . $shop->province) }}"
                                     target="_blank"
                                     style="text-decoration: none; color: inherit;">
-                                        <span>{{ $shop->shop_street }}, {{ $shop->barangay }}, {{ $shop->city }}, {{ $shop->province }}</span>
+                                    <span>{{ $shop->shop_street }}, {{ $shop->barangay }}, {{ $shop->city }}, {{ $shop->province }}</span>
+                                </a>
+
+                                <i class="fa-solid fa-phone"></i>
+                                @if ($shop->contact)
+                                    <a href="tel:{{ $shop->contact }}" style="text-decoration: none; color: inherit;">
+                                        <span>{{ $shop->contact }}</span>
                                     </a>
-                                    <i class="fa-solid fa-phone"></i>
-                                    <strong>:</strong>
-                                    @if ($shop->contact)
-                                        <a href="tel:{{ $shop->contact }}" style="text-decoration: none; color: inherit;">
-                                            <span>{{ $shop->contact }}</span>
-                                        </a>
-                                    @else
-                                        <span>N/A</span>
-                                    @endif
+                                @else
+                                    <span>N/A</span>
+                                @endif
                             </div>
                         </div>
                     </div>
+
                     <!-- Shop Content -->
                     <div class="p-3 text-center" style="margin-top: 40px;">
                         <!-- Details -->
                         <div class="text-start px-4">
-                            @if ($shop->applications->isNotEmpty())
+                            <!-- Categories as Badges -->
+                            @if ($shop->applications && $shop->applications->count() > 0)
                                 <div class="mb-2">
                                     @foreach ($shop->applications as $application)
                                         @if ($application->categories)
@@ -200,7 +203,11 @@
                             @else
                                 <span class="badge bg-secondary">No Applications</span>
                             @endif
-                            <p class="mb-0"><strong>About Store:</strong> {{ Str::limit($shop->description, 100, '...') }}</p>
+                            
+                            <!-- About Store -->
+                            <p class="mb-0">
+                                <strong>About Store:</strong> {{ Str::limit($shop->description, 100, '...') }}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -208,6 +215,8 @@
         @endforeach
     </div>
 </div>
+@endsection
+
 
 
 
