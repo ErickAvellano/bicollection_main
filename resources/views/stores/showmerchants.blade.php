@@ -186,7 +186,7 @@
                         <!-- Details -->
                         <div class="text-start px-4">
                             <p class="mb-1"><strong>Category: </strong></p>
-                            <p class="mb-0"><strong>About Store:</strong> {{ Str::limit($shop->description, 150, '...') }}</p>
+                            <p class="mb-0"><strong>About Store:</strong> {{ Str::limit($shop->description, 100, '...') }}</p>
                         </div>
                     </div>
                 </div>
