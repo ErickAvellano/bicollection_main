@@ -170,8 +170,14 @@
                                         <span>{{ $shop->shop_street }}, {{ $shop->barangay }}, {{ $shop->city }}, {{ $shop->province }}</span>
                                     </a>
                                     <i class="fa-solid fa-phone"></i>
-                                <strong>: </strong>
-                                    <span> {{ $shop->contact ?? 'N/A' }}</span>
+                                    <strong>:</strong>
+                                    @if ($shop->contact)
+                                        <a href="tel:{{ $shop->contact }}" style="text-decoration: none; color: inherit;">
+                                            <span>{{ $shop->contact }}</span>
+                                        </a>
+                                    @else
+                                        <span>N/A</span>
+                                    @endif
                             </div>
                         </div>
                     </div>
