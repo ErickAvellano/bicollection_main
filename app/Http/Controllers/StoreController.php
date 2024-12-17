@@ -81,17 +81,20 @@ class StoreController extends Controller
             return redirect()->back()->with('error', 'No verified shops found.');
         }
     
-        // Decode categories 
+        // Safely process applications and decode categories
         foreach ($shops as $shop) {
-            foreach ($shop->applications as $application) {
-                if (!empty($application->categories)) {
-                    $application->decoded_categories = json_decode($application->categories, true);
-                } else {
-                    $application->decoded_categories = [];
+            if ($shop->applications) { // Ensure applications are loaded
+                foreach ($shop->applications as $application) {
+                    if (!empty($application->categories)) {
+                        $application->decoded_categories = json_decode($application->categories, true);
+                    } else {
+                        $application->decoded_categories = [];
+                    }
                 }
             }
         }
     
+        // Pass the processed data to the view
         return view('stores.showmerchants', compact('shops'));
     }
     
