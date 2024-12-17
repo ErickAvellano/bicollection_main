@@ -161,6 +161,12 @@
                                    <i class="fa fa-star text-warning"></i>
                                @endfor
                            </div>
+                           <div class="mb-2">
+                                <p class="mb-0"><strong>Location:</strong> {{ $shop->province }}, {{ $shop->city }}</p>
+                                <p class="mb-0"><strong>Contact:</strong> {{ $shop->contact ?? 'N/A' }}</p>
+                           </div>
+                       </div>
+
                         </div>
                     </div>
                     <!-- Shop Content -->
@@ -168,9 +174,7 @@
                         <!-- Ratings -->
                         <!-- Details -->
                         <div class="text-start px-4">
-                            <p class="mb-0"><strong>Location:</strong> {{ $shop->province }}, {{ $shop->city }}</p>
-                            <p class="mb-0"><strong>Contact:</strong> {{ $shop->contact ?? 'N/A' }}</p>
-                            <p class="mb-0"><strong>About Store:</strong> {{ Str::limit($shop->description, 100, '...') }}</p>
+                            <p ><strong>About Store:</strong> {{ Str::limit($shop->description, 100, '...') }}</p>
                         </div>
                     </div>
                 </div>
