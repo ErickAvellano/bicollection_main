@@ -167,25 +167,43 @@
                                         {{ $shop->shop_name }}
                                         <i class="fa-solid fa-check-circle text-custom" title="Verified"></i>
                                     </h5>
+                                    <div class="mb-1">
+                                        @php
+                                            $rating = $shop->avg_merchant_service_rating ?? 0;
+                                            $fullStars = floor($rating); // Full stars
+                                            $hasHalfStar = ($rating - $fullStars) >= 0.5; // Half star
+                                            $emptyStars = 5 - $fullStars - ($hasHalfStar ? 1 : 0); // Empty stars
+                                        @endphp
 
-                                </div>
-                                    <div class="mb-0" style="display: grid; grid-template-columns: 20px auto; gap: 5px;">
-                                        <i class="fa-solid fa-location-dot text-danger"></i>
-                                        <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($shop->shop_street . ', ' . $shop->barangay . ', ' . $shop->city . ', ' . $shop->province) }}"
-                                            target="_blank"
-                                            style="text-decoration: none; color: inherit; font-size:0.9rem;">
-                                            <span>{{ $shop->shop_street }}, {{ $shop->barangay }}, {{ $shop->city }}, {{ $shop->province }}</span>
-                                        </a>
+                                        @for ($i = 1; $i <= $fullStars; $i++)
+                                            <i class="fa fa-star text-warning"></i>
+                                        @endfor
 
-                                        <i class="fa-solid fa-phone"></i>
-                                        @if ($shop->contact)
-                                            <a href="tel:{{ $shop->contact }}" style="text-decoration: none; color: inherit; font-size:0.9rem;">
-                                                <span>{{ $shop->contact }}</span>
-                                            </a>
-                                        @else
-                                            <span style="font-size:0.9rem;">N/A</span>
+                                        @if ($hasHalfStar)
+                                            <i class="fa-solid fa-star-half-stroke text-warning"></i>
                                         @endif
+
+                                        @for ($i = 1; $i <= $emptyStars; $i++)
+                                            <i class="fa fa-star text-secondary"></i>
+                                        @endfor
                                     </div>
+                                </div>
+                                <div class="mb-0" style="display: grid; grid-template-columns: 20px auto; gap: 5px;">
+                                    <i class="fa-solid fa-location-dot text-danger"></i>
+                                    <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($shop->shop_street . ', ' . $shop->barangay . ', ' . $shop->city . ', ' . $shop->province) }}"
+                                        target="_blank"
+                                        style="text-decoration: none; color: inherit; font-size:0.9rem;">
+                                        <span>{{ $shop->shop_street }}, {{ $shop->barangay }}, {{ $shop->city }}, {{ $shop->province }}</span>
+                                    </a>
+
+                                    <i class="fa-solid fa-phone"></i>
+                                    @if ($shop->contact)
+                                        <a href="tel:{{ $shop->contact }}" style="text-decoration: none; color: inherit; font-size:0.9rem;">
+                                            <span>{{ $shop->contact }}</span>
+                                        </a>
+                                    @else
+                                        <span style="font-size:0.9rem;">N/A</span>
+                                    @endif
                                 </div>
                             </div>
 
