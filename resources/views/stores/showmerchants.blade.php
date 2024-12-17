@@ -165,8 +165,6 @@
                                 <p class="mb-0"><strong>Location:</strong> {{ $shop->province }}, {{ $shop->city }}</p>
                                 <p class="mb-0"><strong>Contact:</strong> {{ $shop->contact ?? 'N/A' }}</p>
                            </div>
-                       </div>
-
                         </div>
                     </div>
                     <!-- Shop Content -->
