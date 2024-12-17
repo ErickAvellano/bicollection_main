@@ -162,8 +162,8 @@
                                @endfor
                            </div>
                            <div class="mb-0">
-                                <p class="mb-0"><strong><i class="fa-solid fa-location-dot text-danger"></i></strong> {{ $shop->shop_street }}, {{ $shop->barangay }},  {{ $shop->city }}, {{ $shop->province }},</p>
-                                <p class="mb-0"><strong><i class="fa-solid fa-phone"></i></strong> {{ $shop->contact ?? 'N/A' }}</p>
+                                <p class="mb-0"><strong><i class="fa-solid fa-location-dot text-danger">:</i></strong> {{ $shop->shop_street }}, {{ $shop->barangay }},  {{ $shop->city }}, {{ $shop->province }}</p>
+                                <p class="mb-0"><strong><i class="fa-solid fa-phone">:</i></strong> {{ $shop->contact ?? 'N/A' }}</p>
                            </div>
                         </div>
                     </div>
