@@ -156,12 +156,12 @@
                                 {{ $shop->shop_name }}
                                 <i class="fa-solid fa-check-circle text-success" title="Verified"></i>
                             </h5>
-                            <div class="mb-2">
+                            <div class="mb-0">
                                 @for ($i = 1; $i <= 5; $i++)
                                    <i class="fa fa-star text-warning"></i>
                                @endfor
                            </div>
-                           <div class="mb-2">
+                           <div class="mb-0">
                                 <p class="mb-0"><strong>Location:</strong> {{ $shop->province }}, {{ $shop->city }}</p>
                                 <p class="mb-0"><strong>Contact:</strong> {{ $shop->contact ?? 'N/A' }}</p>
                            </div>
