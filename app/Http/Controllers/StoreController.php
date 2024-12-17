@@ -60,10 +60,9 @@ class StoreController extends Controller
     }
     public function showMerchants()
     {
-        // Fetch verified shops with average merchant_service_rating
         $shops = Shop::with('applications')
-            ->leftJoin('product', 'product.merchant_id', '=', 'shop.merchant_id') // Join with products
-            ->leftJoin('product_reviews', 'product_reviews.product_id', '=', 'product.product_id') // Join with product reviews
+            ->leftJoin('product', 'product.merchant_id', '=', 'shop.merchant_id')
+            ->leftJoin('product_reviews', 'product_reviews.product_id', '=', 'product.product_id')
             ->select(
                 'shop.shop_id',
                 'shop.merchant_id',
@@ -76,16 +75,28 @@ class StoreController extends Controller
                 'shop.city',
                 'shop.barangay',
                 'shop.verification_status',
-                DB::raw('AVG(product_reviews.merchant_service_rating) AS avg_merchant_service_rating') 
+                DB::raw('AVG(product_reviews.merchant_service_rating) AS avg_merchant_service_rating')
             )
             ->where('shop.verification_status', 'Verified')
-            ->groupBy('shop.shop_id') 
+            ->groupBy(
+                'shop.shop_id',
+                'shop.merchant_id',
+                'shop.shop_name',
+                'shop.description',
+                'shop.shop_img',
+                'shop.coverphotopath',
+                'shop.shop_street',
+                'shop.province',
+                'shop.city',
+                'shop.barangay',
+                'shop.verification_status'
+            )
             ->get();
-    
+
         if ($shops->isEmpty()) {
             return redirect()->back()->with('error', 'No verified shops found.');
         }
-    
+
         // Safely process applications and decode categories
         foreach ($shops as $shop) {
             if ($shop->applications) {
@@ -96,12 +107,12 @@ class StoreController extends Controller
                 }
             }
         }
-    
+
         // Pass the processed data to the view
         return view('stores.showmerchants', compact('shops'));
     }
-    
-    
+
+
 
 
 }
