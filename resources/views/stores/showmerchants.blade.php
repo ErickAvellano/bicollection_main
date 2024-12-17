@@ -156,7 +156,7 @@
                                 {{ $shop->shop_name }}
                                 <i class="fa-solid fa-check-circle text-success" title="Verified"></i>
                             </h5>
-                            <div class="mb-2">
+                            <div class="mb-1">
                                 @for ($i = 1; $i <= 5; $i++)
                                    <i class="fa fa-star text-warning"></i>
                                @endfor
