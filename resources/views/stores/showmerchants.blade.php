@@ -177,7 +177,12 @@
                                         <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($shop->shop_street . ', ' . $shop->barangay . ', ' . $shop->city . ', ' . $shop->province) }}"
                                             target="_blank"
                                             style="text-decoration: none; color: inherit;">
-                                            <span>{{ $shop->shop_street }}, {{ $shop->barangay }}, {{ $shop->city }}, {{ $shop->province }}</span>
+                                            <span>
+                                                @php
+                                                    $address = $shop->shop_street . ', ' . $shop->barangay . ', ' . $shop->city . ', ' . $shop->province;
+                                                @endphp
+                                                {{ strlen($address) > 80 ? Str::limit($address, 80) . '...' : $address }}
+                                            </span>
                                         </a>
 
                                         <i class="fa-solid fa-phone"></i>
