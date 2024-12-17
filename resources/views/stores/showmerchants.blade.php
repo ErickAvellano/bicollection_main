@@ -193,14 +193,14 @@
                                             @foreach ($application->decoded_categories as $category)
                                                 @if (!empty($category))
                                                     @php
-                                                        // Clean up the category name by removing "Products" or "Craft"
-                                                        $categoryName = str_replace(['Products'], '', $category);
+                                                        // Clean up the category name by removing "Products" and "Craft" if present
+                                                        $categoryName = str_replace(['Products', 'Craft'], '', $category);
 
                                                         // List of categories that should have "Crafts" appended
                                                         $categoriesWithCrafts = ['Rattan', 'Coconut', 'Leather', 'Karagumoy', 'Buri', 'Anahaw', 'Nito'];
                                                         
                                                         // If the category matches, append "Crafts" to the name
-                                                        if (in_array($categoryName, $categoriesWithCrafts)) {
+                                                        if (in_array(trim($categoryName), $categoriesWithCrafts)) {
                                                             $categoryName .= ' Crafts'; // Append "Crafts"
                                                         }
                                                     @endphp
