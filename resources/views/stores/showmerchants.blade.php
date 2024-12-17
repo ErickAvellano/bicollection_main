@@ -167,7 +167,7 @@
                     <div class="p-3 text-center" style="margin-top: 40px;">
                         <!-- Ratings -->
                         <!-- Details -->
-                        <div class="text-start px-4">
+                        <div class="text-start">
                             <p class="mb-0"><strong>Location:</strong> {{ $shop->province }}, {{ $shop->city }}</p>
                             <p class="mb-0"><strong>Contact:</strong> {{ $shop->contact ?? 'N/A' }}</p>
                             <p class="mb-0"><strong>About Store:</strong> {{ Str::limit($shop->description, 100, '...') }}</p>
