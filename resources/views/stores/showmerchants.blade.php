@@ -158,9 +158,9 @@
                         <!-- Categories as Badges -->
                         <div class="mb-2">
                             @forelse ($shop->applications as $application)
-                                @if ($application->categories && $application->categories->isNotEmpty())
-                                    @foreach ($application->categories as $category)
-                                        <span class="badge bg-success">{{ $category->name }}</span>
+                                @if (!empty($application->categories))
+                                    @foreach (json_decode($application->categories, true) as $category)
+                                        <span class="badge bg-success">{{ $category }}</span>
                                     @endforeach
                                 @else
                                     <span class="badge bg-secondary">No Categories</span>
