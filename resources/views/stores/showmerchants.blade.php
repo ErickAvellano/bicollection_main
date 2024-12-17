@@ -212,13 +212,13 @@
                                     <i class="fa-solid fa-location-dot text-danger"></i>
                                     <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($shop->shop_street . ', ' . $shop->barangay . ', ' . $shop->city . ', ' . $shop->province) }}"
                                         target="_blank"
-                                        style="text-decoration: none; color: inherit; font-size:0.9rem;">
+                                        style="text-decoration: none; color: inherit; font-size:1rem;">
                                         <span>{{ $shop->shop_street }}, {{ $shop->barangay }}, {{ $shop->city }}, {{ $shop->province }}</span>
                                     </a>
 
                                     <i class="fa-solid fa-phone"></i>
                                     @if ($shop->contact)
-                                        <a href="tel:{{ $shop->contact }}" style="text-decoration: none; color: inherit; font-size:0.9rem;">
+                                        <a href="tel:{{ $shop->contact }}" style="text-decoration: none; color: inherit; font-size:1rem;">
                                             <span>{{ $shop->contact }}</span>
                                         </a>
                                     @else
