@@ -193,13 +193,18 @@
                                             @foreach ($application->decoded_categories as $category)
                                                 @if (!empty($category))
                                                     @php
-                                                        $categoryName = str_replace(['Products', 'Crafts', 'Craft'], '', $category);
+                                                        // Clean up the category name by removing "Products" or "Craft"
+                                                        $categoryName = str_replace(['Products', 'Craft', 'Crafts'], '', $category);
 
+                                                        // List of categories that should have "Crafts" appended
                                                         $categoriesWithCrafts = ['Rattan', 'Coconut', 'Leather', 'Karagumoy', 'Buri', 'Anahaw', 'Nito'];
+                                                        
+                                                        // If the category matches, append "Crafts" to the name
                                                         if (in_array($categoryName, $categoriesWithCrafts)) {
-                                                            $categoryName .= ' Crafts'; // Append "Crafts" to the category name
+                                                            $categoryName .= ' Crafts'; // Append "Crafts"
                                                         }
                                                     @endphp
+                                                    <!-- Display the category with "Crafts" appended where necessary -->
                                                     <a href="{{ route('category.product', ['category_name' => $categoryName]) }}" class="badge bg-success">
                                                         {{ $categoryName }}
                                                     </a>
@@ -211,6 +216,7 @@
                                     @empty
                                         <span class="badge bg-secondary">No Applications</span>
                                     @endforelse
+
 
                                 </div>
                                 <!-- About Store -->
