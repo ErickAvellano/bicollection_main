@@ -193,8 +193,12 @@
                                             @foreach ($application->decoded_categories as $category)
                                                 @if (!empty($category))
                                                     @php
-                                                        // Strip unnecessary words like "Products" or "Crafts"
                                                         $categoryName = str_replace(['Products', 'Crafts', 'Craft'], '', $category);
+
+                                                        $categoriesWithCrafts = ['Rattan', 'Coconut', 'Leather', 'Karagumoy', 'Buri', 'Anahaw', 'Nito'];
+                                                        if (in_array($categoryName, $categoriesWithCrafts)) {
+                                                            $categoryName .= ' Crafts'; // Append "Crafts" to the category name
+                                                        }
                                                     @endphp
                                                     <a href="{{ route('category.product', ['category_name' => $categoryName]) }}" class="badge bg-success">
                                                         {{ $categoryName }}
@@ -207,6 +211,7 @@
                                     @empty
                                         <span class="badge bg-secondary">No Applications</span>
                                     @endforelse
+
                                 </div>
                                 <!-- About Store -->
                                 <p class="mb-0">
