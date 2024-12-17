@@ -207,8 +207,8 @@
                                                         }
                                                     @endphp
                                                     <!-- Use urlencode for the category name to avoid issues with spaces and special characters in the URL -->
-                                                    <a href="{{ route('category.product', ['category_name' => urlencode(trim($categoryName))]) }}" class="badge bg-success">
-                                                        {{ $categoryNameWithCrafts }} <!-- Display the name with "Crafts" if applicable -->
+                                                    <a href="{{ route('category.product', ['category_name' => $categoryNameWithCrafts]) }}" class="badge bg-success">
+                                                        {{ $categoryName }} <!-- Display the name with "Crafts" if applicable -->
                                                     </a>
                                                 @endif
                                             @endforeach
