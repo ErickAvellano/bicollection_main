@@ -197,8 +197,12 @@
                                                 {{ number_format($rating, 1) }} / 5
                                             </span>
                                         @else
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <i class="fa fa-star text-secondary"></i>
+                                            @endfor
+                            
                                             {{-- Display no ratings message --}}
-                                            <span class="text-secondary" style="font-size: 0.9rem;">
+                                            <span class="ms-2 text-secondary" style="font-size: 0.9rem;">
                                                 No ratings yet
                                             </span>
                                         @endif
