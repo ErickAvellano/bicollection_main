@@ -193,7 +193,7 @@
                                             @endfor
                                     
                                             {{-- Display numeric rating --}}
-                                            <span class="ms-2 text-warning" style="font-size: 0.9rem;">
+                                            <span class="ms-2" style="font-size: 0.9rem; color: #555;">
                                                 {{ number_format($rating, 1) }} / 5
                                             </span>
                                         @else
