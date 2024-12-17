@@ -197,7 +197,7 @@
                                                         $categoryName = str_replace(['Products', 'Shell'], '', $category);
 
                                                         // List of categories that should have "Crafts" appended to the displayed name
-                                                        $categoriesWithCrafts = ['Rattan', 'Coconut', 'Leather', 'Karagumoy', 'Buri', 'Anahaw', 'Nito'];
+                                                        $categoriesWithCrafts = ['Rattan', 'Leather', 'Karagumoy', 'Buri', 'Anahaw', 'Nito'];
                                                         
                                                         // Check if the category is in the list to append "Crafts"
                                                         if (in_array(trim($categoryName), $categoriesWithCrafts)) {
