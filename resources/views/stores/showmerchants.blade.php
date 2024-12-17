@@ -131,56 +131,86 @@
 
 @section('content')
     <div class="container mt-4">
-    <div class="row">
-        @foreach ($shops as $shop)
-            <div class="col-md-6 mb-4">
-                <div class="card shadow-sm rounded-lg">
-                    <!-- Shop Cover Image -->
-                    <div style="position: relative; height: 180px; overflow: hidden;">
-                        <img src="{{ $shop->coverphotopath ? Storage::url($shop->coverphotopath) : asset('images/default-bg.jpg') }}"
-                             alt="{{ $shop->shop_name }}"
-                             class="w-100"
-                             style="object-fit: cover; height: 100%;">
-                    </div>
-
-                    <!-- Profile Image and Shop Name -->
-                    <div class="p-3" style="position: relative;">
-                        <img src="{{ $shop->shop_img ? Storage::url($shop->shop_img) : asset('images/assets/default_profile.png') }}"
-                             alt="Shop Profile"
-                             class="rounded-circle border border-2 border-white"
-                             style="width: 80px; height: 80px; position: absolute; top: -40px; left: 20px; object-fit: cover;">
-
-                        <h5 class="fw-bold" style="margin-left: 100px;">
-                            {{ $shop->shop_name }}
-                            <i class="fa-solid fa-check-circle text-success" title="Verified"></i>
-                        </h5>
-
-                        <!-- Categories as Badges -->
-                        <div class="mb-2">
-                            @forelse ($shop->applications as $application)
-                                @if (!empty($application->categories))
-                                    @foreach (json_decode($application->categories, true) as $category)
-                                        <span class="badge bg-success">{{ $category }}</span>
-                                    @endforeach
-                                @else
-                                    <span class="badge bg-secondary">No Categories</span>
-                                @endif
-                            @empty
-                                <span class="badge bg-secondary">No Applications</span>
-                            @endforelse
+        <div class="row">
+            @foreach ($shops as $shop)
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow-sm rounded-lg" style="position: relative; overflow: hidden; height: 320px;">
+                        <!-- Cover Image -->
+                        <div style="position: relative; height: 180px; overflow: hidden;">
+                            <img src="{{ $shop->coverphotopath ? Storage::url($shop->coverphotopath) : asset('images/default-bg.jpg') }}"
+                                alt="Cover Photo"
+                                class="w-100"
+                                style="object-fit: cover; height: 100%;">
+                            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);"></div>
                         </div>
 
-                        <!-- Shop Description -->
-                        <p class="text-muted">
-                            <strong>About Store:</strong> {{ Str::limit($shop->description, 100, '...') }}
-                        </p>
+                        <!-- Profile Image -->
+                        <div style="position: absolute; top: 120px; left: 20px; display: flex; align-items: center;">
+                            <!-- Profile Image -->
+                            <img src="{{ $shop->shop_img ? Storage::url($shop->shop_img) : asset('images/assets/default_profile.png') }}"
+                                alt="Shop Profile" 
+                                class="rounded-circle border border-2 border-white me-3" 
+                                style="width: 100px; height: 100px; object-fit: cover;">
+
+                            <!-- Shop Name -->
+                            <div style="position: absolute; top: 0px; left: 110px; width:400px; display: flex; flex-direction: column;">
+                                <h5 class="fw-bold mb-0" id="shopName" style="display: inline-block; color:white;">
+                                    {{ $shop->shop_name }}
+                                    <i class="fa-solid fa-check-circle text-custom" title="Verified"></i>
+                                </h5>
+                                <div class="mb-1">
+                                    @for ($i = 1; $i <= 5; $i++)
+                                    <i class="fa fa-star text-warning"></i>
+                                    @endfor
+                                </div>
+                                <div class="mb-0" style="display: grid; grid-template-columns: 20px auto; gap: 5px;">
+                                    <i class="fa-solid fa-location-dot text-danger"></i>
+                                    <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($shop->shop_street . ', ' . $shop->barangay . ', ' . $shop->city . ', ' . $shop->province) }}"
+                                        target="_blank"
+                                        style="text-decoration: none; color: inherit;">
+                                        <span>{{ $shop->shop_street }}, {{ $shop->barangay }}, {{ $shop->city }}, {{ $shop->province }}</span>
+                                    </a>
+
+                                    <i class="fa-solid fa-phone"></i>
+                                    @if ($shop->contact)
+                                        <a href="tel:{{ $shop->contact }}" style="text-decoration: none; color: inherit;">
+                                            <span>{{ $shop->contact }}</span>
+                                        </a>
+                                    @else
+                                        <span>N/A</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Shop Content -->
+                        <div class="p-3 text-center" style="margin-top: 40px;">
+                            <!-- Details -->
+                            <div class="text-start px-4">
+                                <div class="mb-2">
+                                    @forelse ($shop->applications as $application)
+                                        @if (!empty($application->categories))
+                                            @foreach (json_decode($application->categories, true) as $category)
+                                                <span class="badge bg-success">{{ $category }}</span>
+                                            @endforeach
+                                        @else
+                                            <span class="badge bg-secondary">No Categories</span>
+                                        @endif
+                                    @empty
+                                        <span class="badge bg-secondary">No Applications</span>
+                                    @endforelse
+                                </div>
+                                <!-- About Store -->
+                                <p class="mb-0">
+                                    <strong>About Store:</strong> {{ Str::limit($shop->description, 100, '...') }}
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        @endforeach
+            @endforeach    
+        </div>
     </div>
-</div>
-
 
 
 
