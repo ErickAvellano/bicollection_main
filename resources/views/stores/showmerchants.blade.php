@@ -133,8 +133,8 @@
     <div class="container mt-4">
         <div class="row">
             @foreach ($shops as $shop)
-                <a href="{{ route('merchant.viewstore', ['shopId' => $shop->shop_id]) }}" class="card-link">
-                    <div class="col-md-6 mb-4">
+                <div class="col-md-6 mb-4">
+                    <a href="{{ route('merchant.viewstore', ['shopId' => $shop->shop_id]) }}" class="card-link">
                         <div class="card shadow-sm rounded-lg" style="position: relative; overflow: hidden; height: 320px;">
                             <!-- Cover Image -->
                             <div style="position: relative; height: 180px; overflow: hidden;">
@@ -227,8 +227,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
             @endforeach    
         </div>
     </div>
