@@ -133,6 +133,7 @@
     <div class="container mt-4">
         <div class="row">
             @foreach ($shops as $shop)
+
                 <div class="col-md-6 mb-4">
                     <div class="card shadow-sm rounded-lg" style="position: relative; overflow: hidden; height: 320px;">
                         <!-- Cover Image -->
@@ -206,7 +207,7 @@
                                                             $categoryNameWithCrafts = $categoryName; // Keep the name as is
                                                         }
                                                     @endphp
-                                                    <a href="{{ route('category.product', ['category_name' => $categoryNameWithCrafts]) }}" class="badge bg-success">
+                                                    <a href="{{ route('category.product', ['category_name' => $categoryNameWithCrafts]) }}" class="badge bg-success" style="text-decoration: none;">
                                                         {{ $categoryName }} 
                                                     </a>
                                                 @endif
