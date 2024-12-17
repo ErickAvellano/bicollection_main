@@ -193,20 +193,22 @@
                                             @foreach ($application->decoded_categories as $category)
                                                 @if (!empty($category))
                                                     @php
-                                                        // Clean up the category name by removing "Products" and "Craft" if present
-                                                        $categoryName = str_replace(['Products', 'Craft'], '', $category);
+                                                        // Clean up the category name by removing "Products"
+                                                        $categoryName = str_replace('Products', '', $category);
 
-                                                        // List of categories that should have "Crafts" appended
+                                                        // List of categories that should have "Crafts" appended to the displayed name
                                                         $categoriesWithCrafts = ['Rattan', 'Coconut', 'Leather', 'Karagumoy', 'Buri', 'Anahaw', 'Nito'];
                                                         
-                                                        // If the category matches, append "Crafts" to the name
+                                                        // Check if the category is in the list to append "Crafts"
                                                         if (in_array(trim($categoryName), $categoriesWithCrafts)) {
-                                                            $categoryName .= ' Crafts'; // Append "Crafts"
+                                                            $categoryNameWithCrafts = $categoryName . ' Crafts'; // Append "Crafts" to display
+                                                        } else {
+                                                            $categoryNameWithCrafts = $categoryName; // Keep the name as is
                                                         }
                                                     @endphp
-                                                    <!-- Use urlencode for the category name to avoid issues with spaces and special characters -->
+                                                    <!-- Use urlencode for the category name to avoid issues with spaces and special characters in the URL -->
                                                     <a href="{{ route('category.product', ['category_name' => urlencode(trim($categoryName))]) }}" class="badge bg-success">
-                                                        {{ $categoryName }}
+                                                        {{ $categoryNameWithCrafts }} <!-- Display the name with "Crafts" if applicable -->
                                                     </a>
                                                 @endif
                                             @endforeach
@@ -216,6 +218,7 @@
                                     @empty
                                         <span class="badge bg-secondary">No Applications</span>
                                     @endforelse
+
                                 </div>
                                 <!-- About Store -->
                                 <p class="mb-0">
