@@ -1,7 +1,7 @@
 <style>
     /* General Footer Styles */
     .footer {
-        background-color: rgb(236, 234, 234), 252, 252);
+        background-color: rgb(236, 234, 234);
         text-align: center;
         font-family: Arial, sans-serif;
         padding: 20px 20px 0 20px;
