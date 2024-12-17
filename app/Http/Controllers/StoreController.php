@@ -59,7 +59,8 @@ class StoreController extends Controller
     }
     public function showMerchants()
     {
-        $shops = Shop::with('applications')
+        // Fetch verified shops with applications and their categories
+        $shops = Shop::with(['applications.categories'])
             ->select(
                 'shop_id',
                 'merchant_id',
@@ -76,6 +77,11 @@ class StoreController extends Controller
             ->where('verification_status', 'Verified')
             ->get();
 
+        if ($shops->isEmpty()) {
+            return redirect()->back()->with('error', 'No verified shops found.');
+        }
+
+        // Pass the necessary data to the view
         return view('stores.showmerchants', compact('shops'));
     }
 

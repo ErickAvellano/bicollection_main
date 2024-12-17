@@ -131,57 +131,56 @@
 
 @section('content')
     <div class="container mt-4">
-        <div class="row">
-            @foreach ($shops as $shop)
-                <div class="col-md-6 mb-4">
-                    <div class="card shadow-sm rounded-lg">
-                        <!-- Shop Cover Image -->
-                        <div style="position: relative; height: 180px; overflow: hidden;">
-                            <img src="{{ $shop->coverphotopath ? Storage::url($shop->coverphotopath) : asset('images/default-bg.jpg') }}"
-                                alt="{{ $shop->shop_name }}"
-                                class="w-100"
-                                style="object-fit: cover; height: 100%;">
-                        </div>
+    <div class="row">
+        @foreach ($shops as $shop)
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm rounded-lg">
+                    <!-- Shop Cover Image -->
+                    <div style="position: relative; height: 180px; overflow: hidden;">
+                        <img src="{{ $shop->coverphotopath ? Storage::url($shop->coverphotopath) : asset('images/default-bg.jpg') }}"
+                             alt="{{ $shop->shop_name }}"
+                             class="w-100"
+                             style="object-fit: cover; height: 100%;">
+                    </div>
 
-                        <!-- Profile Image and Name -->
-                        <div class="p-3" style="position: relative;">
-                            <img src="{{ $shop->shop_img ? Storage::url($shop->shop_img) : asset('images/assets/default_profile.png') }}"
-                                alt="Shop Profile"
-                                class="rounded-circle border border-2 border-white"
-                                style="width: 80px; height: 80px; position: absolute; top: -40px; left: 20px; object-fit: cover;">
+                    <!-- Profile Image and Shop Name -->
+                    <div class="p-3" style="position: relative;">
+                        <img src="{{ $shop->shop_img ? Storage::url($shop->shop_img) : asset('images/assets/default_profile.png') }}"
+                             alt="Shop Profile"
+                             class="rounded-circle border border-2 border-white"
+                             style="width: 80px; height: 80px; position: absolute; top: -40px; left: 20px; object-fit: cover;">
 
-                            <h5 class="fw-bold" style="margin-left: 100px;">
-                                {{ $shop->shop_name }}
-                                <i class="fa-solid fa-check-circle text-success" title="Verified"></i>
-                            </h5>
+                        <h5 class="fw-bold" style="margin-left: 100px;">
+                            {{ $shop->shop_name }}
+                            <i class="fa-solid fa-check-circle text-success" title="Verified"></i>
+                        </h5>
 
-                            <!-- Categories as Badges -->
-                            @if ($shop->applications->isNotEmpty())
-                                <div class="mb-2">
-                                    @foreach ($shop->applications as $application)
-                                        @if ($application->categories)
-                                            @foreach (explode(',', $application->categories) as $category)
-                                                <span class="badge bg-success">{{ trim($category) }}</span>
-                                            @endforeach
-                                        @else
-                                            <span class="badge bg-secondary">No Categories</span>
-                                        @endif
+                        <!-- Categories as Badges -->
+                        <div class="mb-2">
+                            @forelse ($shop->applications as $application)
+                                @if ($application->categories && $application->categories->isNotEmpty())
+                                    @foreach ($application->categories as $category)
+                                        <span class="badge bg-success">{{ $category->name }}</span>
                                     @endforeach
-                                </div>
-                            @else
+                                @else
+                                    <span class="badge bg-secondary">No Categories</span>
+                                @endif
+                            @empty
                                 <span class="badge bg-secondary">No Applications</span>
-                            @endif
-
-                            <!-- Shop Description -->
-                            <p class="text-muted">
-                                <strong>About Store:</strong> {{ Str::limit($shop->description, 100, '...') }}
-                            </p>
+                            @endforelse
                         </div>
+
+                        <!-- Shop Description -->
+                        <p class="text-muted">
+                            <strong>About Store:</strong> {{ Str::limit($shop->description, 100, '...') }}
+                        </p>
                     </div>
                 </div>
-            @endforeach
-        </div>
+            </div>
+        @endforeach
     </div>
+</div>
+
 
 
 
