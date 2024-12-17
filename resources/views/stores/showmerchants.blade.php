@@ -193,9 +193,12 @@
                                             @foreach ($application->decoded_categories as $category)
                                                 @if (!empty($category))
                                                     @php
-                                                        $categoryName = str_replace(' Products', '', $category);
+                                                        // Strip unnecessary words like "Products" or "Crafts"
+                                                        $categoryName = str_replace(['Products', 'Crafts', 'Craft'], '', $category);
                                                     @endphp
-                                                    <span class="badge bg-success">{{ $categoryName }}</span>
+                                                    <a href="{{ route('category.product', ['category_name' => $categoryName]) }}" class="badge bg-success">
+                                                        {{ $categoryName }}
+                                                    </a>
                                                 @endif
                                             @endforeach
                                         @else
