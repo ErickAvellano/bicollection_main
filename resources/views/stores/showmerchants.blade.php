@@ -201,7 +201,7 @@
                                                         
                                                         // Check if the category is in the list to append "Crafts"
                                                         if (in_array(trim($categoryName), $categoriesWithCrafts)) {
-                                                            $categoryNameWithCrafts = $categoryName . ' Crafts'; // Append "Crafts" to display
+                                                            $categoryNameWithCrafts = $categoryName . 'Crafts'; // Append "Crafts" to display
                                                         } else {
                                                             $categoryNameWithCrafts = $categoryName; // Keep the name as is
                                                         }
