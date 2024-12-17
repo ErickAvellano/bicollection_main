@@ -185,8 +185,8 @@
                     <div class="p-3 text-center" style="margin-top: 40px;">
                         <!-- Details -->
                         <div class="text-start px-4">
-                            <p><strong>Category: </strong></p>
-                            <p class="mb-0"><strong>About Store:</strong> {{ Str::limit($shop->description, 100, '...') }}</p>
+                            <p class="mb-1"><strong>Category: </strong></p>
+                            <p class="mb-0"><strong>About Store:</strong> {{ Str::limit($shop->description, 150, '...') }}</p>
                         </div>
                     </div>
                 </div>
