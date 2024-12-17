@@ -189,9 +189,11 @@
                             <div class="text-start px-4">
                                 <div class="mb-2">
                                     @forelse ($shop->applications as $application)
-                                        @if (!empty($application->categories))
-                                            @foreach (json_decode($application->categories, true) as $category)
-                                                <span class="badge bg-success">{{ $category }}</span>
+                                        @if (!empty($application->decoded_categories))
+                                            @foreach ($application->decoded_categories as $category)
+                                                @if (!empty($category))
+                                                    <span class="badge bg-success">{{ $category }}</span>
+                                                @endif
                                             @endforeach
                                         @else
                                             <span class="badge bg-secondary">No Categories</span>
@@ -199,6 +201,7 @@
                                     @empty
                                         <span class="badge bg-secondary">No Applications</span>
                                     @endforelse
+
                                 </div>
                                 <!-- About Store -->
                                 <p class="mb-0">
