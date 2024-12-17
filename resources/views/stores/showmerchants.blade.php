@@ -126,11 +126,11 @@
         background: #1e7b1e;
         color: #ffffff;
     }
-    .col-md-6 {
+    .card  {
         transition: border 0.3s ease-in-out;
     }
 
-    .col-md-6:hover {
+    .card:hover {
         border: 2px solid #007bff; /* Change this to the color you prefer */
         cursor: pointer;
     }
