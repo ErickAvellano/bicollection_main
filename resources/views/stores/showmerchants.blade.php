@@ -183,10 +183,10 @@
                     </div>
                     <!-- Shop Content -->
                     <div class="p-3 text-center" style="margin-top: 40px;">
-                        <!-- Ratings -->
                         <!-- Details -->
                         <div class="text-start px-4">
-                            <p ><strong>About Store:</strong> {{ Str::limit($shop->description, 100, '...') }}</p>
+                            <p><strong>Category: </strong></p>
+                            <p class="mb-0"><strong>About Store:</strong> {{ Str::limit($shop->description, 100, '...') }}</p>
                         </div>
                     </div>
                 </div>
