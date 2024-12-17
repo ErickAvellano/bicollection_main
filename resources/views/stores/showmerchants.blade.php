@@ -161,10 +161,15 @@
                                    <i class="fa fa-star text-warning"></i>
                                @endfor
                            </div>
-                           <div class="mb-0">
-                                <p class="mb-0"><strong><i class="fa-solid fa-location-dot text-danger"></i> :</strong> {{ $shop->shop_street }}, {{ $shop->barangay }},  {{ $shop->city }}, {{ $shop->province }}</p>
-                                <p class="mb-0"><strong><i class="fa-solid fa-phone"></i> :</strong> {{ $shop->contact ?? 'N/A' }}</p>
-                           </div>
+                           <div class="mb-0" style="display: grid; grid-template-columns: 20px auto 1fr; gap: 10px; align-items: center;">
+                            <i class="fa-solid fa-location-dot text-danger"></i>
+                            <strong>:</strong>
+                            <span>{{ $shop->shop_street }}, {{ $shop->barangay }}, {{ $shop->city }}, {{ $shop->province }}</span>
+                        
+                            <i class="fa-solid fa-phone"></i>
+                            <strong>:</strong>
+                            <span>{{ $shop->contact ?? 'N/A' }}</span>
+                        </div>
                         </div>
                     </div>
                     <!-- Shop Content -->
