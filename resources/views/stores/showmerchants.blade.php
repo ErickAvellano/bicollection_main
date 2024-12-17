@@ -150,7 +150,7 @@
                         <img src="{{ $shop->shop_img ? Storage::url($shop->shop_img) : asset('images/assets/default_profile.png') }}"
                              alt="Shop Profile" class="rounded-circle border border-2 border-white me-3" style="width: 100px; height: 100px; object-fit: cover;">
                         <!-- Shop Name -->
-                        <div style="position: absolute; top: 10px; left: 110px; width:400px; display: flex; flex-direction: column;">
+                        <div style="position: absolute; top: 0px; left: 110px; width:400px; display: flex; flex-direction: column;">
                             <!-- Shop Name -->
                             <h5 class="fw-bold mb-0" id="shopName" style="display: inline-block; color:white;">
                                 {{ $shop->shop_name }}
