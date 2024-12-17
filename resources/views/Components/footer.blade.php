@@ -61,7 +61,6 @@
 
     /* Footer Bottom */
     .footer-bottom {
-        margin-top: 20px;
         font-size: 14px;
         background:#228b22;
     }
@@ -75,6 +74,10 @@
       <div class="footer-section text-center">
         <img src="{{ asset('images/assets/bicollectionlogowname2.png') }}" alt="" class="footer-logo">
         <p>BiCollection is your go-to platform for authentic Bicol native products. Explore, shop, and support local merchants.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Usable Links</h4>
+        
       </div>
 
       <!-- Terms and Policies -->
@@ -96,13 +99,6 @@
         </p>
       </div>
 
-      <!-- Social Media Links -->
-      <div class="footer-section">
-        <h4>About Us</h4>
-        <a href="#" class="social-link">Facebook</a>
-        <a href="#" class="social-link">Instagram</a>
-        <a href="#" class="social-link">LinkedIn</a>
-      </div>
     </div>
 
     <!-- Footer Bottom Text -->
