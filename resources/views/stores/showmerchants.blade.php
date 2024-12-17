@@ -228,7 +228,7 @@
                             </div>
 
                             <!-- Shop Content -->
-                            <div class="p-3 text-center" style="margin-top: 60px;">
+                            <div class="p-3 text-center" style="margin-top: 55px;">
                                 <!-- Details -->
                                 <div class="text-start px-4">
                                     <div class="mb-2">
