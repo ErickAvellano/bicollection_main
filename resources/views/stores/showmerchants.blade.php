@@ -161,7 +161,7 @@
                                 style="width: 100px; height: 100px; object-fit: cover;">
 
                             <!-- Shop Name and Rating -->
-                            <div style="margin-left: 120px; color: white;">
+                            <div>
                                 <h5 class="fw-bold mb-0">
                                     {{ $shop->shop_name }}
                                     <i class="fa-solid fa-check-circle text-custom" title="Verified"></i>
