@@ -191,7 +191,7 @@
                             @if ($shop->applications && $shop->applications->count() > 0)
                                 <div class="mb-2">
                                     @foreach ($shop->applications as $application)
-                                        @if ($application->categories)
+                                        @if (is_object($application) && !empty($application->categories))
                                             @foreach (explode(',', $application->categories) as $category)
                                                 <span class="badge bg-success">{{ trim($category) }}</span>
                                             @endforeach
@@ -203,6 +203,7 @@
                             @else
                                 <span class="badge bg-secondary">No Applications</span>
                             @endif
+
                             
                             <!-- About Store -->
                             <p class="mb-0">

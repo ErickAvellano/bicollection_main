@@ -59,24 +59,22 @@ class StoreController extends Controller
     }
     public function showMerchants()
     {
-        $shops = Shop::with(['applications' => function ($query) {
-            $query->select('shop_id', 'categories'); // Fetch only shop_id and categories
-        }])
-        ->select(
-            'shop_id',
-            'merchant_id',
-            'shop_name',
-            'description',
-            'shop_img',
-            'coverphotopath',
-            'shop_street',
-            'province',
-            'city',
-            'barangay',
-            'verification_status'
-        )
-        ->where('verification_status', 'Verified')
-        ->get();
+        $shops = Shop::with('applications')
+            ->select(
+                'shop_id',
+                'merchant_id',
+                'shop_name',
+                'description',
+                'shop_img',
+                'coverphotopath',
+                'shop_street',
+                'province',
+                'city',
+                'barangay',
+                'verification_status'
+            )
+            ->where('verification_status', 'Verified')
+            ->get();
 
         return view('stores.showmerchants', compact('shops'));
     }
