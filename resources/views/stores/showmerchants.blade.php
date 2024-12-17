@@ -167,7 +167,7 @@
                                         {{ $shop->shop_name }}
                                         <i class="fa-solid fa-check-circle text-custom" title="Verified"></i>
                                     </h5>
-                                    <div class="mt-5">
+                                    <div class="mb-1">
                                         @php
                                             // Handle null ratings (default to 0)
                                             $rating = $shop->avg_merchant_service_rating ?? 0;
@@ -192,7 +192,7 @@
                                         @endfor
                                     </div>
                                 </div>
-                                <div class="mb-0" style="display: grid; grid-template-columns: 20px auto; gap: 5px;">
+                                <div class="mt-5" style="display: grid; grid-template-columns: 20px auto; gap: 5px;">
                                     <i class="fa-solid fa-location-dot text-danger"></i>
                                     <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($shop->shop_street . ', ' . $shop->barangay . ', ' . $shop->city . ', ' . $shop->province) }}"
                                         target="_blank"
