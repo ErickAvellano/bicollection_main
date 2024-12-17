@@ -167,7 +167,7 @@
                                         {{ $shop->shop_name }}
                                         <i class="fa-solid fa-check-circle text-custom" title="Verified"></i>
                                     </h5>
-                                    <div class="mb-1">
+                                    <div class="mt-5">
                                         @php
                                             // Handle null ratings (default to 0)
                                             $rating = $shop->avg_merchant_service_rating ?? 0;
