@@ -83,19 +83,13 @@ class StoreController extends Controller
     
         // Safely process applications and decode categories
         foreach ($shops as $shop) {
-            foreach ($shop->applications ?? [] as $application) {
-                if (!empty($application->categories)) {
-                    // Decode categories
-                    $decodedCategories = json_decode($application->categories, true);
-        
-                    // Replace "Products" with an empty string
-                    $processedCategories = array_map(function ($category) {
-                        return $category === 'Products' ? '' : $category;
-                    }, $decodedCategories);
-        
-                    $application->decoded_categories = $processedCategories;
-                } else {
-                    $application->decoded_categories = [];
+            if ($shop->applications) { // Ensure applications are loaded
+                foreach ($shop->applications as $application) {
+                    if (!empty($application->categories)) {
+                        $application->decoded_categories = json_decode($application->categories, true);
+                    } else {
+                        $application->decoded_categories = [];
+                    }
                 }
             }
         }

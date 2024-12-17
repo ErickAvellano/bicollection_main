@@ -189,20 +189,22 @@
                             <div class="text-start px-4">
                                 <div class="mb-2">
                                     @forelse ($shop->applications as $application)
-                                        @if (!empty($application->decoded_categories))
-                                            @foreach ($application->decoded_categories as $category)
-                                                @if (!empty($category))
-                                                    <span class="badge bg-success">{{ $category }}</span>
-                                                @endif
-                                            @endforeach
-                                        @else
-                                            <span class="badge bg-secondary">No Categories</span>
-                                        @endif
-                                    @empty
-                                        <span class="badge bg-secondary">No Applications</span>
-                                    @endforelse
-
-                                </div>
+                                    @if (!empty($application->decoded_categories))
+                                        @foreach ($application->decoded_categories as $category)
+                                            @if (!empty($category))
+                                                @php
+                                                    $categoryName = str_replace(' Products', '', $category);
+                                                @endphp
+                                                <span class="badge bg-success">{{ $categoryName }}</span>
+                                            @endif
+                                        @endforeach
+                                    @else
+                                        <span class="badge bg-secondary">No Categories</span>
+                                    @endif
+                                @empty
+                                    <span class="badge bg-secondary">No Applications</span>
+                                @endforelse
+                                
                                 <!-- About Store -->
                                 <p class="mb-0">
                                     <strong>About Store:</strong> {{ Str::limit($shop->description, 100, '...') }}
