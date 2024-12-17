@@ -181,7 +181,7 @@
                                                 @php
                                                     $address = $shop->shop_street . ', ' . $shop->barangay . ', ' . $shop->city . ', ' . $shop->province;
                                                 @endphp
-                                                {{ strlen($address) > 80 ? Str::limit($address, 50) . '...' : $address }}
+                                                {{ strlen($address) > 80 ? Str::limit($address, 20) . '...' : $address }}
                                             </span>
                                         </a>
 
