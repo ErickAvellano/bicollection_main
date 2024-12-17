@@ -167,7 +167,7 @@
                                         {{ $shop->shop_name }}
                                         <i class="fa-solid fa-check-circle text-custom" title="Verified"></i>
                                     </h5>
-                                    <div class="mb-1">
+                                    <div class="mb-1 text-start">
                                         @php
                                             // Handle null ratings (default to 0)
                                             $rating = $shop->avg_merchant_service_rating ?? 0;
@@ -175,21 +175,33 @@
                                             $hasHalfStar = ($rating - $fullStars) >= 0.5; // Check for half star
                                             $emptyStars = 5 - $fullStars - ($hasHalfStar ? 1 : 0); // Calculate remaining empty stars
                                         @endphp
-
-                                        {{-- Render full stars --}}
-                                        @for ($i = 1; $i <= $fullStars; $i++)
-                                            <i class="fa fa-star text-warning"></i>
-                                        @endfor
-
-                                        {{-- Render half star --}}
-                                        @if ($hasHalfStar)
-                                            <i class="fa-solid fa-star-half-stroke text-warning"></i>
+                                    
+                                        @if ($rating > 0)
+                                            {{-- Render full stars --}}
+                                            @for ($i = 1; $i <= $fullStars; $i++)
+                                                <i class="fa fa-star text-warning"></i>
+                                            @endfor
+                                    
+                                            {{-- Render half star --}}
+                                            @if ($hasHalfStar)
+                                                <i class="fa-solid fa-star-half-stroke text-warning"></i>
+                                            @endif
+                                    
+                                            {{-- Render empty stars --}}
+                                            @for ($i = 1; $i <= $emptyStars; $i++)
+                                                <i class="fa fa-star text-secondary"></i>
+                                            @endfor
+                                    
+                                            {{-- Display numeric rating --}}
+                                            <span class="ms-2" style="font-size: 0.9rem; color: #555;">
+                                                {{ number_format($rating, 1) }} / 5
+                                            </span>
+                                        @else
+                                            {{-- Display no ratings message --}}
+                                            <span class="text-secondary" style="font-size: 0.9rem;">
+                                                No ratings yet
+                                            </span>
                                         @endif
-
-                                        {{-- Render empty stars --}}
-                                        @for ($i = 1; $i <= $emptyStars; $i++)
-                                            <i class="fa fa-star text-secondary"></i>
-                                        @endfor
                                     </div>
                                 </div>
                                 <div class="mb-0" style="display: grid; grid-template-columns: 20px auto; gap: 5px; margin-top:53px;">
@@ -212,7 +224,7 @@
                             </div>
 
                             <!-- Shop Content -->
-                            <div class="p-3 text-center" style="margin-top: 50px;">
+                            <div class="p-3 text-center" style="margin-top: 60px;">
                                 <!-- Details -->
                                 <div class="text-start px-4">
                                     <div class="mb-2">
