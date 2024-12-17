@@ -176,13 +176,13 @@
                                         <i class="fa-solid fa-location-dot text-danger"></i>
                                         <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($shop->shop_street . ', ' . $shop->barangay . ', ' . $shop->city . ', ' . $shop->province) }}"
                                             target="_blank"
-                                            style="text-decoration: none; color: inherit;">
+                                            style="text-decoration: none; color: inherit; font-size:0.8rem;">
                                             <span>{{ $shop->shop_street }}, {{ $shop->barangay }}, {{ $shop->city }}, {{ $shop->province }}</span>
                                         </a>
 
                                         <i class="fa-solid fa-phone"></i>
                                         @if ($shop->contact)
-                                            <a href="tel:{{ $shop->contact }}" style="text-decoration: none; color: inherit;">
+                                            <a href="tel:{{ $shop->contact }}" style="text-decoration: none; color: inherit; font-size:0.8rem;">
                                                 <span>{{ $shop->contact }}</span>
                                             </a>
                                         @else
@@ -230,7 +230,7 @@
                                     </div>
                                     <!-- About Store -->
                                     <p class="mb-0">
-                                        <strong>About Store:</strong> {{ Str::limit($shop->description, 100, '...') }}
+                                        <strong>About Store:</strong> {{ Str::limit($shop->description, 120, '...') }}
                                     </p>
                                 </div>
                             </div>
