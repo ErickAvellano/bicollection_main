@@ -167,26 +167,7 @@
                                         {{ $shop->shop_name }}
                                         <i class="fa-solid fa-check-circle text-custom" title="Verified"></i>
                                     </h5>
-                                    <div class="mb-1">
-                                        @php
-                                            $rating = $shop->avg_merchant_service_rating ?? 0;
-                                            $fullStars = floor($rating); // Full stars
-                                            $hasHalfStar = ($rating - $fullStars) >= 0.5; // Half star
-                                            $emptyStars = 5 - $fullStars - ($hasHalfStar ? 1 : 0); // Empty stars
-                                        @endphp
 
-                                        @for ($i = 1; $i <= $fullStars; $i++)
-                                            <i class="fa fa-star text-warning"></i>
-                                        @endfor
-
-                                        @if ($hasHalfStar)
-                                            <i class="fa-solid fa-star-half-stroke text-warning"></i>
-                                        @endif
-
-                                        @for ($i = 1; $i <= $emptyStars; $i++)
-                                            <i class="fa fa-star text-secondary"></i>
-                                        @endfor
-                                    </div>
                                 </div>
                                 <div class="mb-0" style="display: grid; grid-template-columns: 20px auto; gap: 5px;">
                                     <i class="fa-solid fa-location-dot text-danger"></i>
