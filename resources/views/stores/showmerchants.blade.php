@@ -163,9 +163,13 @@
                            </div>
                            <div class="mb-0" style="display: grid; grid-template-columns: 20px auto 1fr; align-items: center;">
                                 <i class="fa-solid fa-location-dot text-danger"></i>
-                                <strong>: </strong>
-                                    <span> {{ $shop->shop_street }}, {{ $shop->barangay }}, {{ $shop->city }}, {{ $shop->province }}</span>
-                                <i class="fa-solid fa-phone"></i>
+                                <strong>:</strong>
+                                    <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($shop->shop_street . ', ' . $shop->barangay . ', ' . $shop->city . ', ' . $shop->province) }}" 
+                                    target="_blank" 
+                                    style="text-decoration: none; color: inherit;">
+                                        <span>{{ $shop->shop_street }}, {{ $shop->barangay }}, {{ $shop->city }}, {{ $shop->province }}</span>
+                                    </a>
+                                    <i class="fa-solid fa-phone"></i>
                                 <strong>: </strong>
                                     <span> {{ $shop->contact ?? 'N/A' }}</span>
                             </div>
