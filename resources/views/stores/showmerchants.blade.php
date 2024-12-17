@@ -154,7 +154,7 @@
                             <!-- Shop Name -->
                             <h5 class="fw-bold mb-0" id="shopName" style="display: inline-block; color:white;">
                                 {{ $shop->shop_name }}
-                                <i class="fa-solid fa-check-circle text-success" title="Verified"></i>
+                                <i class="fa-solid fa-check-circle text-custom" title="Verified"></i>
                             </h5>
                             <div class="mb-1">
                                 @for ($i = 1; $i <= 5; $i++)
@@ -162,8 +162,8 @@
                                @endfor
                            </div>
                            <div class="mb-0">
-                                <p class="mb-0"><strong>Location:</strong> {{ $shop->province }}, {{ $shop->city }}</p>
-                                <p class="mb-0"><strong>Contact:</strong> {{ $shop->contact ?? 'N/A' }}</p>
+                                <p class="mb-0"><strong><i class="fa-solid fa-location-dot text-danger"></i></strong> {{ $shop->shop_street }}, {{ $shop->barangay }},  {{ $shop->city }}, {{ $shop->province }},</p>
+                                <p class="mb-0"><strong><i class="fa-solid fa-phone"></i></strong> {{ $shop->contact ?? 'N/A' }}</p>
                            </div>
                         </div>
                     </div>
