@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ShopDesign;
 use App\Models\Application;
+use Illuminate\Support\Facades\DB;
 class StoreController extends Controller
 {
     public function viewStore($shopId)
@@ -59,8 +60,10 @@ class StoreController extends Controller
     }
     public function showMerchants()
     {
-        // Fetch verified shops with applications, average merchant service rating, and product details
+        // Fetch verified shops with average merchant_service_rating
         $shops = Shop::with('applications')
+            ->leftJoin('product', 'product.merchant_id', '=', 'shop.merchant_id') // Join with products
+            ->leftJoin('product_reviews', 'product_reviews.product_id', '=', 'product.product_id') // Join with product reviews
             ->select(
                 'shop.shop_id',
                 'shop.merchant_id',
@@ -72,16 +75,11 @@ class StoreController extends Controller
                 'shop.province',
                 'shop.city',
                 'shop.barangay',
-                'shop.verification_status'
+                'shop.verification_status',
+                DB::raw('AVG(product_reviews.merchant_service_rating) AS avg_merchant_service_rating') 
             )
-            ->leftJoin('product', 'product.merchant_id', '=', 'shop.merchant_id') // Join products
-            ->leftJoin('product_reviews', 'product_reviews.product_id', '=', 'product.product_id') // Join reviews
             ->where('shop.verification_status', 'Verified')
-            ->groupBy('shop.shop_id')
-            ->selectRaw('
-                AVG(product_reviews.merchant_service_rating) as avg_merchant_service_rating,
-                COUNT(DISTINCT product.product_id) as total_products
-            ')
+            ->groupBy('shop.shop_id') 
             ->get();
     
         if ($shops->isEmpty()) {
@@ -99,9 +97,11 @@ class StoreController extends Controller
             }
         }
     
-        // Pass the data to the view
+        // Pass the processed data to the view
         return view('stores.showmerchants', compact('shops'));
     }
+    
+    
 
 
 }

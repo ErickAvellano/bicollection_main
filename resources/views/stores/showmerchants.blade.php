@@ -169,23 +169,24 @@
                                     </h5>
                                     <div class="mb-1">
                                         @php
-                                            $rating = $shop->avg_merchant_service_rating ?? 0; // Handle null ratings
-                                            $fullStars = floor($rating); // Full stars
+                                            // Handle null ratings (default to 0)
+                                            $rating = $shop->avg_merchant_service_rating ?? 0; 
+                                            $fullStars = floor($rating); // Number of full stars
                                             $hasHalfStar = ($rating - $fullStars) >= 0.5; // Check for half star
-                                            $emptyStars = 5 - $fullStars - ($hasHalfStar ? 1 : 0); // Remaining stars
+                                            $emptyStars = 5 - $fullStars - ($hasHalfStar ? 1 : 0); // Calculate remaining empty stars
                                         @endphp
-                            
-                                        {{-- Full stars --}}
+                                    
+                                        {{-- Render full stars --}}
                                         @for ($i = 1; $i <= $fullStars; $i++)
                                             <i class="fa fa-star text-warning"></i>
                                         @endfor
-                            
-                                        {{-- Half star --}}
+                                    
+                                        {{-- Render half star --}}
                                         @if ($hasHalfStar)
                                             <i class="fa-solid fa-star-half-stroke text-warning"></i>
                                         @endif
-                            
-                                        {{-- Empty stars --}}
+                                    
+                                        {{-- Render empty stars --}}
                                         @for ($i = 1; $i <= $emptyStars; $i++)
                                             <i class="fa fa-star text-secondary"></i>
                                         @endfor
