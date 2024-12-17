@@ -194,7 +194,7 @@
                                                 @if (!empty($category))
                                                     @php
                                                         // Clean up the category name by removing "Products"
-                                                        $categoryName = str_replace('Products', '', $category);
+                                                        $categoryName = str_replace(['Products', 'Shell', 'Crafts'], '', $category);
 
                                                         // List of categories that should have "Crafts" appended to the displayed name
                                                         $categoriesWithCrafts = ['Rattan', 'Coconut', 'Leather', 'Karagumoy', 'Buri', 'Anahaw', 'Nito'];
