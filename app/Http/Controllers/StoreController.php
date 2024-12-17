@@ -59,42 +59,47 @@ class StoreController extends Controller
     }
     public function showMerchants()
     {
-        // Fetch verified shops with applications
+        // Fetch verified shops with applications, average merchant service rating, and product details
         $shops = Shop::with('applications')
             ->select(
-                'shop_id',
-                'merchant_id',
-                'shop_name',
-                'description',
-                'shop_img',
-                'coverphotopath',
-                'shop_street',
-                'province',
-                'city',
-                'barangay',
-                'verification_status'
+                'shops.shop_id',
+                'shops.merchant_id',
+                'shops.shop_name',
+                'shops.description',
+                'shops.shop_img',
+                'shops.coverphotopath',
+                'shops.shop_street',
+                'shops.province',
+                'shops.city',
+                'shops.barangay',
+                'shops.verification_status'
             )
-            ->where('verification_status', 'Verified')
+            ->leftJoin('product', 'product.merchant_id', '=', 'shops.merchant_id') // Join products
+            ->leftJoin('product_reviews', 'product_reviews.product_id', '=', 'product.product_id') // Join reviews
+            ->where('shops.verification_status', 'Verified')
+            ->groupBy('shops.shop_id')
+            ->selectRaw('
+                AVG(product_reviews.merchant_service_rating) as avg_merchant_service_rating,
+                COUNT(DISTINCT product.product_id) as total_products
+            ')
             ->get();
-    
+
         if ($shops->isEmpty()) {
             return redirect()->back()->with('error', 'No verified shops found.');
         }
-    
+
         // Safely process applications and decode categories
         foreach ($shops as $shop) {
-            if ($shop->applications) { // Ensure applications are loaded
+            if ($shop->applications) {
                 foreach ($shop->applications as $application) {
-                    if (!empty($application->categories)) {
-                        $application->decoded_categories = json_decode($application->categories, true);
-                    } else {
-                        $application->decoded_categories = [];
-                    }
+                    $application->decoded_categories = !empty($application->categories)
+                        ? json_decode($application->categories, true)
+                        : [];
                 }
             }
         }
-    
-        // Pass the processed data to the view
+
+        // Pass the data to the view
         return view('stores.showmerchants', compact('shops'));
     }
     
