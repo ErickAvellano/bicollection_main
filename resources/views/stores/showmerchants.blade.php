@@ -194,22 +194,25 @@
                                                 @if (!empty($category))
                                                     @php
                                                         // Clean up the category name by removing "Products"
-                                                        $categoryName = str_replace(['Products'], '', $category);  
-                                                        $categoryName = str_ireplace('Shell', '', $categoryName); 
+                                                        $categoryName = str_replace(['Products'], '', $category);
+                                                        $categoryName = str_ireplace('Shell', '', $categoryName);
 
+                                                        // Replace multiple spaces with a single space
+                                                        $categoryName = preg_replace('/\s+/', ' ', $categoryName);
+                                                        
                                                         // List of categories that should have "Crafts" appended to the displayed name
                                                         $categoriesWithCrafts = ['Rattan', 'Leather', 'Karagumoy', 'Buri', 'Anahaw', 'Nito'];
-                                                        
+
                                                         // Check if the category is in the list to append "Crafts"
                                                         if (in_array(trim($categoryName), $categoriesWithCrafts)) {
-                                                            $categoryNameWithCrafts = $categoryName . 'Crafts'; // Append "Crafts" to display
+                                                            $categoryNameWithCrafts = $categoryName . ' Crafts'; // Append "Crafts" to display
                                                         } else {
                                                             $categoryNameWithCrafts = $categoryName; // Keep the name as is
                                                         }
                                                     @endphp
                                                     <!-- Use urlencode for the category name to avoid issues with spaces and special characters in the URL -->
-                                                    <a href="{{ route('category.product', ['category_name' => $categoryNameWithCrafts]) }}" class="badge bg-success">
-                                                        {{ $categoryName }} <!-- Display the name with "Crafts" if applicable -->
+                                                    <a href="{{ route('category.product', ['category_name' => urlencode($categoryNameWithCrafts)]) }}" class="badge bg-success">
+                                                        {{ $categoryNameWithCrafts }} <!-- Display the name with "Crafts" if applicable -->
                                                     </a>
                                                 @endif
                                             @endforeach
