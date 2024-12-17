@@ -139,11 +139,11 @@
 
 @section('content')
 <div class="col-md-6 mb-4">
-    <a href="{{ route('merchant.viewstore', ['shopId' => $shop->shop_id]) }}" class="card-link">
+    <a href="{{ route('merchant.viewstore', ['shopId' => $shops->shop_id]) }}" class="card-link">
         <div class="card shadow-sm rounded-lg" style="position: relative; overflow: hidden; height: 320px;">
             <!-- Cover Image -->
             <div style="position: relative; height: 170px; overflow: hidden;">
-                <img src="{{ $shop->coverphotopath ? Storage::url($shop->coverphotopath) : asset('images/default-bg.jpg') }}"
+                <img src="{{ $shops->coverphotopath ? Storage::url($shops->coverphotopath) : asset('images/default-bg.jpg') }}"
                     alt="Cover Photo"
                     class="w-100"
                     style="object-fit: cover; height: 100%;">
@@ -153,7 +153,7 @@
             <!-- Profile Image -->
             <div style="position: absolute; top: 120px; left: 20px; display: flex; align-items: center;">
                 <!-- Profile Image -->
-                <img src="{{ $shop->shop_img ? Storage::url($shop->shop_img) : asset('images/assets/default_profile.png') }}"
+                <img src="{{ $shops->shop_img ? Storage::url($shops->shop_img) : asset('images/assets/default_profile.png') }}"
                     alt="Shop Profile"
                     class="rounded-circle border border-2 border-white me-3"
                     style="width: 100px; height: 100px; object-fit: cover;">
@@ -161,7 +161,7 @@
                 <!-- Shop Name -->
                 <div style="position: absolute; top: 0px; left: 110px; width:400px; display: flex; flex-direction: column;">
                     <h5 class="fw-bold mb-0" id="shopName" style="display: inline-block; color:white;">
-                        {{ $shop->shop_name }}
+                        {{ $shops->shop_name }}
                         <i class="fa-solid fa-check-circle text-custom" title="Verified"></i>
                     </h5>
                     <div class="mb-1">
@@ -171,16 +171,16 @@
                     </div>
                     <div class="mb-0" style="display: grid; grid-template-columns: 20px auto; gap: 5px;">
                         <i class="fa-solid fa-location-dot text-danger"></i>
-                        <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($shop->shop_street . ', ' . $shop->barangay . ', ' . $shop->city . ', ' . $shop->province) }}"
+                        <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($shops->shop_street . ', ' . $shops->barangay . ', ' . $shops->city . ', ' . $shops->province) }}"
                             target="_blank"
                             style="text-decoration: none; color: inherit;">
-                            <span>{{ $shop->shop_street }}, {{ $shop->barangay }}, {{ $shop->city }}, {{ $shop->province }}</span>
+                            <span>{{ $shops->shop_street }}, {{ $shops->barangay }}, {{ $shops->city }}, {{ $shops->province }}</span>
                         </a>
 
                         <i class="fa-solid fa-phone"></i>
-                        @if ($shop->contact)
-                            <a href="tel:{{ $shop->contact }}" style="text-decoration: none; color: inherit;">
-                                <span>{{ $shop->contact }}</span>
+                        @if ($shops->contact)
+                            <a href="tel:{{ $shops->contact }}" style="text-decoration: none; color: inherit;">
+                                <span>{{ $shops->contact }}</span>
                             </a>
                         @else
                             <span>N/A</span>
@@ -194,7 +194,7 @@
                 <!-- Details -->
                 <div class="text-start px-4">
                     <div class="mb-2">
-                        @forelse ($shop->applications as $application)
+                        @forelse ($shops->applications as $application)
                             @if (!empty($application->decoded_categories))
                                 @foreach ($application->decoded_categories as $category)
                                     @if (!empty($category))
@@ -227,7 +227,7 @@
                     </div>
                     <!-- About Store -->
                     <p class="mb-0">
-                        <strong>About Store:</strong> {{ Str::limit($shop->description, 100, '...') }}
+                        <strong>About Store:</strong> {{ Str::limit($shops->description, 100, '...') }}
                     </p>
                 </div>
             </div>
