@@ -62,32 +62,32 @@ class StoreController extends Controller
         // Fetch verified shops with applications, average merchant service rating, and product details
         $shops = Shop::with('applications')
             ->select(
-                'shops.shop_id',
-                'shops.merchant_id',
-                'shops.shop_name',
-                'shops.description',
-                'shops.shop_img',
-                'shops.coverphotopath',
-                'shops.shop_street',
-                'shops.province',
-                'shops.city',
-                'shops.barangay',
-                'shops.verification_status'
+                'shop.shop_id',
+                'shop.merchant_id',
+                'shop.shop_name',
+                'shop.description',
+                'shop.shop_img',
+                'shop.coverphotopath',
+                'shop.shop_street',
+                'shop.province',
+                'shop.city',
+                'shop.barangay',
+                'shop.verification_status'
             )
-            ->leftJoin('product', 'product.merchant_id', '=', 'shops.merchant_id') // Join products
+            ->leftJoin('product', 'product.merchant_id', '=', 'shop.merchant_id') // Join products
             ->leftJoin('product_reviews', 'product_reviews.product_id', '=', 'product.product_id') // Join reviews
-            ->where('shops.verification_status', 'Verified')
-            ->groupBy('shops.shop_id')
+            ->where('shop.verification_status', 'Verified')
+            ->groupBy('shop.shop_id')
             ->selectRaw('
                 AVG(product_reviews.merchant_service_rating) as avg_merchant_service_rating,
                 COUNT(DISTINCT product.product_id) as total_products
             ')
             ->get();
-
+    
         if ($shops->isEmpty()) {
             return redirect()->back()->with('error', 'No verified shops found.');
         }
-
+    
         // Safely process applications and decode categories
         foreach ($shops as $shop) {
             if ($shop->applications) {
@@ -98,11 +98,10 @@ class StoreController extends Controller
                 }
             }
         }
-
+    
         // Pass the data to the view
         return view('stores.showmerchants', compact('shops'));
     }
-    
 
 
 }
