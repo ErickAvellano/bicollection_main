@@ -164,10 +164,10 @@
                            <div class="mb-0" style="display: grid; grid-template-columns: 20px auto 1fr; align-items: center;">
                                 <i class="fa-solid fa-location-dot text-danger"></i>
                                 <strong>: </strong>
-                                    <span>{{ $shop->shop_street }}, {{ $shop->barangay }}, {{ $shop->city }}, {{ $shop->province }}</span>
+                                    <span> {{ $shop->shop_street }}, {{ $shop->barangay }}, {{ $shop->city }}, {{ $shop->province }}</span>
                                 <i class="fa-solid fa-phone"></i>
                                 <strong>: </strong>
-                                    <span>{{ $shop->contact ?? 'N/A' }}</span>
+                                    <span> {{ $shop->contact ?? 'N/A' }}</span>
                             </div>
                         </div>
                     </div>
