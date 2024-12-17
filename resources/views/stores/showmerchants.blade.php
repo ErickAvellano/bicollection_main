@@ -141,27 +141,18 @@
                              alt="Cover Photo"
                              class="w-100"
                              style="object-fit: cover; height: 100%;">
-                        <div style="
-                            position: absolute;
-                            top: 0;
-                            left: 0;
-                            width: 100%;
-                            height: 100%;
-                            background: rgba(0, 0, 0, 0.5); /* Adjust the darkness */
-                        "></div>
+                        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);"></div>
                     </div>
 
                     <!-- Profile Image -->
                     <div style="position: absolute; top: 120px; left: 20px; display: flex; align-items: center;">
                         <!-- Profile Image -->
                         <img src="{{ $shop->shop_img ? Storage::url($shop->shop_img) : asset('images/assets/default_profile.png') }}"
-                             alt="Shop Profile"
-                             class="rounded-circle border border-2 border-white me-3"
-                             style="width: 100px; height: 100px; object-fit: cover;">
+                             alt="Shop Profile" class="rounded-circle border border-2 border-white me-3" style="width: 100px; height: 100px; object-fit: cover;">
                         <!-- Shop Name -->
                         <div style="position: absolute; top: 10px; left: 110px; width:400px; display: flex; flex-direction: column;">
                             <!-- Shop Name -->
-                            <h5 class="fw-bold mb-0" id="shopName" style="display: inline-block;">
+                            <h5 class="fw-bold mb-0" id="shopName" style="display: inline-block; color:white;">
                                 {{ $shop->shop_name }}
                                 <i class="fa-solid fa-check-circle text-success" title="Verified"></i>
                             </h5>
@@ -177,9 +168,9 @@
                         <!-- Ratings -->
                         <!-- Details -->
                         <div class="text-start px-4">
-                            <p><strong>Location:</strong> {{ $shop->province }}, {{ $shop->city }}</p>
-                            <p><strong>Contact:</strong> {{ $shop->contact ?? 'N/A' }}</p>
-                            <p><strong>About Store:</strong> {{ Str::limit($shop->description, 100, '...') }}</p>
+                            <p class="mb-0"><strong>Location:</strong> {{ $shop->province }}, {{ $shop->city }}</p>
+                            <p class="mb-0"><strong>Contact:</strong> {{ $shop->contact ?? 'N/A' }}</p>
+                            <p class="mb-0"><strong>About Store:</strong> {{ Str::limit($shop->description, 100, '...') }}</p>
                         </div>
                     </div>
                 </div>
@@ -194,31 +185,5 @@
 @endsection
 
 @section('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const shopNameElement = document.getElementById('shopName');
-        const verifiedIcon = document.getElementById('verifiedIcon');
 
-        // Function to calculate brightness of the background
-        function getElementBrightness(element) {
-            const bgColor = window.getComputedStyle(element).backgroundColor;
-
-            // Extract RGB values
-            const rgb = bgColor.match(/\d+/g).map(Number);
-            const brightness = (0.299 * rgb[0]) + (0.587 * rgb[1]) + (0.114 * rgb[2]);
-            return brightness;
-        }
-
-        // Calculate background brightness for the shopName's parent
-        const parentElement = shopNameElement.parentElement;
-        const brightness = getElementBrightness(parentElement);
-
-        // Apply changes if the background is dark
-        if (brightness < 128) { // Threshold for dark backgrounds
-            shopNameElement.style.color = '#ffffff'; // White text for shop name
-            verifiedIcon.classList.remove('text-success'); // Remove default green
-            verifiedIcon.classList.add('text-light'); // Apply white color
-        }
-    });
-</script>
 @endsection
