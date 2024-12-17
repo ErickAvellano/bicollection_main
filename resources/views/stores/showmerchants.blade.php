@@ -136,11 +136,19 @@
             <div class="col-md-6 mb-4">
                 <div class="card shadow-sm rounded-lg" style="position: relative; overflow: hidden;">
                     <!-- Cover Image -->
-                    <div style="height: 180px; overflow: hidden; background: rgba(0, 0, 0, 0.4);">
+                    <div style="position: relative; height: 180px; overflow: hidden;">
                         <img src="{{ $shop->coverphotopath ? Storage::url($shop->coverphotopath) : asset('images/default-bg.jpg') }}"
                              alt="Cover Photo"
                              class="w-100"
                              style="object-fit: cover; height: 100%;">
+                        <div style="
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            background: rgba(0, 0, 0, 0.5); /* Adjust the darkness */
+                        "></div>
                     </div>
 
                     <!-- Profile Image -->
