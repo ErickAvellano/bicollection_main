@@ -158,7 +158,7 @@
                                 <!-- Profile Image -->
                                 <img src="{{ $shop->shop_img ? Storage::url($shop->shop_img) : asset('images/assets/default_profile.png') }}"
                                     alt="Shop Profile" 
-                                    class="rounded-circle border border-2 border-white me-3" 
+                                    class="rounded-circle border-2 border-white me-3" 
                                     style="width: 100px; height: 100px; object-fit: cover;">
 
                                 <!-- Shop Name -->
@@ -177,12 +177,7 @@
                                         <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($shop->shop_street . ', ' . $shop->barangay . ', ' . $shop->city . ', ' . $shop->province) }}"
                                             target="_blank"
                                             style="text-decoration: none; color: inherit;">
-                                            <span>
-                                                @php
-                                                    $address = $shop->shop_street . ', ' . $shop->barangay . ', ' . $shop->city . ', ' . $shop->province;
-                                                @endphp
-                                                {{ Str::limit($address, 50, '...') }}
-                                            </span>
+                                            <span>{{ $shop->shop_street }}, {{ $shop->barangay }}, {{ $shop->city }}, {{ $shop->province }}</span>
                                         </a>
 
                                         <i class="fa-solid fa-phone"></i>
