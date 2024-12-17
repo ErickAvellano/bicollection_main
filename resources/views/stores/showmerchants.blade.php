@@ -192,7 +192,7 @@
                                         @endfor
                                     </div>
                                 </div>
-                                <div class="mb-0" style="display: grid; grid-template-columns: 20px auto; gap: 5px; margin-top:50px;">
+                                <div class="mb-0" style="display: grid; grid-template-columns: 20px auto; gap: 5px; margin-top:53px;">
                                     <i class="fa-solid fa-location-dot text-danger"></i>
                                     <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($shop->shop_street . ', ' . $shop->barangay . ', ' . $shop->city . ', ' . $shop->province) }}"
                                         target="_blank"
