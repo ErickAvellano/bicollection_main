@@ -216,9 +216,6 @@
                                     @empty
                                         <span class="badge bg-secondary">No Applications</span>
                                     @endforelse
-
-
-
                                 </div>
                                 <!-- About Store -->
                                 <p class="mb-0">
