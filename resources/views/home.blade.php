@@ -626,6 +626,7 @@
                             <div class="card">
                                 <img src="{{ $product->images->first() ? Storage::url($product->images->first()->product_img_path1) : 'https://via.placeholder.com/150' }}"
                                      class="card-img-top"
+                                     loading="lazy"
                                      alt="{{ $product->product_name }}">
                                 <div class="card-body">
                                     <h6 class="card-title product-title">{{ $product->product_name }}</h6>
@@ -857,6 +858,7 @@
                                 <div class="card">
                                     <img src="{{ $product->images->first() ? Storage::url($product->images->first()->product_img_path1) : 'https://via.placeholder.com/150' }}"
                                         class="card-img-top"
+                                        loading="lazy"
                                         alt="{{ $product->product_name }}">
                                     <div class="text-center card-body">
                                         <h6 class="card-title product-title">{{ $product->product_name }}</h6>
@@ -925,6 +927,7 @@
                             <div class="card">
                                 <img src="{{ $product->images->first() ? Storage::url($product->images->first()->product_img_path1) : 'https://via.placeholder.com/150' }}"
                                      class="card-img-top"
+                                     loading="lazy"
                                      alt="{{ $product->product_name }}">
                                 <div class="card-body">
                                     <h6 class="card-title product-title">{{ $product->product_name }}</h6>

@@ -638,6 +638,7 @@
                             <div class="card">
                                 <img src="{{ $product->images->first() ? Storage::url($product->images->first()->product_img_path1) : 'https://via.placeholder.com/150' }}"
                                      class="card-img-top"
+                                     loading="lazy"
                                      alt="{{ $product->product_name }}">
                                 <div class="card-body">
                                     <h6 class="card-title product-title ">{{ $product->product_name }}</h6>
@@ -882,6 +883,7 @@
                                 <div class="card">
                                     <img src="{{ $product->images->first() ? Storage::url($product->images->first()->product_img_path1) : 'https://via.placeholder.com/150' }}"
                                         class="card-img-top"
+                                        loading="lazy"
                                         alt="{{ $product->product_name }}">
                                     <div class="card-body text-center">
                                         <h6 class="card-title product-title">{{ $product->product_name }}</h6>
@@ -954,6 +956,7 @@
                             <div class="card">
                                 <img src="{{ $product->images->first() ? Storage::url($product->images->first()->product_img_path1) : 'https://via.placeholder.com/150' }}"
                                      class="card-img-top"
+                                     loading="lazy"
                                      alt="{{ $product->product_name }}">
                                 <div class="card-body">
                                     <h6 class="card-title product-title">{{ $product->product_name }}</h6>
@@ -1022,7 +1025,7 @@
                         <a href="#" class="custom-register-btn">Go to Merchant Dashboard</a>
                         <div class="custom-ads-section">
                             <div class="custom-ad">
-                                <img src="/images/ad1.jpg" alt="Ad 1">
+                                <img src="/images/ad1.jpg" loading="lazy" alt="Ad 1">
                                 <p>Special discounts for bulk purchases!</p>
                             </div>
                         </div>
@@ -1039,7 +1042,7 @@
                         <a href="{{ route('merchant.secondstep') }}" class="custom-register-btn">Complete Your Application</a>
                         <div class="custom-ads-section">
                             <div class="custom-ad">
-                                <img src="/images/ad1.jpg" alt="Ad 1">
+                                <img src="/images/ad1.jpg" loading="lazy" alt="Ad 1">
                                 <p>Special discounts for bulk purchases!</p>
                             </div>
                         </div>
