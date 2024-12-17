@@ -131,7 +131,7 @@
     }
 
     .card:hover {
-        border: 2px solid #007bff; /* Change this to the color you prefer */
+        border: 2px solid #228b22; /* Change this to the color you prefer */
         cursor: pointer;
     }
 </style>
