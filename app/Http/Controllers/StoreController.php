@@ -21,9 +21,9 @@ class StoreController extends Controller
 
         $products = Product::where('merchant_id', $shop->merchant_id)->with('images', 'variations')->get();
 
-        // Fetch featured products based on IDs 
+        // Fetch featured products based on IDs
         $featuredProductIds = explode(',', $shop->featuredProduct ?? '');
-        $featuredProducts = Product::whereIn('product_id', $featuredProductIds)->with('images')->get(); 
+        $featuredProducts = Product::whereIn('product_id', $featuredProductIds)->with('images')->get();
 
         // Pass the necessary data to the view
         return view('merchant.viewstore', compact('shop', 'products', 'featuredProducts'));
@@ -50,7 +50,7 @@ class StoreController extends Controller
             $featuredProductIds = explode(',', $shopDesign->featuredProduct);
             $featuredProducts = Product::whereIn('product_id', $featuredProductIds)->get();
 
-          
+
             return view("merchant.partials." . $viewMap[strtolower($nav)], compact('featuredProducts', 'products'));
         }
 
@@ -59,22 +59,24 @@ class StoreController extends Controller
     }
     public function showMerchants()
     {
-        $shops = Shop::with('applications')
-            ->select(
-                'shop_id',
-                'merchant_id',
-                'shop_name',
-                'description',
-                'shop_img',
-                'coverphotopath',
-                'shop_street',
-                'province',
-                'city',
-                'barangay',
-                'verification_status'
-            )
-            ->where('verification_status', 'Verified')
-            ->get();
+        $shops = Shop::with(['applications' => function ($query) {
+            $query->select('shop_id', 'categories'); // Fetch only shop_id and categories
+        }])
+        ->select(
+            'shop_id',
+            'merchant_id',
+            'shop_name',
+            'description',
+            'shop_img',
+            'coverphotopath',
+            'shop_street',
+            'province',
+            'city',
+            'barangay',
+            'verification_status'
+        )
+        ->where('verification_status', 'Verified')
+        ->get();
 
         return view('stores.showmerchants', compact('shops'));
     }
