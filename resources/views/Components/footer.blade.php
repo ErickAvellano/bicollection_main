@@ -1,15 +1,11 @@
 <style>
     /* General Footer Styles */
     .footer {
-        background-color: #fafafa;
+        background-color: #f6f6f6;
         text-align: center;
         font-family: Arial, sans-serif;
-        border-top: 2px solid #228b22; /* Adjust thickness and color as needed */
         padding: 20px 20px 0 20px;
     }
-
-
-
     .footer-container {
         display: flex;
         justify-content: space-between;
