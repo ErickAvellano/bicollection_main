@@ -143,7 +143,7 @@
             @foreach ($shops as $shop)
                 <div class="col-md-6 mb-4">
                     <a href="{{ route('merchant.viewstore', ['shopId' => $shop->shop_id]) }}" class="card-link">
-                        <div class="card shadow-sm rounded-lg" style="position: relative; overflow: hidden; height: 330px;">
+                        <div class="card shadow-sm rounded-lg" style="position: relative; overflow: hidden; height: 340px;">
                             <!-- Cover Image -->
                             <div style="position: relative; height: 170px; overflow: hidden;">
                                 <img src="{{ $shop->coverphotopath ? Storage::url($shop->coverphotopath) : asset('images/default-bg.jpg') }}"
@@ -212,7 +212,7 @@
                             </div>
 
                             <!-- Shop Content -->
-                            <div class="p-3 text-center" style="margin-top: 40px;">
+                            <div class="p-3 text-center" style="margin-top: 50px;">
                                 <!-- Details -->
                                 <div class="text-start px-4">
                                     <div class="mb-2">
