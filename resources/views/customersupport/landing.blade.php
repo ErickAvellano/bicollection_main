@@ -21,7 +21,7 @@
 @endsection
 
 @section('content')
-<main style="text-align: center; margin-top: 50px;">
+<main style="text-align: center;">
     <h4 class="mt-4">Hi, how can we help you?</h4>
 
     <!-- Search Form -->
