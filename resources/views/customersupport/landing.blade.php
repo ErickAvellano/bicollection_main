@@ -6,8 +6,7 @@
      main {
             padding: 80px;
             text-align: center;
-            /* background-image: url({{ asset('images/assets/start-selling/startsellingbg.png') }}); */
-            background-color:#fafafa;
+            background-image: url({{ asset('images/assets/start-selling/startsellingbg.png') }});
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
