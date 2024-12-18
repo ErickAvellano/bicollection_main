@@ -970,7 +970,7 @@
     </div>
 </div>
 
-<x-supporticon />
+<x-Components.supporticon />
 @include('Components.footer')
 @endsection
 @section('scripts')
