@@ -175,23 +175,23 @@
                                             $hasHalfStar = ($rating - $fullStars) >= 0.5; // Check for half star
                                             $emptyStars = 5 - $fullStars - ($hasHalfStar ? 1 : 0); // Calculate remaining empty stars
                                         @endphp
-                                    
+
                                         @if ($rating > 0)
                                             {{-- Render full stars --}}
                                             @for ($i = 1; $i <= $fullStars; $i++)
                                                 <i class="fa fa-star text-warning"></i>
                                             @endfor
-                                    
+
                                             {{-- Render half star --}}
                                             @if ($hasHalfStar)
                                                 <i class="fa-solid fa-star-half-stroke text-warning"></i>
                                             @endif
-                                    
+
                                             {{-- Render empty stars --}}
                                             @for ($i = 1; $i <= $emptyStars; $i++)
                                                 <i class="fa fa-star text-secondary"></i>
                                             @endfor
-                                    
+
                                             {{-- Display numeric rating --}}
                                             <span class="ms-2" style="font-size: 0.9rem; color: #555;">
                                                 {{ number_format($rating, 1) }} / 5
@@ -200,7 +200,7 @@
                                             @for ($i = 1; $i <= 5; $i++)
                                                 <i class="fa fa-star text-secondary"></i>
                                             @endfor
-                            
+
                                             {{-- Display no ratings message --}}
                                             <span class="ms-2 text-secondary" style="font-size: 0.9rem;">
                                                 No ratings yet
@@ -280,7 +280,6 @@
 
 @include('Components.footer')
 @endsection
-
 @section('scripts')
 
 @endsection

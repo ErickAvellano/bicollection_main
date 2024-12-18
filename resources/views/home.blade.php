@@ -969,6 +969,8 @@
         </div>
     </div>
 </div>
+
+<x-supporticon />
 @include('Components.footer')
 @endsection
 @section('scripts')

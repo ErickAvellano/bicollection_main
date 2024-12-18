@@ -340,8 +340,6 @@
         </div>
     </div>
 
-
-
     <div id="mobile-search-form" class="collapse">
         <form class="d-flex" role="search">
             <div class="search-container position-relative">
