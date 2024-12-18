@@ -1054,7 +1054,7 @@
         <p>No shop found for the merchant.</p>
     @endif
 @endif
-
+@include('Components.supporticon')
 @include('Components.footer')
 
 @include('Components.add-to-cart')
