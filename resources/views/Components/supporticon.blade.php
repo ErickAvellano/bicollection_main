@@ -3,7 +3,7 @@
         <div style="
             width: 50px;
             height: 50px;
-            background-color: #007BFF;
+            background-color: #228b22;
             color: white;
             border-radius: 50%;
             display: flex;
