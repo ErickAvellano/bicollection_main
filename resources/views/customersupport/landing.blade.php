@@ -2,6 +2,7 @@
 
 @section('styles')
 <style>
+
      main {
             padding: 80px;
             text-align: center;
@@ -10,6 +11,9 @@
             background-position: center;
             background-repeat: no-repeat;
             height:350px;
+        }
+        .nav-pills, .search-container{
+            display:none;
         }
 
 </style>
