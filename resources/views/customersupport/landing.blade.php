@@ -25,7 +25,7 @@
     <h4 class="mt-4">Hi, how can we help you?</h4>
 
     <!-- Search Form -->
-    <form action="{{ route('customer.support.search') }}" method="GET" style="margin-top: 20px;">
+    <form action="#" method="GET" style="margin-top: 20px;">
         <div style="
             display: flex; 
             justify-content: center; 
