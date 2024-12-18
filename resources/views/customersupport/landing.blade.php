@@ -12,7 +12,7 @@
             background-repeat: no-repeat;
             height:350px;
         }
-        .nav-pills, .search-container{
+        .nav-pills, .search-container, .desktop-nav{
             display:none;
         }
 
