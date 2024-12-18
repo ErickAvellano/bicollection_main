@@ -22,9 +22,8 @@
 
 @section('content')
 <main>
-    <h1>Showcase and sell your unique Bicol products with ease!</h1>
-    <p class="mb-4">Crafted for your business success.</p>
-    <a href="{{ route('merchant.register') }}" class="cta-btn">Get Started Now</a>
+    <h4>Hi, how can we help you?</h4>
+    
 </main>
 
 
