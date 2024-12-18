@@ -35,6 +35,7 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\CustomerSupportController;
 
 // Home route for both guests and authenticated users
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -47,7 +48,7 @@ Route::get('/categories', [CategoryController::class, 'showCategories'])->name('
 Route::get('/categories/{category_name}/products', [CategoryController::class, 'showProduct'])->name('category.product');
 Route::get('/subcategory/{subcategory}/products', [CategoryController::class, 'showSubProducts'])->name('subcategory.products');
 Route::get('/merchants', [StoreController::class, 'showMerchants'])->name('merchants.index');
-
+Route::get('/customer-support', [CustomerSupportController::class, 'landing'])->name('customer.support');
 
 Route::middleware('auth')->group(function () {
     // Profile routes
@@ -89,7 +90,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/cart/count', [CartController::class, 'getCartItemCount'])->name('cart.count');
     Route::patch('/cart/update-variation/{cart_id}', [CartController::class, 'updateVariation'])->name('cart.update.variation');
 
-    
+
     Route::post('/buy-now', [CartController::class, 'buyNow'])->name('cart.buyNow');
 
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');

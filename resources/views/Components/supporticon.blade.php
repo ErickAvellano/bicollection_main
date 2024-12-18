@@ -1,5 +1,5 @@
 <div id="support-icon" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;">
-    <a href="#" style="text-decoration: none;">
+    <a href="{{ route('customer.support') }}" style="text-decoration: none;">
         <div style="
             width: 50px;
             height: 50px;
