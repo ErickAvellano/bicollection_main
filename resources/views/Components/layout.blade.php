@@ -727,40 +727,17 @@
                         variationSelect.empty();
     
                         if (response.product_variations && response.product_variations.length > 0) {
-                            if (response.product_variations.length > 1) {
-                                // Show the dropdown only if there are multiple variations
-                                const dropdownHTML = `
-                                    <div style="display: flex; align-items: center;">
-                                        <label for="variation-Select" style="margin-right: 10px; font-size: 0.8rem;">Change Variation:</label>
-                                        <select id="variationSelect" class="form-select" style="width: auto; min-width: 100px; max-width: 300px; font-size: 0.7rem;">
-                                        </select>
-                                    </div>`;
-                                $('#productDetails').append(dropdownHTML);
-
-                                // Populate the dropdown with variations
-                                const variationSelect = $('#variationSelect');
-                                variationSelect.empty();
-                                response.product_variations.forEach(variation => {
-                                    const isSelected =
-                                        response.product_variation_id === variation.product_variation_id ? 'selected' : '';
-                                    variationSelect.append(
-                                        `<option value="${variation.product_variation_id}" ${isSelected}>
-                                            ${variation.variation_name}
-                                        </option>`
-                                    );
-                                });
-                            } else {
-                                // If there is only one variation, display it as plain text
-                                const singleVariation = response.product_variations[0];
-                                const variationText = `
-                                    <p style="font-size: 0.8rem;">Variation: ${singleVariation.variation_name}</p>`;
-                                $('#productDetails').append(variationText);
-                            }
+                            response.product_variations.forEach(variation => {
+                                const isSelected =
+                                    response.product_variation_id === variation.product_variation_id ? 'selected' : '';
+                                variationSelect.append(
+                                    `<option value="${variation.product_variation_id}" ${isSelected}>
+                                        ${variation.variation_name}
+                                    </option>`
+                                );
+                            });
                         } else {
-                            // If there are no variations, display a fallback message or leave blank
-                            const noVariationText = `
-                                <p style="font-size: 0.8rem;">No variations available</p>`;
-                            $('#productDetails').append(noVariationText);
+                            variationSelect.append('<option value="">No variations available</option>');
                         }
     
                         // Update the "Proceed to Checkout" link with the cart ID
