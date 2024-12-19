@@ -746,19 +746,6 @@
     <!-- Related Description Section -->
     <section class="related-description mt-3 px-2">
         <div class="row gx-3">
-
-            <!-- Related Products Section -->
-            <div class="col-md-4 related-product">
-                <article class="card h-100 related-products p-1">
-                    <header class="card-header">
-                        <h5>Related Products</h5>
-                    </header>
-                    <div class="card-body">
-                        <!-- Related products content -->
-                    </div>
-                </article>
-            </div>
-
             <!-- Main Product Description and Additional Related Products -->
             <div class="col-md-8 mb-5">
 
@@ -769,7 +756,7 @@
                     </header>
                     <div class="card-body">
                         <p class="product-description">{{ $product->description }}</p>
-                    </div>
+                    </div>s
                 </article>
 
                 <!-- Product Review Section -->
