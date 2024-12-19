@@ -42,94 +42,94 @@ class CartController extends Controller
         return view('profile.cart', compact('groupedCartItems', 'subtotal', 'shippingCost', 'packagingCost', 'totalAmount'));
     }
     public function add(Request $request, $productId)
-{
-    try {
-        $user = Auth::user();
-        Log::info('User attempting to add product to cart.', [
-            'user_id' => $user->user_id,
-            'product_id' => $productId,
-        ]);
-
-        // Retrieve the product by ID
-        $product = Product::with('variations', 'images')->find($productId);
-
-        if (!$product) {
-            Log::warning('Product not found.', ['product_id' => $productId]);
-            return response()->json(['error' => 'Product not found.'], 404);
-        }
-
-        $productVariationId = $product->variations->first()->product_variation_id ?? null;
-
-        // Check if the product is already in the cart
-        $cartItem = Cart::where('customer_id', $user->user_id)
-            ->where('product_id', $productId)
-            ->first();
-
-        if ($cartItem) {
-            // If it exists, update the quantity
-            $cartItem->quantity++;
-            $cartItem->save();
-            Log::info('Product quantity updated in cart.', [
-                'cart_id' => $cartItem->cart_id,
-                'quantity' => $cartItem->quantity,
-            ]);
-        } else {
-            // Create a new cart entry and assign it to $cartItem
-            $cartItem = Cart::create([
-                'customer_id' => $user->user_id,
-                'product_variation_id' => $productVariationId,
-                'merchant_id' => $product->merchant_id,
-                'quantity' => 1,
-                'status' => 'active',
+    {
+        try {
+            $user = Auth::user();
+            Log::info('User attempting to add product to cart.', [
+                'user_id' => $user->user_id,
                 'product_id' => $productId,
             ]);
-            Log::info('New product added to cart.', [
-                'cart_id' => $cartItem->cart_id,
-                'quantity' => $cartItem->quantity,
+
+            // Retrieve the product by ID
+            $product = Product::with('variations', 'images')->find($productId);
+
+            if (!$product) {
+                Log::warning('Product not found.', ['product_id' => $productId]);
+                return response()->json(['error' => 'Product not found.'], 404);
+            }
+
+            $productVariationId = $product->variations->first()->product_variation_id ?? null;
+
+            // Check if the product is already in the cart
+            $cartItem = Cart::where('customer_id', $user->user_id)
+                ->where('product_id', $productId)
+                ->first();
+
+            if ($cartItem) {
+                // If it exists, update the quantity
+                $cartItem->quantity++;
+                $cartItem->save();
+                Log::info('Product quantity updated in cart.', [
+                    'cart_id' => $cartItem->cart_id,
+                    'quantity' => $cartItem->quantity,
+                ]);
+            } else {
+                // Create a new cart entry and assign it to $cartItem
+                $cartItem = Cart::create([
+                    'customer_id' => $user->user_id,
+                    'product_variation_id' => $productVariationId,
+                    'merchant_id' => $product->merchant_id,
+                    'quantity' => 1,
+                    'status' => 'active',
+                    'product_id' => $productId,
+                ]);
+                Log::info('New product added to cart.', [
+                    'cart_id' => $cartItem->cart_id,
+                    'quantity' => $cartItem->quantity,
+                ]);
+            }
+
+            // Calculate cart totals
+            $cartTotal = $cartItem->quantity * $product->price;
+            $cartItemCount = Cart::where('customer_id', $user->user_id)->count();
+            $totalCartAmount = Cart::where('customer_id', $user->user_id)->sum('quantity');
+
+            // Retrieve the first product image
+            $productImage = $product->images->first() ? $product->images->first()->product_img_path1 : null;
+
+            Log::info('Cart totals calculated.', [
+                'cart_total' => $cartTotal,
+                'cart_item_count' => $cartItemCount,
+                'total_cart_amount' => $totalCartAmount,
             ]);
+
+            // Return the response with updated data and variations
+            return response()->json([
+                'success' => 'Product added to cart successfully!',
+                'product_name' => $product->product_name,
+                'product_image' => $productImage,
+                'product_variation' => optional($product->variations->first())->variation_name,
+                'product_variations' => $product->variations->map(function ($variation) {
+                    return [
+                        'product_variation_id' => $variation->product_variation_id,
+                        'variation_name' => $variation->variation_name,
+                    ];
+                }),
+                'quantity' => $cartItem->quantity,
+                'cart_total' => number_format($cartTotal, 2),
+                'cart_item_count' => $cartItemCount,
+                'total_cart_amount' => number_format($totalCartAmount, 2),
+                'cart_id' => $cartItem->cart_id,
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Error adding product to cart.', [
+                'error_message' => $e->getMessage(),
+                'stack_trace' => $e->getTraceAsString(),
+            ]);
+            return response()->json(['error' => 'There was an error adding the product to the cart.'], 500);
         }
-
-        // Calculate cart totals
-        $cartTotal = $cartItem->quantity * $product->price;
-        $cartItemCount = Cart::where('customer_id', $user->user_id)->count();
-        $totalCartAmount = Cart::where('customer_id', $user->user_id)->sum('quantity');
-
-        // Retrieve the first product image
-        $productImage = $product->images->first() ? $product->images->first()->product_img_path1 : null;
-
-        Log::info('Cart totals calculated.', [
-            'cart_total' => $cartTotal,
-            'cart_item_count' => $cartItemCount,
-            'total_cart_amount' => $totalCartAmount,
-        ]);
-
-        // Return the response with updated data and variations
-        return response()->json([
-            'success' => 'Product added to cart successfully!',
-            'product_name' => $product->product_name,
-            'product_image' => $productImage,
-            'product_variation' => optional($product->variations->first())->variation_name,
-            'product_variations' => $product->variations->map(function ($variation) {
-                return [
-                    'product_variation_id' => $variation->product_variation_id,
-                    'variation_name' => $variation->variation_name,
-                ];
-            }),
-            'quantity' => $cartItem->quantity,
-            'cart_total' => number_format($cartTotal, 2),
-            'cart_item_count' => $cartItemCount,
-            'total_cart_amount' => number_format($totalCartAmount, 2),
-            'cart_id' => $cartItem->cart_id,
-        ]);
-
-    } catch (\Exception $e) {
-        Log::error('Error adding product to cart.', [
-            'error_message' => $e->getMessage(),
-            'stack_trace' => $e->getTraceAsString(),
-        ]);
-        return response()->json(['error' => 'There was an error adding the product to the cart.'], 500);
     }
-}
 
     public function remove($cartId)
     {
