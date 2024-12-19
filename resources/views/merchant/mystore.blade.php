@@ -1056,54 +1056,49 @@
 
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabContentContainer = document.getElementById('tabContentContainer'); // Dynamic content container
+            const productModal = new bootstrap.Modal(document.getElementById('productModal')); // Bootstrap modal
+
+            // Handle navigation and content loading
             const tabs = document.querySelectorAll('#productTabs .nav-link');
-            const contentContainer = document.getElementById('tabContentContainer');
+            tabs.forEach((tab) => {
+                tab.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    const navValue = this.getAttribute('data-nav').toLowerCase();
 
-            // Handle tab click
-            tabs.forEach(tab => {
-                tab.addEventListener('click', event => {
-                    event.preventDefault(); // Prevent default link behavior
-
-                    const navValue = tab.getAttribute('data-nav').toLowerCase();
-                    const baseUrl = window.location.pathname; // Retain the base URL (without domain)
-
-                    // Update the URL without refreshing the page
-                    history.pushState({}, '', `${baseUrl}?nav=${navValue}`);
-
-                    // Update the active tab
-                    tabs.forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-
-                    // Perform an AJAX request to fetch the content
-                    fetchContent(navValue);
+                    // Fetch content for the selected tab
+                    fetch(`/merchant/partial/${navValue}`)
+                        .then((response) => response.text())
+                        .then((data) => {
+                            tabContentContainer.innerHTML = data; // Insert content dynamically
+                        })
+                        .catch((error) => console.error('Error loading content:', error));
                 });
             });
 
-            // Fetch content from the server based on the selected tab
-            function fetchContent(navValue) {
-                fetch(`/merchant/partial/${navValue}`)
-                    .then(response => response.text())
-                    .then(data => {
-                        // Replace the entire content in the container
-                        contentContainer.innerHTML = data;
-                    })
-                    .catch(error => {
-                        console.error('Error fetching content:', error);
-                    });
-            }
-
-            // Fetch content on page load based on current nav query
-            const urlParams = new URLSearchParams(window.location.search);
-            const activeNav = urlParams.get('nav') || 'home'; // Default to 'home' if no 'nav' param
-            fetch(`/merchant/partial/${activeNav}`)
+            // Load default tab content (home) on page load
+            fetch(`/merchant/partial/home`)
                 .then((response) => response.text())
                 .then((data) => {
-                    tabContentContainer.innerHTML = data;
+                    tabContentContainer.innerHTML = data; // Load content
                 })
-                .catch((error) => {
-                    console.error('Error loading content:', error);
-                });
+                .catch((error) => console.error('Error loading default content:', error));
+
+            // Handle modal opening via event delegation
+            tabContentContainer?.addEventListener('click', function (event) {
+                const target = event.target.closest('#openModalButton'); // Check if modal button is clicked
+                if (target) {
+                    console.log('Modal button clicked'); // Debugging
+                    productModal.show(); // Show modal
+                }
+            });
+
+            // Optional: Handle modal closing programmatically
+            const closeBtn = document.querySelector('.close');
+            closeBtn?.addEventListener('click', function () {
+                productModal.hide(); // Close the modal
+            });
         });
     </script>
     <script>
