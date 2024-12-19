@@ -742,7 +742,7 @@
                     @endif
                     <h5 class="card-title mb-0 fw-bold">{{ $shop->shop_name ?? 'Store Name' }}</h5>
                 </div>
-                <a href="#" class="btn btn-outline-custom">View Store</a>
+                <a href="{{ route('mystore') }}" class="btn btn-outline-custom">View Store</a>
             </div>
         </div>
     </section>
