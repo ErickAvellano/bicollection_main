@@ -49,6 +49,9 @@ Route::get('/categories/{category_name}/products', [CategoryController::class, '
 Route::get('/subcategory/{subcategory}/products', [CategoryController::class, 'showSubProducts'])->name('subcategory.products');
 Route::get('/merchants', [StoreController::class, 'showMerchants'])->name('merchants.index');
 Route::get('/customer-support', [CustomerSupportController::class, 'landing'])->name('customer.support');
+Route::get('/merchant/{shopId}/viewstore', [StoreController::class, 'viewStore'])->name('merchant.viewstore');
+
+
 
 Route::middleware('auth')->group(function () {
     // Profile routes
@@ -158,7 +161,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/shop/update-images', [ShopController::class, 'updateImages'])->name('shop.updateImages');
     Route::get('/merchant/partial/{nav}', [ShopController::class, 'getPartial'])->name('merchant.partial');
     Route::get('/category/{category_name}', [ProductController::class, 'showByCategory'])->name('category.products');
-    Route::get('/merchant/{shopId}/viewstore', [StoreController::class, 'viewStore'])->name('merchant.viewstore');
+    
     Route::get('/merchant/partial/{nav}/{shopId}', [StoreController::class, 'getPartial'])->name('merchant.partial');
     Route::post('/merchant/upload-picture', [MerchantController::class, 'uploadPicture'])->name('merchant.uploadPicture');
 
