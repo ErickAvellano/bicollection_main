@@ -36,6 +36,12 @@ class FavoriteController extends Controller
         try {
             $user = Auth::user();
 
+            if (!$user) {
+                return response()->json([
+                    'redirect_to' => route('login'), // Provide the login route
+                ], 401);
+            }
+
             // Check if the product already exists in favorites
             $existingFavorite = Favorite::where('customer_id', $user->user_id)
                 ->where('product_id', $productId)

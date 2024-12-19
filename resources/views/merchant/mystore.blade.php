@@ -704,7 +704,6 @@
                     <div class="store-info">
                         <p><span>Total Sales:</span> {{ $shop->total_sales }}</p>
                         <p><span>Pending Orders:</span> {{ $shop->pending_orders }}</p>
-                        <p><span>Total Sales:</span> 12</p>
                     </div>
                 </div>
             </div>
