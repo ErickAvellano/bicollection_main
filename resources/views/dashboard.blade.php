@@ -984,7 +984,7 @@
                                         @endif
                                     </p>
                                     <div class="action-buttons">
-                                        <a href="#" class="btn btn-custom add-to-cart" data-product-id="{{ $product->product_id }}" onclick="console.log('Inline Click Triggered')">
+                                        <a href="#" class="btn btn-custom add-to-cart" data-product-id="{{ $product->product_id }}" >
                                             Add to Cart
                                         </a>
                                         <a href="#"
@@ -1053,7 +1053,7 @@
         <p>No shop found for the merchant.</p>
     @endif
 @endif
-@include('Components.add-to-cart')
+@include('add-to-cart')
 @include('Components.supporticon')
 @include('Components.footer')
 
