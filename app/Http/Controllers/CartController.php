@@ -41,7 +41,7 @@ class CartController extends Controller
         // Pass data to the view
         return view('profile.cart', compact('groupedCartItems', 'subtotal', 'shippingCost', 'packagingCost', 'totalAmount'));
     }
-    public function add(Request $request, $productId)
+    public function add($productId)
     {
         try {
             $user = Auth::user();
