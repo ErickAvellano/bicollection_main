@@ -717,8 +717,12 @@
                                                 <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
                                             </span></h5>
                                             <p class="mb-0 text-white text-start">
-                                                <i class="fa-solid fa-location-dot" style="color: red;"></i>
-                                                {{ $shop->shop_street }}, {{ $shop->barangay }}, {{ $shop->city }}, {{ $shop->province }}
+                                                <i class="fa-solid fa-location-dot text-danger"></i>
+                                                <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($shop->shop_street . ', ' . $shop->barangay . ', ' . $shop->city . ', ' . $shop->province) }}"
+                                                    target="_blank"
+                                                    style="text-decoration: none; color: inherit; font-size:1rem;">
+                                                    {{ $shop->shop_street }}, {{ $shop->barangay }}, {{ $shop->city }}, {{ $shop->province }}
+                                                </a>
                                             </p>
                                             <p class="mb-0 text-white text-start text-gray">
                                                 <i class="text-black fa-solid fa-phone"></i>
@@ -739,7 +743,9 @@
                                                             $formattedNumber = $contactNumber;
                                                         }
                                                     @endphp
-                                                    {{ $formattedNumber }}
+                                                    <a href="tel:{{ $formattedNumber }}" style="text-decoration: none; color: inherit;">
+                                                        {{ $formattedNumber }}
+                                                    </a>
                                                 @else
                                                     No contact number set
                                                 @endif
