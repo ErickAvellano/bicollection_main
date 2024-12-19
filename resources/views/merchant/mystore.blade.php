@@ -307,7 +307,7 @@
         font-size: 20px;
         color: #333;
     }
-    .product-card {
+    /* .product-card {
         width: 13rem; 
         height: auto;
         margin-bottom: 15px; 
@@ -327,7 +327,7 @@
         font-size: 14px;
         font-weight: bold;
         margin-bottom: 5px;
-    }
+    } */
 
     .product-card .card-text {
         font-size: 13px;
@@ -573,6 +573,56 @@
     /* Hover effect (optional) */
     .nav-tabs .nav-link:hover {
         color: #228b22 !important; 
+    }
+    .product-card-hover {
+        transition: border-color 0.3s ease-in-out;
+        border: 1px solid transparent;
+        transition: border 0.3s;
+    }
+
+    .product-card-hover:hover {
+        border-color: #28a745;
+        border: 3px solid 228b22;
+    }
+    .product-links {
+        text-decoration: none;
+    }
+    .product-item {
+        width: 14.2857%; /* Adjust width for 7 items per row */
+        box-sizing: border-box; /* Ensures padding doesn't affect the width */
+    }
+
+    .homeallproduct-products-row {
+        display: flex;
+        flex-wrap: wrap; /* Wrap to the next line after 7 items */
+        gap: 0px; /* Optional: Add space between items */
+    }
+    .card-reviews {
+        font-size: 12px;
+        color: #777;
+        margin: 0;
+    }
+    .card-title {
+        font-size: 1rem;
+        font-weight: bold;
+        margin: 0;
+        min-height: 2.5rem; /* Adjusted to allow more content */
+        max-height: 2.5rem; /* Adjusted to allow more content */
+        white-space: normal;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Price styling */
+    .card-price {
+        font-size: 14px;
+        color: #555;
+        font-weight: bold;
     }
 
 </style>
