@@ -34,7 +34,7 @@
                                     <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
                                 @endif
                             </p>
-                            <a href="{{ route('products.edit', ['id' => $product->product_id]) }}" class="btn btn-custom btn-sm w-100">Edit</a>
+                            <a href="{{ route('products.edit', ['id' => $product->product_id]) }}" class="btn btn-custom btn-sm w-100 mt-3">Edit</a>
                         </div>
                     </div>
                 </div>

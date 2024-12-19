@@ -581,7 +581,7 @@
         object-fit: cover;
         border-radius: 0.5rem;
     }
-    
+
     .product-card-hover {
         transition: border-color 0.3s ease-in-out;
         border: 1px solid transparent;
@@ -606,7 +606,6 @@
         gap: 0px; /* Optional: Add space between items */
     }
     .card-reviews {
-        font-size: 12px;
         color: #777;
         margin: 0;
     }
