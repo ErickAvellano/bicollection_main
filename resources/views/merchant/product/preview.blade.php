@@ -706,7 +706,7 @@
 
                 <!-- Action Buttons -->
                 <div class="button-group">
-                    <a href="#"  class="btn btn-outline-custom add-to-cart-btn"  disabled>
+                    <a href="javascript:void(0);" class="btn btn-outline-custom add-to-cart-btn disabled" style="pointer-events: none; opacity: 0.6;">
                         <i class="fas fa-shopping-cart" style="margin-right: 4px;"></i> Add to Cart
                     </a>
                     <button class="btn btn-custom" disabled>Buy Now</button>
