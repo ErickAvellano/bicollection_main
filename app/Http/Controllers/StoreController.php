@@ -18,6 +18,10 @@ class StoreController extends Controller
         // Fetch the shop using shopId
         $shop = Shop::find($shopId);
 
+        $visitorCount = DB::table('shop_visit_logs')
+            ->where('shop_id', $shopId)
+            ->value('click_count');
+
         if (!$shop) {
             return redirect()->back()->with('error', 'Shop not found.');
         }
@@ -49,7 +53,7 @@ class StoreController extends Controller
         }
 
         // Pass the necessary data to the view
-        return view('merchant.viewstore', compact('shop', 'products', 'featuredProducts'));
+        return view('merchant.viewstore', compact('shop', 'products', 'visitorCount', 'featuredProducts'));
     }
 
 
