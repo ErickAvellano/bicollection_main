@@ -574,6 +574,14 @@
     .nav-tabs .nav-link:hover {
         color: #228b22 !important; 
     }
+
+    .card-img-top {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 0.5rem;
+    }
+    
     .product-card-hover {
         transition: border-color 0.3s ease-in-out;
         border: 1px solid transparent;
