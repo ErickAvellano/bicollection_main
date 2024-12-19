@@ -896,7 +896,27 @@
         });
     </script>
     <!--  Script for Modal Handling -->
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const openModalButton = document.getElementById('openModalButton');
+            const productModal = document.getElementById('productModal');
+            const closeBtn = document.querySelector('.close');
+        
+            // Use event delegation to handle clicks inside openModalButton div
+            openModalButton?.addEventListener('click', (event) => {
+                const isButton = event.target.closest('button'); // Check if a button is clicked
+                if (isButton) {
+                    $('#productModal').modal('show');
+                }
+            });
+        
+            // Close modal when close button is clicked
+            closeBtn?.addEventListener('click', () => {
+                $('#productModal').modal('hide');
+            });
+        });
+        </script>
+        
     <!--  Script for Featured Product Selection -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
