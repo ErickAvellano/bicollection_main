@@ -918,12 +918,6 @@
             }
         });
     </script>
-
-
-
-
-
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Find the "To-Rate" tab link

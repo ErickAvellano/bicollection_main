@@ -136,19 +136,31 @@ class OrderController extends Controller
 
             // Insert order items
             $orderItems = [];
-            foreach ($validatedData['order_items'] as $item) {
-                $orderItem = OrderItem::create([
-                    'order_id' => $order->order_id,
-                    'product_id' => $item['product_id'],
-                    'product_name' => $item['product_name'],
-                    'product_price' => $item['product_price'],
-                    'variation_id' => $item['variation_id'] ?? null,
-                    'variation_name' => $item['variation_name'] ?? null,
-                    'quantity' => $item['quantity'],
-                    'subtotal' => $item['subtotal'],
-                ]);
-                $orderItems[] = $orderItem;
-            }
+                foreach ($validatedData['order_items'] as $item) {
+                    $orderItem = OrderItem::create([
+                        'order_id' => $order->order_id,
+                        'product_id' => $item['product_id'],
+                        'product_name' => $item['product_name'],
+                        'product_price' => $item['product_price'],
+                        'variation_id' => $item['variation_id'] ?? null,
+                        'variation_name' => $item['variation_name'] ?? null,
+                        'quantity' => $item['quantity'],
+                        'subtotal' => $item['subtotal'],
+                    ]);
+                    $orderItems[] = $orderItem;
+
+                    // Reduce product quantity
+                    $product = Product::find($item['product_id']);
+                    if ($product) {
+                        $product->quantity_item -= $item['quantity'];
+
+                        // Ensure quantity doesn't go negative
+                        if ($product->quantity_item < 0) {
+                            throw new Exception("Product {$product->product_name} has insufficient stock.");
+                        }
+                        $product->save();
+                    }
+                }
 
             // Set payment status based on payment method
             $paymentStatus = $validatedData['payment_method'] === 'GCash' ? 'To-pay' : 'Pending';
@@ -594,12 +606,40 @@ class OrderController extends Controller
             return response()->json(['success' => false, 'message' => 'Orders with GCash payment cannot be canceled immediately.']);
         }
 
-        // Update order status to cancelled
-        $order->order_status = 'cancelled';
-        $order->save();
+        // Start a transaction
+        DB::beginTransaction();
 
-        return response()->json(['success' => true, 'message' => 'Order has been cancelled.']);
+        try {
+            // Update order status to cancelled
+            $order->order_status = 'cancelled';
+            $order->save();
+
+            // Retrieve all items in the order
+            $orderItems = OrderItem::where('order_id', $orderId)->get();
+
+            // Loop through each order item and restore the product quantity
+            foreach ($orderItems as $item) {
+                $product = Product::find($item->product_id);
+
+                if ($product) {
+                    // Add back the quantity from the order item
+                    $product->quantity_item += $item->quantity;
+                    $product->save();
+                }
+            }
+
+            // Commit the transaction
+            DB::commit();
+
+            return response()->json(['success' => true, 'message' => 'Order has been cancelled.']);
+        } catch (Exception $e) {
+            // Rollback the transaction in case of any errors
+            DB::rollBack();
+
+            return response()->json(['success' => false, 'message' => 'An error occurred while canceling the order. Please try again later.'], 500);
+        }
     }
+
     public function cancelOrderCustomer($order_id)
     {
         // Fetch the payment record directly
@@ -611,13 +651,25 @@ class OrderController extends Controller
             try {
                 // Update payment status and order status
                 $payment->update([
-                    'payment_status' => 'Canceled',
-                    'order_status' => 'cancelled'
+                    'payment_status' => 'Cancelled'
                 ]);
 
                 $order = Order::where('order_id', $payment->order_id)->first();
                 $order->update(['order_status' => 'cancelled']);
 
+                $orderItems = OrderItem::where('order_id', $order_id)->get();
+
+                // Restore the product quantities
+                foreach ($orderItems as $item) {
+                    $product = Product::find($item->product_id);
+
+                    if ($product) {
+
+                        $product->quantity_item += $item->quantity;
+
+                        $product->save();
+                    }
+                }
                 DB::commit();
 
                 // Return a success response in JSON format
@@ -640,46 +692,75 @@ class OrderController extends Controller
     {
         $orderId = $request->input('order_id');
         $paymentId = $request->input('payment_id');
-
+    
         try {
+            // Start a database transaction
+            DB::beginTransaction();
+    
             // Update order status
             DB::table('order')
                 ->where('order_id', $orderId)
                 ->update(['order_status' => 'to-refund', 'updated_at' => now()]);
-
+    
             // Update payment status
             DB::table('payment')
                 ->where('payment_id', $paymentId)
                 ->update(['payment_status' => 'to-refund', 'updated_at' => now()]);
-
+    
             // Create a new refund request record
             $refundRequest = RefundRequest::create([
                 'payment_id' => $paymentId,
                 'order_id' => $orderId,
                 'refund_status' => 'Pending',
             ]);
-
+    
+            // Retrieve all items in the order
+            $orderItems = DB::table('order_item')->where('order_id', $orderId)->get();
+    
+            // Restore the product quantities
+            foreach ($orderItems as $item) {
+                $product = DB::table('product')->where('product_id', $item->product_id)->first();
+    
+                if ($product) {
+                    // Add back the quantity from the order item
+                    $newQuantity = $product->quantity_item + $item->quantity;
+    
+                    // Update the product quantity in the product table
+                    DB::table('product')
+                        ->where('product_id', $item->product_id)
+                        ->update(['quantity_item' => $newQuantity, 'updated_at' => now()]);
+                }
+            }
+    
             // Retrieve the order and merchant's email information
             $order = DB::table('order')->where('order_id', $orderId)->first();
-
+    
             if (!$order) {
+                DB::rollBack();
                 return response()->json(['success' => false, 'message' => 'Order not found.']);
             }
-
+    
             // Fetch the merchant's data separately
             $merchant = DB::table('merchant')
                 ->where('merchant_id', $order->merchant_id)
                 ->first();
-
+    
             if (!$merchant) {
+                DB::rollBack();
                 return response()->json(['success' => false, 'message' => 'Merchant not found.']);
             }
-
+    
             // Send email to the merchant with the order and merchant data
             Mail::to($merchant->email)->send(new RefundRequestMail($order, $merchant));
-
+    
+            // Commit the transaction
+            DB::commit();
+    
             return response()->json(['success' => true, 'message' => 'Cancellation request submitted successfully.']);
         } catch (Exception $e) {
+            // Rollback the transaction in case of an error
+            DB::rollBack();
+    
             return response()->json(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
         }
     }
