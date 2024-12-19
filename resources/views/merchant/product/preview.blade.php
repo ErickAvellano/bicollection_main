@@ -680,9 +680,9 @@
                         <h5 class="font-weight-bold">Quantity</h5>
                         <div class="d-flex align-items-center mt-2">
                             <div class="input-group quantity-input-group" style="width: fit-content;">
-                                <button class="btn btn-outline-secondary" type="button" id="decrementBtn">-</button>
-                                <input type="text" id="quantityInput" value="1" style="width: 50px; text-align: center;" class="form-control">
-                                <button class="btn btn-outline-secondary" type="button" id="incrementBtn">+</button>
+                                <button class="btn btn-outline-secondary" type="button" id="decrementBtn" disabled>-</button>
+                                <input type="text" id="quantityInput" value="1" style="width: 50px; text-align: center;"  disabled class="form-control">
+                                <button class="btn btn-outline-secondary" type="button" id="incrementBtn"  disabled>+</button>
                             </div>
                         </div>
                     </div>
@@ -697,7 +697,13 @@
                     <p class="text-muted">Standard Shipping: 3-5 business days</p>
                 </div>
 
-               
+                <!-- Action Buttons -->
+                <div class="button-group">
+                    <a href="#" disabled>
+                        <i class="fas fa-shopping-cart" style="margin-right: 4px;"></i> Add to Cart
+                    </a>
+                    <button class="btn btn-custom" disabled>Buy Now</button>
+                </div>
             </div>
         </div>
     </div>
