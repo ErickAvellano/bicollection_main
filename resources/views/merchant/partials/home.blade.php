@@ -1,4 +1,4 @@
-<div class="col-md-12 mt-4 featured-products-container">
+<div class="featured-products mt-4">
     <h3>Featured Products</h3>
     <hr>
     <div class="homeallproduct-products-row d-flex flex-wrap justify-content-start">
@@ -35,16 +35,7 @@
                                 @endif
                             </p>
                             <div class="action-buttons" style="position: absolute; bottom: 10px; padding:6px;">
-                                <a href="#" class="btn btn-custom add-to-cart" data-product-id="{{ $product->product_id }}">
-                                    Add to Cart
-                                </a>
-                                <a href="#"
-                                   class="btn {{ !empty($favorites) && in_array($product->product_id, $favorites) ? 'btn-danger' : 'btn-outline-danger' }} favorite-button"
-                                   data-product-id="{{ $product->product_id }}"
-                                   style="width: 2rem; padding: 0.2rem 0; "
-                                   title="{{ !empty($favorites) && in_array($product->product_id, $favorites) ? 'Unfavorite' : 'Favorite' }}">
-                                    <i class="fas fa-heart {{ !empty($favorites) && in_array($product->product_id, $favorites) ? 'text-white' : '' }}"></i>
-                                </a>
+                                <a href="{{ route('products.edit', ['id' => $product->product_id]) }}" class="btn btn-custom btn-sm w-100">Edit</a>
                             </div>
                         </div>
                     </div>

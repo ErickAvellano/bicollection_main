@@ -336,11 +336,13 @@
     .allproduct-products-container {
         padding: 10px 0; 
     }
+
+    /* Adjusting row spacing */
     .featured-products-row,
-    .allproduct-products-row {
+    .allproduct-products-row, {
         margin-left: 0;
         margin-right: 0;
-        gap: 5px; 
+        gap: 5px;
     }
     .btn-link-custom{
         color:#218838;
