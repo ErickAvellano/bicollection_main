@@ -55,7 +55,7 @@
     </div>
 </div>
 <div class="col-md-12 mt-4 homeallproduct-products-container">
-    <h3>All Products</h3>
+    <h3>Products</h3>
     <hr class="line">
     <div class="homeallproduct-products-row d-flex flex-wrap justify-content-start">
         @foreach($products as $product)
