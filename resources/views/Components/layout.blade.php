@@ -719,7 +719,7 @@
                         // Replace the existing dropdown dynamically
                         $('#productDetails')
                             .find('select#variationSelect')
-                            .remove(); /
+                            .remove(); 
     
                         // Add the new dropdown HTML after the label
                         $('#productDetails')
