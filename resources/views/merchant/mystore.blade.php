@@ -690,12 +690,12 @@
 
 
 <!-- Modal Structure -->
-<div class="modal" id="productModal">
+<div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="productModalLabel">Select Products to Feature</h5>
-                <button type="button" class="close close-btn" aria-label="Close">
+                <button type="button" class="close close-btn" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -721,9 +721,7 @@
                                                 <!-- Button to select this product as featured -->
                                                 <button type="button"
                                                         class="btn btn-select btn-sm w-100 select-product-btn"
-                                                        data-product-id="{{ $product->product_id }}"
-                                                        @if(in_array($product->product_id, $featuredProductIds))
-                                                        @endif>
+                                                        data-product-id="{{ $product->product_id }}">
                                                     @if(in_array($product->product_id, $featuredProductIds))
                                                         Selected
                                                     @else
@@ -740,12 +738,13 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-custom" id="saveFeaturedProductsBtn">Save Featured Products</button>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- Floating Buttons -->
 <div class="floating-buttons">
@@ -897,78 +896,7 @@
         });
     </script>
     <!--  Script for Modal Handling -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const openModalButton = document.getElementById('openModalButton');
-            const productModal = document.getElementById('productModal');
-            const closeBtn = document.querySelector('.close');
-
-            // Open modal when button is clicked
-            openModalButton?.addEventListener('click', () => {
-                $('#productModal').modal('show');
-            });
-
-            // Close modal when close button is clicked
-            closeBtn?.addEventListener('click', () => {
-                $('#productModal').modal('hide');
-            });
-        });
-    </script>
-    <!--  Script for Featured Product Selection -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            let selectedProductIds = @json($featuredProductIds);
-            const featuredProductInput = document.getElementById('featuredProductInput');
-            const saveButtonAds = document.getElementById('saveFeaturedProductsBtn');
-
-            // Pre-check already selected products
-            selectedProductIds.forEach((productId) => {
-                const button = document.querySelector(`.select-product-btn[data-product-id="${productId}"]`);
-                if (button) {
-                    updateButtonState(button, true);
-                }
-            });
-
-            // Update hidden input field
-            featuredProductInput.value = selectedProductIds.join(',');
-
-            // Toggle product selection
-            document.querySelectorAll('.select-product-btn').forEach((button) => {
-                button.addEventListener('click', function() {
-                    const productId = this.getAttribute('data-product-id');
-                    const isSelected = !selectedProductIds.includes(productId);
-
-                    if (isSelected) {
-                        selectedProductIds.push(productId);
-                    } else {
-                        selectedProductIds = selectedProductIds.filter(id => id !== productId);
-                    }
-
-                    updateButtonState(this, isSelected);
-                    featuredProductInput.value = selectedProductIds.join(',');
-                });
-            });
-
-            // Save selected products
-            saveButtonAds?.addEventListener('click', () => {
-                featuredProductInput.value = selectedProductIds.join(',');
-                document.getElementById('featuredProductForm').submit();
-            });
-
-            // Update button state
-            function updateButtonState(button, isSelected) {
-                if (isSelected) {
-                    button.style.backgroundColor = 'green';
-                    button.style.color = 'white';
-                    button.textContent = 'Selected';
-                } else {
-                    button.style.backgroundColor = '';
-                    button.style.color = '';
-                    button.textContent = 'Select';
-                }
-            }
-        });
-    </script>
+ 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Iterate over both card elements (1 and 2)
