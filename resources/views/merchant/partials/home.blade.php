@@ -35,9 +35,9 @@
         @endforeach
         <!-- Add Featured Product Button/Card -->
         <div class="col-md-4 product-card">
-            <div class="card text-center add-featured-card" style="width: 12rem; height: 16rem;" id="openModalButton">
+            <div class="card text-center add-featured-card" style="width: 12rem; height: 16rem;">
                 <div class="card-body d-flex justify-content-center align-items-center" style="height: 100%;">
-                    <button type="button" class="btn btn-link-custom" style="border: none; background: none;">
+                    <button type="button" id="openModalButton" class="btn btn-link-custom" style="border: none; background: none;">
                         <i class="fa fa-plus" style="font-size: 3rem;"></i>
                     </button>
                 </div>
@@ -134,20 +134,23 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const openModalButton = document.getElementById('openModalButton');
-        const productModal = document.getElementById('productModal');
-        const closeBtn = document.querySelector('.close');
+document.addEventListener('DOMContentLoaded', function () {
+    const openModalButton = document.getElementById('openModalButton');
+    const productModal = document.getElementById('productModal');
+    const closeBtn = document.querySelector('.close');
 
-        // Open modal when button is clicked
-        openModalButton?.addEventListener('click', () => {
+    // Use event delegation to handle clicks inside openModalButton div
+    openModalButton?.addEventListener('click', (event) => {
+        const isButton = event.target.closest('button'); // Check if a button is clicked
+        if (isButton) {
             $('#productModal').modal('show');
-        });
-
-        // Close modal when close button is clicked
-        closeBtn?.addEventListener('click', () => {
-            $('#productModal').modal('hide');
-        });
+        }
     });
+
+    // Close modal when close button is clicked
+    closeBtn?.addEventListener('click', () => {
+        $('#productModal').modal('hide');
+    });
+});
 </script>
 
