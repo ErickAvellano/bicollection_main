@@ -1096,7 +1096,14 @@
             // Fetch content on page load based on current nav query
             const urlParams = new URLSearchParams(window.location.search);
             const activeNav = urlParams.get('nav') || 'home'; // Default to 'home' if no 'nav' param
-            fetchContent(activeNav);
+            fetch(`/merchant/partial/${activeNav}`)
+                .then((response) => response.text())
+                .then((data) => {
+                    tabContentContainer.innerHTML = data;
+                })
+                .catch((error) => {
+                    console.error('Error loading content:', error);
+                });
         });
     </script>
     <script>
