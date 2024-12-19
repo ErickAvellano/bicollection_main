@@ -695,7 +695,7 @@
                 <div class="col-md-6">
                     <div class="store-info">
                         <p><span>Products:</span> {{ count($products) }}</p>
-                        <p><span>Followers:</span> {{ $shop->followers_count }}</p>
+                        <p><span>Visitors:</span>  {{ $visitorCount }}</p>
                         <p><span>Rating:</span> {{ $shop->rating }} ({{ $shop->ratings_count }} Rating)</p>
                         <p><span>Joined:</span> {{ $shop->created_at->diffForHumans() }}</p>
                     </div>

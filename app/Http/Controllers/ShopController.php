@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Models\Product;
 use App\Models\ShopDesign;
@@ -31,6 +32,10 @@ class ShopController extends Controller
         // Get the shop ID
         $shopId = $shop->shop_id;
 
+        $visitorCount = DB::table('shop_visit_logs')
+            ->where('shop_id', $shopId)
+            ->value('click_count');
+
         // Check if a shop design exists for this shop
         $shopDesign = ShopDesign::where('shop_id', $shopId)->first();
 
@@ -56,7 +61,7 @@ class ShopController extends Controller
         $featuredProducts = Product::whereIn('product_id', $featuredProductIds)->get();
 
         // Pass the necessary data to the view
-        return view('merchant.mystore', compact('shop', 'merchant', 'merchantMop', 'shopId', 'shopDesignId', 'products', 'featuredProducts', 'featuredProductIds', 'display1', 'display2'));
+        return view('merchant.mystore', compact('shop', 'merchant', 'merchantMop', 'visitorCount', 'shopId', 'shopDesignId', 'products', 'featuredProducts', 'featuredProductIds', 'display1', 'display2'));
     }
     public function updateImages(Request $request)
     {
