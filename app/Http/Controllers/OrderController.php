@@ -495,11 +495,11 @@ class OrderController extends Controller
             if ($status === 'To-Ship') {
                 Log::info('Sending OrderToShipMail', ['email' => $order->customer->email]);
                  Mail::to($order->customer->email)->send(new OrderAcceptedMail($order));
-                $message = 'The order has been successfully updated to "To-Ship". We kindly ask you to prepare the product for shipment. Thank you!';
+                $message = 'The order has been successfully updated to "To-Ship"';
             } elseif ($status === 'Declined') {
                 Log::info('Sending OrderDeclinedMail', ['email' => $order->customer->email]);
                 Mail::to($order->customer->email)->send(new OrderDeclinedMail($order));
-                $message = 'The order has been marked as "Declined". Thank you for reviewing it.';
+                $message = 'The order has been marked as "Declined". Thank you for reviewing';
             } elseif ($status === 'Ready') {
                 Log::info('Sending OrderReadyMail', ['email' => $order->customer->email]);
                 Mail::to($order->customer->email)->send(new OrderReadyMail($order));

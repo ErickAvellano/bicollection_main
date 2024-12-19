@@ -94,6 +94,11 @@
             </a>
         </li>
         <li class="nav-item" role="presentation">
+            <a class="nav-link" href="#" data-status="completed" role="tab">
+                Refunded Orders <span class="text-custom">({{ $statusCounts['completed'] ?? 0 }})</span>
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
             <a class="nav-link" href="#" data-status="canceled" role="tab">
                 Canceled Orders <span class="text-custom">({{ $statusCounts['cancel'] ?? 0 }})</span>
             </a>
@@ -233,6 +238,8 @@
         <span class="visually-hidden">Loading...</span>
     </div>
 </div>
+@include('Components.status-modal')
+
 @endsection
 
 @section('scripts')
@@ -319,82 +326,99 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Event delegation for dynamically loaded elements
-            document.body.addEventListener('click', function(event) {
-                if (event.target.classList.contains('btn-accept') || event.target.classList.contains('btn-decline') || event.target.classList.contains('btn-outline-custom')) {
-                    const action = event.target.classList.contains('btn-accept') ? 'accept' :
-                                event.target.classList.contains('btn-decline') ? 'decline' : 'ready';
-                    const orderId = event.target.id.split('_')[1];
-                    const formToSubmit = document.getElementById(`${action}Form_${orderId}`);
-                    showConfirmationModal(action, formToSubmit);
-                }
-            });
-
-            function showConfirmationModal(action, form) {
-                const confirmationModal = new bootstrap.Modal(document.getElementById('ConfirmationModal'));
-                const confirmationModalBody = document.getElementById('ConfirmationModalBody');
-                const proceedActionBtn = document.getElementById('proceedActionBtn');
-                const loadingSpinner = document.getElementById('loadingSpinner');
-
-                // Set modal message based on action
-                if (action === 'accept') {
-                    confirmationModalBody.textContent = 'Are you sure you want to accept this order?';
-                } else if (action === 'decline') {
-                    confirmationModalBody.textContent = 'Are you sure you want to decline this order?';
-                } else if (action === 'ready') {
-                    confirmationModalBody.textContent = 'Are you sure this order is ready for shipment?';
-                }
-
-                // Action on confirmation
-                proceedActionBtn.onclick = function() {
-                    if (form) {
-                        // Hide modal and show loading spinner
-                        confirmationModal.hide();
-                        loadingSpinner.style.display = 'block';
-
-                        // Submit the form with AJAX instead of traditional form submission
-                        const formData = new FormData(form);
-                        fetch(form.action, {
-                            method: 'POST',
-                            headers: {
-                                'X-Requested-With': 'XMLHttpRequest',
-                                'X-CSRF-TOKEN': formData.get('_token')
-                            },
-                            body: formData
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            // Hide the loading spinner
-                            loadingSpinner.style.display = 'none';
-
-                            // Update the modal body with success or error message
-                            confirmationModalBody.textContent = data.success
-                                ? data.message
-                                : (data.message || 'Failed to update order status.');
-
-                            // Show the modal again with the message
-                            confirmationModal.show();
-
-                            // Redirect if the update was successful
-                            if (data.success) {
-                                setTimeout(() => {
-                                    confirmationModal.hide();
-                                    window.location.href = "{{ route('orders.index') }}";
-                                }, 1500);
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            loadingSpinner.style.display = 'none';
-                            confirmationModalBody.textContent = 'An error occurred. Please try again.';
-                            confirmationModal.show();
-                        });
-                    }
-                };
-
-                confirmationModal.show();
+        // Event delegation for dynamically loaded elements
+        document.body.addEventListener('click', function(event) {
+            if (event.target.classList.contains('btn-accept') || event.target.classList.contains('btn-decline') || event.target.classList.contains('btn-outline-custom')) {
+                const action = event.target.classList.contains('btn-accept') ? 'accept' :
+                            event.target.classList.contains('btn-decline') ? 'decline' : 'ready';
+                const orderId = event.target.id.split('_')[1];
+                const formToSubmit = document.getElementById(`${action}Form_${orderId}`);
+                showConfirmationModal(action, formToSubmit);
             }
         });
+
+        function showConfirmationModal(action, form) {
+            const confirmationModal = new bootstrap.Modal(document.getElementById('ConfirmationModal'));
+            const confirmationModalBody = document.getElementById('ConfirmationModalBody');
+            const proceedActionBtn = document.getElementById('proceedActionBtn');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+
+            // Set modal message based on action
+            if (action === 'accept') {
+                confirmationModalBody.textContent = 'Are you sure you want to accept this order?';
+            } else if (action === 'decline') {
+                confirmationModalBody.textContent = 'Are you sure you want to decline this order?';
+            } else if (action === 'ready') {
+                confirmationModalBody.textContent = 'Are you sure this order is ready for shipment?';
+            }
+
+            // Action on confirmation
+            proceedActionBtn.onclick = function() {
+                if (form) {
+                    // Hide modal and show loading spinner
+                    confirmationModal.hide();
+                    loadingSpinner.style.display = 'block';
+
+                    // Submit the form with AJAX instead of traditional form submission
+                    const formData = new FormData(form);
+                    fetch(form.action, {
+                        method: 'POST',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRF-TOKEN': formData.get('_token')
+                        },
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Hide the loading spinner
+                        loadingSpinner.style.display = 'none';
+
+                        // Show status modal instead of confirmation modal
+                        const statusModal = new bootstrap.Modal(document.getElementById('statusModal'));
+                        const statusModalIcon = document.getElementById('statusModalIcon');
+                        const statusModalMessage = document.getElementById('statusModalMessage');
+
+                        // Customize the modal based on success or failure
+                        if (data.success) {
+                            statusModalIcon.className = 'fa-regular fa-circle-check text-success'; // Success icon
+                            statusModalMessage.textContent = data.message || 'Action completed successfully.';
+                        } else {
+                            statusModalIcon.className = 'fa-regular fa-circle-xmark text-danger'; // Error icon
+                            statusModalMessage.textContent = data.message || 'Failed to update order status.';
+                        }
+
+                        // Show the status modal
+                        statusModal.show();
+
+                        // Redirect if the update was successful
+                        if (data.success) {
+                            setTimeout(() => {
+                                statusModal.hide();
+                                window.location.href = "{{ route('orders.index') }}";
+                            }, 1500);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        loadingSpinner.style.display = 'none';
+
+                        // Show status modal with error message
+                        const statusModal = new bootstrap.Modal(document.getElementById('statusModal'));
+                        const statusModalIcon = document.getElementById('statusModalIcon');
+                        const statusModalMessage = document.getElementById('statusModalMessage');
+
+                        statusModalIcon.className = 'fa-regular fa-circle-xmark text-danger'; // Error icon
+                        statusModalMessage.textContent = 'An error occurred. Please try again.';
+
+                        statusModal.show();
+                    });
+                }
+            };
+
+            confirmationModal.show();
+        }
+    });
 
     </script>
 @endsection
