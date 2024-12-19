@@ -785,7 +785,7 @@
     </div>
 </div>
 
-@include('Components.add-to-cart')
+
 
 @endsection
 

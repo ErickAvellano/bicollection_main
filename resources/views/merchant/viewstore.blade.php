@@ -319,6 +319,9 @@
         <!-- Initially load content here (e.g., featured products or all products) -->
     </div>
 </div>
+
+@include('Components.add-to-cart')
+
 @endsection
 @section('scripts')
     <script>

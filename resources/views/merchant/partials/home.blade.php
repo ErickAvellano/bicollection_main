@@ -46,7 +46,6 @@
     </div>
 </div>
 
-
 <!-- Merchant Ads Banner -->
 <div class="col-md-12 mt-2 ads-container">
     <h3>Special Offer</h3>
