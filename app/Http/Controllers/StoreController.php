@@ -38,18 +38,18 @@ class StoreController extends Controller
 
         // Add averageRating to each product
         foreach ($products as $product) {
-            $product->averageRating = $product->reviews->avg('rating') ?? 0; 
+            $product->averageRating = $product->reviews->avg('rating') ?? 0;
         }
 
         // Fetch featured products based on IDs
         $featuredProductIds = explode(',', $shop->featuredProduct ?? '');
         $featuredProducts = Product::whereIn('product_id', $featuredProductIds)
-            ->with('images', 'reviews') 
+            ->with('images', 'reviews')
             ->get();
 
         // Add averageRating to each featured product
         foreach ($featuredProducts as $product) {
-            $product->averageRating = $product->reviews->avg('rating') ?? 0; 
+            $product->averageRating = $product->reviews->avg('rating') ?? 0;
         }
 
         // Pass the necessary data to the view
@@ -89,7 +89,7 @@ class StoreController extends Controller
     }
     public function showMerchants()
     {
-        $shops = Shop::with('applications')
+        $shops = Shop::with(['applications', 'merchant'])
             ->leftJoin('product', 'product.merchant_id', '=', 'shop.merchant_id')
             ->leftJoin('product_reviews', 'product_reviews.product_id', '=', 'product.product_id')
             ->select(
@@ -135,7 +135,11 @@ class StoreController extends Controller
                         : [];
                 }
             }
+            if ($shop->merchant) {
+                $shop->merchant_contact = $shop->merchant->contact_number; // Example of accessing merchant email
+            }
         }
+
 
         // Pass the processed data to the view
         return view('stores.showmerchants', compact('shops'));

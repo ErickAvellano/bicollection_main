@@ -218,7 +218,7 @@
 
                                     <i class="fa-solid fa-phone"></i>
                                     @if ($shop->contact)
-                                        <a href="tel:{{ $shop->contact }}" style="text-decoration: none; color: inherit; font-size:1rem;">
+                                        <a href="tel:{{ $shop->merchant->contact_number}}" style="text-decoration: none; color: inherit; font-size:1rem;">
                                             <span>{{ $shop->contact }}</span>
                                         </a>
                                     @else
