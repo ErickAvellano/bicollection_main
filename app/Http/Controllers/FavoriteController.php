@@ -26,22 +26,20 @@ class FavoriteController extends Controller
         // Pass data to the view
         return view('profile.favorite', compact('favorites', 'favoriteProductIds'));
     }
-    
-
-
 
     // Add a Product to Favorites
     public function add(Request $request, $productId)
     {
         try {
-            $user = Auth::user();
 
-            if (!$user) {
+            if (!Auth::check()) {
+                // Redirect to the login page if the user is not logged in
                 return response()->json([
+                    'success' => false,
                     'redirect_to' => route('login'), // Provide the login route
                 ], 401);
             }
-
+            $user = Auth::user();
             // Check if the product already exists in favorites
             $existingFavorite = Favorite::where('customer_id', $user->user_id)
                 ->where('product_id', $productId)

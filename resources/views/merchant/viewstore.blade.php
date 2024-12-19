@@ -321,6 +321,7 @@
 </div>
 
 @include('Components.add-to-cart')
+@include('Components.favorite-success-modal')
 
 @endsection
 @section('scripts')
