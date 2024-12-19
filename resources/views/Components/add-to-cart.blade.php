@@ -1,3 +1,4 @@
+<!-- resources/views/Components/add-to-cart.blade.php -->
 <style>
     .align-center {
         display: flex;
