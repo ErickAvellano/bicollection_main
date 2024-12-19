@@ -689,61 +689,6 @@
     <div id="tabContentContainer"></div>
 
 
-<!-- Modal Structure -->
-<div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="productModalLabel">Select Products to Feature</h5>
-                <button type="button" class="close close-btn" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('featured-product.store') }}" method="POST" id="featuredProductForm">
-                    @csrf
-                    <input type="hidden" name="shop_design_id" value="{{ $shopDesignId }}">
-                    <input type="hidden" name="shop_id" value="{{ $shopId }}">
-                    <input type="hidden" name="featuredProduct" id="featuredProductInput" value="">
-                    <div class="container">
-                        @if($products->isEmpty())
-                            <p>No Products Found</p>
-                            <a href="{{ route('merchant.product.create') }}" class="btn btn-custom">Add Product</a>
-                        @else
-                            <div class="row">
-                                @foreach($products as $product)
-                                    <div class="col-md-4">
-                                        <div class="card product-card" style="width: 12rem;">
-                                            <img src="{{ $product->images->first() ? Storage::url($product->images->first()->product_img_path1) : 'https://via.placeholder.com/80' }}" class="card-img-top" alt="{{ $product->product_name }}" style="width: 100%; height: 150px; object-fit: cover;">
-                                            <div class="card-body text-center">
-                                                <h6 class="card-title">{{ $product->product_name }}</h6>
-                                                <p class="card-text"><strong>${{ $product->price }}</strong></p>
-                                                <!-- Button to select this product as featured -->
-                                                <button type="button"
-                                                        class="btn btn-select btn-sm w-100 select-product-btn"
-                                                        data-product-id="{{ $product->product_id }}">
-                                                    @if(in_array($product->product_id, $featuredProductIds))
-                                                        Selected
-                                                    @else
-                                                        Select
-                                                    @endif
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        @endif
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-custom" id="saveFeaturedProductsBtn">Save Featured Products</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 <!-- Floating Buttons -->
