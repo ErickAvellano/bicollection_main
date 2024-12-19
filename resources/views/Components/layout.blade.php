@@ -737,7 +737,10 @@
                                 );
                             });
                             if (response.product_variations.length === 1) {
-                                $('#variationContainer').css('display', 'none');
+                                $('#productDetails')
+                                    .find('label[for="variation-Select"]')
+                                    .parent()
+                                    .css('display', 'none');
                             }
                         } else {
                             variationSelect.append('<option value="">No variations available</option>');
