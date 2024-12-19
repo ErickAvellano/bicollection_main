@@ -218,8 +218,8 @@
 
                                     <i class="fa-solid fa-phone"></i>
                                     @if ($shop->contact)
-                                        <a href="tel:{{ $shop->merchant->contact_number}}" style="text-decoration: none; color: inherit; font-size:1rem;">
-                                            <span>{{ $shop->contact }}</span>
+                                        <a href="tel:{{ $shop->merchant->contact_number;}}" style="text-decoration: none; color: inherit; font-size:1rem;">
+                                            <span>{{ $shop->merchant->contact_number; }}</span>
                                         </a>
                                     @else
                                         <span style="font-size:0.9rem;">N/A</span>
