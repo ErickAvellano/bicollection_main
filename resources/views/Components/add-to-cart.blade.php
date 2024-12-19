@@ -73,12 +73,8 @@
     $(document).on('change', '.variation-select', function () {
         const cartId = $('#productDetails').data('cart-id'); // Get the cart ID from #productDetails
         const selectedVariationId = $(this).val(); // Get the selected variation ID
-
-        // Log the cart ID and selected variation ID for debugging
-        console.log('Cart ID:', cartId);
-        console.log('Selected Variation ID:', selectedVariationId);
-
         // Ensure both cartId and selectedVariationId are valid
+        
         if (!cartId || !selectedVariationId) {
             alert('Invalid cart or variation ID.');
             return;

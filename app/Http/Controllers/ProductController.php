@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\UploadedFile;
 use App\Models\ProductReview;
+use App\Models\ProductVisitLog;
 
 
 
@@ -495,6 +496,11 @@ class ProductController extends Controller
         {
             // Fetch the product details based on the product ID
             $product = Product::with(['category', 'subcategory', 'images', 'variations', 'merchant.shop'])->findOrFail($id);
+
+            ProductVisitLog::updateOrInsert(
+                ['product_id' => $product->product_id], 
+                ['view_count' => DB::raw('view_count + 1')] 
+            );
 
             $shop = $product->merchant->shop;
 

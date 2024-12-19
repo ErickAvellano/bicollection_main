@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\ShopDesign;
 use App\Models\Application;
 use Illuminate\Support\Facades\DB;
+use App\Models\ShopVisitLog;
+
 class StoreController extends Controller
 {
     public function viewStore($shopId)
@@ -19,16 +21,39 @@ class StoreController extends Controller
         if (!$shop) {
             return redirect()->back()->with('error', 'Shop not found.');
         }
+         // Update or Insert the shop visit log
+        ShopVisitLog::updateOrInsert(
+            ['shop_id' => $shop->shop_id], // Match the shop_id
+            ['click_count' => DB::raw('click_count + 1')] // Increment the click count
+        );
 
-        $products = Product::where('merchant_id', $shop->merchant_id)->with('images', 'variations')->get();
+        // Fetch all products for the shop
+        $products = Product::where('merchant_id', $shop->merchant_id)
+            ->with('images', 'variations', 'reviews') // Include reviews
+            ->get();
+
+        // Add averageRating to each product
+        foreach ($products as $product) {
+            $product->averageRating = $product->reviews->avg('rating') ?? 0; 
+        }
 
         // Fetch featured products based on IDs
         $featuredProductIds = explode(',', $shop->featuredProduct ?? '');
-        $featuredProducts = Product::whereIn('product_id', $featuredProductIds)->with('images')->get();
+        $featuredProducts = Product::whereIn('product_id', $featuredProductIds)
+            ->with('images', 'reviews') 
+            ->get();
+
+        // Add averageRating to each featured product
+        foreach ($featuredProducts as $product) {
+            $product->averageRating = $product->reviews->avg('rating') ?? 0; 
+        }
 
         // Pass the necessary data to the view
         return view('merchant.viewstore', compact('shop', 'products', 'featuredProducts'));
     }
+
+
+
     public function getPartial($nav, $shopId)
     {
         // Map the data-nav values to the actual view names

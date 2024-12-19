@@ -1,4 +1,3 @@
-    <!-- Add Featured Products Section -->
 <div class="col-md-12 mt-4 featured-products-container">
     <h3>Featured Products</h3>
     <hr>
@@ -9,7 +8,26 @@
                     <img src="{{ $product->images->first() ? Storage::url($product->images->first()->product_img_path1) : 'https://via.placeholder.com/80' }}" class="card-img-top" alt="{{ $product->product_name }}" style="width: 100%; height: 150px; object-fit: cover;">
                     <div class="card-body">
                         <h6 class="card-title">{{ $product->product_name }}</h6>
-                        <p class="card-text"><strong>${{ $product->price }}</strong></p>
+                        <p class="card-text"><strong>₱ {{ $product->price }}</strong></p>
+                            @if($product->averageRating > 0)
+                                @for ($i = 1; $i <= 5; $i++)
+                                    @if ($i <= floor($product->averageRating))
+                                        <i class="fa-solid fa-star" style="color: #FFD700;"></i>
+                                    @elseif ($i - $product->averageRating < 1)
+                                        <i class="fa-solid fa-star-half-stroke" style="color: #FFD700;"></i>
+                                    @else
+                                        <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                    @endif
+                                @endfor
+                                <span class="rating-value">{{ $product->averageRating }} / 5</span>
+                            @else
+                                {{-- Display empty stars if no reviews --}}
+                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                            @endif
                         <a href="{{ route('products.edit', ['id' => $product->product_id]) }}" class="btn btn-custom btn-sm w-100">Edit</a>
                     </div>
                 </div>
@@ -27,6 +45,7 @@
         </div>
     </div>
 </div>
+
 <!-- Merchant Ads Banner -->
 <div class="col-md-12 mt-2 ads-container">
     <h3>Special Offer</h3>
@@ -83,7 +102,26 @@
                                  style="width: 100%; height: 200px; object-fit: cover;"> <!-- Ensures consistent size and aspect ratio -->
                             <div class="card-body">
                                 <h6 class="card-title">{{ $product->product_name }}</h6>
-                                <p class="card-text" style="font-size: 13px;"><strong>Price: ${{ $product->price }}</strong></p>
+                                <p class="card-text" style="font-size: 13px;"><strong>₱ {{ $product->price }}</strong></p>
+                                    @if($product->averageRating > 0)
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            @if ($i <= floor($product->averageRating))
+                                                <i class="fa-solid fa-star" style="color: #FFD700;"></i>
+                                            @elseif ($i - $product->averageRating < 1)
+                                                <i class="fa-solid fa-star-half-stroke" style="color: #FFD700;"></i>
+                                            @else
+                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                            @endif
+                                        @endfor
+                                        <span class="rating-value">{{ $product->averageRating }} / 5</span>
+                                    @else
+                                        {{-- Display empty stars if no reviews --}}
+                                        <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                        <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                        <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                        <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                        <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                    @endif
                                 <!-- Edit Button -->
                                 <a href="{{ route('products.edit', ['id' => $product->product_id]) }}" class="btn btn-custom btn-sm w-100">Edit</a>
                             </div>
