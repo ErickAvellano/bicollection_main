@@ -911,7 +911,7 @@
                                             @endif
                                         </p>
                                         <div class="d-flex justify-content-between align-items-center mt-2">
-                                            <a href="#" class="btn btn-custom add-to-cart" data-product-id="{{ $product->product_id }}">Add to Cart</a>
+                                            <a class="btn btn-custom add-to-cart" data-product-id="{{ $product->product_id }}">Add to Cart</a>
                                             <a href="#"
                                                 class="btn {{ !empty($favorites) && in_array($product->product_id, $favorites) ? 'btn-danger' : 'btn-outline-danger' }} favorite-button"
                                                 data-product-id="{{ $product->product_id }}"
@@ -984,7 +984,7 @@
                                         @endif
                                     </p>
                                     <div class="action-buttons">
-                                        <a href="#" class="btn btn-custom add-to-cart" data-product-id="{{ $product->product_id }}">
+                                        <a class="btn btn-custom add-to-cart" data-product-id="{{ $product->product_id }}">
                                             Add to Cart
                                         </a>
                                         <a href="#"
@@ -994,7 +994,6 @@
                                             title="{{ !empty($favorites) && in_array($product->product_id, $favorites) ? 'Unfavorite' : 'Favorite' }}">
                                                 <i class="fas fa-heart {{ !empty($favorites) && in_array($product->product_id, $favorites) ? 'text-white' : '' }}"></i>
                                             </a>
-
                                     </div>
                                 </div>
                             </div>
