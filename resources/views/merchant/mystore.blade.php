@@ -776,8 +776,29 @@
                                             <img src="{{ $product->images->first() ? Storage::url($product->images->first()->product_img_path1) : 'https://via.placeholder.com/80' }}" class="card-img-top" alt="{{ $product->product_name }}" style="width: 100%; height: 150px; object-fit: cover;">
                                             <div class="card-body text-center">
                                                 <h6 class="card-title">{{ $product->product_name }}</h6>
-                                                <p class="card-text"><strong>₱{{ $product->price }}</strong></p>
-                                                <!-- Button to select this product as featured -->
+                                                <p class="card-price mb-1">₱{{ number_format($product->price, 2) }}</p>
+                                                <p class="card-reviews">
+                                                    {{-- Display stars based on the rating if available --}}
+                                                    @if($product->averageRating > 0)
+                                                        @for ($i = 1; $i <= 5; $i++)
+                                                            @if ($i <= floor($product->averageRating))
+                                                                <i class="fa-solid fa-star" style="color: #FFD700;"></i>
+                                                            @elseif ($i - $product->averageRating < 1)
+                                                                <i class="fa-solid fa-star-half-stroke" style="color: #FFD700;"></i>
+                                                            @else
+                                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                                            @endif
+                                                        @endfor
+                                                        <span class="rating-value">{{ $product->averageRating }} / 5</span>
+                                                    @else
+                                                        {{-- Display empty stars if no reviews --}}
+                                                        <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                                        <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                                        <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                                        <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                                        <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                                    @endif
+                                                </p>
                                                 <button type="button"
                                                         class="btn btn-select btn-sm w-100 select-product-btn"
                                                         data-product-id="{{ $product->product_id }}">
