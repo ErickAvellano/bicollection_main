@@ -727,24 +727,34 @@
                         variationSelect.empty();
     
                         if (response.product_variations && response.product_variations.length > 0) {
-                            response.product_variations.forEach(variation => {
-                                const isSelected =
-                                    response.product_variation_id === variation.product_variation_id ? 'selected' : '';
-                                variationSelect.append(
-                                    `<option value="${variation.product_variation_id}" ${isSelected}>
-                                        ${variation.variation_name}
-                                    </option>`
-                                );
-                            });
-                            if (response.product_variations.length === 1) {
-                                $('#productDetails')
-                                    .find('label[for="variation-Select"]')
-                                    .parent()
-                                    .css('display', 'none');
-                            }
-                        } else {
-                            variationSelect.append('<option value="">No variations available</option>');
+                        // Reset the display of the variation container to make sure it is visible
+                        $('#productDetails')
+                            .find('label[for="variation-Select"]')
+                            .parent()
+                            .css('display', 'flex'); // Reset display to flex for new products with variations
+
+                        // Populate variations
+                        response.product_variations.forEach(variation => {
+                            const isSelected =
+                                response.product_variation_id === variation.product_variation_id ? 'selected' : '';
+                            variationSelect.append(
+                                `<option value="${variation.product_variation_id}" ${isSelected}>
+                                    ${variation.variation_name}
+                                </option>`
+                            );
+                        });
+
+                        // If there's only one variation, hide the container
+                        if (response.product_variations.length === 1) {
+                            $('#productDetails')
+                                .find('label[for="variation-Select"]')
+                                .parent()
+                                .css('display', 'none');
                         }
+                    } else {
+                        // No variations available
+                        variationSelect.append('<option value="">No variations available</option>');
+                    }
     
                         // Update the "Proceed to Checkout" link with the cart ID
                         $('#checkoutLink').attr('href', `/checkout?cart_id=${response.cart_id}`);
