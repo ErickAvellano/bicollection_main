@@ -896,7 +896,62 @@
         });
     </script>
     <!--  Script for Modal Handling -->
- 
+
+    <!--  Script for Featured Product Selection -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let selectedProductIds = @json($featuredProductIds);
+            const featuredProductInput = document.getElementById('featuredProductInput');
+            const saveButtonAds = document.getElementById('saveFeaturedProductsBtn');
+
+            // Pre-check already selected products
+            selectedProductIds.forEach((productId) => {
+                const button = document.querySelector(`.select-product-btn[data-product-id="${productId}"]`);
+                if (button) {
+                    updateButtonState(button, true);
+                }
+            });
+
+            // Update hidden input field
+            featuredProductInput.value = selectedProductIds.join(',');
+
+            // Toggle product selection
+            document.querySelectorAll('.select-product-btn').forEach((button) => {
+                button.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-product-id');
+                    const isSelected = !selectedProductIds.includes(productId);
+
+                    if (isSelected) {
+                        selectedProductIds.push(productId);
+                    } else {
+                        selectedProductIds = selectedProductIds.filter(id => id !== productId);
+                    }
+
+                    updateButtonState(this, isSelected);
+                    featuredProductInput.value = selectedProductIds.join(',');
+                });
+            });
+
+            // Save selected products
+            saveButtonAds?.addEventListener('click', () => {
+                featuredProductInput.value = selectedProductIds.join(',');
+                document.getElementById('featuredProductForm').submit();
+            });
+
+            // Update button state
+            function updateButtonState(button, isSelected) {
+                if (isSelected) {
+                    button.style.backgroundColor = 'green';
+                    button.style.color = 'white';
+                    button.textContent = 'Selected';
+                } else {
+                    button.style.backgroundColor = '';
+                    button.style.color = '';
+                    button.textContent = 'Select';
+                }
+            }
+        });
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Iterate over both card elements (1 and 2)
