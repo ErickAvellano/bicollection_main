@@ -525,6 +525,39 @@ class ProductController extends Controller
             // Pass the product, shop, reviews, and average rating to the view
             return view('merchant.product.view', compact('product', 'shop', 'reviews', 'averageRating', 'reviewCount'));
         }
+        public function previewProduct($id)
+        {
+            // Fetch the product details based on the product ID
+            $product = Product::with(['category', 'subcategory', 'images', 'variations', 'merchant.shop'])->findOrFail($id);
+
+            ProductVisitLog::updateOrInsert(
+                ['product_id' => $product->product_id], 
+                ['view_count' => DB::raw('view_count + 1')] 
+            );
+
+            $shop = $product->merchant->shop;
+
+            // Fetch approved reviews for the product
+            $reviews = ProductReview::with('customerImage') 
+                ->where('product_id', $id)
+                ->where('is_approved', 0)
+                ->orderBy('review_date', 'desc')
+                ->get();
+
+            $reviewCount = $reviews->count();
+
+            // Calculate the average rating if there are reviews
+            if ($reviews->isNotEmpty()) {
+                $totalRating = $reviews->sum('rating');
+                $reviewCount = $reviews->count();
+                $averageRating = round($totalRating / $reviewCount, 1);
+            } else {
+                $averageRating = null; // No reviews available
+            }
+
+            // Pass the product, shop, reviews, and average rating to the view
+            return view('merchant.product.preview', compact('product', 'shop', 'reviews', 'averageRating', 'reviewCount'));
+        }
 
         //Filter the category
         public function filterProducts($categoryId, $regionName)

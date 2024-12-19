@@ -182,6 +182,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
     Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
     Route::get('/merchant/product/{id}', [ProductController::class, 'viewProduct'])->name('product.view');
+    Route::get('/merchant/productpreview/{id}', [ProductController::class, 'previewProduct'])->name('product.preview');
 
     Route::delete('/variations/{id}', [VariationController::class, 'destroy'])->name('variation.delete');
     Route::get('/merchant/customize', [MerchantController::class, 'customize'])->name('merchant.customize');

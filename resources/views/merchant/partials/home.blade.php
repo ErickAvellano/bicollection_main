@@ -3,7 +3,7 @@
     <hr>
     <div class="homeallproduct-products-row d-flex flex-wrap justify-content-start">
         @foreach ($featuredProducts as $product)
-            <a href="{{ route('product.view', $product->product_id) }}" class="product-link">
+            <a href="{{ route('product.preview', $product->product_id) }}" class="product-link">
                 <div class="product-item product-card-hover" style="padding: 5px; width: 16.66%;"> <!-- 16.66% ensures 6 items per row -->
                     <div class="card" style="width: 100%; height: 285px;">
                         <img src="{{ $product->images->first() ? Storage::url($product->images->first()->product_img_path1) : 'https://via.placeholder.com/80' }}"
@@ -100,7 +100,7 @@
     <hr class="line">
     <div class="homeallproduct-products-row d-flex flex-wrap justify-content-start">
         @foreach($products as $product)
-            <a href="{{ route('product.view', $product->product_id) }}" class="product-link">
+            <a href="{{ route('product.preview', $product->product_id) }}" class="product-link">
                 <div class="product-item product-card-hover" style="padding: 5px; width: 16.66%;"> <!-- 16.66% ensures 6 items per row -->
                     <div class="card" style="width: 100%; height:285px;">
                         <img src="{{ $product->images->first() ? Storage::url($product->images->first()->product_img_path1) : 'https://via.placeholder.com/150' }}"
