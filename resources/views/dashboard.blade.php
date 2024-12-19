@@ -911,7 +911,7 @@
                                             @endif
                                         </p>
                                         <div class="d-flex justify-content-between align-items-center mt-2">
-                                            <a class="btn btn-custom add-to-cart" data-product-id="{{ $product->product_id }}">Add to Cart</a>
+                                            <a href="#" class="btn btn-custom add-to-cart" data-product-id="{{ $product->product_id }}">Add to Cart</a>
                                             <a href="#"
                                                 class="btn {{ !empty($favorites) && in_array($product->product_id, $favorites) ? 'btn-danger' : 'btn-outline-danger' }} favorite-button"
                                                 data-product-id="{{ $product->product_id }}"
@@ -984,7 +984,7 @@
                                         @endif
                                     </p>
                                     <div class="action-buttons">
-                                        <a class="btn btn-custom add-to-cart" data-product-id="{{ $product->product_id }}">
+                                        <a href="#" class="btn btn-custom add-to-cart" data-product-id="{{ $product->product_id }}" onclick="console.log('Inline Click Triggered')">
                                             Add to Cart
                                         </a>
                                         <a href="#"
