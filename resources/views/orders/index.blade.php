@@ -94,8 +94,8 @@
             </a>
         </li>
         <li class="nav-item" role="presentation">
-            <a class="nav-link" href="#" data-status="completed" role="tab">
-                Refunded Orders <span class="text-custom">({{ $statusCounts['completed'] ?? 0 }})</span>
+            <a class="nav-link" href="#" data-status="cancel/refund" role="tab">
+                Refunded Orders <span class="text-custom">({{ $statusCounts['cancel/refund'] ?? 0 }})</span>
             </a>
         </li>
         <li class="nav-item" role="presentation">

@@ -35,8 +35,8 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $currentMerchantId = Auth::id();
-        $status = $request->get('status', 'pending'); // Default to 'pending'
-        $sort = $request->get('sort', ''); // Get sorting criteria
+        $status = $request->get('status', 'pending'); 
+        $sort = $request->get('sort', ''); 
 
         // Define an array to store the counts for each status
         $statusCounts = [
@@ -44,11 +44,11 @@ class OrderController extends Controller
             'to-ship' => Order::where('merchant_id', $currentMerchantId)->where('order_status', 'to-ship')->count(),
             'to-refund' => Order::where('merchant_id', $currentMerchantId)->where('order_status', 'to-refund')->count(),
             'completed' => Order::where('merchant_id', $currentMerchantId)->where('order_status', 'completed')->count(),
+            'cancel/refund' => Order::where('merchant_id', $currentMerchantId)->where('order_status', 'cancel/refund')->count(),
             'cancel' => Order::where('merchant_id', $currentMerchantId)
                 ->whereIn('order_status', ['cancelled', 'declined'])
                 ->count(),
         ];
-
         // Build the base query with status and relationships
         $query = Order::with(['customer', 'orderItems.product.images', 'payment'])
                     ->where('merchant_id', $currentMerchantId);
@@ -61,7 +61,6 @@ class OrderController extends Controller
             $query->where('order_status', $status);
         }
 
-        // Apply filtering and sorting based on the selected option
         if ($sort === 'GCash' || $sort === 'COD') {
             // Filter orders by payment method 
             $query->whereHas('payment', function ($q) use ($sort) {
@@ -437,7 +436,7 @@ class OrderController extends Controller
             // Send email based on the updated status
             if ($status === 'To-Ship') {
                 Mail::to($order->customer->email)->send(new OrderAcceptedMail($order));
-                $message = 'The order has been successfully updated to "To-Ship". We kindly ask you to prepare the product for shipment. Thank you!';
+                $message = 'The order has been successfully updated to "To-Ship".';
             } elseif ($status === 'Declined') {
                 Mail::to($order->customer->email)->send(new OrderDeclinedMail($order));
                 $message = 'The order has been marked as "Declined". Thank you for reviewing it.';
