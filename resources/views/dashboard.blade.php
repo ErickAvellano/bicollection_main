@@ -1053,7 +1053,7 @@
         <p>No shop found for the merchant.</p>
     @endif
 @endif
-@include('add-to-cart')
+@include('Components.add-to-cart')
 @include('Components.supporticon')
 @include('Components.footer')
 
@@ -1250,34 +1250,95 @@
         cycleImages(bannerImages, 7000);  // Cycle images every 7 seconds
     });
 </script>
+<script>
+    $(document).on('click', '.add-to-cart', function (e) {
+        e.preventDefault();
 
-{{-- <script>
-    document.addEventListener('DOMContentLoaded', function () {
-    const prevBtn = document.getElementById('prevBtnRecentlyAdded');
-    const nextBtn = document.getElementById('nextBtnRecentlyAdded');
-    const productCarousel = document.getElementById('productCarouselRecentlyAdded');
+        console.log('Add to Cart button clicked'); // Debug log
 
-        // Set the scroll amount based on the card width
-        const scrollAmount = 200; // Adjust this value as needed
 
-        // Event listener for the previous button
-        prevBtn.addEventListener('click', function () {
-            productCarousel.scrollBy({
-                left: -scrollAmount,
-                behavior: 'smooth'
-            });
-        });
+        const productId = $(this).data('product-id');
+        console.log('Product ID:', productId);
 
-        // Event listener for the next button
-        nextBtn.addEventListener('click', function () {
-            productCarousel.scrollBy({
-                left: scrollAmount,
-                behavior: 'smooth'
-            });
+        $.ajax({
+            url: `/cart/add/${productId}`,
+            type: 'POST',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (response) {
+                if (response.success) {
+                    // Reset modal content
+                    $('#productName').text('');
+                    $('#productDetails select').remove();
+                    $('#quantity').text('');
+                    $('#cartTotal').text('');
+                    $('#productImage').attr('src', '');
+                    $('#productDetails').attr('data-cart-id', '');
+
+                    // Set product details
+                    $('#productName').text(response.product_name);
+                    $('#quantity').text(`Quantity: ${response.quantity}`);
+                    $('#cartTotal').text(`Total: ₱${response.cart_total}`);
+                    $('#cartItemCount').text(response.cart_item_count);
+                    $('#totalCartAmount').text(`Cart Total: ₱${response.total_cart_amount}`);
+
+                    // Update the product image if available
+                    if (response.product_image) {
+                        $('#productImage').attr('src', `/storage/${response.product_image}`);
+                    }
+
+                    // Set the cart_id as a data attribute
+                    $('#productDetails').attr('data-cart-id', response.cart_id);
+
+                    // Dynamically add a dropdown for variations under #productDetails
+                    const dropdownHTML = `
+                        <select id="variation-select-${response.cart_id}" class="form-select variation-select" style="width: auto; min-width: 100px; max-width: 300px; font-size: 0.7rem;">
+                        </select>`;
+
+                    // Replace the existing dropdown dynamically
+                    $('#productDetails')
+                        .find('select#variationSelect')
+                        .remove(); /
+
+                    // Add the new dropdown HTML after the label
+                    $('#productDetails')
+                        .find('label[for="variation-Select"]')
+                        .after(dropdownHTML);
+
+                    // Populate the new dropdown dynamically with variations
+                    const variationSelect = $(`#variation-select-${response.cart_id}`);
+                    variationSelect.empty();
+
+                    if (response.product_variations && response.product_variations.length > 0) {
+                        response.product_variations.forEach(variation => {
+                            const isSelected =
+                                response.product_variation_id === variation.product_variation_id ? 'selected' : '';
+                            variationSelect.append(
+                                `<option value="${variation.product_variation_id}" ${isSelected}>
+                                    ${variation.variation_name}
+                                </option>`
+                            );
+                        });
+                    } else {
+                        variationSelect.append('<option value="">No variations available</option>');
+                    }
+
+                    // Update the "Proceed to Checkout" link with the cart ID
+                    $('#checkoutLink').attr('href', `/checkout?cart_id=${response.cart_id}`);
+
+                    // Show the modal
+                    $('#successModal').modal('show');
+
+                    updateCartCount();
+                }
+            },
+            error: function (xhr) {
+                console.error('Error:', xhr.responseJSON ? xhr.responseJSON.error : 'An unexpected error occurred.');
+                alert(xhr.responseJSON ? xhr.responseJSON.error : 'An unexpected error occurred.');
+            }
         });
     });
-
-</script> --}}
-
+</script>
 
 @endsection
