@@ -52,7 +52,7 @@
                     <div class="d-flex flex-column justify-content-start align-items-start">
                         <p id="productName"></p>
                          <!-- Dropdown for selecting variations -->
-                        <div style="display: flex; align-items: center;">
+                        <div id="variationContainer" style="display: flex; align-items: center;">
                             <label for="variation-Select" style="margin-right: 10px; font-size: 0.8rem;">Change Variation:</label>
                             <select id="variationSelect" class="form-select" style="width: auto; min-width: 100px; max-width: 300px; font-size: 0.7rem;">
                             </select>

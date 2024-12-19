@@ -736,6 +736,9 @@
                                     </option>`
                                 );
                             });
+                            if (response.product_variations.length === 1) {
+                                $('#variationContainer').css('display', 'none');
+                            }
                         } else {
                             variationSelect.append('<option value="">No variations available</option>');
                         }
