@@ -41,17 +41,19 @@
             </a>
         @endforeach
         <!-- Add Featured Product Button/Card -->
-        <div class="product-item product-card-hover">
-            <div class="card text-center add-featured-card" style="width: 16.66; height: 285px;">
-                <div class="card-body d-flex justify-content-center align-items-center" style="height: 100%;">
+        <div class="product-item product-card-hover" style="padding: 5px; width: 16.66%;"> <!-- Same size as other items -->
+            <div class="card text-center add-featured-card" style="width: 100%; height: 285px;">
+                <div class="card-body d-flex justify-content-center align-items-center" style="height: 100%; flex-direction: column;">
                     <a href="javascript:void(0);" id="openModalButton" class="btn btn-link-custom" style="border: none; background: none;">
                         <i class="fa fa-plus" style="font-size: 3rem;"></i>
-                    </a>                    
+                    </a> 
+                    <span class="mt-2">Add Product</span> <!-- Optional label -->
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- Merchant Ads Banner -->
 <div class="col-md-12 mt-2 ads-container">
