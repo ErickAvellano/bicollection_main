@@ -42,7 +42,7 @@
         @endforeach
         <!-- Add Featured Product Button/Card -->
         <div class="col-md-4 product-card">
-            <div class="card text-center add-featured-card" style="width: 12rem; height: 16rem;">
+            <div class="card text-center add-featured-card" style="width: 16.66; height: 285px;">
                 <div class="card-body d-flex justify-content-center align-items-center" style="height: 100%;">
                     <a href="javascript:void(0);" id="openModalButton" class="btn btn-link-custom" style="border: none; background: none;">
                         <i class="fa fa-plus" style="font-size: 3rem;"></i>
