@@ -69,36 +69,4 @@
     </div>
 </div>
 
-<script>
-    // Handle variation changes
-    $(document).on('change', '.variation-select', function () {
-        const cartId = $('#productDetails').data('cart-id'); // Get the cart ID from #productDetails
-        const selectedVariationId = $(this).val(); // Get the selected variation ID
-        // Ensure both cartId and selectedVariationId are valid
 
-        if (!cartId || !selectedVariationId) {
-            alert('Invalid cart or variation ID.');
-            return;
-        }
-
-        // Send AJAX request to update the variation in the backend
-        $.ajax({
-            url: `/cart/update-variation/${cartId}`, // Update route for the variation
-            type: 'PATCH',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), // CSRF token for security
-            },
-            data: {
-                product_variation_id: selectedVariationId, // Send the selected variation ID
-            },
-            success: function (response) {
-                if (response.success) {
-                } else {
-                }
-            },
-            error: function (xhr, status, error) {
-            },
-        });
-    });
-
-</script>
