@@ -35,7 +35,7 @@
         padding: 10px 15px;
     }
 </style>
-<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true" style="display: none; overflow:none;">
+<div class="modal fade" id="successModals" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true" style="display: none; overflow:none;">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content max-width:600px;">
             <div class="modal-header" style="padding:0 10px;">

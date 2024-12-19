@@ -748,7 +748,7 @@
                         $('#checkoutLink').attr('href', `/checkout?cart_id=${response.cart_id}`);
 
                         // Show the modal
-                        $('#successModal').modal('show');
+                        $('#successModals').modal('show');
 
                         updateCartCount();
                     }
