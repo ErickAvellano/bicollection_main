@@ -68,6 +68,8 @@
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
 <script>
     $(document).on('click', '.add-to-cart', function (e) {
