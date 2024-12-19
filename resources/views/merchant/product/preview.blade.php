@@ -329,6 +329,11 @@
             font-size: 1rem;
         }
 
+        .search-control, .nav-pills, .search-icon{
+            display:none;
+
+        }
+
         @media only screen and (min-width: 360px) and (max-width: 425px) {
             .top-crumb{
                 display:none;
@@ -699,7 +704,7 @@
 
                 <!-- Action Buttons -->
                 <div class="button-group">
-                    <a href="#" disabled>
+                    <a href="#"  class="btn btn-outline-custom add-to-cart-btn">
                         <i class="fas fa-shopping-cart" style="margin-right: 4px;"></i> Add to Cart
                     </a>
                     <button class="btn btn-custom" disabled>Buy Now</button>
