@@ -813,9 +813,9 @@
     </a>
 
     <!-- Settings Button -->
-    <a href="#" class="btn btn-settings">
+    {{-- <a href="#" class="btn btn-settings">
         <i class="fa fa-cog"></i>
-    </a>
+    </a> --}}
 </div>
 
 <!-- Modal to prompt for contact and MOP -->
