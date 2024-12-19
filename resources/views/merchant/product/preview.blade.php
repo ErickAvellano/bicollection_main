@@ -697,15 +697,7 @@
                     <p class="text-muted">Standard Shipping: 3-5 business days</p>
                 </div>
 
-                <!-- Action Buttons -->
-                <div class="button-group">
-                    <a href="#" 
-                        class="btn btn-outline-custom add-to-cart-btn" 
-                        data-product-id="{{ $product->product_id }}">
-                        <i class="fas fa-shopping-cart" style="margin-right: 4px;"></i> Add to Cart
-                    </a>
-                    <button class="btn btn-custom" onclick="buyNow()">Buy Now</button>
-                </div>
+               
             </div>
         </div>
     </div>
@@ -746,6 +738,19 @@
     <!-- Related Description Section -->
     <section class="related-description mt-3 px-2">
         <div class="row gx-3">
+
+            <!-- Related Products Section -->
+            <div class="col-md-4 related-product">
+                <article class="card h-100 related-products p-1">
+                    <header class="card-header">
+                        <h5>Related Products</h5>
+                    </header>
+                    <div class="card-body">
+                        <!-- Related products content -->
+                    </div>
+                </article>
+            </div>
+
             <!-- Main Product Description and Additional Related Products -->
             <div class="col-md-8 mb-5">
 
@@ -756,7 +761,7 @@
                     </header>
                     <div class="card-body">
                         <p class="product-description">{{ $product->description }}</p>
-                    </div>s
+                    </div>
                 </article>
 
                 <!-- Product Review Section -->
