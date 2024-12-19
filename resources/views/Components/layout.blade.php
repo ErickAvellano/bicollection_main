@@ -675,7 +675,11 @@
         $(document).on('click', '.add-to-cart', function (e) {
             e.preventDefault();
 
+            console.log('Add to Cart button clicked'); // Debug log
+
+
             const productId = $(this).data('product-id');
+            console.log('Product ID:', productId);
 
             $.ajax({
                 url: `/cart/add/${productId}`,
