@@ -674,10 +674,7 @@
         $(document).on('click', '.add-to-cart', function (e) {
             e.preventDefault();
     
-            console.log('Add to Cart button clicked'); // Debug log
-    
             const productId = $(this).data('product-id');
-            console.log('Product ID:', productId);
     
             $.ajax({
                 url: `/cart/add/${productId}`,
@@ -689,8 +686,7 @@
                     if (response.success) {
                         // Reset modal content
                         $('#productName').text('');
-                        $('#productDetails').find('select').remove();
-                        $('#productDetails').find('p.variation-name').remove();
+                        $('#productDetails select').remove();
                         $('#quantity').text('');
                         $('#cartTotal').text('');
                         $('#productImage').attr('src', '');
@@ -711,22 +707,38 @@
                         // Set the cart_id as a data attribute
                         $('#productDetails').attr('data-cart-id', response.cart_id);
     
-                        // Check the number of variations
+                        // Dynamically add a dropdown for variations under #productDetails
+                        const dropdownHTML = `
+                            <select id="variation-select-${response.cart_id}" class="form-select variation-select" style="width: auto; min-width: 100px; max-width: 300px; font-size: 0.7rem;">
+                            </select>`;
+    
+                        // Replace the existing dropdown dynamically
+                        $('#productDetails')
+                            .find('select#variationSelect')
+                            .remove(); 
+    
+                        // Add the new dropdown HTML after the label
+                        $('#productDetails')
+                            .find('label[for="variation-Select"]')
+                            .after(dropdownHTML);
+    
+                        // Populate the new dropdown dynamically with variations
+                        const variationSelect = $(`#variation-select-${response.cart_id}`);
+                        variationSelect.empty();
+    
                         if (response.product_variations && response.product_variations.length > 0) {
                             if (response.product_variations.length > 1) {
-                                // Dynamically add a dropdown for multiple variations
+                                // Show the dropdown only if there are multiple variations
                                 const dropdownHTML = `
                                     <div style="display: flex; align-items: center;">
-                                        <label for="variation-select-${response.cart_id}" style="margin-right: 10px; font-size: 0.8rem;">Change Variation:</label>
-                                        <select id="variation-select-${response.cart_id}" class="form-select variation-select" style="width: auto; min-width: 100px; max-width: 300px; font-size: 0.7rem;">
+                                        <label for="variation-Select" style="margin-right: 10px; font-size: 0.8rem;">Change Variation:</label>
+                                        <select id="variationSelect" class="form-select" style="width: auto; min-width: 100px; max-width: 300px; font-size: 0.7rem;">
                                         </select>
                                     </div>`;
-    
-                                // Add the dropdown dynamically
                                 $('#productDetails').append(dropdownHTML);
-    
+
                                 // Populate the dropdown with variations
-                                const variationSelect = $(`#variation-select-${response.cart_id}`);
+                                const variationSelect = $('#variationSelect');
                                 variationSelect.empty();
                                 response.product_variations.forEach(variation => {
                                     const isSelected =
@@ -738,20 +750,16 @@
                                     );
                                 });
                             } else {
-                                // If only one variation, display it as text
+                                // If there is only one variation, display it as plain text
                                 const singleVariation = response.product_variations[0];
                                 const variationText = `
-                                    <p class="variation-name" style="font-size: 0.8rem; margin: 5px 0;">
-                                        Variation: ${singleVariation.variation_name}
-                                    </p>`;
+                                    <p style="font-size: 0.8rem;">Variation: ${singleVariation.variation_name}</p>`;
                                 $('#productDetails').append(variationText);
                             }
                         } else {
-                            // If no variations, display a message
+                            // If there are no variations, display a fallback message or leave blank
                             const noVariationText = `
-                                <p class="variation-name" style="font-size: 0.8rem; margin: 5px 0;">
-                                    No variations available
-                                </p>`;
+                                <p style="font-size: 0.8rem;">No variations available</p>`;
                             $('#productDetails').append(noVariationText);
                         }
     
@@ -771,7 +779,6 @@
             });
         });
     </script>
-    
     {{-- Search --}}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
