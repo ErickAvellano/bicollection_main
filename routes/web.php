@@ -52,6 +52,7 @@ Route::get('/customer-support', [CustomerSupportController::class, 'landing'])->
 Route::get('/merchant/{shopId}/viewstore', [StoreController::class, 'viewStore'])->name('merchant.viewstore');
 Route::get('/merchant/partial/{nav}/{shopId}', [StoreController::class, 'getPartial'])->name('merchant.partial');
 
+
 Route::middleware('auth')->group(function () {
     // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -158,7 +159,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/merchant/my-profile', [MerchantController::class, 'myProfile'])->name('merchant.myProfile');
     Route::post('/merchant/update-contact-mop', [MerchantController::class, 'updateContactMop'])->name('merchant.updateContactMop');
     Route::post('/shop/update-images', [ShopController::class, 'updateImages'])->name('shop.updateImages');
-
+    Route::get('/merchant/partial/{nav}', [ShopController::class, 'getPartial'])->name('merchant.partial');
     Route::get('/category/{category_name}', [ProductController::class, 'showByCategory'])->name('category.products');
     
    
