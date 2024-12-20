@@ -1052,10 +1052,7 @@
         });
     </script>
     <script>
-       document.addEventListener('DOMContentLoaded', function () {
-        const tabContentContainer = document.getElementById('tabContentContainer'); // Parent container for dynamic content
-
-        // Function to initialize functionality for the cards
+      document.addEventListener('DOMContentLoaded', function () {
         function initializeCardFunctionality(cardNumber) {
             const card = document.getElementById(`card${cardNumber}`);
             const triggerEdit = document.getElementById(`triggerEdit${cardNumber}`);
@@ -1070,8 +1067,8 @@
             function toggleFormVisibility(show) {
                 form.style.display = show ? 'block' : 'none';
                 editButtons.style.display = show ? 'flex' : 'none';
-                if (triggerEdit) triggerEdit.style.display = show ? 'none' : 'block';
-                if (addImage) addImage.style.display = show ? 'none' : 'inline-block';
+                triggerEdit.style.display = show ? 'none' : 'block';
+                addImage.style.display = show ? 'none' : 'inline-block';
             }
 
             // Show the form when "Edit" button is clicked
@@ -1121,16 +1118,13 @@
             });
         }
 
-        // Handle dynamically loaded content
-        tabContentContainer?.addEventListener('DOMNodeInserted', function () {
-            [1, 2].forEach(function (cardNumber) {
-                initializeCardFunctionality(cardNumber); // Initialize functionality for each card
-            });
-        });
+        // Initialize functionality for both cards
+        [1, 2].forEach(initializeCardFunctionality);
 
-        // Initialize functionality for the initial load
-        [1, 2].forEach(function (cardNumber) {
-            initializeCardFunctionality(cardNumber);
+        // Optional: Add dynamic event listeners if the cards are loaded dynamically
+        const tabContentContainer = document.getElementById('tabContentContainer'); // Container for dynamic content
+        tabContentContainer?.addEventListener('DOMNodeInserted', function () {
+            [1, 2].forEach(initializeCardFunctionality);
         });
     });
 
