@@ -1132,9 +1132,9 @@
                 const fileInput = form.querySelector('input[type="file"]');
                 if (!fileInput || !fileInput.files.length) {
                     event.preventDefault(); // Prevent form submission if no file is selected
-                    alert('Please select an image before saving.');
+                    alert('Please select an image before saving.   ');
                 }
-            }
+            }   
         });
     });
 </script>
