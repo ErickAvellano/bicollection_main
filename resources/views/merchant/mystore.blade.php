@@ -977,12 +977,12 @@
     <!--  Script for Modal Handling -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const tabContentContainer = document.getElementById('tabContentContainer'); // Parent container for dynamic content
-            const productModal = new bootstrap.Modal(document.getElementById('productModal')); // Bootstrap Modal API
+            const tabContentContainer = document.getElementById('tabContentContainer');
+            const productModal = new bootstrap.Modal(document.getElementById('productModal'));
 
             // Delegate click events to the parent container
             tabContentContainer?.addEventListener('click', function (event) {
-                const target = event.target.closest('#openModalButton'); // Check if #openModalButton was clicked
+                const target = event.target.closest('#openModalButton');
                 if (target) {
                     productModal.show(); // Show the modal
                 }
@@ -1051,76 +1051,94 @@
             }
         });
     </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Iterate over both card elements (1 and 2)
-            [1, 2].forEach(function(cardNumber) {
-                // Define elements for the current card
-                const card = document.getElementById(`card${cardNumber}`);
-                const triggerEdit = document.getElementById(`triggerEdit${cardNumber}`);
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const tabContentContainer = document.getElementById('tabContentContainer'); // Parent container for dynamic content
+
+        // Event delegation to handle clicks for "Add Image" buttons
+        tabContentContainer?.addEventListener('click', function (event) {
+            const addImageButton = event.target.closest('.btn-link'); // Target the "Add Image" button
+            if (addImageButton) {
+                const cardNumber = addImageButton.id.replace('addImage', ''); // Extract card number from ID
+                const fileInput = document.getElementById(`imageUpload${cardNumber}`);
+
+                // Trigger the file input click
+                fileInput?.click();
+            }
+        });
+
+        // Event delegation to handle clicks for "Edit" buttons
+        tabContentContainer?.addEventListener('click', function (event) {
+            const triggerEditButton = event.target.closest('[id^="triggerEdit"]'); // Target "Edit" button
+            if (triggerEditButton) {
+                const cardNumber = triggerEditButton.id.replace('triggerEdit', ''); // Extract card number from ID
+                const form = document.getElementById(`form${cardNumber}`);
+                const editButtons = document.getElementById(`editButtons${cardNumber}`);
                 const addImage = document.getElementById(`addImage${cardNumber}`);
+
+                // Show the form and edit buttons
+                form.style.display = 'block';
+                editButtons.style.display = 'flex';
+                addImage.style.display = 'none';
+            }
+        });
+
+        // Event delegation to handle file input changes
+        tabContentContainer?.addEventListener('change', function (event) {
+            const fileInput = event.target;
+            if (fileInput.matches('input[type="file"]')) {
+                const cardNumber = fileInput.id.replace('imageUpload', ''); // Extract card number from ID
+                const card = document.getElementById(`card${cardNumber}`);
+                const editButtons = document.getElementById(`editButtons${cardNumber}`);
+
+                const file = fileInput.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        // Set the background image for the card
+                        card.style.backgroundImage = `url('${e.target.result}')`;
+                        card.style.backgroundSize = 'cover';
+
+                        // Show the edit buttons
+                        editButtons.style.display = 'flex';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+
+        // Event delegation to handle "Cancel" buttons
+        tabContentContainer?.addEventListener('click', function (event) {
+            const cancelButton = event.target.closest('[id^="cancelImage"]'); // Target "Cancel" button
+            if (cancelButton) {
+                const cardNumber = cancelButton.id.replace('cancelImage', ''); // Extract card number from ID
                 const fileInput = document.getElementById(`imageUpload${cardNumber}`);
                 const form = document.getElementById(`form${cardNumber}`);
                 const editButtons = document.getElementById(`editButtons${cardNumber}`);
-                const cancelButton = document.getElementById(`cancelImage${cardNumber}`);
-                const changeButton = document.getElementById(`changeImage${cardNumber}`);
+                const addImage = document.getElementById(`addImage${cardNumber}`);
 
-                // Helper function to toggle form visibility
-                function toggleFormVisibility(show) {
-                    form.style.display = show ? 'block' : 'none';
-                    editButtons.style.display = show ? 'flex' : 'none';
-                    triggerEdit.style.display = show ? 'none' : 'block';
-                    addImage.style.display = show ? 'none' : 'inline-block';
-                }
-
-                // Show the form when "Edit" button is clicked
-                triggerEdit?.addEventListener('click', function() {
-                    toggleFormVisibility(true);
-                });
-
-                // Trigger file input when "Add Image" button is clicked
-                addImage?.addEventListener('click', function() {
-                    fileInput.click();
-                });
-
-                // Trigger file input when "Change Image" button is clicked
-                changeButton?.addEventListener('click', function() {
-                    fileInput.click();
-                });
-
-                // Handle file input change for preview
-                fileInput?.addEventListener('change', function(event) {
-                    const file = event.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            // Set the background image for the card
-                            card.style.backgroundImage = `url('${e.target.result}')`;
-                            card.style.backgroundSize = 'cover';
-
-                            // Show the edit buttons
-                            toggleFormVisibility(true);
-                        };
-                        reader.readAsDataURL(file); // Read the file for preview
-                    }
-                });
-
-                // Handle "Cancel" button click
-                cancelButton?.addEventListener('click', function() {
-                    fileInput.value = ''; // Clear the file input
-                    toggleFormVisibility(false); // Hide form and show "Edit" button
-                });
-
-                // Handle form submission
-                form?.addEventListener('submit', function(event) {
-                    if (!fileInput.files.length) {
-                        event.preventDefault(); // Prevent form submission if no file is selected
-                        alert('Please select an image before saving.');
-                    }
-                });
-            });
+                // Clear file input and hide form
+                fileInput.value = ''; // Clear the file input
+                form.style.display = 'none';
+                editButtons.style.display = 'none';
+                addImage.style.display = 'inline-block';
+            }
         });
-    </script>
+
+        // Event delegation to handle form submission
+        tabContentContainer?.addEventListener('submit', function (event) {
+            const form = event.target.closest('form');
+            if (form) {
+                const fileInput = form.querySelector('input[type="file"]');
+                if (!fileInput || !fileInput.files.length) {
+                    event.preventDefault(); // Prevent form submission if no file is selected
+                    alert('Please select an image before saving.');
+                }
+            }
+        });
+    });
+</script>
+
     <script>
         $(document).ready(function() {
             // Show the modal if contact number or MOP is not set
