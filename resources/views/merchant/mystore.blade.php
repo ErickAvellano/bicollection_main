@@ -1067,7 +1067,12 @@
                     const cancelButton = document.getElementById(`cancelImage${cardNumber}`);
                     const changeButton = document.getElementById(`changeImage${cardNumber}`);
 
-                    if (!card || !form) return; // Skip if card or form is not present
+                    if (!card || !form) {
+                        console.warn(`Card or form not found for card number ${cardNumber}`);
+                        return; // Skip if card or form is not present
+                    }
+
+                    console.log(`Initializing card ${cardNumber}`);
 
                     // Helper function to toggle form visibility
                     function toggleFormVisibility(show) {
@@ -1079,16 +1084,19 @@
 
                     // Show the form when "Edit" button is clicked
                     triggerEdit?.addEventListener('click', function () {
+                        console.log(`Edit button clicked for card ${cardNumber}`);
                         toggleFormVisibility(true);
                     });
 
                     // Trigger file input when "Add Image" button is clicked
                     addImage?.addEventListener('click', function () {
+                        console.log(`Add image button clicked for card ${cardNumber}`);
                         fileInput.click();
                     });
 
                     // Trigger file input when "Change Image" button is clicked
                     changeButton?.addEventListener('click', function () {
+                        console.log(`Change image button clicked for card ${cardNumber}`);
                         fileInput.click();
                     });
 
@@ -1098,6 +1106,7 @@
                         if (file) {
                             const reader = new FileReader();
                             reader.onload = function (e) {
+                                console.log('File preview result:', e.target.result);
                                 // Set the background image for the card
                                 card.style.backgroundImage = `url('${e.target.result}')`;
                                 card.style.backgroundSize = 'cover';
@@ -1111,6 +1120,7 @@
 
                     // Handle "Cancel" button click
                     cancelButton?.addEventListener('click', function () {
+                        console.log(`Cancel button clicked for card ${cardNumber}`);
                         fileInput.value = ''; // Clear the file input
                         toggleFormVisibility(false); // Hide form and show "Edit" button
                     });
@@ -1127,11 +1137,13 @@
 
             // Reinitialize the functionality after dynamic content is loaded
             function refreshTabContent() {
+                console.log('Refreshing tab content...');
                 initializeAdsContainer();
             }
 
             // Fetch and load dynamic content into tabContentContainer
             function loadDynamicContent(navValue) {
+                console.log(`Loading dynamic content for: ${navValue}`);
                 fetch(`/merchant/partial/${navValue}`)
                     .then((response) => response.text())
                     .then((html) => {
@@ -1154,6 +1166,7 @@
                 });
             });
         });
+
     </script>
 
     <script>
