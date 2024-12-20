@@ -1051,88 +1051,57 @@
             }
         });
     </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Parent container
-            const parentContainer = document.getElementById('parentContainer');
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const parentContainer = document.querySelector('.ads-container'); // Select the parent container
 
-            // Iterate over both card elements (1 and 2)
-            [1, 2].forEach(function (cardNumber) {
-                // Define elements for the current card
-                const card = document.getElementById(`card${cardNumber}`);
-                const triggerEdit = document.getElementById(`triggerEdit${cardNumber}`);
-                const addImage = document.getElementById(`addImage${cardNumber}`);
-                const fileInput = document.getElementById(`imageUpload${cardNumber}`);
+        parentContainer?.addEventListener('click', function (event) {
+            // Check if the click originated from a card's triggerEdit button
+            const triggerEdit = event.target.closest('[id^="triggerEdit"]');
+            const addImage = event.target.closest('[id^="addImage"]');
+
+            if (triggerEdit) {
+                const cardNumber = triggerEdit.id.match(/\d+/)[0]; // Extract card number
                 const form = document.getElementById(`form${cardNumber}`);
                 const editButtons = document.getElementById(`editButtons${cardNumber}`);
-                const cancelButton = document.getElementById(`cancelImage${cardNumber}`);
-                const changeButton = document.getElementById(`changeImage${cardNumber}`);
+                const addImageButton = document.getElementById(`addImage${cardNumber}`);
 
-                // Helper function to toggle form visibility
-                function toggleFormVisibility(show) {
-                    form.style.display = show ? 'block' : 'none';
-                    editButtons.style.display = show ? 'flex' : 'none';
-                    triggerEdit.style.display = show ? 'none' : 'block';
-                    addImage.style.display = show ? 'none' : 'inline-block';
-                }
+                // Show form and hide edit button
+                form.style.display = 'block';
+                editButtons.style.display = 'flex';
+                triggerEdit.style.display = 'none';
+                addImageButton.style.display = 'none';
+            }
 
-                // Show the form when "Edit" button is clicked
-                triggerEdit?.addEventListener('click', function () {
-                    toggleFormVisibility(true);
-                });
-
-                // Trigger file input when "Add Image" button is clicked
-                addImage?.addEventListener('click', function () {
-                    fileInput.click();
-                });
-
-                // Trigger file input when "Change Image" button is clicked
-                changeButton?.addEventListener('click', function () {
-                    fileInput.click();
-                });
-
-                // Handle file input change for preview
-                fileInput?.addEventListener('change', function (event) {
-                    const file = event.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function (e) {
-                            // Set the background image for the card
-                            card.style.backgroundImage = `url('${e.target.result}')`;
-                            card.style.backgroundSize = 'cover';
-
-                            // Show the edit buttons
-                            toggleFormVisibility(true);
-                        };
-                        reader.readAsDataURL(file); // Read the file for preview
-                    }
-                });
-
-                // Handle "Cancel" button click
-                cancelButton?.addEventListener('click', function () {
-                    fileInput.value = ''; // Clear the file input
-                    toggleFormVisibility(false); // Hide form and show "Edit" button
-                });
-
-                // Handle form submission
-                form?.addEventListener('submit', function (event) {
-                    if (!fileInput.files.length) {
-                        event.preventDefault(); // Prevent form submission if no file is selected
-                        alert('Please select an image before saving.');
-                    }
-                });
-            });
-
-            // Handle any parent-level functionality
-            parentContainer?.addEventListener('click', function (event) {
-                const target = event.target;
-                if (target.classList.contains('parent-action')) {
-                    alert('Parent action triggered!');
-                    // Add any additional parent-level behavior here
-                }
-            });
+            // Check if the click originated from an addImage button
+            if (addImage) {
+                const cardNumber = addImage.id.match(/\d+/)[0]; // Extract card number
+                const fileInput = document.getElementById(`imageUpload${cardNumber}`);
+                fileInput?.click(); // Trigger file input
+            }
         });
-    </script>
+
+        // Handle file input changes
+        parentContainer?.addEventListener('change', function (event) {
+            const fileInput = event.target.closest('[id^="imageUpload"]');
+            if (fileInput) {
+                const cardNumber = fileInput.id.match(/\d+/)[0];
+                const card = document.getElementById(`card${cardNumber}`);
+                const file = fileInput.files[0];
+
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        card.style.backgroundImage = `url('${e.target.result}')`;
+                        card.style.backgroundSize = 'cover';
+                    };
+                    reader.readAsDataURL(file); // Preview image
+                }
+            }
+        });
+    });
+</script>
+
 
     <script>
         $(document).ready(function() {
