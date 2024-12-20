@@ -1053,85 +1053,75 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Parent container
-            const parentContainer = document.getElementById('parentContainer');
+            // Attach event listeners using event delegation
+            document.body.addEventListener('click', function (event) {
+                const cardNumber = event.target.closest('[id^="triggerEdit"]')?.id.replace('triggerEdit', '');
+                if (cardNumber) {
+                    handleEditClick(cardNumber);
+                }
 
-            // Iterate over both card elements (1 and 2)
-            [1, 2].forEach(function (cardNumber) {
-                // Define elements for the current card
-                const card = document.getElementById(`card${cardNumber}`);
-                const triggerEdit = document.getElementById(`triggerEdit${cardNumber}`);
-                const addImage = document.getElementById(`addImage${cardNumber}`);
-                const fileInput = document.getElementById(`imageUpload${cardNumber}`);
+                if (event.target.closest('[id^="addImage"]')) {
+                    const cardNumber = event.target.closest('[id^="addImage"]').id.replace('addImage', '');
+                    handleAddImageClick(cardNumber);
+                }
+
+                if (event.target.closest('[id^="cancelImage"]')) {
+                    const cardNumber = event.target.closest('[id^="cancelImage"]').id.replace('cancelImage', '');
+                    handleCancelClick(cardNumber);
+                }
+
+                if (event.target.closest('[id^="changeImage"]')) {
+                    const cardNumber = event.target.closest('[id^="changeImage"]').id.replace('changeImage', '');
+                    handleChangeClick(cardNumber);
+                }
+            });
+
+            // Functions for handling events
+            function handleEditClick(cardNumber) {
                 const form = document.getElementById(`form${cardNumber}`);
                 const editButtons = document.getElementById(`editButtons${cardNumber}`);
-                const cancelButton = document.getElementById(`cancelImage${cardNumber}`);
-                const changeButton = document.getElementById(`changeImage${cardNumber}`);
+                const triggerEdit = document.getElementById(`triggerEdit${cardNumber}`);
+                const addImage = document.getElementById(`addImage${cardNumber}`);
 
-                // Helper function to toggle form visibility
-                function toggleFormVisibility(show) {
+                toggleFormVisibility(cardNumber, true);
+
+                function toggleFormVisibility(cardNumber, show) {
                     form.style.display = show ? 'block' : 'none';
                     editButtons.style.display = show ? 'flex' : 'none';
                     triggerEdit.style.display = show ? 'none' : 'block';
                     addImage.style.display = show ? 'none' : 'inline-block';
                 }
+            }
 
-                // Show the form when "Edit" button is clicked
-                triggerEdit?.addEventListener('click', function () {
-                    toggleFormVisibility(true);
-                });
+            function handleAddImageClick(cardNumber) {
+                const fileInput = document.getElementById(`imageUpload${cardNumber}`);
+                fileInput?.click();
+            }
 
-                // Trigger file input when "Add Image" button is clicked
-                addImage?.addEventListener('click', function () {
-                    fileInput.click();
-                });
+            function handleCancelClick(cardNumber) {
+                const fileInput = document.getElementById(`imageUpload${cardNumber}`);
+                const form = document.getElementById(`form${cardNumber}`);
+                const editButtons = document.getElementById(`editButtons${cardNumber}`);
+                const triggerEdit = document.getElementById(`triggerEdit${cardNumber}`);
+                const addImage = document.getElementById(`addImage${cardNumber}`);
 
-                // Trigger file input when "Change Image" button is clicked
-                changeButton?.addEventListener('click', function () {
-                    fileInput.click();
-                });
+                fileInput.value = ''; // Clear file input
+                toggleFormVisibility(cardNumber, false);
 
-                // Handle file input change for preview
-                fileInput?.addEventListener('change', function (event) {
-                    const file = event.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function (e) {
-                            // Set the background image for the card
-                            card.style.backgroundImage = `url('${e.target.result}')`;
-                            card.style.backgroundSize = 'cover';
-
-                            // Show the edit buttons
-                            toggleFormVisibility(true);
-                        };
-                        reader.readAsDataURL(file); // Read the file for preview
-                    }
-                });
-
-                // Handle "Cancel" button click
-                cancelButton?.addEventListener('click', function () {
-                    fileInput.value = ''; // Clear the file input
-                    toggleFormVisibility(false); // Hide form and show "Edit" button
-                });
-
-                // Handle form submission
-                form?.addEventListener('submit', function (event) {
-                    if (!fileInput.files.length) {
-                        event.preventDefault(); // Prevent form submission if no file is selected
-                        alert('Please select an image before saving.');
-                    }
-                });
-            });
-
-            // Handle any parent-level functionality
-            parentContainer?.addEventListener('click', function (event) {
-                const target = event.target;
-                if (target.classList.contains('parent-action')) {
-                    alert('Parent action triggered!');
-                    // Add any additional parent-level behavior here
+                function toggleFormVisibility(cardNumber, show) {
+                    form.style.display = show ? 'block' : 'none';
+                    editButtons.style.display = show ? 'flex' : 'none';
+                    triggerEdit.style.display = show ? 'none' : 'block';
+                    addImage.style.display = show ? 'none' : 'inline-block';
                 }
-            });
+            }
+
+            function handleChangeClick(cardNumber) {
+                const fileInput = document.getElementById(`imageUpload${cardNumber}`);
+                fileInput?.click();
+            }
         });
+
     </script>
 
 
