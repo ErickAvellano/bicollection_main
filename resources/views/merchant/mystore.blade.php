@@ -1055,89 +1055,110 @@
     document.addEventListener('DOMContentLoaded', function () {
         const tabContentContainer = document.getElementById('tabContentContainer'); // Parent container for dynamic content
 
-        // Event delegation to handle clicks for "Add Image" buttons
-        tabContentContainer?.addEventListener('click', function (event) {
-            const addImageButton = event.target.closest('.btn-link'); // Target the "Add Image" button
-            if (addImageButton) {
-                const cardNumber = addImageButton.id.replace('addImage', ''); // Extract card number from ID
-                const fileInput = document.getElementById(`imageUpload${cardNumber}`);
+        function initializeEventDelegation() {
+            // Event delegation to handle clicks for "Add Image" buttons
+            tabContentContainer?.addEventListener('click', function (event) {
+                const addImageButton = event.target.closest('.btn-link'); // Target the "Add Image" button
+                if (addImageButton) {
+                    const cardNumber = addImageButton.id.replace('addImage', ''); // Extract card number from ID
+                    const fileInput = document.getElementById(`imageUpload${cardNumber}`);
 
-                // Trigger the file input click
-                fileInput?.click();
-            }
-        });
-
-        // Event delegation to handle clicks for "Edit" buttons
-        tabContentContainer?.addEventListener('click', function (event) {
-            const triggerEditButton = event.target.closest('[id^="triggerEdit"]'); // Target "Edit" button
-            if (triggerEditButton) {
-                const cardNumber = triggerEditButton.id.replace('triggerEdit', ''); // Extract card number from ID
-                const form = document.getElementById(`form${cardNumber}`);
-                const editButtons = document.getElementById(`editButtons${cardNumber}`);
-                const addImage = document.getElementById(`addImage${cardNumber}`);
-
-                // Show the form and edit buttons
-                form.style.display = 'block';
-                editButtons.style.display = 'flex';
-                addImage.style.display = 'none';
-            }
-        });
-
-        // Event delegation to handle file input changes
-        tabContentContainer?.addEventListener('change', function (event) {
-            const fileInput = event.target;
-            if (fileInput.matches('input[type="file"]')) {
-                const cardNumber = fileInput.id.replace('imageUpload', ''); // Extract card number from ID
-                const card = document.getElementById(`card${cardNumber}`);
-                const editButtons = document.getElementById(`editButtons${cardNumber}`);
-
-                const file = fileInput.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        // Set the background image for the card
-                        card.style.backgroundImage = `url('${e.target.result}')`;
-                        card.style.backgroundSize = 'cover';
-
-                        // Show the edit buttons
-                        editButtons.style.display = 'flex';
-                    };
-                    reader.readAsDataURL(file);
+                    // Trigger the file input click
+                    fileInput?.click();
                 }
-            }
-        });
+            });
 
-        // Event delegation to handle "Cancel" buttons
-        tabContentContainer?.addEventListener('click', function (event) {
-            const cancelButton = event.target.closest('[id^="cancelImage"]'); // Target "Cancel" button
-            if (cancelButton) {
-                const cardNumber = cancelButton.id.replace('cancelImage', ''); // Extract card number from ID
-                const fileInput = document.getElementById(`imageUpload${cardNumber}`);
-                const form = document.getElementById(`form${cardNumber}`);
-                const editButtons = document.getElementById(`editButtons${cardNumber}`);
-                const addImage = document.getElementById(`addImage${cardNumber}`);
+            // Event delegation to handle clicks for "Edit" buttons
+            tabContentContainer?.addEventListener('click', function (event) {
+                const triggerEditButton = event.target.closest('[id^="triggerEdit"]'); // Target "Edit" button
+                if (triggerEditButton) {
+                    const cardNumber = triggerEditButton.id.replace('triggerEdit', ''); // Extract card number from ID
+                    const form = document.getElementById(`form${cardNumber}`);
+                    const editButtons = document.getElementById(`editButtons${cardNumber}`);
+                    const addImage = document.getElementById(`addImage${cardNumber}`);
 
-                // Clear file input and hide form
-                fileInput.value = ''; // Clear the file input
-                form.style.display = 'none';
-                editButtons.style.display = 'none';
-                addImage.style.display = 'inline-block';
-            }
-        });
-
-        // Event delegation to handle form submission
-        tabContentContainer?.addEventListener('submit', function (event) {
-            const form = event.target.closest('form');
-            if (form) {
-                const fileInput = form.querySelector('input[type="file"]');
-                if (!fileInput || !fileInput.files.length) {
-                    event.preventDefault(); // Prevent form submission if no file is selected
-                    alert('Please select an image before saving.   ');
+                    // Show the form and edit buttons
+                    form.style.display = 'block';
+                    editButtons.style.display = 'flex';
+                    addImage.style.display = 'none';
                 }
-            }   
-        });
+            });
+
+            // Event delegation to handle file input changes
+            tabContentContainer?.addEventListener('change', function (event) {
+                const fileInput = event.target;
+                if (fileInput.matches('input[type="file"]')) {
+                    const cardNumber = fileInput.id.replace('imageUpload', ''); // Extract card number from ID
+                    const card = document.getElementById(`card${cardNumber}`);
+                    const editButtons = document.getElementById(`editButtons${cardNumber}`);
+
+                    const file = fileInput.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            // Set the background image for the card
+                            card.style.backgroundImage = `url('${e.target.result}')`;
+                            card.style.backgroundSize = 'cover';
+
+                            // Show the edit buttons
+                            editButtons.style.display = 'flex';
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                }
+            });
+
+            // Event delegation to handle "Cancel" buttons
+            tabContentContainer?.addEventListener('click', function (event) {
+                const cancelButton = event.target.closest('[id^="cancelImage"]'); // Target "Cancel" button
+                if (cancelButton) {
+                    const cardNumber = cancelButton.id.replace('cancelImage', ''); // Extract card number from ID
+                    const fileInput = document.getElementById(`imageUpload${cardNumber}`);
+                    const form = document.getElementById(`form${cardNumber}`);
+                    const editButtons = document.getElementById(`editButtons${cardNumber}`);
+                    const addImage = document.getElementById(`addImage${cardNumber}`);
+
+                    // Clear file input and hide form
+                    fileInput.value = ''; // Clear the file input
+                    form.style.display = 'none';
+                    editButtons.style.display = 'none';
+                    addImage.style.display = 'inline-block';
+                }
+            });
+
+            // Event delegation to handle form submission
+            tabContentContainer?.addEventListener('submit', function (event) {
+                const form = event.target.closest('form');
+                if (form) {
+                    const fileInput = form.querySelector('input[type="file"]');
+                    if (!fileInput || !fileInput.files.length) {
+                        event.preventDefault(); // Prevent form submission if no file is selected
+                        alert('Please select an image before saving.');
+                    }
+                }
+            });
+        }
+
+        // Initialize event delegation
+        initializeEventDelegation();
+
+        // Refresh functionality after dynamic updates
+        function refreshDynamicContent() {
+            initializeEventDelegation();
+        }
+
+        // Example: Call `refreshDynamicContent()` after dynamic updates
+        // If you dynamically update the content using AJAX or other means, ensure to call this function
+        // Example usage:
+        // fetch('/your-endpoint')
+        //     .then(response => response.text())
+        //     .then(html => {
+        //         tabContentContainer.innerHTML = html; // Replace content
+        //         refreshDynamicContent(); // Reinitialize events
+        //     });
     });
 </script>
+
 
     <script>
         $(document).ready(function() {
