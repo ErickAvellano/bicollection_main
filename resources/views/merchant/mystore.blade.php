@@ -1055,7 +1055,6 @@
         document.addEventListener('DOMContentLoaded', function () {
             const tabContentContainer = document.getElementById('tabContentContainer');
 
-            // Function to initialize card functionalities
             function initializeCardEvents() {
                 [1, 2].forEach(function (cardNumber) {
                     const card = document.getElementById(`card${cardNumber}`);
@@ -1094,6 +1093,7 @@
                                 card.style.backgroundImage = `url('${e.target.result}')`;
                                 card.style.backgroundSize = 'cover';
                                 toggleFormVisibility(true);
+                                addImage.style.display = 'none'; // Hide the "plus" icon
                             };
                             reader.readAsDataURL(file);
                         }
@@ -1101,7 +1101,9 @@
 
                     cancelButton?.addEventListener('click', function () {
                         fileInput.value = '';
+                        card.style.backgroundImage = ''; // Remove the background image
                         toggleFormVisibility(false);
+                        addImage.style.display = 'inline-block'; // Show the "plus" icon
                     });
 
                     form?.addEventListener('submit', function (event) {
@@ -1113,22 +1115,19 @@
                 });
             }
 
-            // Observe dynamic content loading
             const observer = new MutationObserver(function (mutationsList) {
                 for (const mutation of mutationsList) {
                     if (mutation.type === 'childList' && mutation.addedNodes.length) {
-                        // Reinitialize functionality after new content is added
                         initializeCardEvents();
                     }
                 }
             });
 
-            // Start observing changes in the tabContentContainer
             observer.observe(tabContentContainer, { childList: true });
 
-            // Load initial functionality (in case content is already there)
             initializeCardEvents();
         });
+
 
 
     </script>
