@@ -1070,7 +1070,6 @@
                         form.style.display = show ? 'block' : 'none';
                         editButtons.style.display = show ? 'flex' : 'none';
                         triggerEdit.style.display = show ? 'none' : 'block';
-                        addImage.style.display = show ? 'none' : 'inline-block';
                     }
 
                     triggerEdit?.addEventListener('click', function () {
