@@ -1066,24 +1066,22 @@
                     const cancelButton = document.getElementById(`cancelImage${cardNumber}`);
                     const changeButton = document.getElementById(`changeImage${cardNumber}`);
 
-                    function toggleFormVisibility(show) {
-                        form.style.display = show ? 'block' : 'none';
-                        editButtons.style.display = show ? 'flex' : 'none';
-                        triggerEdit.style.display = show ? 'none' : 'block';
+                    function toggleAddImageVisibility(show) {
+                        addImage.style.display = show ? 'inline-block' : 'none';
                     }
 
-                    triggerEdit?.addEventListener('click', function () {
-                        toggleFormVisibility(true);
-                    });
+                    function toggleEditVisibility(show) {
+                        form.style.display = show ? 'block' : 'none';
+                        editButtons.style.display = show ? 'flex' : 'none';
+                        triggerEdit.style.display = show ? 'block' : 'none';
+                    }
 
+                    // Add Image Button Click
                     addImage?.addEventListener('click', function () {
                         fileInput.click();
                     });
 
-                    changeButton?.addEventListener('click', function () {
-                        fileInput.click();
-                    });
-
+                    // File Input Change (Image Upload)
                     fileInput?.addEventListener('change', function (event) {
                         const file = event.target.files[0];
                         if (file) {
@@ -1091,20 +1089,27 @@
                             reader.onload = function (e) {
                                 card.style.backgroundImage = `url('${e.target.result}')`;
                                 card.style.backgroundSize = 'cover';
-                                toggleFormVisibility(true);
-                                addImage.style.display = 'none'; // Hide the "plus" icon
+                                toggleAddImageVisibility(false); // Hide "Add Image" button
+                                toggleEditVisibility(true); // Show edit options
                             };
                             reader.readAsDataURL(file);
                         }
                     });
 
+                    // Cancel Button Click
                     cancelButton?.addEventListener('click', function () {
                         fileInput.value = '';
                         card.style.backgroundImage = ''; // Remove the background image
-                        toggleFormVisibility(false);
-                        addImage.style.display = 'inline-block'; // Show the "plus" icon
+                        toggleAddImageVisibility(true); // Show "Add Image" button
+                        toggleEditVisibility(false); // Hide edit options
                     });
 
+                    // Change Image Button Click
+                    changeButton?.addEventListener('click', function () {
+                        fileInput.click();
+                    });
+
+                    // Form Submit Validation
                     form?.addEventListener('submit', function (event) {
                         if (!fileInput.files.length) {
                             event.preventDefault();
@@ -1126,6 +1131,7 @@
 
             initializeCardEvents();
         });
+
 
 
 
