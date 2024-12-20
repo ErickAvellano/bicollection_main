@@ -1016,7 +1016,7 @@
 
             // Toggle product selection
             document.querySelectorAll('.select-product-btn').forEach((button) => {
-                button.addEventListener('click', fu        nction() {
+                button.addEventListener('click', function() {
                     const productId = this.getAttribute('data-product-id');
                     const isSelected = !selectedProductIds.includes(productId);
 
