@@ -1052,7 +1052,7 @@
         });
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+       document.addEventListener('DOMContentLoaded', function () {
             const tabContentContainer = document.getElementById('tabContentContainer');
 
             function initializeCardEvents() {
@@ -1073,12 +1073,17 @@
                     function toggleEditVisibility(show) {
                         form.style.display = show ? 'block' : 'none';
                         editButtons.style.display = show ? 'flex' : 'none';
-                        triggerEdit.style.display = show ? 'block' : 'none';
+                        triggerEdit.style.display = show ? 'none' : 'block'; // Hide "Edit" button when in edit mode
                     }
 
                     // Add Image Button Click
                     addImage?.addEventListener('click', function () {
                         fileInput.click();
+                    });
+
+                    // Trigger Edit Button Click
+                    triggerEdit?.addEventListener('click', function () {
+                        toggleEditVisibility(true);
                     });
 
                     // File Input Change (Image Upload)
@@ -1131,6 +1136,7 @@
 
             initializeCardEvents();
         });
+
 
 
 
