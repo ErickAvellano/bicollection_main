@@ -1053,120 +1053,85 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const tabContentContainer = document.getElementById('tabContentContainer'); // Parent container for dynamic content
+            // Parent container
+            const parentContainer = document.getElementById('parentContainer');
 
-            // Function to initialize functionality for ads-container
-            function initializeAdsContainer() {
-                [1, 2].forEach(function (cardNumber) {
-                    const card = document.getElementById(`card${cardNumber}`);
-                    const triggerEdit = document.getElementById(`triggerEdit${cardNumber}`);
-                    const addImage = document.getElementById(`addImage${cardNumber}`);
-                    const fileInput = document.getElementById(`imageUpload${cardNumber}`);
-                    const form = document.getElementById(`form${cardNumber}`);
-                    const editButtons = document.getElementById(`editButtons${cardNumber}`);
-                    const cancelButton = document.getElementById(`cancelImage${cardNumber}`);
-                    const changeButton = document.getElementById(`changeImage${cardNumber}`);
+            // Iterate over both card elements (1 and 2)
+            [1, 2].forEach(function (cardNumber) {
+                // Define elements for the current card
+                const card = document.getElementById(`card${cardNumber}`);
+                const triggerEdit = document.getElementById(`triggerEdit${cardNumber}`);
+                const addImage = document.getElementById(`addImage${cardNumber}`);
+                const fileInput = document.getElementById(`imageUpload${cardNumber}`);
+                const form = document.getElementById(`form${cardNumber}`);
+                const editButtons = document.getElementById(`editButtons${cardNumber}`);
+                const cancelButton = document.getElementById(`cancelImage${cardNumber}`);
+                const changeButton = document.getElementById(`changeImage${cardNumber}`);
 
-                    if (!card || !form) {
-                        console.warn(`Card or form not found for card number ${cardNumber}`);
-                        return; // Skip if card or form is not present
-                    }
+                // Helper function to toggle form visibility
+                function toggleFormVisibility(show) {
+                    form.style.display = show ? 'block' : 'none';
+                    editButtons.style.display = show ? 'flex' : 'none';
+                    triggerEdit.style.display = show ? 'none' : 'block';
+                    addImage.style.display = show ? 'none' : 'inline-block';
+                }
 
-                    console.log(`Initializing card ${cardNumber}`);
-
-                    // Helper function to toggle form visibility
-                    function toggleFormVisibility(show) {
-                        form.style.display = show ? 'block' : 'none';
-                        editButtons.style.display = show ? 'flex' : 'none';
-                        triggerEdit.style.display = show ? 'none' : 'block';
-                        addImage.style.display = show ? 'none' : 'inline-block';
-                    }
-
-                    // Show the form when "Edit" button is clicked
-                    triggerEdit?.addEventListener('click', function () {
-                        console.log(`Edit button clicked for card ${cardNumber}`);
-                        toggleFormVisibility(true);
-                    });
-
-                    // Trigger file input when "Add Image" button is clicked
-                    addImage?.addEventListener('click', function () {
-                        console.log(`Add image button clicked for card ${cardNumber}`);
-                        fileInput.click();
-                    });
-
-                    // Trigger file input when "Change Image" button is clicked
-                    changeButton?.addEventListener('click', function () {
-                        console.log(`Change image button clicked for card ${cardNumber}`);
-                        fileInput.click();
-                    });
-
-                    // Handle file input change for preview
-                    fileInput?.addEventListener('change', function (event) {
-                        const file = event.target.files[0];
-                        if (file) {
-                            const reader = new FileReader();
-                            reader.onload = function (e) {
-                                console.log('File preview result:', e.target.result);
-                                // Set the background image for the card
-                                card.style.backgroundImage = `url('${e.target.result}')`;
-                                card.style.backgroundSize = 'cover';
-
-                                // Show the edit buttons
-                                toggleFormVisibility(true);
-                            };
-                            reader.readAsDataURL(file); // Read the file for preview
-                        }
-                    });
-
-                    // Handle "Cancel" button click
-                    cancelButton?.addEventListener('click', function () {
-                        console.log(`Cancel button clicked for card ${cardNumber}`);
-                        fileInput.value = ''; // Clear the file input
-                        toggleFormVisibility(false); // Hide form and show "Edit" button
-                    });
-
-                    // Handle form submission
-                    form?.addEventListener('submit', function (event) {
-                        if (!fileInput.files.length) {
-                            event.preventDefault(); // Prevent form submission if no file is selected
-                            alert('Please select an image before saving.');
-                        }
-                    });
+                // Show the form when "Edit" button is clicked
+                triggerEdit?.addEventListener('click', function () {
+                    toggleFormVisibility(true);
                 });
-            }
 
-            // Reinitialize the functionality after dynamic content is loaded
-            function refreshTabContent() {
-                console.log('Refreshing tab content...');
-                initializeAdsContainer();
-            }
+                // Trigger file input when "Add Image" button is clicked
+                addImage?.addEventListener('click', function () {
+                    fileInput.click();
+                });
 
-            // Fetch and load dynamic content into tabContentContainer
-            function loadDynamicContent(navValue) {
-                console.log(`Loading dynamic content for: ${navValue}`);
-                fetch(`/merchant/partial/${navValue}`)
-                    .then((response) => response.text())
-                    .then((html) => {
-                        tabContentContainer.innerHTML = html; // Insert new content
-                        refreshTabContent(); // Reinitialize functionality for new content
-                    })
-                    .catch((error) => console.error('Error loading dynamic content:', error));
-            }
+                // Trigger file input when "Change Image" button is clicked
+                changeButton?.addEventListener('click', function () {
+                    fileInput.click();
+                });
 
-            // Initialize the first load (default content)
-            loadDynamicContent('home'); // Change 'home' to the default tab name if necessary
+                // Handle file input change for preview
+                fileInput?.addEventListener('change', function (event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            // Set the background image for the card
+                            card.style.backgroundImage = `url('${e.target.result}')`;
+                            card.style.backgroundSize = 'cover';
 
-            // Add event listeners for navigation tabs
-            const tabs = document.querySelectorAll('#productTabs .nav-link');
-            tabs.forEach((tab) => {
-                tab.addEventListener('click', function (event) {
-                    event.preventDefault();
-                    const navValue = this.getAttribute('data-nav').toLowerCase();
-                    loadDynamicContent(navValue); // Load content for the clicked tab
+                            // Show the edit buttons
+                            toggleFormVisibility(true);
+                        };
+                        reader.readAsDataURL(file); // Read the file for preview
+                    }
+                });
+
+                // Handle "Cancel" button click
+                cancelButton?.addEventListener('click', function () {
+                    fileInput.value = ''; // Clear the file input
+                    toggleFormVisibility(false); // Hide form and show "Edit" button
+                });
+
+                // Handle form submission
+                form?.addEventListener('submit', function (event) {
+                    if (!fileInput.files.length) {
+                        event.preventDefault(); // Prevent form submission if no file is selected
+                        alert('Please select an image before saving.');
+                    }
                 });
             });
-        });
 
+            // Handle any parent-level functionality
+            parentContainer?.addEventListener('click', function (event) {
+                const target = event.target;
+                if (target.classList.contains('parent-action')) {
+                    alert('Parent action triggered!');
+                    // Add any additional parent-level behavior here
+                }
+            });
+        });
     </script>
 
     <script>
