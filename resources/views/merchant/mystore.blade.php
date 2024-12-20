@@ -1137,10 +1137,6 @@
             initializeCardEvents();
         });
 
-
-
-
-
     </script>
 
 
