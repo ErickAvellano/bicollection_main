@@ -283,10 +283,10 @@
         z-index: 1001;
         left: 0;
         top: 0;
-        width: 100%;
+        width: 1  00%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5);
-        justify-content: center;
+        justify-content:  center;
         align-items: center;
     }
 
@@ -324,20 +324,20 @@
     }
 
     .product-card .card-title {
-        font-size: 14px;
+        font-size: 14p x;
         font-weight: bold;
-        margin-bottom: 5px;
+        margin-bottom:  5px;
     } */
 
     .product-card .card-text {
         font-size: 13px;
     }
-    .featured-products-container,
+     .featured-products-container,
     .allproduct-products-container {
         padding: 10px 0;
     }
 
-    /* Adjusting row spacing */
+    /* Adjusting row spacin g */
     .featured-products-row,
     .allproduct-products-row, {
         margin-left: 0;
@@ -351,7 +351,7 @@
         box-shadow: none;
     }
     .btn .btn-link-custom:focus,
-    .btn .btn-link-custom:active {
+    .btn  .btn-link-custom:active {
         outline: none;
         box-shadow: none;
     }
@@ -362,16 +362,16 @@
         z-index: 1000;
         display: flex;
         flex-direction: row;
-        align-items: flex-end;
+        align-items: flex- end;
         gap: 15px;
-    }
+     }
 
 
     .btn-add-product {
         background-color: #218838;
         color: white;
         padding: 10px 20px;
-        border-radius: 30px;
+        border- radius: 30px;
         border: none;
         font-size: 16px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -382,13 +382,13 @@
 
 
     .btn-settings {
-        background-color: #218838;
+        background-color: #2   18838;
         color: white;
         padding: 12px;
-        border-radius: 50%;
+         border-radius: 50%;
         border: none;
         font-size: 24px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        box-sha dow: 0 4px 8px rgba(0, 0, 0, 0.1);
         cursor: pointer;
         display: flex;
         justify-content: center;
@@ -396,7 +396,7 @@
     }
 
 
-    .btn-add-product:hover, .btn-settings:hover {
+    .btn-add-product:hover, .btn-setti   ngs:hover {
         background-color: #1a692b;
     }
 
@@ -417,7 +417,7 @@
         background-color: #fff;
         padding: 20px;
         border-radius: 10px;
-        width: 100%;
+        wid th: 100%;
         min-width: 700px;
         text-align: center;
         position: relative;
@@ -449,11 +449,11 @@
     }
     .btn-custom {
         background-color: #228b22;
-        border-color: #228b22;
+        bord er-color: #228b22;
         color: #fff;
     }
-    .btn-custom:hover,
-    .btn-custom:focus {
+     .btn-custom:hover,
+     .btn-custom:focus {
         background-color: #fafafa;;
         border-color: #228b22;;
         color: black;
@@ -470,20 +470,20 @@
     }
 
     #editButtons1, #editButtons2 {
-        display: none;
-        position: absolute;
-        bottom: 20px;
+        disp lay: none;
+        position: abs olute;
+        bottom:  20px;
         right: 20px;
         z-index: 10;
         gap: 10px;
-        flex-direction: row;
+        flex-direction: r ow;
     }
     .modal-backdrop{
-        display: none;
+         display: none;
     }
     /* Custom Modal Overlay */
     .custom-modal {
-        display: none;
+         display: none;
         position: fixed;
         z-index: 1050;
         top: 0;
@@ -498,8 +498,8 @@
     /* Centering Custom Modal Dialog */
     .custom-modal-dialog {
         display: flex;
-        align-items: center;
-        justify-content: center;
+         align-items: center;
+         justify-content: center;
         min-height: 100vh;
         margin: 0;
     }
@@ -585,19 +585,19 @@
     .product-card-hover {
         transition: border-color 0.3s ease-in-out;
         border: 1px solid transparent;
-        transition: border 0.3s;
+         transition: border 0.3s;
     }
 
     .product-card-hover:hover {
         border-color: #28a745;
         border: 3px solid 228b22;
     }
-    .product-links {
+    .product-l inks {
         text-decoration: none;
     }
-    .product-item {
+    .pr oduct-item {
         width: 14.2857%; /* Adjust width for 7 items per row */
-        box-sizing: border-box; /* Ensures padding doesn't affect the width */
+        box-sizing: border-box; /* E nsures padding doesn't affect the width */
     }
 
     .homeallproduct-products-row {
@@ -674,7 +674,7 @@
                         </div>
                     </div>
                     <div class="col-md-8">
-                        <div class="profile-actions d-flex justify-content-end mt-4">
+                        <div class="profile-actions d-flex justify-cont ent-end mt-4">
                             <button class="btn btn-edit me-2" id="showEditBtn"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
                             <button class="btn btn-edit" id="editBackgroundBtn" style="display: none;">Edit Background</button>
                             <form id="profileImageForm" method="POST" enctype="multipart/form-data" action="{{ route('shop.updateImages') }}">
@@ -977,12 +977,12 @@
     <!--  Script for Modal Handling -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const tabContentContainer = document.getElementById('tabContentContainer');
-            const productModal = new bootstrap.Modal(document.getElementById('productModal'));
+            const tabContentContainer = document.getElementById('tabContentContainer'); // Parent container for dynamic content
+            const productModal = new bootstrap.Modal(document.getElementById('productModal')); // Bootstrap Modal API
 
             // Delegate click events to the parent container
             tabContentContainer?.addEventListener('click', function (event) {
-                const target = event.target.closest('#openModalButton');
+                const target = event.target.closest('#openModalButton'); // Check if #openModalButton was clicked
                 if (target) {
                     productModal.show(); // Show the modal
                 }
@@ -1016,7 +1016,7 @@
 
             // Toggle product selection
             document.querySelectorAll('.select-product-btn').forEach((button) => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', fu        nction() {
                     const productId = this.getAttribute('data-product-id');
                     const isSelected = !selectedProductIds.includes(productId);
 
@@ -1051,115 +1051,110 @@
             }
         });
     </script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const tabContentContainer = document.getElementById('tabContentContainer'); // Parent container for dynamic content
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabContentContainer = document.getElementById('tabContentContainer'); // Parent container for dynamic content
 
-        // Function to initialize event listeners
-        function initializeEventListeners() {
-            // Handle "Add Image" button click
-            tabContentContainer?.addEventListener('click', function (event) {
-                const addImageButton = event.target.closest('.btn-link'); // Target "Add Image" button
-                if (addImageButton) {
-                    const cardNumber = addImageButton.id.replace('addImage', ''); // Extract card number
-                    const fileInput = document.getElementById(`imageUpload${cardNumber}`);
-                    fileInput?.click(); // Trigger file input click
-                }
-            });
-
-            // Handle "Edit" button click
-            tabContentContainer?.addEventListener('click', function (event) {
-                const triggerEditButton = event.target.closest('[id^="triggerEdit"]'); // Target "Edit" button
-                if (triggerEditButton) {
-                    const cardNumber = triggerEditButton.id.replace('triggerEdit', ''); // Extract card number
-                    const form = document.getElementById(`form${cardNumber}`);
-                    const editButtons = document.getElementById(`editButtons${cardNumber}`);
-                    const addImage = document.getElementById(`addImage${cardNumber}`);
-
-                    // Show form and edit buttons, hide "Add Image" button
-                    form.style.display = 'block';
-                    editButtons.style.display = 'flex';
-                    addImage.style.display = 'none';
-                }
-            });
-
-            // Handle file input changes
-            tabContentContainer?.addEventListener('change', function (event) {
-                const fileInput = event.target;
-                if (fileInput.matches('input[type="file"]')) {
-                    const cardNumber = fileInput.id.replace('imageUpload', ''); // Extract card number
+            // Function to initialize functionality for ads-container
+            function initializeAdsContainer() {
+                [1, 2].forEach(function (cardNumber) {
                     const card = document.getElementById(`card${cardNumber}`);
-                    const editButtons = document.getElementById(`editButtons${cardNumber}`);
-
-                    const file = fileInput.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function (e) {
-                            // Update card background image
-                            card.style.backgroundImage = `url('${e.target.result}')`;
-                            card.style.backgroundSize = 'cover';
-
-                            // Show edit buttons
-                            editButtons.style.display = 'flex';
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                }
-            });
-
-            // Handle "Cancel" button click
-            tabContentContainer?.addEventListener('click', function (event) {
-                const cancelButton = event.target.closest('[id^="cancelImage"]'); // Target "Cancel" button
-                if (cancelButton) {
-                    const cardNumber = cancelButton.id.replace('cancelImage', ''); // Extract card number
+                    const triggerEdit = document.getElementById(`triggerEdit${cardNumber}`);
+                    const addImage = document.getElementById(`addImage${cardNumber}`);
                     const fileInput = document.getElementById(`imageUpload${cardNumber}`);
                     const form = document.getElementById(`form${cardNumber}`);
                     const editButtons = document.getElementById(`editButtons${cardNumber}`);
-                    const addImage = document.getElementById(`addImage${cardNumber}`);
+                    const cancelButton = document.getElementById(`cancelImage${cardNumber}`);
+                    const changeButton = document.getElementById(`changeImage${cardNumber}`);
 
-                    // Reset file input and hide form
-                    fileInput.value = ''; // Clear file input
-                    form.style.display = 'none';
-                    editButtons.style.display = 'none';
-                    addImage.style.display = 'inline-block';
-                }
-            });
+                    if (!card || !form) return; // Skip if card or form is not present
 
-            // Handle form submission
-            tabContentContainer?.addEventListener('submit', function (event) {
-                const form = event.target.closest('form');
-                if (form) {
-                    const fileInput = form.querySelector('input[type="file"]');
-                    if (!fileInput || !fileInput.files.length) {
-                        event.preventDefault(); // Prevent submission if no file selected
-                        alert('Please select an image before saving.');
+                    // Helper function to toggle form visibility
+                    function toggleFormVisibility(show) {
+                        form.style.display = show ? 'block' : 'none';
+                        editButtons.style.display = show ? 'flex' : 'none';
+                        triggerEdit.style.display = show ? 'none' : 'block';
+                        addImage.style.display = show ? 'none' : 'inline-block';
                     }
-                }
+
+                    // Show the form when "Edit" button is clicked
+                    triggerEdit?.addEventListener('click', function () {
+                        toggleFormVisibility(true);
+                    });
+
+                    // Trigger file input when "Add Image" button is clicked
+                    addImage?.addEventListener('click', function () {
+                        fileInput.click();
+                    });
+
+                    // Trigger file input when "Change Image" button is clicked
+                    changeButton?.addEventListener('click', function () {
+                        fileInput.click();
+                    });
+
+                    // Handle file input change for preview
+                    fileInput?.addEventListener('change', function (event) {
+                        const file = event.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = function (e) {
+                                // Set the background image for the card
+                                card.style.backgroundImage = `url('${e.target.result}')`;
+                                card.style.backgroundSize = 'cover';
+
+                                // Show the edit buttons
+                                toggleFormVisibility(true);
+                            };
+                            reader.readAsDataURL(file); // Read the file for preview
+                        }
+                    });
+
+                    // Handle "Cancel" button click
+                    cancelButton?.addEventListener('click', function () {
+                        fileInput.value = ''; // Clear the file input
+                        toggleFormVisibility(false); // Hide form and show "Edit" button
+                    });
+
+                    // Handle form submission
+                    form?.addEventListener('submit', function (event) {
+                        if (!fileInput.files.length) {
+                            event.preventDefault(); // Prevent form submission if no file is selected
+                            alert('Please select an image before saving.');
+                        }
+                    });
+                });
+            }
+
+            // Reinitialize the functionality after dynamic content is loaded
+            function refreshTabContent() {
+                initializeAdsContainer();
+            }
+
+            // Fetch and load dynamic content into tabContentContainer
+            function loadDynamicContent(navValue) {
+                fetch(`/merchant/partial/${navValue}`)
+                    .then((response) => response.text())
+                    .then((html) => {
+                        tabContentContainer.innerHTML = html; // Insert new content
+                        refreshTabContent(); // Reinitialize functionality for new content
+                    })
+                    .catch((error) => console.error('Error loading dynamic content:', error));
+            }
+
+            // Initialize the first load (default content)
+            loadDynamicContent('home'); // Change 'home' to the default tab name if necessary
+
+            // Add event listeners for navigation tabs
+            const tabs = document.querySelectorAll('#productTabs .nav-link');
+            tabs.forEach((tab) => {
+                tab.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    const navValue = this.getAttribute('data-nav').toLowerCase();
+                    loadDynamicContent(navValue); // Load content for the clicked tab
+                });
             });
-        }
-
-        // Initialize event listeners
-        initializeEventListeners();
-
-        // Refresh functionality for dynamically updated content
-        function refreshDynamicContent() {
-            initializeEventListeners();
-        }
-
-        // Example: Refresh dynamic content after an AJAX update
-        // Uncomment and use this as needed
-        /*
-        fetch('/your-endpoint')
-            .then(response => response.text())
-            .then(html => {
-                tabContentContainer.innerHTML = html; // Update content
-                refreshDynamicContent(); // Reinitialize event listeners
-            });
-        */
-    });
-</script>
-
-
+        });
+    </script>
 
     <script>
         $(document).ready(function() {
@@ -1190,7 +1185,7 @@
                     fetch(`/merchant/partial/${navValue}`)
                         .then((response) => response.text())
                         .then((data) => {
-                            tabContentContainer.innerHTML = data; // Insert content dynamically
+                             tabContentContainer.innerHTML = data; // Insert content dynamically
                         })
                         .catch((error) => console.error('Error loading content:', error));
                 });
