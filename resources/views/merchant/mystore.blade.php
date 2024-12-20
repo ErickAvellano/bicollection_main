@@ -1052,82 +1052,74 @@
         });
     </script>
     <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        function initializeCardFunctionality(cardNumber) {
-            const card = document.getElementById(`card${cardNumber}`);
-            const triggerEdit = document.getElementById(`triggerEdit${cardNumber}`);
-            const addImage = document.getElementById(`addImage${cardNumber}`);
-            const fileInput = document.getElementById(`imageUpload${cardNumber}`);
-            const form = document.getElementById(`form${cardNumber}`);
-            const editButtons = document.getElementById(`editButtons${cardNumber}`);
-            const cancelButton = document.getElementById(`cancelImage${cardNumber}`);
-            const changeButton = document.getElementById(`changeImage${cardNumber}`);
+        document.addEventListener('DOMContentLoaded', function() {
+            // Iterate over both card elements (1 and 2)
+            [1, 2].forEach(function(cardNumber) {
+                // Define elements for the current card
+                const card = document.getElementById(`card${cardNumber}`);
+                const triggerEdit = document.getElementById(`triggerEdit${cardNumber}`);
+                const addImage = document.getElementById(`addImage${cardNumber}`);
+                const fileInput = document.getElementById(`imageUpload${cardNumber}`);
+                const form = document.getElementById(`form${cardNumber}`);
+                const editButtons = document.getElementById(`editButtons${cardNumber}`);
+                const cancelButton = document.getElementById(`cancelImage${cardNumber}`);
+                const changeButton = document.getElementById(`changeImage${cardNumber}`);
 
-            // Helper function to toggle form visibility
-            function toggleFormVisibility(show) {
-                form.style.display = show ? 'block' : 'none';
-                editButtons.style.display = show ? 'flex' : 'none';
-                triggerEdit.style.display = show ? 'none' : 'block';
-                addImage.style.display = show ? 'none' : 'inline-block';
-            }
-
-            // Show the form when "Edit" button is clicked
-            triggerEdit?.addEventListener('click', function () {
-                toggleFormVisibility(true);
-            });
-
-            // Trigger file input when "Add Image" button is clicked
-            addImage?.addEventListener('click', function () {
-                fileInput.click();
-            });
-
-            // Trigger file input when "Change Image" button is clicked
-            changeButton?.addEventListener('click', function () {
-                fileInput.click();
-            });
-
-            // Handle file input change for preview
-            fileInput?.addEventListener('change', function (event) {
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        // Set the background image for the card
-                        card.style.backgroundImage = `url('${e.target.result}')`;
-                        card.style.backgroundSize = 'cover';
-
-                        // Show the edit buttons
-                        toggleFormVisibility(true);
-                    };
-                    reader.readAsDataURL(file); // Read the file for preview
+                // Helper function to toggle form visibility
+                function toggleFormVisibility(show) {
+                    form.style.display = show ? 'block' : 'none';
+                    editButtons.style.display = show ? 'flex' : 'none';
+                    triggerEdit.style.display = show ? 'none' : 'block';
+                    addImage.style.display = show ? 'none' : 'inline-block';
                 }
+
+                // Show the form when "Edit" button is clicked
+                triggerEdit?.addEventListener('click', function() {
+                    toggleFormVisibility(true);
+                });
+
+                // Trigger file input when "Add Image" button is clicked
+                addImage?.addEventListener('click', function() {
+                    fileInput.click();
+                });
+
+                // Trigger file input when "Change Image" button is clicked
+                changeButton?.addEventListener('click', function() {
+                    fileInput.click();
+                });
+
+                // Handle file input change for preview
+                fileInput?.addEventListener('change', function(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            // Set the background image for the card
+                            card.style.backgroundImage = `url('${e.target.result}')`;
+                            card.style.backgroundSize = 'cover';
+
+                            // Show the edit buttons
+                            toggleFormVisibility(true);
+                        };
+                        reader.readAsDataURL(file); // Read the file for preview
+                    }
+                });
+
+                // Handle "Cancel" button click
+                cancelButton?.addEventListener('click', function() {
+                    fileInput.value = ''; // Clear the file input
+                    toggleFormVisibility(false); // Hide form and show "Edit" button
+                });
+
+                // Handle form submission
+                form?.addEventListener('submit', function(event) {
+                    if (!fileInput.files.length) {
+                        event.preventDefault(); // Prevent form submission if no file is selected
+                        alert('Please select an image before saving.');
+                    }
+                });
             });
-
-            // Handle "Cancel" button click
-            cancelButton?.addEventListener('click', function () {
-                fileInput.value = ''; // Clear the file input
-                toggleFormVisibility(false); // Hide form and show "Edit" button
-            });
-
-            // Handle form submission
-            form?.addEventListener('submit', function (event) {
-                if (!fileInput.files.length) {
-                    event.preventDefault(); // Prevent form submission if no file is selected
-                    alert('Please select an image before saving.');
-                }
-            });
-        }
-
-        // Initialize functionality for both cards
-        [1, 2].forEach(initializeCardFunctionality);
-
-        // Optional: Add dynamic event listeners if the cards are loaded dynamically
-        const tabContentContainer = document.getElementById('tabContentContainer'); // Container for dynamic content
-        tabContentContainer?.addEventListener('DOMNodeInserted', function () {
-            [1, 2].forEach(initializeCardFunctionality);
         });
-    });
-
     </script>
     <script>
         $(document).ready(function() {
