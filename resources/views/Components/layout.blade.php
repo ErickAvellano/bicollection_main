@@ -1003,7 +1003,7 @@
     <script>
         // Function to update the order count in the icon
         function updateOrderCount() {
-            const orderCountBadge = document.getElementById('order-count'); /
+            const orderCountBadge = document.getElementById('order-count'); 
             const orderIcon = document.getElementById('orderIcon');
 
             // Proceed only if both elements exist
