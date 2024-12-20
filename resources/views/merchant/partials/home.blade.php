@@ -33,7 +33,7 @@
                                     <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
                                     <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
                                 @endif
-                            </p>  
+                            </p>
                             <a href="{{ route('products.edit', ['id' => $product->product_id]) }}" class="btn btn-custom btn-sm w-100 mt-3">Edit</a>
                         </div>
                     </div>
@@ -46,7 +46,7 @@
                 <div class="card-body d-flex justify-content-center align-items-center" style="height: 100%; flex-direction: column;">
                     <a href="javascript:void(0);" id="openModalButton" class="btn btn-link-custom" style="border: none; background: none;">
                         <i class="fa fa-plus" style="font-size: 3rem;"></i>
-                    </a> 
+                    </a>
                     <span class="mt-2">Add Product</span> <!-- Optional label -->
                 </div>
             </div>

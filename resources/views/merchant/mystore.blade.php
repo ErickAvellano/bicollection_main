@@ -268,12 +268,12 @@
         cursor: pointer;
         font-size: 16px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        width: 120px;  
+        width: 120px;
         text-align: center;
     }
 
     .chat-btn:hover {
-        background-color: #218838; 
+        background-color: #218838;
     }
 
     /* Chat Modal (Optional) */
@@ -308,19 +308,19 @@
         color: #333;
     }
     /* .product-card {
-        width: 13rem; 
+        width: 13rem;
         height: auto;
-        margin-bottom: 15px; 
+        margin-bottom: 15px;
     }
     .product-card img {
         width: 100%;
-        height: 180px; 
+        height: 180px;
         object-fit: cover;
         border-radius: 5px 5px 0 0;
     }
 
     .product-card .card-body {
-        padding: 8px; 
+        padding: 8px;
     }
 
     .product-card .card-title {
@@ -334,7 +334,7 @@
     }
     .featured-products-container,
     .allproduct-products-container {
-        padding: 10px 0; 
+        padding: 10px 0;
     }
 
     /* Adjusting row spacing */
@@ -347,13 +347,13 @@
     .btn-link-custom{
         color:#218838;
         border: none;
-        outline: none; 
-        box-shadow: none; 
+        outline: none;
+        box-shadow: none;
     }
     .btn .btn-link-custom:focus,
     .btn .btn-link-custom:active {
         outline: none;
-        box-shadow: none; 
+        box-shadow: none;
     }
     .floating-buttons {
         position: fixed;
@@ -366,12 +366,12 @@
         gap: 15px;
     }
 
-   
+
     .btn-add-product {
-        background-color: #218838; 
+        background-color: #218838;
         color: white;
         padding: 10px 20px;
-        border-radius: 30px; 
+        border-radius: 30px;
         border: none;
         font-size: 16px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -380,7 +380,7 @@
         align-items: center;
     }
 
-   
+
     .btn-settings {
         background-color: #218838;
         color: white;
@@ -397,7 +397,7 @@
 
 
     .btn-add-product:hover, .btn-settings:hover {
-        background-color: #1a692b; 
+        background-color: #1a692b;
     }
 
     .modal {
@@ -429,10 +429,10 @@
         right: 20px;
         top: 20px;
         cursor: pointer;
-        background: none; 
+        background: none;
         border: none;
-        font-size: 20px; 
-        color: #333; 
+        font-size: 20px;
+        color: #333;
         padding: 5px;
         outline: none;
         font-size:30px;
@@ -448,18 +448,18 @@
         object-fit: cover;
     }
     .btn-custom {
-        background-color: #228b22; 
-        border-color: #228b22; 
-        color: #fff; 
+        background-color: #228b22;
+        border-color: #228b22;
+        color: #fff;
     }
     .btn-custom:hover,
     .btn-custom:focus {
-        background-color: #fafafa;; 
-        border-color: #228b22;; 
+        background-color: #fafafa;;
+        border-color: #228b22;;
         color: black;
     }
     .btn-select{
-        border-color: #228b22; 
+        border-color: #228b22;
         color: #333;
     }
 
@@ -475,8 +475,8 @@
         bottom: 20px;
         right: 20px;
         z-index: 10;
-        gap: 10px; 
-        flex-direction: row; 
+        gap: 10px;
+        flex-direction: row;
     }
     .modal-backdrop{
         display: none;
@@ -560,19 +560,19 @@
     }
     .nav-tabs .nav-link {
         color: black !important;
-        background-color: transparent !important; 
+        background-color: transparent !important;
     }
 
     /* Active state for the clicked tab */
     .nav-tabs .nav-link.active {
         color: #228b22 !important;
-        font-weight: bold; 
-        background-color: transparent !important; 
+        font-weight: bold;
+        background-color: transparent !important;
     }
 
     /* Hover effect (optional) */
     .nav-tabs .nav-link:hover {
-        color: #228b22 !important; 
+        color: #228b22 !important;
     }
 
     .card-img-top {
@@ -995,7 +995,7 @@
             });
         });
         </script>
-        
+
     <!--  Script for Featured Product Selection -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -1052,80 +1052,94 @@
         });
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Iterate over both card elements (1 and 2)
-            [1, 2].forEach(function(cardNumber) {
-                // Define elements for the current card
-                const card = document.getElementById(`card${cardNumber}`);
-                const triggerEdit = document.getElementById(`triggerEdit${cardNumber}`);
-                const addImage = document.getElementById(`addImage${cardNumber}`);
-                const fileInput = document.getElementById(`imageUpload${cardNumber}`);
-                const form = document.getElementById(`form${cardNumber}`);
-                const editButtons = document.getElementById(`editButtons${cardNumber}`);
-                const cancelButton = document.getElementById(`cancelImage${cardNumber}`);
-                const changeButton = document.getElementById(`changeImage${cardNumber}`);
+       document.addEventListener('DOMContentLoaded', function () {
+        const tabContentContainer = document.getElementById('tabContentContainer'); // Parent container for dynamic content
 
-                // Helper function to toggle form visibility
-                function toggleFormVisibility(show) {
-                    form.style.display = show ? 'block' : 'none';
-                    editButtons.style.display = show ? 'flex' : 'none';
-                    triggerEdit.style.display = show ? 'none' : 'block';
-                    addImage.style.display = show ? 'none' : 'inline-block';
+        // Function to initialize functionality for the cards
+        function initializeCardFunctionality(cardNumber) {
+            const card = document.getElementById(`card${cardNumber}`);
+            const triggerEdit = document.getElementById(`triggerEdit${cardNumber}`);
+            const addImage = document.getElementById(`addImage${cardNumber}`);
+            const fileInput = document.getElementById(`imageUpload${cardNumber}`);
+            const form = document.getElementById(`form${cardNumber}`);
+            const editButtons = document.getElementById(`editButtons${cardNumber}`);
+            const cancelButton = document.getElementById(`cancelImage${cardNumber}`);
+            const changeButton = document.getElementById(`changeImage${cardNumber}`);
+
+            // Helper function to toggle form visibility
+            function toggleFormVisibility(show) {
+                form.style.display = show ? 'block' : 'none';
+                editButtons.style.display = show ? 'flex' : 'none';
+                if (triggerEdit) triggerEdit.style.display = show ? 'none' : 'block';
+                if (addImage) addImage.style.display = show ? 'none' : 'inline-block';
+            }
+
+            // Show the form when "Edit" button is clicked
+            triggerEdit?.addEventListener('click', function () {
+                toggleFormVisibility(true);
+            });
+
+            // Trigger file input when "Add Image" button is clicked
+            addImage?.addEventListener('click', function () {
+                fileInput.click();
+            });
+
+            // Trigger file input when "Change Image" button is clicked
+            changeButton?.addEventListener('click', function () {
+                fileInput.click();
+            });
+
+            // Handle file input change for preview
+            fileInput?.addEventListener('change', function (event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        // Set the background image for the card
+                        card.style.backgroundImage = `url('${e.target.result}')`;
+                        card.style.backgroundSize = 'cover';
+
+                        // Show the edit buttons
+                        toggleFormVisibility(true);
+                    };
+                    reader.readAsDataURL(file); // Read the file for preview
                 }
+            });
 
-                // Show the form when "Edit" button is clicked
-                triggerEdit?.addEventListener('click', function() {
-                    toggleFormVisibility(true);
-                });
+            // Handle "Cancel" button click
+            cancelButton?.addEventListener('click', function () {
+                fileInput.value = ''; // Clear the file input
+                toggleFormVisibility(false); // Hide form and show "Edit" button
+            });
 
-                // Trigger file input when "Add Image" button is clicked
-                addImage?.addEventListener('click', function() {
-                    fileInput.click();
-                });
+            // Handle form submission
+            form?.addEventListener('submit', function (event) {
+                if (!fileInput.files.length) {
+                    event.preventDefault(); // Prevent form submission if no file is selected
+                    alert('Please select an image before saving.');
+                }
+            });
+        }
 
-                // Trigger file input when "Change Image" button is clicked
-                changeButton?.addEventListener('click', function() {
-                    fileInput.click();
-                });
-
-                // Handle file input change for preview
-                fileInput?.addEventListener('change', function(event) {
-                    const file = event.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            // Set the background image for the card
-                            card.style.backgroundImage = `url('${e.target.result}')`;
-                            card.style.backgroundSize = 'cover';
-
-                            // Show the edit buttons
-                            toggleFormVisibility(true);
-                        };
-                        reader.readAsDataURL(file); // Read the file for preview
-                    }
-                });
-
-                // Handle "Cancel" button click
-                cancelButton?.addEventListener('click', function() {
-                    fileInput.value = ''; // Clear the file input
-                    toggleFormVisibility(false); // Hide form and show "Edit" button
-                });
-
-                // Handle form submission
-                form?.addEventListener('submit', function(event) {
-                    if (!fileInput.files.length) {
-                        event.preventDefault(); // Prevent form submission if no file is selected
-                        alert('Please select an image before saving.');
-                    }
-                });
+        // Handle dynamically loaded content
+        tabContentContainer?.addEventListener('DOMNodeInserted', function () {
+            [1, 2].forEach(function (cardNumber) {
+                initializeCardFunctionality(cardNumber); // Initialize functionality for each card
             });
         });
+
+        // Initialize functionality for the initial load
+        [1, 2].forEach(function (cardNumber) {
+            initializeCardFunctionality(cardNumber);
+        });
+    });
+
     </script>
     <script>
         $(document).ready(function() {
             // Show the modal if contact number or MOP is not set
             @if(!$merchant->contact_number || !$merchantMop)
-                $('#contactMopModal').fadeIn(); 
+                $('#contactMopModal').fadeIn();
             @endif
             //Close the modal
             $('.custom-close, .btn-secondary').on('click', function() {
