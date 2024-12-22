@@ -169,7 +169,7 @@
     </style>
 @endsection
 @section('content')
-<div class="container">
+<div class="container mb-5">
     <!-- Product Preview -->
     <div class="box product-preview">
         <h2>Product Preview</h2>
@@ -236,7 +236,7 @@
             <div style="background-color: black;" data-color="black"></div>
             <div style="background-color: pink;" data-color="pink"></div>
         </div>
-        
+
         <label>Body</label>
         <div class="color-options" id="body-options">
             <div style="background-color: red;" data-color="red"></div>
@@ -297,16 +297,16 @@
         button.addEventListener('click', function() {
             // Show the pattern overlay again (in case it was hidden)
             patternOverlay.style.display = 'block';
-            
+
             // Remove the selected class from all buttons
             patternButtons.forEach(btn => btn.classList.remove('selected'));
-            
+
             // Add the selected class to the clicked button
             this.classList.add('selected');
-            
+
             // Get the pattern name from the button's text content (Dot, Stripe, Flower)
             const pattern = this.textContent.toLowerCase();
-            
+
             // Apply the selected pattern to the overlay path
             patternPath.setAttribute('fill', `url(#${pattern}-pattern)`);
         });
@@ -323,7 +323,7 @@
         removePatternBtn.addEventListener('click', function() {
             // Hide the pattern overlay by setting its display property to 'none'
             patternOverlay.style.display = 'none';
-            
+
             // Reset the pattern path (remove the applied pattern)
             patternPath.setAttribute('fill', 'none');
         });

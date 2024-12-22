@@ -359,7 +359,7 @@
                 <p class="mb-1" style="margin-right: 10px;">
                     <strong>Shipping Address:</strong>
                     <i class="fa-solid fa-truck-fast custom-icon"></i>
-                
+
                     @if ($defaultAddress)
                         {{ $defaultAddress->house_street ?? '' }}, {{ $defaultAddress->barangay ?? '' }},
                         {{ $defaultAddress->city ?? '' }}, {{ $defaultAddress->province ?? '' }},
@@ -399,7 +399,7 @@
                     <p class="product-variation" data-variation-id="{{ $cartItem->product->variations->where('product_variation_id', $cartItem->product_variation_id)->first()->product_variation_id ?? '' }}">
                         Variation:
                         {{ $cartItem->product->variations->where('product_variation_id', $cartItem->product_variation_id)->first()->variation_name ?? 'Default' }}
-                    </p>                    
+                    </p>
                 </div>
 
                 <!-- Product Price -->
@@ -532,12 +532,12 @@
                     @csrf
                     <!-- Option for Registered Address -->
                     <div class="form-check mb-3 custom-radio">
-                        <input 
-                            class="form-check-input" 
-                            type="radio" 
-                            name="addressOption" 
-                            id="defaultAddress" 
-                            value="default" 
+                        <input
+                            class="form-check-input"
+                            type="radio"
+                            name="addressOption"
+                            id="defaultAddress"
+                            value="default"
                             {{ !$defaultAddress ? 'disabled' : 'checked' }}>
 
                         <label class="form-check-label" for="defaultAddress">
@@ -1287,7 +1287,7 @@
                     return;
                 }
 
-                let cartIdentifier = cartId ? cartId : cartIds; 
+                let cartIdentifier = cartId ? cartId : cartIds;
 
                 let totalPaymentElement = document.querySelector('.summary-total p.total-amount');
                 let totalPayment = totalPaymentElement ? parseFloat(totalPaymentElement.innerText.replace('₱', '').replace(',', '')) : 0;
@@ -1316,12 +1316,7 @@
                 const cartId = cartIdInput ? cartIdInput.value : null;
                 const cartIds = cartIdsInput ? cartIdsInput.value : null;
 
-                if (!cartId && !cartIds) {
-                    alert('Cart ID is missing.');
-                    return;
-                }
-
-                let cartIdentifier = cartId ? cartId : cartIds; 
+                let cartIdentifier = cartId ? cartId : cartIds;
 
                 const orderData = {
                     merchant_id: "{{ $merchantId }}",
