@@ -30,6 +30,15 @@
     .card-body{
         padding:20px;
     }
+    .btn-link{
+        text-decoration:none;
+        font-weight: bold;
+        color:#333;
+    }
+    .btn-link:hover{
+        font-weight: bold;
+        color: #228b22;
+    }
 
 </style>
 @endsection
@@ -64,7 +73,7 @@
                                 <p class="mb-0"><strong>Product Name:</strong> {{ $orderData['order_items'][0]->product_name }}</p>
                                 <p class="mb-0"><strong>Variation:</strong> {{ $orderData['order_items'][0]->variation->variation_name ?? 'N/A' }}</p>
                                 <p class="mb-0"><strong>Quantity:</strong> {{ $orderData['order_items'][0]->quantity }}</p>
-                                <p class="mb-0"><strong>Total:</strong> ₱{{ number_format($orderData['order_items'][0]->subtotal, 2) }}</p>  
+                                <p class="mb-0"><strong>Price:</strong> {{ $orderData['order_items'][0]->subtotal}}</p>
                             </div>
                             <div class="col-md-4 text-end">
                                 <p class="mb-0" id="orderStatus"><strong>Order Status:</strong> {{ ucfirst($orderData['order_status']) }}</p>
@@ -73,6 +82,37 @@
                         </div>
                     </div>
                 </div>
+            
+                <!-- Check if there are additional products -->
+                @if (count($orderData['order_items']) > 1)
+            
+                    <!-- Hidden container for additional products -->
+                    <div id="additional-products" style="display: none; margin-top: 20px;">
+                        @foreach ($orderData['order_items'] as $index => $orderItem)
+                            @if ($index > 0) <!-- Skip the first product -->
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    <img src="{{ $orderItem->product->images[0]->product_img_path1 ? asset('storage/' . $orderItem->product->images[0]->product_img_path1) : 'https://via.placeholder.com/200x200.png?text=Product+Image' }}" alt="Product Image" class="product-img">
+                                </div>
+                                <div class="col-md-8">
+                                    <p class="mb-0"><strong>Product ID:</strong> {{ $orderItem->product_id }}</p>
+                                    <p class="mb-0"><strong>Product Name:</strong> {{ $orderItem->product_name }}</p>
+                                    <p class="mb-0"><strong>Variation:</strong> {{ $orderItem->variation->variation_name ?? 'N/A' }}</p>
+                                    <p class="mb-0"><strong>Quantity:</strong> {{ $orderItem->quantity }}</p>
+                                    <p class="mb-0"><strong>Price:</strong> {{ $orderData['order_items'][0]->subtotal}}</p>
+                                </div>
+                            </div>
+                            @endif
+                        @endforeach
+                    </div>
+                    <!-- Button to toggle additional products -->
+                    <div class="text-center mt-3">
+                        <button class="btn btn-link p-0" id="view-more-products-btn">View More Products</button>
+                    </div>
+                @endif
+            </div>
+            <div class="card-footer text-end">
+                <strong>Total:</strong> ₱{{ number_format($orderData['total_amount'], 2) }}
             </div>
         </div>
         
@@ -204,17 +244,17 @@
 @section('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const viewAdditionalProductsBtn = document.getElementById('view-additional-products-btn');
+        const viewMoreProductsBtn = document.getElementById('view-more-products-btn');
         const additionalProductsContainer = document.getElementById('additional-products');
 
-        if (viewAdditionalProductsBtn) {
-            viewAdditionalProductsBtn.addEventListener('click', function () {
+        if (viewMoreProductsBtn) {
+            viewMoreProductsBtn.addEventListener('click', function () {
                 if (additionalProductsContainer.style.display === 'none') {
                     additionalProductsContainer.style.display = 'block';
-                    viewAdditionalProductsBtn.innerText = 'Hide Additional Product(s)';
+                    viewMoreProductsBtn.innerText = 'Hide More Products';
                 } else {
                     additionalProductsContainer.style.display = 'none';
-                    viewAdditionalProductsBtn.innerText = 'View Additional Product(s)';
+                    viewMoreProductsBtn.innerText = 'View More Products';
                 }
             });
         }
