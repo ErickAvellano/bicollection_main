@@ -71,7 +71,9 @@
                                 <p><strong>Order ID:</strong> {{ $orderData['order_id'] }}</p>
                                 <p class="mb-0"><strong>Product ID:</strong> {{ $orderData['order_items'][0]->product_id }}</p>
                                 <p class="mb-0"><strong>Product Name:</strong> {{ $orderData['order_items'][0]->product_name }}</p>
-                                <p class="mb-0"><strong>Variation:</strong> {{ $orderData['order_items'][0]->variation->variation_name ?? 'N/A' }}</p>
+                                    @if ($orderData['order_items'][0]->variation->variation_name ?? 'N/A' !== '<default>')
+                                        <p class="mb-0"><strong>Variation:</strong> {{ $orderData['order_items'][0]->variation->variation_name }}</p>
+                                    @endif
                                 <p class="mb-0"><strong>Quantity:</strong> {{ $orderData['order_items'][0]->quantity }}</p>
                                 <p class="mb-0"><strong>Price:</strong> {{ $orderData['order_items'][0]->subtotal}}</p>
                             </div>
@@ -97,7 +99,9 @@
                                 <div class="col-md-8">
                                     <p class="mb-0"><strong>Product ID:</strong> {{ $orderItem->product_id }}</p>
                                     <p class="mb-0"><strong>Product Name:</strong> {{ $orderItem->product_name }}</p>
-                                    <p class="mb-0"><strong>Variation:</strong> {{ $orderItem->variation->variation_name ?? 'N/A' }}</p>
+                                        @if ($orderData['order_items'][0]->variation->variation_name ?? 'N/A' !== '<default>')
+                                            <p class="mb-0"><strong>Variation:</strong> {{ $orderData['order_items'][0]->variation->variation_name }}</p>
+                                        @endif
                                     <p class="mb-0"><strong>Quantity:</strong> {{ $orderItem->quantity }}</p>
                                     <p class="mb-0"><strong>Price:</strong> {{ $orderData['order_items'][0]->subtotal}}</p>
                                 </div>
