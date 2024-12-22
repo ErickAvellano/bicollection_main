@@ -52,9 +52,9 @@
                         <img src="{{ $orderData['order_items'][0]->product->images[0]->product_img_path1 ? asset('storage/' . $orderData['order_items'][0]->product->images[0]->product_img_path1) : 'https://via.placeholder.com/200x200.png?text=Product+Image' }}" alt="Product Image" class="product-img">
                     </div>
                     <!-- Product Details -->
-                    <div class="col-md-8">
+                    <div class="col-md-8 mb-2">
                         <div class="row">
-                            <div class="col-md-6 mt-2">
+                            <div class="col-md-8 mt-2">
                                 <p><strong>Order ID:</strong> {{ $orderData['order_id'] }}</p>
                                 <p class="mb-0"><strong>Product ID:</strong> {{ $orderData['order_items'][0]->product_id }}</p>
                                 <p class="mb-0"><strong>Product Name:</strong> {{ $orderData['order_items'][0]->product_name }}</p>
@@ -62,7 +62,7 @@
                                 <p class="mb-0"><strong>Quantity:</strong> {{ $orderData['order_items'][0]->quantity }}</p>
                                 <p class="mb-0"><strong>Total:</strong> ₱{{ number_format($orderData['order_items'][0]->subtotal, 2) }}</p>  
                             </div>
-                            <div class="col-md-6 text-end">
+                            <div class="col-md-4 text-end">
                                 <p class="mb-0" id="orderStatus"><strong>Order Status:</strong> {{ ucfirst($orderData['order_status']) }}</p>
                                 <p class="mb-0"><strong>Mode of Payment:</strong> <span id="payment-method">{{ $orderData['payment_method'] }}</span></p>
                             </div>
