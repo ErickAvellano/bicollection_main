@@ -20,7 +20,7 @@
     }
     .product-img {
         width:100%;
-        height: 280px;
+        height: 200px;
         display: block;
         border-radius: 5px;
     }
@@ -48,7 +48,7 @@
                 <h4 class="card-title">Order Details</h4>
                 <div class="row">
                     <!-- Product Image -->
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <img src="{{ $orderData['order_items'][0]->product->images[0]->product_img_path1 ? asset('storage/' . $orderData['order_items'][0]->product->images[0]->product_img_path1) : 'https://via.placeholder.com/200x200.png?text=Product+Image' }}" alt="Product Image" class="product-img">
                     </div>
                     <!-- Product Details -->
@@ -56,21 +56,25 @@
                         <div class="row">
                             <div class="col-md-6 mt-2">
                                 <p><strong>Order ID:</strong> {{ $orderData['order_id'] }}</p>
-                                <p><strong>Product ID:</strong> {{ $orderData['order_items'][0]->product_id }}</p>
-                                <p><strong>Product Name:</strong> {{ $orderData['order_items'][0]->product_name }}</p>
-                                <p><strong>Variation:</strong> {{ $orderData['order_items'][0]->variation->variation_name ?? 'N/A' }}</p>
-                                <p><strong>Quantity:</strong> {{ $orderData['order_items'][0]->quantity }}</p>
-                                <p><strong>Total:</strong> ₱{{ $orderData['total_amount'] }}</p>
-                                <p><strong>Mode of Payment:</strong> <span id="payment-method">{{ $orderData['payment_method'] }}</span></p>
+                                <p class="mb-0"><strong>Product ID:</strong> {{ $orderData['order_items'][0]->product_id }}</p>
+                                <p class="mb-0"><strong>Product Name:</strong> {{ $orderData['order_items'][0]->product_name }}</p>
+                                <p class="mb-0"><strong>Variation:</strong> {{ $orderData['order_items'][0]->variation->variation_name ?? 'N/A' }}</p>
+                                <p class="mb-0"><strong>Quantity:</strong> {{ $orderData['order_items'][0]->quantity }}</p>
+                                <p class="mb-0"><strong>Total:</strong> ₱{{ number_format($orderData['order_items'][0]->subtotal, 2) }}</p>  
                             </div>
                             <div class="col-md-6 text-end">
-                                <p id="orderStatus"><strong>Order Status:</strong> {{ ucfirst($orderData['order_status']) }}</p>
+                                <p class="mb-0" id="orderStatus"><strong>Order Status:</strong> {{ ucfirst($orderData['order_status']) }}</p>
+                                <p class="mb-0"><strong>Mode of Payment:</strong> <span id="payment-method">{{ $orderData['payment_method'] }}</span></p>
                             </div>
                         </div>
+                        
                     </div>
+                    <hr>
                 </div>
             </div>
         </div>
+        
+        
         <!-- Shipping Details Card -->
         <div class="card mb-3">
             <div class="card-body">
@@ -196,6 +200,24 @@
 @endsection
 
 @section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const viewAdditionalProductsBtn = document.getElementById('view-additional-products-btn');
+        const additionalProductsContainer = document.getElementById('additional-products');
+
+        if (viewAdditionalProductsBtn) {
+            viewAdditionalProductsBtn.addEventListener('click', function () {
+                if (additionalProductsContainer.style.display === 'none') {
+                    additionalProductsContainer.style.display = 'block';
+                    viewAdditionalProductsBtn.innerText = 'Hide Additional Product(s)';
+                } else {
+                    additionalProductsContainer.style.display = 'none';
+                    viewAdditionalProductsBtn.innerText = 'View Additional Product(s)';
+                }
+            });
+        }
+    });
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const reviewPaymentBtn = document.querySelector('#reviewPaymentBtn');
