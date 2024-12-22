@@ -27,6 +27,10 @@
     .custom-p {
         margin-left: 10px;
     }
+    .card-body{
+        padding:20px;
+    }
+
 </style>
 @endsection
 
