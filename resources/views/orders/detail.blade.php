@@ -71,9 +71,7 @@
                                 <p class="mb-0"><strong>Mode of Payment:</strong> <span id="payment-method">{{ $orderData['payment_method'] }}</span></p>
                             </div>
                         </div>
-                        
                     </div>
-                    <hr>
                 </div>
             </div>
         </div>
