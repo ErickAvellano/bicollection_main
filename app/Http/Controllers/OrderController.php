@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\BicollectionSales;
 use App\Models\Payment;
 use App\Models\Cart;
+use App\Models\ProductVariation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -35,8 +36,8 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $currentMerchantId = Auth::id();
-        $status = $request->get('status', 'pending'); 
-        $sort = $request->get('sort', ''); 
+        $status = $request->get('status', 'pending');
+        $sort = $request->get('sort', '');
 
         // Define an array to store the counts for each status
         $statusCounts = [
@@ -62,10 +63,10 @@ class OrderController extends Controller
         }
 
         if ($sort === 'GCash' || $sort === 'COD') {
-            // Filter orders by payment method 
+            // Filter orders by payment method
             $query->whereHas('payment', function ($q) use ($sort) {
                 $q->where('payment_method', $sort);
-            })->orderBy('created_at', 'desc'); 
+            })->orderBy('created_at', 'desc');
         } elseif ($sort === 'date') {
             // Sort by creation date only
             $query->orderBy('created_at', 'desc');
@@ -91,7 +92,7 @@ class OrderController extends Controller
         $validator = Validator::make($decodedRequest, [
             'merchant_id' => 'required|integer',
             'merchant_mop_id' => 'required|integer',
-            'cart_id' => 'required|integer',
+            'cart_id' => 'required|string', // Accept string for multiple cart IDs
             'shipping_address' => 'required|string',
             'contact_number' => 'required|string|max:20',
             'total_amount' => 'required|numeric',
@@ -116,7 +117,8 @@ class OrderController extends Controller
 
         try {
             $customerId = Auth::id();
-            $cartId = $validatedData['cart_id'];
+            $cartIds = explode(',', $validatedData['cart_id']); // Split cart IDs into an array
+            $cartIdString = implode(',', $cartIds);
 
             // Start transaction
             DB::beginTransaction();
@@ -126,7 +128,7 @@ class OrderController extends Controller
                 'customer_id' => $customerId,
                 'merchant_id' => $validatedData['merchant_id'],
                 'merchant_mop_id' => $validatedData['merchant_mop_id'],
-                'cart_id' => $cartId,
+                'cart_id' => $cartIdString,
                 'shipping_address' => $validatedData['shipping_address'],
                 'contact_number' => $validatedData['contact_number'],
                 'total_amount' => $validatedData['total_amount'],
@@ -134,39 +136,68 @@ class OrderController extends Controller
                 'order_status' => 'pending',
             ]);
 
-            // Insert order items
+            // Initialize order items array
             $orderItems = [];
-                foreach ($validatedData['order_items'] as $item) {
+
+            // Process each cart ID
+            foreach ($cartIds as $cartId) {
+                $cartItems = Cart::where('customer_id', $customerId)
+                    ->where('cart_id', $cartId)
+                    ->where('status', 'active')
+                    ->get();
+
+                // Ensure there are items in the cart
+                if ($cartItems->isEmpty()) {
+                    throw new Exception("No active items found for Cart ID: {$cartId}");
+                }
+
+                // Insert order items
+                foreach ($cartItems as $item) {
+                    // Fetch product details
+                    $product = Product::find($item->product_id);
+
+                    // Fetch variation details if applicable
+                    $variationName = null;
+                    if (!empty($item->product_variation_id)) {
+                        $variation = ProductVariation::find($item->product_variation_id);
+                        $variationName = $variation ? $variation->variation_name : null;
+                    }
+
+                    // Calculate subtotal
+                    $productPrice = $product ? $product->price : 0;
+                    $subtotal = $productPrice * $item->quantity;
+
+                    // Create the order item
                     $orderItem = OrderItem::create([
                         'order_id' => $order->order_id,
-                        'product_id' => $item['product_id'],
-                        'product_name' => $item['product_name'],
-                        'product_price' => $item['product_price'],
-                        'variation_id' => $item['variation_id'] ?? null,
-                        'variation_name' => $item['variation_name'] ?? null,
-                        'quantity' => $item['quantity'],
-                        'subtotal' => $item['subtotal'],
+                        'product_id' => $item->product_id,
+                        'product_name' => $product ? $product->product_name : null,
+                        'product_price' => $productPrice,
+                        'variation_id' => $item->product_variation_id ?? null,
+                        'variation_name' => $variationName,
+                        'quantity' => $item->quantity,
+                        'subtotal' => $subtotal,
                     ]);
                     $orderItems[] = $orderItem;
 
                     // Reduce product quantity
-                    $product = Product::find($item['product_id']);
                     if ($product) {
-                        $product->quantity_item -= $item['quantity'];
+                        $product->quantity_item -= $item->quantity;
 
-                        // Ensure quantity doesn't go negative
+                        // Ensure stock doesn't go negative
                         if ($product->quantity_item < 0) {
-                            throw new Exception("Product {$product->product_name} has insufficient stock.");
+                            throw new Exception("Insufficient stock for product: {$product->product_name}");
                         }
                         $product->save();
                     }
                 }
+            }
 
             // Set payment status based on payment method
             $paymentStatus = $validatedData['payment_method'] === 'GCash' ? 'To-pay' : 'Pending';
 
             // Create a payment record
-            $paymentData = [
+            $payment = Payment::create([
                 'order_id' => $order->order_id,
                 'customer_id' => $customerId,
                 'payment_method' => $validatedData['payment_method'],
@@ -174,13 +205,10 @@ class OrderController extends Controller
                 'shipping_fee' => 58,
                 'order_status' => 'pending',
                 'payment_status' => $paymentStatus,
-            ];
+            ]);
 
-            // Insert the payment record
-            Payment::create($paymentData);
-
-            // Clear active cart items for the customer
-            Cart::where('customer_id', $customerId)->where('cart_id', $cartId)->where('status', 'active')->delete();
+            // Clear all processed cart items
+            Cart::where('customer_id', $customerId)->whereIn('cart_id', $cartIds)->where('status', 'active')->delete();
 
             // Commit the transaction
             DB::commit();
@@ -204,10 +232,10 @@ class OrderController extends Controller
             }
         } catch (Exception $e) {
             DB::rollBack();
-
-            return response()->json(['success' => false, 'message' => 'An error occurred while placing the order.'], 500);
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }
+
     // Show payment page
     public function showPayment(Order $order)
     {
@@ -242,7 +270,7 @@ class OrderController extends Controller
             }
             $orders = Order::with(['customer', 'orderItems.productImg', 'payment'])
                 ->where('merchant_id', $currentMerchantId)
-                ->where('order_status', 'pending') 
+                ->where('order_status', 'pending')
                 ->get();
 
             if ($orders->isEmpty()) {
@@ -355,8 +383,8 @@ class OrderController extends Controller
     {
         // Validate the request
         $request->validate([
-            'order_id' => 'required|exists:order,order_id',  
-            'payment_status' => 'required|string'  
+            'order_id' => 'required|exists:order,order_id',
+            'payment_status' => 'required|string'
         ]);
 
         // Retrieve the order ID and payment status from the request
@@ -692,75 +720,75 @@ class OrderController extends Controller
     {
         $orderId = $request->input('order_id');
         $paymentId = $request->input('payment_id');
-    
+
         try {
             // Start a database transaction
             DB::beginTransaction();
-    
+
             // Update order status
             DB::table('order')
                 ->where('order_id', $orderId)
                 ->update(['order_status' => 'to-refund', 'updated_at' => now()]);
-    
+
             // Update payment status
             DB::table('payment')
                 ->where('payment_id', $paymentId)
                 ->update(['payment_status' => 'to-refund', 'updated_at' => now()]);
-    
+
             // Create a new refund request record
             $refundRequest = RefundRequest::create([
                 'payment_id' => $paymentId,
                 'order_id' => $orderId,
                 'refund_status' => 'Pending',
             ]);
-    
+
             // Retrieve all items in the order
             $orderItems = DB::table('order_item')->where('order_id', $orderId)->get();
-    
+
             // Restore the product quantities
             foreach ($orderItems as $item) {
                 $product = DB::table('product')->where('product_id', $item->product_id)->first();
-    
+
                 if ($product) {
                     // Add back the quantity from the order item
                     $newQuantity = $product->quantity_item + $item->quantity;
-    
+
                     // Update the product quantity in the product table
                     DB::table('product')
                         ->where('product_id', $item->product_id)
                         ->update(['quantity_item' => $newQuantity, 'updated_at' => now()]);
                 }
             }
-    
+
             // Retrieve the order and merchant's email information
             $order = DB::table('order')->where('order_id', $orderId)->first();
-    
+
             if (!$order) {
                 DB::rollBack();
                 return response()->json(['success' => false, 'message' => 'Order not found.']);
             }
-    
+
             // Fetch the merchant's data separately
             $merchant = DB::table('merchant')
                 ->where('merchant_id', $order->merchant_id)
                 ->first();
-    
+
             if (!$merchant) {
                 DB::rollBack();
                 return response()->json(['success' => false, 'message' => 'Merchant not found.']);
             }
-    
+
             // Send email to the merchant with the order and merchant data
             Mail::to($merchant->email)->send(new RefundRequestMail($order, $merchant));
-    
+
             // Commit the transaction
             DB::commit();
-    
+
             return response()->json(['success' => true, 'message' => 'Cancellation request submitted successfully.']);
         } catch (Exception $e) {
             // Rollback the transaction in case of an error
             DB::rollBack();
-    
+
             return response()->json(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
         }
     }
