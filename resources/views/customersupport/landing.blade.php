@@ -19,7 +19,20 @@
         .nav-pills, .search-container, .desktop-nav{
             display:none;
         }
+    
+        @media only screen and (min-width: 360px) and (max-width: 425px) {
+        /* Styles for devices in this range */
+        body {
+            font-size: 12px;
+        }
+        .btn{
+            --bs-btn-font-size: 0.9rem;
+        }
+        .navbar-brand{
+            font-size: 1.2rem;
+        }
 
+    }
 </style>
 
 @endsection

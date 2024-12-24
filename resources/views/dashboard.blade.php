@@ -591,6 +591,12 @@
         .popular-product-header .line {
             display: none;
         }
+        .btn{
+            --bs-btn-font-size: 0.9rem;
+        }
+        .navbar-brand{
+            font-size: 1.2rem;
+        }
 
     }
 </style>
