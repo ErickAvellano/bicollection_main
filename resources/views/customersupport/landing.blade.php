@@ -31,6 +31,9 @@
         .navbar-brand{
             font-size: 1.2rem;
         }
+        .mobile-nav{
+            display:none;
+        }
 
     }
 </style>
