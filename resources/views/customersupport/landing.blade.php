@@ -77,6 +77,11 @@
         .support-search-container {
             width: 250px; /* Make it responsive for smaller screens */
         }
+
+        .support-search-container input {
+
+            font-size: 12px;
+
     }
 </style>
 @endsection
