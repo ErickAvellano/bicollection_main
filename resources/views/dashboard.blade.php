@@ -592,19 +592,6 @@
             display: none;
         }
 
-        /* Adjust product item width and image height for mobile */
-        .product-item {
-            min-width: 120px;
-        }
-
-        .card {
-            width: 9rem;
-        }
-
-        .card-img-top {
-            height: 100px;
-        }
-
     }
 </style>
 @endsection
