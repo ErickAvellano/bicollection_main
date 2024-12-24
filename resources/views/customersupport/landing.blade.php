@@ -79,8 +79,8 @@
         }
 
         .support-search-container input {
-
             font-size: 12px;
+        }
 
     }
 </style>
