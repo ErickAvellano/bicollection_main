@@ -13,7 +13,7 @@ class CustomerSupportGuide extends Model
 
     // Define the primary key (optional if the primary key is "id")
     protected $primaryKey = 'guide_id';
-
+    public $timestamps = true; 
     // Specify the fields that are mass assignable
     protected $fillable = [
         'guide_title',
