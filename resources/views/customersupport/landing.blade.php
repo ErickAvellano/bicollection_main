@@ -69,7 +69,7 @@
     }
 
     .dropdown-item {
-        padding: 10px;
+        padding: 5px;
         font-size: 14px;
         cursor: pointer;
     }
@@ -79,7 +79,7 @@
     }
 
     .no-results {
-        padding: 10px;
+        padding: 5px;
         font-size: 14px;
         color: #999;
         cursor: default;
