@@ -70,6 +70,9 @@
         .mobile-nav {
             display: none !important;
         }
+        main{
+            padding:50px;
+        }
 
         .support-search-container {
             width: 250px; /* Make it responsive for smaller screens */
