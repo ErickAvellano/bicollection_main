@@ -18,6 +18,14 @@
         height: 350px;
     }
 
+    .nav-pills, .search-container, .desktop-nav {
+        display: none;
+    }
+
+    form {
+        margin-top: 20px;
+    }
+
     .support-search-container {
         display: flex;
         justify-content: center;
@@ -45,7 +53,6 @@
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
         outline: none;
     }
-
     #suggestions {
         max-height: 200px;
         overflow-y: auto;
@@ -76,14 +83,35 @@
         cursor: default;
     }
 
+
     @media only screen and (max-width: 425px) {
+        body {
+            font-size: 12px;
+        }
+
+        .btn {
+            --bs-btn-font-size: 0.9rem;
+        }
+
+        .navbar-brand {
+            font-size: 1.2rem;
+        }
+
+        .mobile-nav {
+            display: none !important;
+        }
+        main{
+            padding:50px;
+        }
+
         .support-search-container {
-            width: 90%;
+            width: 250px; /* Make it responsive for smaller screens */
         }
 
         .support-search-container input {
-            font-size: 14px;
+            font-size: 12px;
         }
+
     }
 </style>
 @endsection
