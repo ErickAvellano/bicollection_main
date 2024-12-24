@@ -75,7 +75,7 @@
         <img src="{{ asset('images/assets/bicollectionlogowname2.png') }}" alt="" class="footer-logo">
         <p>BiCollection is your go-to platform for authentic Bicol native products. Explore, shop, and support local merchants.</p>
       </div>
-      <div class="footer-section">
+      <div class="footer-section text-center">
         <h4>Usable Links</h4>
 
       </div>
