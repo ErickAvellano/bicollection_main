@@ -72,7 +72,7 @@
         }
 
         .support-search-container {
-            width: 90%; /* Make it responsive for smaller screens */
+            width: 250px; /* Make it responsive for smaller screens */
         }
     }
 </style>
