@@ -2,9 +2,11 @@
 
 @section('styles')
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
     body, html {
         overflow: auto;
-        margin: 0; /* Ensure no default margin */
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
     }
 
     .custom-modal {
@@ -611,7 +613,7 @@
 <div class="container">
     <div class="row mt-3">
         <div class="popular-product-header">
-            <h3>Popular Product</h3>
+            <h3>POPULAR PRODUCT</h3>
             <hr class="line">
             <div class="button-group">
                 <button id="prevBtnPopular" class="btn btn-outline-dark btn-sm mb-2">
@@ -696,7 +698,7 @@
                     <!-- Shop Details -->
                     <div class="col-md-7">
                         <div style="display: flex; align-items: center; margin-bottom:20px;">
-                            <h3 style="margin: 0;">Merchant</h3>
+                            <h3 style="margin: 0;">MERCHANT</h3>
                             <div style="flex-grow: 1; height: 1px; background-color: black; margin-left: 10px;"></div>
                         </div>
                         <div class="card" style="height: 312px; width:auto; padding:10px; background-color:#228b22; border-radius:0;">
@@ -856,7 +858,7 @@
     <div class="container recently-added-container">
         <div class="row mt-4">
             <div class="recently-product-header">
-                <h3>Recently Added</h3>
+                <h3>RECENTLY ADDED</h3>
                 <hr class="line">
                 <div class="button-group">
                     <button id="prevBtnRecentlyAdded" class="btn btn-outline-dark btn-sm mb-2">
@@ -929,7 +931,7 @@
 <div class="container">
     <div class="row mt-3">
         <div class="popular-product-header">
-            <h3>All Products</h3>
+            <h3>ALL PRODUCTS</h3>
             <hr class="line">
             <div class="button-group">
                 <button id="prevBtnProductAll" class="btn btn-outline-dark btn-sm mb-2">
