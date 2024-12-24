@@ -106,7 +106,7 @@
     <h4 class="mt-4">Hi, how can we help you?</h4>
 
     <!-- Search Form -->
-    <div class="support-search-container">
+    <div class="support-search-container" style="position: relative;">
         <span>
             <i class="fas fa-search"></i>
         </span>
@@ -129,10 +129,18 @@
 
 @include('Components.footer')
 @endsection
+
 @section('scripts')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
+        // Add CSRF token to AJAX requests
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
         // Trigger search when typing
         $('#search-query').on('input', function () {
             let query = $(this).val();
@@ -151,7 +159,7 @@
                         } else {
                             $.each(data, function (index, item) {
                                 $('#suggestions').append(`
-                                    <a class="dropdown-item" href="{{ url('/customer-support/search') }}?query=${item.guide_title}">
+                                    <a class="dropdown-item" href="{{ url('/customer-support/search') }}?query=${encodeURIComponent(item.guide_title)}">
                                         ${item.guide_title}
                                     </a>
                                 `);
@@ -175,5 +183,4 @@
         });
     });
 </script>
-
 @endsection
