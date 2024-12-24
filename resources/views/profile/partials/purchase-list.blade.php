@@ -58,12 +58,25 @@
                             </button>
                         @elseif ($purchase->order_status === 'to-ship')
                             <a href="{{ route('order.track', ['order' => $purchase->order_id]) }}" class="btn btn-secondary me-2">Track Order</a>
-                            @elseif ($purchase->order_status === 'to-received' || $purchase->order_status === 'ready')
-                            <a href="#" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#confirmReceivedModal" data-order-id="{{ $purchase->order_id }}" data-product-id="{{ $orderItem->product->product_id }}">
+                        @elseif ($purchase->order_status === 'to-received' || $purchase->order_status === 'ready')
+                                @php
+                                    $productIds = $purchase->orderItems->pluck('product_id')->implode(',');
+                                @endphp
+                            <a href="#" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#confirmReceivedModal" data-order-id="{{ $purchase->order_id }}" data-product-id="{{ $productIds }}">
                                 Item Received
                             </a>
                         @elseif ($purchase->order_status === 'to-rate')
-                            <a href="#" id="rateProductButton" class="btn btn-outline-custom me-2" data-order-id="{{ $purchase->order_id }}" data-product-id="{{ $orderItem->product->product_id }}" onclick="openReviewModal(event)">Rate Product</a>
+                                @php
+                                    $productIds = $purchase->orderItems->pluck('product_id')->implode(',');
+                                @endphp
+
+                                <a href="#" id="rateProductButton"
+                                class="btn btn-outline-custom me-2"
+                                data-order-id="{{ $purchase->order_id }}"
+                                data-product-id="{{ $productIds }}"
+                                onclick="openReviewModal(event)">
+                                    Rate Product
+                                </a>
                         @elseif ($purchase->order_status === 'cancel')
                             <span class="btn btn-danger me-2 disabled">Order Cancelled</span>
                         @elseif ($purchase->order_status === 'pending')

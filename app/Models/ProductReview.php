@@ -17,6 +17,7 @@ class ProductReview extends Model
         'product_id',
         'order_id',
         'customer_id',
+        'product_variation_id',
         'username',
         'rating',
         'merchant_service_rating',
