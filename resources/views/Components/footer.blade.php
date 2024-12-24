@@ -77,11 +77,11 @@
       </div>
       <div class="footer-section">
         <h4>Usable Links</h4>
-        
+
       </div>
 
       <!-- Terms and Policies -->
-      <div class="footer-section">
+      <div class="footer-section text-center">
         <h4>Terms and Policies</h4>
         <ul class="footer-links">
           <li><a href="privacy-policy.html">Privacy Policy</a></li>
@@ -90,7 +90,7 @@
       </div>
 
       <!-- Contact Us -->
-      <div class="footer-section">
+      <div class="footer-section text-center">
         <h4>Contact Us:</h4>
         <p>
           📍 123 Bicol Street, Legazpi City, Albay <br>
