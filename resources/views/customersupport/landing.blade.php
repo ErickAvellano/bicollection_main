@@ -45,6 +45,7 @@
         top: 50%;
         transform: translateY(-50%);
         font-size: 16px;
+        color: black;
     }
 
     .support-search-container input {
