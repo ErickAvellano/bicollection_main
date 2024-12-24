@@ -5,76 +5,95 @@
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
     body, html {
-        font-family: 'Poppins', sans-serif; /* Use Poppins font */
+        font-family: 'Poppins', sans-serif; 
+        margin: 0;
+        padding: 0;
     }
-     main {
-            padding: 80px;
-            text-align: center;
-            background-image: url({{ asset('images/assets/start-selling/startsellingbg.png') }});
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            height:350px;
-        }
-        .nav-pills, .search-container, .desktop-nav{
-            display:none;
-        }
-    
-        @media only screen and (min-width: 360px) and (max-width: 425px) {
-        /* Styles for devices in this range */
+
+    main {
+        padding: 80px;
+        text-align: center;
+        background-image: url({{ asset('images/assets/start-selling/startsellingbg.png') }});
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 350px;
+    }
+
+    .nav-pills, .search-container, .desktop-nav {
+        display: none;
+    }
+
+    form {
+        margin-top: 20px;
+    }
+
+    .search-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        margin: 20px auto;
+        width: 500px;
+    }
+
+    .search-container span {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #888;
+        font-size: 16px;
+    }
+
+    .search-container input {
+        width: 100%;
+        padding: 12px 15px 12px 40px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        outline: none;
+    }
+
+    @media only screen and (max-width: 425px) {
         body {
             font-size: 12px;
         }
-        .btn{
+
+        .btn {
             --bs-btn-font-size: 0.9rem;
         }
-        .navbar-brand{
+
+        .navbar-brand {
             font-size: 1.2rem;
         }
-        .mobile-nav{
-            display:none !important;
+
+        .mobile-nav {
+            display: none !important;
         }
 
+        .search-container {
+            width: 90%; /* Make it responsive for smaller screens */
+        }
     }
 </style>
-
 @endsection
 
 @section('content')
-<main style="text-align: center;">
+<main>
     <h4 class="mt-4">Hi, how can we help you?</h4>
 
     <!-- Search Form -->
-    <form action="#" method="GET" style="margin-top: 20px;">
-        <div style="
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            position: relative;
-            margin: 20px auto;
-            width: 500px;
-        ">
-            <span style="
-                position: absolute; 
-                left: 15px; 
-                top: 50%; 
-                transform: translateY(-50%);
-                color: #888;
-                font-size: 16px;">
+    <form action="#" method="GET">
+        <div class="search-container">
+            <span>
                 <i class="fas fa-search"></i>
             </span>
             <input 
                 type="text" 
                 name="query" 
                 placeholder="Describe your issue" 
-                style="
-                    width: 100%; 
-                    padding: 12px 15px 12px 40px; 
-                    font-size: 16px; 
-                    border: 1px solid #ddd; 
-                    border-radius: 8px; 
-                    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); 
-                    outline: none;"
                 required
             >
         </div>
@@ -86,10 +105,7 @@
     </div>
 </main>
 
-
-
 @include('Components.footer')
 @endsection
 @section('scripts')
-
 @endsection
