@@ -41,11 +41,12 @@
 
     .support-search-container span {
         position: absolute;
-        left: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 16px;
-        z-index: 10;
+        left: 15px; /* Ensure proper spacing from the left */
+        top: 50%; /* Center vertically */
+        transform: translateY(-50%); /* Align icon in the middle */
+        font-size: 16px; /* Adjust icon size */
+        color: #888; /* Icon color */
+        z-index: 11; /* Ensure it appears above the input field */
     }
 
     .support-search-container input {
