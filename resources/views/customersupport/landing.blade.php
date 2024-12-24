@@ -18,14 +18,6 @@
         height: 350px;
     }
 
-    .nav-pills, .search-container, .desktop-nav {
-        display: none;
-    }
-
-    form {
-        margin-top: 20px;
-    }
-
     .support-search-container {
         display: flex;
         justify-content: center;
@@ -53,50 +45,45 @@
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
         outline: none;
     }
+
     #suggestions {
         max-height: 200px;
         overflow-y: auto;
-        width: 100%; /* Matches the input field width */
+        position: absolute;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        width: 100%;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        display: none;
+        z-index: 1000;
     }
 
     .dropdown-item {
-        padding: 8px 16px;
+        padding: 10px;
+        font-size: 14px;
         cursor: pointer;
     }
 
     .dropdown-item:hover {
-        background-color: #f8f9fa; /* Light gray */
+        background-color: #f8f9fa;
     }
 
+    .no-results {
+        padding: 10px;
+        font-size: 14px;
+        color: #999;
+        cursor: default;
+    }
 
     @media only screen and (max-width: 425px) {
-        body {
-            font-size: 12px;
-        }
-
-        .btn {
-            --bs-btn-font-size: 0.9rem;
-        }
-
-        .navbar-brand {
-            font-size: 1.2rem;
-        }
-
-        .mobile-nav {
-            display: none !important;
-        }
-        main{
-            padding:50px;
-        }
-
         .support-search-container {
-            width: 250px; /* Make it responsive for smaller screens */
+            width: 90%;
         }
 
         .support-search-container input {
-            font-size: 12px;
+            font-size: 14px;
         }
-
     }
 </style>
 @endsection
@@ -106,19 +93,19 @@
     <h4 class="mt-4">Hi, how can we help you?</h4>
 
     <!-- Search Form -->
-    <div class="support-search-container" style="position: relative;">
+    <div class="support-search-container">
         <span>
             <i class="fas fa-search"></i>
         </span>
-        <input 
-            type="text" 
-            id="search-query" 
-            name="query" 
-            placeholder="Describe your issue" 
+        <input
+            type="text"
+            id="search-query"
+            name="query"
+            placeholder="Describe your issue"
             autocomplete="off"
             required
         >
-        <div id="suggestions" class="dropdown-menu" style="display: none; position: absolute; z-index: 1000;"></div>
+        <div id="suggestions"></div>
     </div>
 
     <!-- No Answer Section -->
@@ -153,9 +140,9 @@
                     data: { query: query },
                     success: function (data) {
                         $('#suggestions').empty().show(); // Clear and show suggestions
-                        
+
                         if (data.length === 0) {
-                            $('#suggestions').append('<a class="dropdown-item disabled">No matches found</a>');
+                            $('#suggestions').append('<div class="no-results">No matches found</div>');
                         } else {
                             $.each(data, function (index, item) {
                                 $('#suggestions').append(`
