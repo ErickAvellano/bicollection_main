@@ -581,6 +581,9 @@
         .popular-product-header .line {
             display: none;
         }
+        .btn{
+            --bs-btn-font-size: 0.9rem;
+        }
 
     }
 </style>
