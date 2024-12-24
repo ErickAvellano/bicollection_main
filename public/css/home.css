@@ -5,7 +5,7 @@ body {
     margin: 0;
 }
   .navbar {
-    background-color: red; 
+    background-color: #cfe6d5; 
     padding: 0 70px; 
     margin: 0;
     width: 100%;
@@ -15,8 +15,6 @@ body {
 .text-custom{
     color: #228b22;
 }
-
-
 
 .sticky {
     position: fixed; 
