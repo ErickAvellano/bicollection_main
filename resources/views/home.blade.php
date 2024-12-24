@@ -584,6 +584,9 @@
         .btn{
             --bs-btn-font-size: 0.9rem;
         }
+        .navbar-brand{
+            font-size: 1.3rem;
+        }
 
     }
 </style>
@@ -836,7 +839,7 @@
     <div class="container recently-added-container">
         <div class="mt-4 row">
             <div class="recently-product-header">
-                <h3>Recently Added</h3>
+                <h3>RECENTLY ADDED</h3>
                 <hr class="line">
                 <div class="button-group">
                     <button id="prevBtnRecentlyAdded" class="mb-2 btn btn-outline-dark btn-sm">
