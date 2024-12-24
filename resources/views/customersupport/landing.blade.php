@@ -5,9 +5,7 @@
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
     body, html {
-        font-family: 'Poppins', sans-serif; 
-        margin: 0;
-        padding: 0;
+        font-family: 'Poppins', sans-serif;
     }
 
     main {
@@ -28,7 +26,7 @@
         margin-top: 20px;
     }
 
-    .search-container {
+    .support-search-container {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -37,7 +35,7 @@
         width: 500px;
     }
 
-    .search-container span {
+    .support-search-container span {
         position: absolute;
         left: 15px;
         top: 50%;
@@ -46,7 +44,7 @@
         font-size: 16px;
     }
 
-    .search-container input {
+    .support-search-container input {
         width: 100%;
         padding: 12px 15px 12px 40px;
         font-size: 16px;
@@ -86,7 +84,7 @@
 
     <!-- Search Form -->
     <form action="#" method="GET">
-        <div class="search-container">
+        <div class="support-search-container">
             <span>
                 <i class="fas fa-search"></i>
             </span>
