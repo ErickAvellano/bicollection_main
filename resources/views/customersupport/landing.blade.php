@@ -62,8 +62,10 @@
         border-radius: 8px;
         width: 100%;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        display: none;
         z-index: 1000;
+        top: 100%; /* Position the dropdown below the input */
+        left: 0;
+        display: none; /* Initially hidden */
     }
 
     .dropdown-item {
@@ -82,7 +84,6 @@
         color: #999;
         cursor: default;
     }
-
 
     @media only screen and (max-width: 425px) {
         body {
@@ -149,53 +150,54 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
-        // Add CSRF token to AJAX requests
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        // Trigger search when typing
-        $('#search-query').on('input', function () {
-            let query = $(this).val();
-
-            // Show suggestions only when the query is not empty
-            if (query.length > 0) {
-                $.ajax({
-                    url: "{{ route('customersupport.autocomplete') }}",
-                    method: "GET",
-                    data: { query: query },
-                    success: function (data) {
-                        $('#suggestions').empty().show(); // Clear and show suggestions
-
-                        if (data.length === 0) {
-                            $('#suggestions').append('<div class="no-results">No matches found</div>');
-                        } else {
-                            $.each(data, function (index, item) {
-                                $('#suggestions').append(`
-                                    <a class="dropdown-item" href="{{ url('/customer-support/search') }}?query=${encodeURIComponent(item.guide_title)}">
-                                        ${item.guide_title}
-                                    </a>
-                                `);
-                            });
-                        }
-                    },
-                    error: function () {
-                        console.log('Error fetching suggestions.');
-                    }
-                });
-            } else {
-                $('#suggestions').hide(); // Hide suggestions if query is empty
-            }
-        });
-
-        // Hide suggestions when clicking outside
-        $(document).on('click', function (e) {
-            if (!$(e.target).closest('.support-search-container').length) {
-                $('#suggestions').hide();
-            }
-        });
+    // Add CSRF token to AJAX requests
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
     });
+
+    // Trigger search when typing
+    $('#search-query').on('input', function () {
+        let query = $(this).val();
+
+        // Show suggestions only when the query is not empty
+        if (query.length > 0) {
+            $.ajax({
+                url: "{{ route('customersupport.autocomplete') }}",
+                method: "GET",
+                data: { query: query },
+                success: function (data) {
+                    $('#suggestions').empty().show(); // Clear and show suggestions
+
+                    if (data.length === 0) {
+                        $('#suggestions').append('<div class="no-results">No matches found</div>');
+                    } else {
+                        $.each(data, function (index, item) {
+                            $('#suggestions').append(`
+                                <a class="dropdown-item" href="{{ url('/customer-support/search') }}?query=${encodeURIComponent(item.guide_title)}">
+                                    ${item.guide_title}
+                                </a>
+                            `);
+                        });
+                    }
+                },
+                error: function () {
+                    console.log('Error fetching suggestions.');
+                }
+            });
+        } else {
+            $('#suggestions').hide(); // Hide suggestions if query is empty
+        }
+    });
+
+    // Hide suggestions when clicking outside
+    $(document).on('click', function (e) {
+        if (!$(e.target).closest('.support-search-container').length) {
+            $('#suggestions').hide();
+        }
+    });
+});
+
 </script>
 @endsection
