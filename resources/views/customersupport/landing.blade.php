@@ -53,6 +53,21 @@
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
         outline: none;
     }
+    #suggestions {
+        max-height: 200px;
+        overflow-y: auto;
+        width: 100%; /* Matches the input field width */
+    }
+
+    .dropdown-item {
+        padding: 8px 16px;
+        cursor: pointer;
+    }
+
+    .dropdown-item:hover {
+        background-color: #f8f9fa; /* Light gray */
+    }
+
 
     @media only screen and (max-width: 425px) {
         body {
@@ -91,19 +106,20 @@
     <h4 class="mt-4">Hi, how can we help you?</h4>
 
     <!-- Search Form -->
-    <form action="#" method="GET">
-        <div class="support-search-container">
-            <span>
-                <i class="fas fa-search"></i>
-            </span>
-            <input 
-                type="text" 
-                name="query" 
-                placeholder="Describe your issue" 
-                required
-            >
-        </div>
-    </form>
+    <div class="support-search-container">
+        <span>
+            <i class="fas fa-search"></i>
+        </span>
+        <input 
+            type="text" 
+            id="search-query" 
+            name="query" 
+            placeholder="Describe your issue" 
+            autocomplete="off"
+            required
+        >
+        <div id="suggestions" class="dropdown-menu" style="display: none; position: absolute; z-index: 1000;"></div>
+    </div>
 
     <!-- No Answer Section -->
     <div style="margin-top: 20px;">
@@ -114,4 +130,49 @@
 @include('Components.footer')
 @endsection
 @section('scripts')
+<script>
+    $(document).ready(function () {
+        // Trigger search when typing
+        $('#search-query').on('input', function () {
+            let query = $(this).val();
+
+            // Show suggestions only when the query is not empty
+            if (query.length > 0) {
+                $.ajax({
+                    url: "{{ route('customersupport.autocomplete') }}",
+                    method: "GET",
+                    data: { query: query },
+                    success: function (data) {
+                        $('#suggestions').empty().show(); // Clear and show suggestions
+                        
+                        if (data.length === 0) {
+                            $('#suggestions').append('<a class="dropdown-item disabled">No matches found</a>');
+                        } else {
+                            $.each(data, function (index, item) {
+                                $('#suggestions').append(`
+                                    <a class="dropdown-item" href="{{ url('/customer-support/search') }}?query=${item.guide_title}">
+                                        ${item.guide_title}
+                                    </a>
+                                `);
+                            });
+                        }
+                    },
+                    error: function () {
+                        console.log('Error fetching suggestions.');
+                    }
+                });
+            } else {
+                $('#suggestions').hide(); // Hide suggestions if query is empty
+            }
+        });
+
+        // Hide suggestions when clicking outside
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.support-search-container').length) {
+                $('#suggestions').hide();
+            }
+        });
+    });
+</script>
+
 @endsection

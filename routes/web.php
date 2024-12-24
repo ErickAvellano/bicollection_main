@@ -37,6 +37,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\CustomerSupportController;
 
+
 // Home route for both guests and authenticated users
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -48,10 +49,12 @@ Route::get('/categories', [CategoryController::class, 'showCategories'])->name('
 Route::get('/categories/{category_name}/products', [CategoryController::class, 'showProduct'])->name('category.product');
 Route::get('/subcategory/{subcategory}/products', [CategoryController::class, 'showSubProducts'])->name('subcategory.products');
 Route::get('/merchants', [StoreController::class, 'showMerchants'])->name('merchants.index');
-Route::get('/customer-support', [CustomerSupportController::class, 'landing'])->name('customer.support');
 Route::get('/merchant/{shopId}/viewstore', [StoreController::class, 'viewStore'])->name('merchant.viewstore');
 Route::get('/merchant/partial/{nav}/{shopId}', [StoreController::class, 'getPartial'])->name('merchant.partial');
 
+Route::get('/customer-support', [CustomerSupportController::class, 'landing'])->name('customer.support');
+Route::get('/customer-support/search', [CustomerSupportController::class, 'search'])->name('customersupport.search');
+Route::get('/customer-support/autocomplete', [CustomerSupportController::class, 'autocomplete'])->name('customersupport.autocomplete');
 
 Route::middleware('auth')->group(function () {
     // Profile routes
