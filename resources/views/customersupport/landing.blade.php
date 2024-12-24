@@ -71,7 +71,7 @@
             display: none !important;
         }
 
-        .search-container {
+        .support-search-container {
             width: 90%; /* Make it responsive for smaller screens */
         }
     }
