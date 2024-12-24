@@ -11,8 +11,7 @@ class CustomerSupportController extends Controller
         return view('customersupport.landing');
     }
     public function search(Request $request)
-    {
-        // Get the search query from the request
+    { 
         $query = $request->input('query');
 
         // Search only in the guide_title column
