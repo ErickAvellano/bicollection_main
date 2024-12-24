@@ -2,9 +2,11 @@
 
 @section('styles')
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
     body, html {
         overflow: auto;
-        margin: 0; /* Ensure no default margin */
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
     }
 
     .custom-modal {

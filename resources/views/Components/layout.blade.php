@@ -8,6 +8,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/a24a773990.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Futura+PT:wght@400;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
@@ -673,9 +674,9 @@
     <script>
         $(document).on('click', '.add-to-cart', function (e) {
             e.preventDefault();
-    
+
             const productId = $(this).data('product-id');
-    
+
             $.ajax({
                 url: `/cart/add/${productId}`,
                 type: 'POST',
@@ -691,41 +692,41 @@
                         $('#cartTotal').text('');
                         $('#productImage').attr('src', '');
                         $('#productDetails').attr('data-cart-id', '');
-    
+
                         // Set product details
                         $('#productName').text(response.product_name);
                         $('#quantity').text(`Quantity: ${response.quantity}`);
                         $('#cartTotal').text(`Total: ₱${response.cart_total}`);
                         $('#cartItemCount').text(response.cart_item_count);
                         $('#totalCartAmount').text(`Cart Total: ₱${response.total_cart_amount}`);
-    
+
                         // Update the product image if available
                         if (response.product_image) {
                             $('#productImage').attr('src', `/storage/${response.product_image}`);
                         }
-    
+
                         // Set the cart_id as a data attribute
                         $('#productDetails').attr('data-cart-id', response.cart_id);
-    
+
                         // Dynamically add a dropdown for variations under #productDetails
                         const dropdownHTML = `
                             <select id="variation-select-${response.cart_id}" class="form-select variation-select" style="width: auto; min-width: 100px; max-width: 300px; font-size: 0.7rem;">
                             </select>`;
-    
+
                         // Replace the existing dropdown dynamically
                         $('#productDetails')
                             .find('select#variationSelect')
-                            .remove(); 
-    
+                            .remove();
+
                         // Add the new dropdown HTML after the label
                         $('#productDetails')
                             .find('label[for="variation-Select"]')
                             .after(dropdownHTML);
-    
+
                         // Populate the new dropdown dynamically with variations
                         const variationSelect = $(`#variation-select-${response.cart_id}`);
                         variationSelect.empty();
-    
+
                         if (response.product_variations && response.product_variations.length > 0) {
 
                             $('#productDetails')
@@ -750,13 +751,13 @@
                         } else {
                             variationSelect.append('<option value="">No variations available</option>');
                         }
-    
+
                         // Update the "Proceed to Checkout" link with the cart ID
                         $('#checkoutLink').attr('href', `/checkout?cart_id=${response.cart_id}`);
-    
+
                         // Show the modal
                         $('#successModals-addtocart').modal('show');
-    
+
                         updateCartCount();
                     }
                 },
@@ -1003,7 +1004,7 @@
     <script>
         // Function to update the order count in the icon
         function updateOrderCount() {
-            const orderCountBadge = document.getElementById('order-count'); 
+            const orderCountBadge = document.getElementById('order-count');
             const orderIcon = document.getElementById('orderIcon');
 
             // Proceed only if both elements exist
