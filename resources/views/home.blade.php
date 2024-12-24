@@ -593,7 +593,7 @@
 <div class="container">
     <div class="mt-3 row">
         <div class="popular-product-header">
-            <h3>Popular Product</h3>
+            <h3>POPULAR PRODUCT</h3>
             <hr class="line">
             <div class="button-group">
                 <button id="prevBtnPopular" class="mb-2 btn btn-outline-dark btn-sm">
@@ -671,7 +671,7 @@
                     <!-- Shop Details -->
                     <div class="col-md-7">
                         <div style="display: flex; align-items: center; margin-bottom:20px;">
-                            <h3 style="margin: 0;">Merchant</h3>
+                            <h3 style="margin: 0;">MERCHANT</h3>
                             <div style="flex-grow: 1; height: 1px; background-color: black; margin-left: 10px;"></div>
                         </div>
                         <div class="card" style="height: 312px; width:auto; padding:10px; background-color:#228b22; border-radius:0;">
@@ -900,7 +900,7 @@
 <div class="container">
     <div class="mt-3 row">
         <div class="popular-product-header">
-            <h3>All Products</h3>
+            <h3>ALL PRODUCTS</h3>
             <hr class="line">
             <div class="button-group">
                 <button id="prevBtnProductAll" class="mb-2 btn btn-outline-dark btn-sm">
