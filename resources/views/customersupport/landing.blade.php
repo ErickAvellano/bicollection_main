@@ -33,6 +33,10 @@
         position: relative;
         margin: 20px auto;
         width: 500px;
+        z-index: 10;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Shadow below the search bar */
+        border-radius: 8px; /* Match the input field's border-radius */
+        background-color: #fff; /* Add a background color for consistency */
     }
 
     .support-search-container span {
@@ -50,9 +54,12 @@
         font-size: 16px;
         border: 1px solid #ddd;
         border-radius: 8px;
-        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
         outline: none;
+        background-color: #fff; /* Ensure background is white */
+        z-index: 10; /* Input remains on top */
+        position: relative;
     }
+
     #suggestions {
         max-height: 200px;
         overflow-y: auto;
@@ -62,7 +69,7 @@
         border-radius: 8px;
         width: 100%;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
+        z-index: 5; /* Dropdown below input field */
         top: 100%; /* Position the dropdown below the input */
         left: 0;
         display: none; /* Initially hidden */
@@ -84,6 +91,7 @@
         color: #999;
         cursor: default;
     }
+
     mark {
         background-color: #ffeeba; /* Light yellow */
         padding: 0;
@@ -108,8 +116,9 @@
         .mobile-nav {
             display: none !important;
         }
-        main{
-            padding:50px;
+
+        main {
+            padding: 50px;
         }
 
         .support-search-container {
@@ -119,9 +128,9 @@
         .support-search-container input {
             font-size: 12px;
         }
-
     }
 </style>
+
 @endsection
 
 @section('content')
