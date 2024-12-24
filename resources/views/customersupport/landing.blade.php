@@ -154,10 +154,18 @@
         <div id="suggestions"></div>
     </div>
 
+    <div style="margin-top: 20px;">
+        <strong>Suggestion Search</strong>
+        <ul id="suggestion-list" style="margin-top: 10px; list-style: none; padding: 0;">
+            <!-- Dynamic suggestions will be added here -->
+        </ul>
+    </div>
+
     <!-- No Answer Section -->
     <div style="margin-top: 20px;">
         <strong>Can't find an answer?</strong>
     </div>
+
 </main>
 
 @include('Components.footer')
@@ -225,6 +233,38 @@
         }
     });
 
+
+</script>
+<script>
+    $(document).ready(function () {
+        // Fetch suggestions dynamically
+        function fetchSuggestions() {
+            $.ajax({
+                url: "{{ route('customersupport.suggestions') }}", // Laravel route for fetching suggestions
+                method: "GET",
+                success: function (data) {
+                    // Get the container for suggestions
+                    let suggestionList = $('#suggestion-list');
+                    suggestionList.empty(); // Clear existing suggestions
+
+                    // Loop through the suggestions and append to the list
+                    if (data.length > 0) {
+                        data.slice(0, 5).forEach(function (item) {
+                            suggestionList.append(`<li style="padding: 5px 0;"><a href="{{ url('/customer-support/search') }}?query=${encodeURIComponent(item.guide_title)}" style="text-decoration: none; color: #007bff;">${item.guide_title}</a></li>`);
+                        });
+                    } else {
+                        suggestionList.append('<li>No suggestions available</li>');
+                    }
+                },
+                error: function () {
+                    console.log('Error fetching suggestions.');
+                }
+            });
+        }
+
+        // Fetch suggestions when the page loads
+        fetchSuggestions();
+    });
 
 </script>
 @endsection

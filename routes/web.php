@@ -55,6 +55,7 @@ Route::get('/merchant/partial/{nav}/{shopId}', [StoreController::class, 'getPart
 Route::get('/customer-support', [CustomerSupportController::class, 'landing'])->name('customer.support');
 Route::get('/customer-support/search', [CustomerSupportController::class, 'search'])->name('customersupport.search');
 Route::get('/customer-support/autocomplete', [CustomerSupportController::class, 'autocomplete'])->name('customersupport.autocomplete');
+Route::get('/customer-support/suggestions', [CustomerSupportController::class, 'getSuggestions'])->name('customersupport.suggestions');
 
 Route::middleware('auth')->group(function () {
     // Profile routes
