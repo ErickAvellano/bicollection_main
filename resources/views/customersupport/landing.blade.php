@@ -155,8 +155,8 @@
     </div>
 
     <div style="margin-top: 20px;">
-        <strong>Suggestion Search</strong>
-        <ul id="suggestion-list" style="margin-top: 10px; list-style: none; padding: 0;">
+        <strong>Suggestion Search:</strong>
+        <ul id="suggestion-list" style="margin-top: 5px; list-style: none; padding: 0;">
             <!-- Dynamic suggestions will be added here -->
         </ul>
     </div>
