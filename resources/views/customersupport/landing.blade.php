@@ -68,7 +68,7 @@
         border-radius: 8px;
         width: 100%;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        z-index: 5; /* Dropdown below input field */
+        z-index: -100; /* Dropdown below input field */
         top: 100%; /* Position the dropdown below the input */
         left: 0;
         display: none; /* Initially hidden */
@@ -139,7 +139,7 @@
     <!-- Search Form -->
     <div class="support-search-container">
         <span>
-            <i class="fas fa-search"></i>
+            <i class="fas fa-search icon"></i>
         </span>
         <input
             type="text"
