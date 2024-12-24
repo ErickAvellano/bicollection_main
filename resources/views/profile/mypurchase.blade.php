@@ -573,7 +573,8 @@
                         </label>
 
                         <!-- Hidden input to store the full username (always unmasked here) -->
-                        <input type="hidden" id="fullUsername" name="username" value="{{ $username }}">
+                        <input type="hidden" id="fullUsername" name="username" 
+                            value="{{ $username[0] . str_repeat('*', strlen($username) - 2) . substr($username, -1) }}">
                     </div>
                     <small class="text-muted">
                         <i class="fa-solid fa-circle-info text-success"></i> Note: Toggling the visibility will reflect in the product review submission.
@@ -1141,7 +1142,6 @@
 
                     // Update the content container with the new HTML
                     contentContainer.innerHTML = data.html;
-                    decrementPendingCount();
                 })
                 .catch(error => {
 
@@ -1154,27 +1154,36 @@
 
     </script>
     <script>
-        const originalUsername = "{{ $username }}";
-        let isMasked = true; // Track if the username is currently masked
 
         function toggleUsername() {
             const usernameDisplay = document.getElementById('usernameDisplay');
-            const fullUsernameInput = document.getElementById('fullUsername');
-            const toggleIcon = document.getElementById('toggleUsernameIcon');
+            const toggleIcon = document.getElementById('toggleIcon');
+            const hiddenInput = document.getElementById('fullUsername');
 
-            if (isMasked) {
-                // Unmask username: show full username in display span and input field
-                usernameDisplay.textContent = originalUsername;
-                fullUsernameInput.value = originalUsername;
-                toggleIcon.innerHTML = '<i class="fas fa-eye"></i>'; // Change icon to eye
-                isMasked = false; // Update the state to unmasked
+            // Get the full username from a data attribute or the hidden input's "original" value
+            const fullUsername = hiddenInput.dataset.original || "{{ $username }}";
+
+            // Check current state (masked or unmasked)
+            if (usernameDisplay.dataset.state === 'masked') {
+                // Unmask the username
+                usernameDisplay.textContent = fullUsername;
+                usernameDisplay.dataset.state = 'unmasked';
+                hiddenInput.value = fullUsername; // Update the hidden input to the unmasked username
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye'); // Change icon to "eye" for unmasked state
             } else {
-                // Mask username: show masked version in display span and input field
-                const maskedUsername = originalUsername[0] + '*'.repeat(originalUsername.length - 2) + originalUsername.slice(-1);
+                // Mask the username
+                const maskedUsername = fullUsername[0] + '*'.repeat(fullUsername.length - 2) + fullUsername.slice(-1);
                 usernameDisplay.textContent = maskedUsername;
-                fullUsernameInput.value = maskedUsername; // Update input field with masked version
-                toggleIcon.innerHTML = '<i class="fas fa-eye-slash"></i>'; // Change icon to eye-slash
-                isMasked = true; // Update the state to masked
+                usernameDisplay.dataset.state = 'masked';
+                hiddenInput.value = maskedUsername; // Update the hidden input to the masked username
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash'); // Change icon back to "eye-slash" for masked state
+            }
+
+            // Store the full username in a data attribute for future toggles
+            if (!hiddenInput.dataset.original) {
+                hiddenInput.dataset.original = fullUsername;
             }
         }
         document.addEventListener('DOMContentLoaded', function () {
@@ -1293,225 +1302,247 @@
             setupStarRating('platformRating', 'platformRatingInput', 'platformDescription');
         });
     </script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const thankYouStars = document.querySelectorAll('#starRating .star');
-        const reviewStarInput = document.getElementById('ReviewStar'); // Hidden input to store the star rating
-        const reviewTextarea = document.getElementById('performance');
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const thankYouStars = document.querySelectorAll('#starRating .star');
+            const reviewStarInput = document.getElementById('ReviewStar'); // Hidden input to store the star rating
+            const reviewTextarea = document.getElementById('performance');
 
-        // Attach event listener to Thank You Modal stars
-        thankYouStars.forEach((star, index) => {
-            star.addEventListener('mouseover', () => fillStars(thankYouStars, index));
-            star.addEventListener('mouseleave', () => resetStars(thankYouStars, reviewStarInput.value));
-            star.addEventListener('click', (event) => {
-                const selectedRating = index + 1;
-                reviewStarInput.value = selectedRating; // Save selected rating in hidden input
+            // Attach event listener to Thank You Modal stars
+            thankYouStars.forEach((star, index) => {
+                star.addEventListener('mouseover', () => fillStars(thankYouStars, index));
+                star.addEventListener('mouseleave', () => resetStars(thankYouStars, reviewStarInput.value));
+                star.addEventListener('click', (event) => {
+                    const selectedRating = index + 1;
+                    reviewStarInput.value = selectedRating; // Save selected rating in hidden input
 
-                // Update the stars visually
-                setRating(thankYouStars, selectedRating);
+                    // Update the stars visually
+                    setRating(thankYouStars, selectedRating);
 
-                const orderId = document.getElementById('orderIdInputs').value;
-                const productIds = document.getElementById('productIdInputs').value.split(','); // Split into an array
+                    const orderId = document.getElementById('orderIdInputs').value;
+                    const productIds = document.getElementById('productIdInputs').value.split(','); // Split into an array
 
-                // Simulate button click to activate openReviewModal function
-                const fakeButton = document.createElement('button');
-                fakeButton.setAttribute('data-order-id', orderId);
+                    // Simulate button click to activate openReviewModal function
+                    const fakeButton = document.createElement('button');
+                    fakeButton.setAttribute('data-order-id', orderId);
 
-                // Handle single or multiple product IDs
-                if (productIds.length === 1) {
-                    // If there's only one product, set it directly
-                    fakeButton.setAttribute('data-product-id', productIds[0]);
-                } else {
-                    // If there are multiple products, join them into a comma-separated string
-                    fakeButton.setAttribute('data-product-id', productIds.join(','));
-                }
+                    // Handle single or multiple product IDs
+                    if (productIds.length === 1) {
+                        // If there's only one product, set it directly
+                        fakeButton.setAttribute('data-product-id', productIds[0]);
+                    } else {
+                        // If there are multiple products, join them into a comma-separated string
+                        fakeButton.setAttribute('data-product-id', productIds.join(','));
+                    }
 
-                openReviewModals({
-                    preventDefault: () => {}, // Mock preventDefault for a synthetic event
-                    currentTarget: fakeButton
+                    openReviewModals({
+                        preventDefault: () => {}, // Mock preventDefault for a synthetic event
+                        currentTarget: fakeButton
+                    });
                 });
             });
-        });
 
-        // Function to fill stars on hover
-        function fillStars(stars, index) {
-            stars.forEach((star, i) => {
-                if (i <= index) {
-                    star.classList.add('fa-solid');
-                    star.classList.remove('fa-regular');
-                } else {
-                    star.classList.add('fa-regular');
-                    star.classList.remove('fa-solid');
-                }
-            });
-        }
-
-        // Function to reset stars to the current rating
-        function resetStars(stars, rating) {
-            const currentRating = parseInt(rating, 10) || 0;
-            setRating(stars, currentRating);
-        }
-
-        // Function to set stars based on a given rating
-        function setRating(stars, rating) {
-            stars.forEach((star, i) => {
-                if (i < rating) {
-                    star.classList.add('fa-solid');
-                    star.classList.remove('fa-regular');
-                } else {
-                    star.classList.add('fa-regular');
-                    star.classList.remove('fa-solid');
-                }
-            });
-        }
-        // Open Review Modal
-        function openReviewModals(event) {
-            event.preventDefault();
-
-            const thankYouModalElement = document.getElementById('thankYouModal');
-            const thankYouModal = bootstrap.Modal.getInstance(thankYouModalElement) || new bootstrap.Modal(thankYouModalElement);
-
-            // Hide the modal using Bootstrap's API
-            thankYouModal.hide();
-
-            // Optional: Remove the backdrop manually if still present
-            const modalBackdrop = document.querySelector('.modal-backdrop');
-            if (modalBackdrop) {
-                modalBackdrop.remove();
+            // Function to fill stars on hover
+            function fillStars(stars, index) {
+                stars.forEach((star, i) => {
+                    if (i <= index) {
+                        star.classList.add('fa-solid');
+                        star.classList.remove('fa-regular');
+                    } else {
+                        star.classList.add('fa-regular');
+                        star.classList.remove('fa-solid');
+                    }
+                });
             }
 
-            // Fetch order and product IDs from the clicked element
-            const orderId = event.currentTarget.getAttribute('data-order-id');
-            const productIds = event.currentTarget.getAttribute('data-product-id').split(','); // Handle multiple products
+            // Function to reset stars to the current rating
+            function resetStars(stars, rating) {
+                const currentRating = parseInt(rating, 10) || 0;
+                setRating(stars, currentRating);
+            }
 
-            // Update hidden fields in the review modal
-            const orderIdInput = document.getElementById('orderIdInput');
-            const productIdInput = document.getElementById('productIdInput');
-            const variationInput = document.getElementById('variationInput');
-            const reviewModalRatingInput = document.getElementById('reviewRatingInput');
-            const reviewModalStars = document.querySelectorAll('#productQualityRating .star');
-            
-            if (orderIdInput) orderIdInput.value = orderId; // Set orderId
-            if (productIdInput) productIdInput.value = productIds.join(',');
+            // Function to set stars based on a given rating
+            function setRating(stars, rating) {
+                stars.forEach((star, i) => {
+                    if (i < rating) {
+                        star.classList.add('fa-solid');
+                        star.classList.remove('fa-regular');
+                    } else {
+                        star.classList.add('fa-regular');
+                        star.classList.remove('fa-solid');
+                    }
+                });
+            }
+            // Open Review Modal
+            function openReviewModals(event) {
+                event.preventDefault();
 
-            if (orderIdInput) orderIdInput.value = orderId;
-            if (productIdInput) productIdInput.value = productIds;
+                const thankYouModalElement = document.getElementById('thankYouModal');
+                const thankYouModal = bootstrap.Modal.getInstance(thankYouModalElement) || new bootstrap.Modal(thankYouModalElement);
 
-            const selectedRating = parseInt(document.getElementById('ReviewStar').value, 10) || 0;
+                // Hide the modal using Bootstrap's API
+                thankYouModal.hide();
 
-                // Update the star rating and textarea in the review modal
-                if (reviewModalRatingInput) {
-                    reviewModalRatingInput.value = selectedRating; // Update hidden input for rating
+                // Optional: Remove the backdrop manually if still present
+                const modalBackdrop = document.querySelector('.modal-backdrop');
+                if (modalBackdrop) {
+                    modalBackdrop.remove();
                 }
-                if (reviewModalStars) {
-                    setRating(reviewModalStars, selectedRating); // Reflect star selection visually
-                    expandedFields.style.display = "block";
-                    productQualityDescription.style.display = "block";
 
-                }
-                 // Show the review modal
-                 const reviewModal = new bootstrap.Modal(document.getElementById('reviewModal'));
-                reviewModal.show();
+                // Fetch order and product IDs from the clicked element
+                const orderId = event.currentTarget.getAttribute('data-order-id');
+                const productIds = event.currentTarget.getAttribute('data-product-id').split(','); // Handle multiple products
 
-            // Dynamically update modal content based on product data
-            fetch(`/get-order-details/${orderId}`, {
-                method: 'GET',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                }
-            })
-                .then(response => response.json())
-                .then(data => {
-                    const orderDetailsContainer = document.getElementById('orderDetailsContainer');
-                    if (data.status === 'success') {
-                        const orderDetails = data.order;
+                // Update hidden fields in the review modal
+                const orderIdInput = document.getElementById('orderIdInput');
+                const productIdInput = document.getElementById('productIdInput');
+                const variationInput = document.getElementById('variationInput');
+                const reviewModalRatingInput = document.getElementById('reviewRatingInput');
+                const reviewModalStars = document.querySelectorAll('#productQualityRating .star');
+                
+                if (orderIdInput) orderIdInput.value = orderId; // Set orderId
+                if (productIdInput) productIdInput.value = productIds.join(',');
 
-                        if (Array.isArray(orderDetails) && orderDetails.length > 0) {
-                            // Handle multiple products
-                            const variationIds = orderDetails.map(item => item.variation_id || 'N/A'); // Get all variation IDs
 
-                            // Set all variation IDs into the hidden input
-                            if (variationInput) {
-                                variationInput.value = variationIds.join(','); // Join variation IDs as a comma-separated string
+                const selectedRating = parseInt(document.getElementById('ReviewStar').value, 10) || 0;
+
+                    // Update the star rating and textarea in the review modal
+                    if (reviewModalRatingInput) {
+                        reviewModalRatingInput.value = selectedRating; // Update hidden input for rating
+                    }
+                    if (reviewModalStars) {
+                        setRating(reviewModalStars, selectedRating); // Reflect star selection visually
+                        expandedFields.style.display = "block";
+                        productQualityDescription.style.display = "block";
+
+                    }
+                    // Show the review modal
+                    const reviewModal = new bootstrap.Modal(document.getElementById('reviewModal'));
+                    reviewModal.show();
+
+                // Dynamically update modal content based on product data
+                fetch(`/get-order-details/${orderId}`, {
+                    method: 'GET',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        const orderDetailsContainer = document.getElementById('orderDetailsContainer');
+                        if (data.status === 'success') {
+                            const orderDetails = data.order;
+
+                            if (Array.isArray(orderDetails) && orderDetails.length > 0) {
+                                // Handle multiple products
+                                const variationIds = orderDetails.map(item => item.variation_id || 'N/A'); // Get all variation IDs
+
+                                // Set all variation IDs into the hidden input
+                                if (variationInput) {
+                                    variationInput.value = variationIds.join(','); // Join variation IDs as a comma-separated string
+                                }
+
+                            } else if (typeof orderDetails === 'object') {
+                                // Handle a single product: Get the variation ID directly
+                                const singleVariationId = orderDetails.variation_id || 'N/A';
+                                if (variationInput) {
+                                    variationInput.value = singleVariationId; // Set the hidden input to the single variation ID
+                                }
+                            } else {
+                                // Default case: No variation found
+                                if (variationInput) {
+                                    variationInput.value = 'N/A'; // Default value if no variation is found
+                                }
                             }
 
-                        } else if (typeof orderDetails === 'object') {
-                            // Handle a single product: Get the variation ID directly
-                            const singleVariationId = orderDetails.variation_id || 'N/A';
-                            if (variationInput) {
-                                variationInput.value = singleVariationId; // Set the hidden input to the single variation ID
-                            }
-                        } else {
-                            // Default case: No variation found
-                            if (variationInput) {
-                                variationInput.value = 'N/A'; // Default value if no variation is found
-                            }
-                        }
+                            // Handle multiple or single product details
+                            let productListHTML = '';
+                            let seeMoreButtonHTML = '';
 
-                        // Handle multiple or single product details
-                        let productListHTML = '';
-                        let seeMoreButtonHTML = '';
-
-                        if (Array.isArray(orderDetails)) {
-                            if (orderDetails.length > 1) {
-                                // Show the first product initially
-                                const firstProduct = orderDetails[0];
-                                productListHTML = `
-                                    <div class="card mb-3">
-                                        <div class="list-group-item order-card d-flex p-3 m-0 align-items-start">
-                                            <div class="me-3">
-                                                <img src="${firstProduct.product_image}" alt="Product Image" class="img-fluid border" loading="lazy"
-                                                    style="width: 70px; height: 70px; object-fit: cover;">
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <div class="d-flex justify-content-between">
-                                                    <div>
-                                                        <p><strong>Product Name:</strong> ${firstProduct.product_name}</p>
-                                                        <p class="text-muted small"><strong>Variation:</strong> ${firstProduct.variation || 'N/A'}</p>
-                                                        <p class="text-muted small"><strong>Quantity:</strong> ${firstProduct.quantity}</p>
-                                                        <p class="text-muted small"><strong>Price:</strong> ₱${firstProduct.price}</p>
-                                                    </div>
+                            if (Array.isArray(orderDetails)) {
+                                if (orderDetails.length > 1) {
+                                    // Show the first product initially
+                                    const firstProduct = orderDetails[0];
+                                    productListHTML = `
+                                        <div class="card mb-3">
+                                            <div class="list-group-item order-card d-flex p-3 m-0 align-items-start">
+                                                <div class="me-3">
+                                                    <img src="${firstProduct.product_image}" alt="Product Image" class="img-fluid border" loading="lazy"
+                                                        style="width: 70px; height: 70px; object-fit: cover;">
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                `;
-
-                                // Add "See More" button
-                                seeMoreButtonHTML = `
-                                    <div class="text-center mb-2">
-                                        <button class="btn btn-link p-0" id="seeMoreProductsButton">See More</button>
-                                    </div>
-                                `;
-
-                                // Append hidden container for additional products
-                                productListHTML += `
-                                    <div id="additionalProductsContainer" class="d-none">
-                                        ${orderDetails.slice(1).map(product => `
-                                            <div class="card mb-3">
-                                                <div class="list-group-item order-card d-flex p-3 m-0 align-items-start">
-                                                    <div class="me-3">
-                                                        <img src="${product.product_image}" alt="Product Image" class="img-fluid border" loading="lazy"
-                                                            style="width: 70px; height: 70px; object-fit: cover;">
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <div class="d-flex justify-content-between">
-                                                            <div>
-                                                                <p><strong>Product Name:</strong> ${product.product_name}</p>
-                                                                <p class="text-muted small"><strong>Variation:</strong> ${product.variation || 'N/A'}</p>
-                                                                <p class="text-muted small"><strong>Quantity:</strong> ${product.quantity}</p>
-                                                                <p class="text-muted small"><strong>Price:</strong> ₱${product.price}</p>
-                                                            </div>
+                                                <div class="flex-grow-1">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div>
+                                                            <p><strong>Product Name:</strong> ${firstProduct.product_name}</p>
+                                                            <p class="text-muted small"><strong>Variation:</strong> ${firstProduct.variation || 'N/A'}</p>
+                                                            <p class="text-muted small"><strong>Quantity:</strong> ${firstProduct.quantity}</p>
+                                                            <p class="text-muted small"><strong>Price:</strong> ₱${firstProduct.price}</p>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        `).join('')}
-                                    </div>
-                                `;
-                            } else {
-                                // Handle single product in array
-                                const product = orderDetails[0];
+                                        </div>
+                                    `;
+
+                                    // Add "See More" button
+                                    seeMoreButtonHTML = `
+                                        <div class="text-center mb-2">
+                                            <button class="btn btn-link p-0" id="seeMoreProductsButton">See More</button>
+                                        </div>
+                                    `;
+
+                                    // Append hidden container for additional products
+                                    productListHTML += `
+                                        <div id="additionalProductsContainer" class="d-none">
+                                            ${orderDetails.slice(1).map(product => `
+                                                <div class="card mb-3">
+                                                    <div class="list-group-item order-card d-flex p-3 m-0 align-items-start">
+                                                        <div class="me-3">
+                                                            <img src="${product.product_image}" alt="Product Image" class="img-fluid border" loading="lazy"
+                                                                style="width: 70px; height: 70px; object-fit: cover;">
+                                                        </div>
+                                                        <div class="flex-grow-1">
+                                                            <div class="d-flex justify-content-between">
+                                                                <div>
+                                                                    <p><strong>Product Name:</strong> ${product.product_name}</p>
+                                                                    <p class="text-muted small"><strong>Variation:</strong> ${product.variation || 'N/A'}</p>
+                                                                    <p class="text-muted small"><strong>Quantity:</strong> ${product.quantity}</p>
+                                                                    <p class="text-muted small"><strong>Price:</strong> ₱${product.price}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                    `;
+                                } else {
+                                    // Handle single product in array
+                                    const product = orderDetails[0];
+                                    productListHTML = `
+                                        <div class="card mb-3">
+                                            <div class="list-group-item order-card d-flex p-3 m-0 align-items-start">
+                                                <div class="me-3">
+                                                    <img src="${product.product_image}" alt="Product Image" class="img-fluid border" loading="lazy"
+                                                        style="width: 70px; height: 70px; object-fit: cover;">
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div>
+                                                            <p><strong>Product Name:</strong> ${product.product_name}</p>
+                                                            <p class="text-muted small"><strong>Variation:</strong> ${product.variation || 'N/A'}</p>
+                                                            <p class="text-muted small"><strong>Quantity:</strong> ${product.quantity}</p>
+                                                            <p class="text-muted small"><strong>Price:</strong> ₱${product.price}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `;
+                                }
+                            } else if (typeof orderDetails === 'object') {
+                                // Handle a single product
+                                const product = orderDetails;
                                 productListHTML = `
                                     <div class="card mb-3">
                                         <div class="list-group-item order-card d-flex p-3 m-0 align-items-start">
@@ -1533,99 +1564,75 @@
                                     </div>
                                 `;
                             }
-                        } else if (typeof orderDetails === 'object') {
-                            // Handle a single product
-                            const product = orderDetails;
-                            productListHTML = `
-                                <div class="card mb-3">
-                                    <div class="list-group-item order-card d-flex p-3 m-0 align-items-start">
-                                        <div class="me-3">
-                                            <img src="${product.product_image}" alt="Product Image" class="img-fluid border" loading="lazy"
-                                                style="width: 70px; height: 70px; object-fit: cover;">
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <div class="d-flex justify-content-between">
-                                                <div>
-                                                    <p><strong>Product Name:</strong> ${product.product_name}</p>
-                                                    <p class="text-muted small"><strong>Variation:</strong> ${product.variation || 'N/A'}</p>
-                                                    <p class="text-muted small"><strong>Quantity:</strong> ${product.quantity}</p>
-                                                    <p class="text-muted small"><strong>Price:</strong> ₱${product.price}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
+
+                            // Update the container with product details and "See More" button
+                            orderDetailsContainer.innerHTML = productListHTML + seeMoreButtonHTML;
+
+                            // Add event listener for "See More" button
+                            const seeMoreButton = document.getElementById('seeMoreProductsButton');
+                            if (seeMoreButton) {
+                                seeMoreButton.addEventListener('click', () => {
+                                    const additionalProductsContainer = document.getElementById('additionalProductsContainer');
+                                    if (additionalProductsContainer) {
+                                        additionalProductsContainer.classList.toggle('d-none');
+                                        seeMoreButton.innerText = additionalProductsContainer.classList.contains('d-none') ? 'See More' : 'Minimize';
+                                    }
+                                });
+                            }
+                        } else {
+                            // Handle case where order details are not found
+                            orderDetailsContainer.innerHTML = `<p class="text-danger">Unable to fetch order details. Please try again later.</p>`;
                         }
 
-                        // Update the container with product details and "See More" button
-                        orderDetailsContainer.innerHTML = productListHTML + seeMoreButtonHTML;
+                        // Show the modal
+                        const reviewModal = new bootstrap.Modal(document.getElementById('reviewModal'));
+                        reviewModal.show();
+                    })
+                    .catch(error => {
+                        console.error('Error fetching order details:', error);
+                        const orderDetailsContainer = document.getElementById('orderDetailsContainer');
+                        orderDetailsContainer.innerHTML = `<p class="text-danger">An error occurred. Please try again later.</p>`;
+                    });
+                }
 
-                        // Add event listener for "See More" button
-                        const seeMoreButton = document.getElementById('seeMoreProductsButton');
-                        if (seeMoreButton) {
-                            seeMoreButton.addEventListener('click', () => {
-                                const additionalProductsContainer = document.getElementById('additionalProductsContainer');
-                                if (additionalProductsContainer) {
-                                    additionalProductsContainer.classList.toggle('d-none');
-                                    seeMoreButton.innerText = additionalProductsContainer.classList.contains('d-none') ? 'See More' : 'Minimize';
-                                }
-                            });
-                        }
-                    } else {
-                        // Handle case where order details are not found
-                        orderDetailsContainer.innerHTML = `<p class="text-danger">Unable to fetch order details. Please try again later.</p>`;
-                    }
+                function setupStarRating(starContainerId, inputId, descriptionId) {
+                const stars = document.querySelectorAll(`#${starContainerId} .star`);
+                const ratingInput = document.getElementById(inputId);
+                const descriptionElement = document.getElementById(descriptionId);
+                const expandedFields = document.getElementById('expandedFields');
 
-                    // Show the modal
-                    const reviewModal = new bootstrap.Modal(document.getElementById('reviewModal'));
-                    reviewModal.show();
-                })
-                .catch(error => {
-                    console.error('Error fetching order details:', error);
-                    const orderDetailsContainer = document.getElementById('orderDetailsContainer');
-                    orderDetailsContainer.innerHTML = `<p class="text-danger">An error occurred. Please try again later.</p>`;
+                // Descriptions for ratings
+                const descriptions = ["Poor", "Fair", "Good", "Very Good", "Amazing"];
+
+                // Set initial rating from the input value
+                const initialRating = parseInt(ratingInput.value, 10) || 0;
+                if (initialRating > 0) {
+                    setRating(stars, initialRating);
+                    updateDescription(initialRating, descriptionElement);
+                    expandedFields.style.display = "block";
+                }
+
+                // Add event listeners for stars
+                stars.forEach((star, index) => {
+                    star.addEventListener('mouseover', () => fillStars(stars, index));
+                    star.addEventListener('mouseleave', () => resetStars(stars, ratingInput.value));
+                    star.addEventListener('click', () => {
+                        const selectedRating = index + 1;
+                        ratingInput.value = selectedRating; // Update the hidden input
+                        setRating(stars, selectedRating); // Update star visuals
+                        updateDescription(selectedRating, descriptionElement); // Update description
+                        expandedFields.style.display = "block"; // Show expanded fields
+                    });
                 });
             }
 
-            function setupStarRating(starContainerId, inputId, descriptionId) {
-            const stars = document.querySelectorAll(`#${starContainerId} .star`);
-            const ratingInput = document.getElementById(inputId);
-            const descriptionElement = document.getElementById(descriptionId);
-            const expandedFields = document.getElementById('expandedFields');
-
-            // Descriptions for ratings
-            const descriptions = ["Poor", "Fair", "Good", "Very Good", "Amazing"];
-
-            // Set initial rating from the input value
-            const initialRating = parseInt(ratingInput.value, 10) || 0;
-            if (initialRating > 0) {
-                setRating(stars, initialRating);
-                updateDescription(initialRating, descriptionElement);
-                expandedFields.style.display = "block";
+            // Function to update the product quality description
+            function updateDescription(rating, descriptionElement) {
+                const descriptions = ["Poor", "Fair", "Good", "Very Good", "Amazing"];
+                const description = descriptions[rating - 1] || "Select a rating";
+                descriptionElement.textContent = description;
+                descriptionElement.style.display = "inline-block"; // Make the description visible
             }
-
-            // Add event listeners for stars
-            stars.forEach((star, index) => {
-                star.addEventListener('mouseover', () => fillStars(stars, index));
-                star.addEventListener('mouseleave', () => resetStars(stars, ratingInput.value));
-                star.addEventListener('click', () => {
-                    const selectedRating = index + 1;
-                    ratingInput.value = selectedRating; // Update the hidden input
-                    setRating(stars, selectedRating); // Update star visuals
-                    updateDescription(selectedRating, descriptionElement); // Update description
-                    expandedFields.style.display = "block"; // Show expanded fields
-                });
-            });
-        }
-
-        // Function to update the product quality description
-        function updateDescription(rating, descriptionElement) {
-            const descriptions = ["Poor", "Fair", "Good", "Very Good", "Amazing"];
-            const description = descriptions[rating - 1] || "Select a rating";
-            descriptionElement.textContent = description;
-            descriptionElement.style.display = "inline-block"; // Make the description visible
-        }
 
         });
     </script>
@@ -1830,7 +1837,6 @@
             }
         }
     </script>
-
     <script>
         function toggleSpinner(show) {
             const loadingSpinner = document.getElementById('loadingSpinner');
@@ -1912,6 +1918,18 @@
             function handleSuccess() {
                 // Close any relevant modals
                 $('#changeContactModal').modal('hide');
+
+                const thankYouModal = document.getElementById('thankYouModal');
+                if (thankYouModal) {
+                    const thankYouModalInstance = bootstrap.Modal.getInstance(thankYouModal) || new bootstrap.Modal(thankYouModal);
+                    thankYouModalInstance.hide();
+
+                    // Ensure the backdrop for the "Thank You" modal is removed
+                    const thankYouBackdrop = document.querySelector('.modal-backdrop');
+                    if (thankYouBackdrop) {
+                        thankYouBackdrop.remove();
+                    }
+                }
 
                 // Show success modal
                 $('#statusModalIcon')
@@ -2041,89 +2059,6 @@
             });
         });
     </script>
-
-
-    {{-- ;s --}}
-    {{-- <script>
-        let currentOrderId = null; // Store the order ID for the current cancellation
-
-        // Function to open the modal and set the order ID
-        function openCancelConfirmationModal(orderId) {
-            currentOrderId = orderId; // Set the current order ID to be used in cancellation
-            const cancelConfirmationModal = new bootstrap.Modal(document.getElementById('cancelConfirmationModal'));
-            cancelConfirmationModal.show(); // Show the confirmation modal
-        }
-
-        // Event listener for the "Yes, Cancel Order" button in the modal
-        document.addEventListener('DOMContentLoaded', function () {
-            const confirmCancelOrderButton = document.getElementById('confirmCancelOrder');
-
-            if (confirmCancelOrderButton) {
-                confirmCancelOrderButton.addEventListener('click', function () {
-
-                    const cancelConfirmationModal = bootstrap.Modal.getInstance(document.getElementById('cancelConfirmationModal'));
-                    cancelConfirmationModal.hide();
-
-
-                    if (currentOrderId) {
-                        // Send AJAX request to cancel the order
-                        fetch(`/order/cancel/${currentOrderId}`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                            },
-                            body: JSON.stringify({ order_id: currentOrderId })
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error(`HTTP error! Status: ${response.status}`);
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            const confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
-                            const statusIcon = document.querySelector('.status-icon');
-                            const statusMessage = document.querySelector('.status-message');
-
-                            if (data.success) {
-                                // Update modal for success
-                                statusIcon.className = 'status-icon fa-regular fa-circle-check text-success';
-                                statusMessage.textContent = 'Order has been cancelled successfully.';
-                                confirmationModal.show(); // Show the modal after updating content
-                                setTimeout(() => {
-                                    window.location.href = '/mypurchase'; // Redirect after a short delay
-                                }, 2000); // Optional: delay for the user to read the message
-                            } else {
-                                // Update modal for failure
-                                statusIcon.className = 'status-icon fa-regular fa-circle-exclamation text-danger';
-                                statusMessage.textContent = 'Failed to cancel the order. Please try again.';
-                                confirmationModal.show(); // Show the modal
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error occurred while canceling the order:', error);
-
-                            // Display error in the modal as a fallback
-                            const confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
-                            const statusIcon = document.querySelector('.status-icon');
-                            const statusMessage = document.querySelector('.status-message');
-
-                            statusIcon.className = 'status-icon fa-regular fa-circle-exclamation text-danger';
-                            statusMessage.textContent = 'An error occurred while canceling the order. Please try again.';
-                            confirmationModal.show(); // Show the modal
-                        });
-                    } else {
-                        console.warn("No order ID specified for cancellation.");
-                    }
-                });
-            } else {
-                console.warn("The element with id 'confirmCancelOrder' was not found.");
-            }
-        });
-
-    </script> --}}
-
     <script>
         document.getElementById('requestCancelOrder').addEventListener('click', function () {
             // Get the data-order-id attribute from the button dynamically
@@ -2257,6 +2192,63 @@
         document.addEventListener('DOMContentLoaded', function () {
             const tabs = document.querySelectorAll('#purchaseTabs .nav-link');
             const pageHeading = document.getElementById('pageHeading'); // The heading element to update
+            const contentContainer = document.getElementById('purchaseContent');
+            const loadingSpinner = document.getElementById('loadingSpinner'); // Assume there is a spinner element
+
+            // Function to fetch content dynamically
+            function fetchContentForStatus(status) {
+                // Show the spinner
+                loadingSpinner.style.display = 'block';
+
+                fetch(`/mypurchase?status=${status}`, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest', // Ensure Laravel recognizes this as an AJAX request
+                    },
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Hide the spinner
+                        loadingSpinner.style.display = 'none';
+
+                        // Update the content with the fetched HTML
+                        contentContainer.innerHTML = data.html;
+                    })
+                    .catch(error => {
+                        // Hide the spinner
+                        loadingSpinner.style.display = 'none';
+
+                        contentContainer.innerHTML = '<p>Error loading content. Please try again later.</p>';
+                    });
+            }
+
+            // Function to set the active tab and update the content
+            function activateTab(status) {
+                // Update the active tab
+                tabs.forEach(t => t.classList.remove('active'));
+                const activeTab = document.querySelector(`#purchaseTabs .nav-link[data-status="${status}"]`);
+                if (activeTab) {
+                    activeTab.classList.add('active');
+                }
+
+                // Update the heading
+                const statusCapitalized = status === 'cancel'
+                    ? 'Cancelled'
+                    : status.charAt(0).toUpperCase() + status.slice(1);
+                pageHeading.textContent = `My Purchase (${statusCapitalized})`;
+
+                // Fetch content for the current status
+                fetchContentForStatus(status);
+            }
+
+            // On page load, check the status parameter from the URL
+            const params = new URLSearchParams(window.location.search);
+            const status = params.get('status') || 'pending'; // Default to 'pending' if no status is provided
+            activateTab(status);
 
             // Handle tab clicks
             tabs.forEach(tab => {
@@ -2265,97 +2257,24 @@
 
                     // Get the status from the clicked tab
                     const status = this.getAttribute('data-status');
-                    const statusCapitalized = status === 'cancel'
-                        ? 'Cancelled'
-                        : status.charAt(0).toUpperCase() + status.slice(1);
 
                     // Update the URL
                     const newUrl = `/mypurchase?status=${status}`;
                     window.history.pushState(null, '', newUrl);
 
-                    // Fetch the content for the selected status
-                    fetchContentForStatus(status);
-
-                    // Update the active tab
-                    tabs.forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-
-                    // Update the heading
-                    pageHeading.textContent = `My Purchase (${statusCapitalized})`;
+                    // Activate the tab and fetch the content
+                    activateTab(status);
                 });
             });
-
-            // Function to fetch content dynamically
-            function fetchContentForStatus(status) {
-            const contentContainer = document.getElementById('purchaseContent');
-
-            // Show the spinner
-            loadingSpinner.style.display = 'block';
-
-            fetch(`/mypurchase?status=${status}`, {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest', // Ensure Laravel recognizes this as an AJAX request
-                },
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // Hide the spinner
-                    loadingSpinner.style.display = 'none';
-
-                    // Update the content with the fetched HTML
-                    contentContainer.innerHTML = data.html;
-                })
-                .catch(error => {
-                    // Hide the spinner
-                    loadingSpinner.style.display = 'none';
-
-                    contentContainer.innerHTML = '<p>Error loading content. Please try again later.</p>';
-                });
-        }
 
             // Handle back/forward navigation
             window.addEventListener('popstate', function () {
                 const params = new URLSearchParams(window.location.search);
-                const status = params.get('status') || 'pending';
-                const activeTab = document.querySelector(`#purchaseTabs .nav-link[data-status="${status}"]`);
-                const statusText = activeTab ? activeTab.textContent.trim() : 'Pending Orders';
-
-                // Update the content and active tab
-                fetchContentForStatus(status);
-
-                tabs.forEach(t => t.classList.remove('active'));
-                if (activeTab) {
-                    activeTab.classList.add('active');
-                }
-
-                // Update the heading
-                pageHeading.textContent = `My Purchases (${statusText})`;
+                const status = params.get('status') || 'pending'; // Default to 'pending' if no status is provided
+                activateTab(status);
             });
         });
+
     </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @endsection
