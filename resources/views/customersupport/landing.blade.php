@@ -33,8 +33,7 @@
         position: relative;
         margin: 20px auto;
         width: 500px;
-        z-index: 10;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.7); /* Shadow below the search bar */
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6); /* Shadow below the search bar */
         border-radius: 8px; /* Match the input field's border-radius */
         background-color: #fff; /* Add a background color for consistency */
     }
@@ -45,7 +44,6 @@
         top: 50%;
         transform: translateY(-50%);
         font-size: 16px;
-        color: black;
     }
 
     .support-search-container input {
@@ -56,7 +54,6 @@
         border-radius: 8px;
         outline: none;
         background-color: #fff; /* Ensure background is white */
-        z-index: 10; /* Input remains on top */
         position: relative;
     }
 
@@ -140,7 +137,7 @@
     <!-- Search Form -->
     <div class="support-search-container">
         <span>
-            <i class="fas fa-search icon"></i>
+            <i class="fas fa-search "></i>
         </span>
         <input
             type="text"
