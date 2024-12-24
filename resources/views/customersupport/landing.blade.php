@@ -84,6 +84,13 @@
         color: #999;
         cursor: default;
     }
+    mark {
+        background-color: #ffeeba; /* Light yellow */
+        padding: 0;
+        font-weight: bold;
+        color: #d9534f; /* Optional: Change text color */
+        border-radius: 3px;
+    }
 
     @media only screen and (max-width: 425px) {
         body {
