@@ -2,6 +2,7 @@
 
 @section('styles')
 <style>
+    
 
      main {
             padding: 80px;
@@ -48,6 +49,7 @@
                 name="query" 
                 placeholder="Describe your issue" 
                 style="
+                    width: 100%; 
                     padding: 12px 15px 12px 40px; 
                     font-size: 16px; 
                     border: 1px solid #ddd; 
