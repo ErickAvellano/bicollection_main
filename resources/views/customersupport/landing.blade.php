@@ -140,7 +140,7 @@
     <!-- Search Form -->
     <div class="support-search-container">
         <span>
-            <i class="fas fa-search icon"></i>
+            <i class="fa-solid fa-magnifying-glass"></i>
         </span>
         <input
             type="text"
