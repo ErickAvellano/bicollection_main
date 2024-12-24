@@ -542,6 +542,45 @@
 }
 
 
+    @media only screen and (min-width: 360px) and (max-width: 425px) {
+        /* Styles for devices in this range */
+        body {
+            font-size: 16px;
+        }
+        #dynamicBanner {
+            position: relative;
+            z-index: -1;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .banner {
+            width: 100%;
+            padding: 0;
+        }
+
+        #carouselIndicators {
+            position: absolute;
+            bottom: 5px; /* Adjusts how far up the dots appear from the bottom of the banner */
+            width: 100%;
+            padding: 10px 0;
+            z-index: 10; /* Make sure it's above the banner image */
+            margin: 0;
+        }
+        .carousel-dot{
+            width: 5px;
+            height: 5px;
+        }
+        .popular-product-header .line{
+            display: none;
+        }
+         /* Hide the line in the popular product header on small screens */
+        .popular-product-header .line {
+            display: none;
+        }
+
+    }
 </style>
 @endsection
 
