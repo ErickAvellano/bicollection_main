@@ -45,6 +45,7 @@
         top: 50%;
         transform: translateY(-50%);
         font-size: 16px;
+        z-index: 10;
     }
 
     .support-search-container input {
@@ -139,7 +140,7 @@
     <!-- Search Form -->
     <div class="support-search-container">
         <span>
-            <i class="fas fa-search "></i>
+            <i class="fas fa-search icon"></i>
         </span>
         <input
             type="text"
