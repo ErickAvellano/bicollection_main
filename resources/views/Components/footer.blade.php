@@ -1,9 +1,10 @@
 <style>
     /* General Footer Styles */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
     .footer {
         background-color: rgb(236, 234, 234);
         text-align: center;
-        font-family: Arial, sans-serif;
+        font-family: 'Poppins', sans-serif;
         padding: 20px 20px 0 20px;
     }
     .footer-container {
