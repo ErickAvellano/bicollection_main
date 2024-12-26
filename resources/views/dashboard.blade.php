@@ -594,7 +594,7 @@
             display: none;
         }
         .btn{
-            --bs-btn-font-size: 0.9rem;
+            --bs-btn-font-size: 0.8rem;
         }
         .navbar-brand{
             font-size: 1.2rem;
