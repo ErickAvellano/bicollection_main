@@ -253,7 +253,7 @@
 
                 @if (!empty($guide->$step) && !empty($guide->$stepDescription))
                     <div class="guide-step mb-4">
-                        <h4 class="ms-2">Step {{ $i }}: {{ $guide->$step }}</h4>
+                        <h5 class="ms-2">Step {{ $i }}: {{ $guide->$step }}</h5>
                         <p  class="ms-5 mt-3">{{ $guide->$stepDescription }}</p>
 
                         <!-- Check for images -->
