@@ -80,7 +80,7 @@
     .container{
         max-width: 700px;
     }
-    
+
     .dropdown-item {
         padding: 5px;
         font-size: 14px;
@@ -108,16 +108,16 @@
     .inline-container {
         display: flex;
         align-items: center;
-        gap: 20px; 
-        flex-wrap: wrap; 
+        gap: 20px;
+        flex-wrap: wrap;
     }
 
     .assistance-container {
         display: flex;
-        flex-direction: column; 
-        justify-content: space-between; 
+        flex-direction: column;
+        justify-content: space-between;
         height: 100%;
-        padding: 20px; 
+        padding: 20px;
         border: 1px solid #ddd;
         border-radius: 8px;
         background-color: #f9f9fc;
@@ -190,9 +190,9 @@
 
     /* Live Chat Button Styling */
     .live-chat-container {
-        text-align: right; 
-        display: flex; 
-        justify-content: flex-end; 
+        text-align: right;
+        display: flex;
+        justify-content: flex-end;
     }
 
     .live-chat-button {
@@ -273,7 +273,11 @@
             autocomplete="off"
             required
         >
-        <div id="suggestions"></div>
+        <div id="suggestions" class="text-start"></div>
+    </div>
+
+    <div class="alert alert-danger error" id="error" style="display: none">
+        <strong>Guide not found!</strong> We couldn't find a guide matching your search.
     </div>
 
     <div style="margin-top: 20px;">
@@ -282,6 +286,7 @@
             <!-- Dynamic suggestions will be added here -->
         </ul>
     </div>
+
 </main>
 <!-- No Answer Section -->
 <section class="no-answer-section mt-3">
@@ -303,7 +308,7 @@
                             <div class="step-text">Select the topic</div>
                         </div>
                     </div>
-        
+
                     <!-- Dropdown Selection -->
                     <div class="dropdown-container text-end">
                         <select class="dropdown" id="topic-dropdown" >
@@ -317,7 +322,7 @@
                         </div>
                     </div>
                 </div>
-        
+
                 <!-- Step 2 -->
                 <div class="steps step-2" id="step-2">
                     <div class="step">
@@ -325,7 +330,7 @@
                         <div class="step-text">Get support from our team</div>
                     </div>
                 </div>
-        
+
                 <!-- Live Chat Button -->
                 <div class="live-chat-container">
                     <a class="live-chat-button" id="live-chat-button">
@@ -334,7 +339,7 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 </section>
 
@@ -344,6 +349,12 @@
 
 @section('scripts')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+@if (session('error'))
+    <script>
+         document.getElementById('error').style.display = 'block';
+    </script>
+@endif
+
 <script>
     $(document).ready(function () {
         // Add CSRF token to AJAX requests
@@ -364,10 +375,15 @@
                     method: "GET",
                     data: { query: query },
                     success: function (data) {
+                        // Hide the error message if previously shown
+                        $('.alert-danger').hide();
+
                         $('#suggestions').empty().show(); // Clear and show suggestions
 
+                        $('#suggestions').append('<div class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></div>');
+
                         if (data.length === 0) {
-                            $('#suggestions').append('<div class="no-results">No matches found</div>');
+                            $('#suggestions').append('<div class="no-results text-center">No matches found</div>');
                         } else {
                             $.each(data, function (index, item) {
                                 // Highlight matching parts
@@ -375,15 +391,28 @@
 
                                 // Include the suggestion id in the URL
                                 $('#suggestions').append(`
-                                    <a class="dropdown-item" href="{{ url('/customer-support/search') }}?query=${encodeURIComponent(item.guide_title)}&id=${item.guide_id}">
+                                    <a class="dropdown-item" href="{{ url('/customer-support/search') }}?query=${encodeURIComponent(item.guide_title)}">
                                         ${highlightedText}
                                     </a>
                                 `);
                             });
                         }
                     },
-                    error: function () {
-                        console.log('Error fetching suggestions.');
+                    error: function (xhr) {
+                        // Clear existing suggestions
+                        $('#suggestions').empty().hide();
+
+                        if (xhr.status === 404) {
+                            // Show the error message in the alert div
+                            $('.alert-danger')
+                                .text(xhr.responseJSON.error || "Guide not found! We couldn't find a guide matching your search.")
+                                .show();
+                        } else {
+                            // Handle other error types with a generic message
+                            $('.alert-danger')
+                                .text("An unexpected error occurred. Please try again later.")
+                                .show();
+                        }
                     }
                 });
             } else {
@@ -405,7 +434,8 @@
         }
     });
 </script>
-<script>
+
+{{-- <script>
     $(document).ready(function () {
         // Fetch suggestions dynamically
         function fetchSuggestions() {
@@ -436,7 +466,7 @@
         fetchSuggestions();
     });
 
-</script>
+</script> --}}
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const dropdown = document.getElementById('topic-dropdown');
@@ -459,7 +489,7 @@
                 // Hide the error message if visible
                 errorMessage.style.display = 'none';
 
-                dropdown.style.border = '1px solid #228b22'; 
+                dropdown.style.border = '1px solid #228b22';
             }
         });
 

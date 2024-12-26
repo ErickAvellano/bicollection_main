@@ -70,6 +70,31 @@
         left: 0;
         display: none; /* Initially hidden */
     }
+    .dropdown-item {
+        padding: 5px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .dropdown-item:hover {
+        background-color: #f8f9fa;
+    }
+
+    .no-results {
+        padding: 5px;
+        font-size: 14px;
+        color: #999;
+        cursor: default;
+    }
+
+    mark {
+        background-color: #ffeeba; /* Light yellow */
+        padding: 0;
+        font-weight: bold;
+        color: #d9534f; /* Optional: Change  color */
+        border-radius: 3px;
+    }
+
     /* Breadcrumb */
     .breadcrumb {
         background-color: transparent;
@@ -174,7 +199,80 @@
 @endsection
 
 @section('content')
-<section>
+
+<section class="guide-section">
+    <div class="container mt-3">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Search</a></li>
+                <li class="breadcrumb-item"><a href="#">{{ $guide->category ?? null }}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ $guide->guide_title }}</li>
+            </ol>
+        </nav>
+
+        <!-- Title and Subtitle -->
+        <h2 class="guide-title">{{ $guide->guide_title }}</h2>
+        <p class="guide-subtitle">{{ $guide->category }}</p>
+        <p class="guide-updated">Updated {{ $guide->updated_at->diffForHumans() }}</p>
+
+        <!-- Ratings -->
+        <div class="guide-ratings">
+            <span class="rating-stars">
+                @php
+                    $filledStars = floor($guide->ratings);
+                    $halfStar = $guide->ratings - $filledStars >= 0.5;
+                    $emptyStars = 5 - $filledStars - ($halfStar ? 1 : 0);
+                @endphp
+
+                @for ($i = 0; $i < $filledStars; $i++)
+                    <i class="fas fa-star text-warning"></i>
+                @endfor
+
+                @if ($halfStar)
+                    <i class="fas fa-star-half-alt text-warning"></i>
+                @endif
+
+                @for ($i = 0; $i < $emptyStars; $i++)
+                    <i class="far fa-star text-muted"></i>
+                @endfor
+            </span>
+            <span class="rating-value">({{ $guide->ratings }}/5)</span>
+        </div>
+        <hr>
+
+        <!-- Steps -->
+        <div class="guide-steps">
+            @for ($i = 1; $i <= 10; $i++)
+                @php
+                    $step = 'step_' . $i;
+                    $stepDescription = 'step_' . $i . '_description';
+                    $stepHasImage = 'step_' . $i . '_has_image';
+                @endphp
+
+                @if (!empty($guide->$step) && !empty($guide->$stepDescription))
+                    <div class="guide-step mb-4">
+                        <h4 class="ms-2">Step {{ $i }}: {{ $guide->$step }}</h4>
+                        <p  class="ms-5 mt-3">{{ $guide->$stepDescription }}</p>
+
+                        <!-- Check for images -->
+                        @if ($guide->$stepHasImage)
+                            <div class="guide-step-image">
+                                <img src="{{ Storage::url() ?? 'https://via.placeholder.com/150' }}" alt="Step {{ $i }} Image" class="img-fluid rounded" />
+                            </div>
+                        @else
+                            <p class="text-muted">No image available for this step.</p>
+                        @endif
+                    </div>
+                @endif
+            @endfor
+        </div>
+    </div>
+</section>
+
+<section class="mt-4">
+    <h4 class="mt-4 text-center">Have we solved your problem?</h4>
+
     <div class="container-fluid">
         <!-- Search Form -->
         <div class="support-search-container">
@@ -185,78 +283,24 @@
                 type="text"
                 id="search-query"
                 name="query"
-                placeholder="Describe your issue"
+                placeholder="Any other issue?"
                 autocomplete="off"
                 required
             >
             <div id="suggestions"></div>
         </div>
     </div>
-</section>
-
-<section class="guide-section">
-    <div class="container">
-        <!-- Breadcrumb -->
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Search</a></li>
-                <li class="breadcrumb-item"><a href="#">{{ $guide->category }}</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{ $guide->guide_title }}</li>
-            </ol>
-        </nav>
-
-        <!-- Title and Subtitle -->
-        <h1 class="guide-title">{{ $guide->guide_title }}</h1>
-        <p class="guide-subtitle">{{ $guide->category }}</p>
-        <p class="guide-updated">Updated {{ $guide->updated_at->diffForHumans() }}</p>
-
-        <!-- Ratings -->
-        <div class="guide-ratings">
-            <span class="rating-stars">
-                @php
-                    $filledStars = floor($guide->ratings);
-                    $halfStar = $guide->ratings - $filledStars >= 0.5 ? true : false;
-                    $emptyStars = 5 - $filledStars - ($halfStar ? 1 : 0);
-                @endphp
-
-                @for ($i = 0; $i < $filledStars; $i++)
-                    <i class="fas fa-star"></i>
-                @endfor
-
-                @if ($halfStar)
-                    <i class="fas fa-star-half-alt"></i>
-                @endif
-
-                @for ($i = 0; $i < $emptyStars; $i++)
-                    <i class="far fa-star"></i>
-                @endfor
-            </span>
-            <span class="rating-value">({{ $guide->ratings }}/5)</span>
-        </div>
-
-        <!-- Steps -->
-        @for ($i = 1; $i <= 10; $i++)
-            @php
-                $step = 'step_' . $i;
-                $stepDescription = 'step_' . $i . '_description';
-                $stepHasImage = 'step_' . $i . '_has_image';
-            @endphp
-
-            @if (!empty($guide->$step) && !empty($guide->$stepDescription))
-                <div class="guide-step">
-                    <h4>Step {{ $i }}: {{ $guide->$step }}</h4>
-                    <p>{{ $guide->$stepDescription }}</p>
-
-                    @if ($guide->$stepHasImage)
-                        <div class="guide-step-image">
-                            <img src="/path/to/images/step_{{ $i }}.png" alt="Step {{ $i }} Image" />
-                        </div>
-                    @endif
-                </div>
-            @endif
-        @endfor
+    <h6 class="text-center">How would you rate our customer support guide</h6>
+    <div class="text-center">
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
     </div>
 </section>
+
+
 
 
 
@@ -267,6 +311,82 @@
 @section('scripts')
 
 <script>
+    $(document).ready(function () {
+        // Add CSRF token to AJAX requests
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
+        // Trigger search when typing
+        $('#search-query').on('input', function () {
+            let query = $(this).val();
+
+            // Show suggestions only when the query is not empty
+            if (query.length > 0) {
+                $.ajax({
+                    url: "{{ route('customersupport.autocomplete') }}",
+                    method: "GET",
+                    data: { query: query },
+                    success: function (data) {
+                        // Hide the error message if previously shown
+                        $('.alert-danger').hide();
+
+                        $('#suggestions').empty().show(); // Clear and show suggestions
+
+                        $('#suggestions').append('<div class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></div>');
+
+                        if (data.length === 0) {
+                            $('#suggestions').append('<div class="no-results">No matches found</div>');
+                        } else {
+                            $.each(data, function (index, item) {
+                                // Highlight matching parts
+                                let highlightedText = highlightMatch(item.guide_title, query);
+
+                                // Include the suggestion id in the URL
+                                $('#suggestions').append(`
+                                    <a class="dropdown-item" href="{{ url('/customer-support/search') }}?query=${encodeURIComponent(item.guide_title)}">
+                                        ${highlightedText}
+                                    </a>
+                                `);
+                            });
+                        }
+                    },
+                    error: function (xhr) {
+                        // Clear existing suggestions
+                        $('#suggestions').empty().hide();
+
+                        if (xhr.status === 404) {
+                            // Show the error message in the alert div
+                            $('.alert-danger')
+                                .text(xhr.responseJSON.error || "Guide not found! We couldn't find a guide matching your search.")
+                                .show();
+                        } else {
+                            // Handle other error types with a generic message
+                            $('.alert-danger')
+                                .text("An unexpected error occurred. Please try again later.")
+                                .show();
+                        }
+                    }
+                });
+            } else {
+                $('#suggestions').hide(); // Hide suggestions if query is empty
+            }
+        });
+
+        // Hide suggestions when clicking outside
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.support-search-container').length) {
+                $('#suggestions').hide();
+            }
+        });
+
+        // Function to highlight matching text
+        function highlightMatch(text, query) {
+            const regex = new RegExp(`(${query})`, 'gi'); // Create a case-insensitive regex for the query
+            return text.replace(regex, '<mark>$1</mark>'); // Wrap matching parts in <mark>
+        }
+    });
 </script>
 @endsection

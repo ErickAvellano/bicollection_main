@@ -11,26 +11,26 @@ class CustomerSupportController extends Controller
         return view('customersupport.landing');
     }
     public function search(Request $request)
-    { 
+    {
+        // Get the search query from the request
         $query = $request->input('query');
-        $guideId = $request->input('id');
 
-        // Fetch guide based on id or title
-        if ($guideId) {
-            $guide = CustomerSupportGuide::find($guideId);
-        } else {
-            $guide = CustomerSupportGuide::where('guide_title', 'LIKE', "%$query%")->first();
-        }
+        // Search for guides based on the query
+        $guide = CustomerSupportGuide::where('guide_title', 'LIKE', "%$query%")
+                    ->orWhere('category', 'LIKE', "%$query%") // Optional: Search by category too
+                    ->first(); // Get the first matching guide (or null if not found)
 
-        // Check if a guide exists
+        // Check if there are any matches
         if (!$guide) {
-            return redirect()->back()->with('error', 'No guide found for your search.');
+            // Redirect back to the customersupport.support route with an error message
+            return redirect()->route('customer.support')
+                             ->with('error', 'Guide not found! We couldn\'t find a guide matching your search.');
         }
 
-        // Return the single guide to the view
-        return view('customersupport.search-results', compact('guide'));
-    }
 
+        // Return the results to the view
+        return view('customersupport.search-results', compact('guide', 'query'));
+    }
 
 
     public function autocomplete(Request $request)
