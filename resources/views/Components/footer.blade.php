@@ -77,13 +77,13 @@
         <p>BiCollection is your go-to platform for authentic Bicol native products. Explore, shop, and support local merchants.</p>
       </div>
       <div class="footer-section text-center">
-        <h4>USABLE LINKS</h4>
+        <h5>USABLE LINKS</h5>
 
       </div>
 
       <!-- Terms and Policies -->
       <div class="footer-section text-center">
-        <h4>TERMS AND POLICIES</h4>
+        <h5>TERMS AND POLICIES</h5>
         <ul class="footer-links">
           <li><a href="privacy-policy.html">Privacy Policy</a></li>
           <li><a href="terms-of-use.html">Terms of Use</a></li>
@@ -92,7 +92,7 @@
 
       <!-- Contact Us -->
       <div class="footer-section text-center">
-        <h4>CONTACT US:</h4>
+        <h5>CONTACT US:</h5>
         <p>
           📍 123 Bicol Street, Legazpi City, Albay <br>
           ☎ +63 912 345 6789 <br>

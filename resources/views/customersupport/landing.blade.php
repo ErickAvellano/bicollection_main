@@ -6,6 +6,7 @@
 
     body, html {
         font-family: 'Poppins', sans-serif;
+        background-color:#fafafa;
     }
 
     main {
@@ -100,6 +101,12 @@
         color: #d9534f; /* Optional: Change text color */
         border-radius: 3px;
     }
+    .inline-container {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    gap: 20px; /* Space between the step and dropdown */
+    margin-bottom: 20px; /* Space below the inline row */
+}
     .assistance-container {
         margin-top: 15px;
         padding: 20px;
@@ -122,6 +129,8 @@
         flex-direction: column;
         gap: 10px;
         margin-bottom: 20px;
+        align-items: center;
+
     }
 
     .step {
@@ -144,7 +153,7 @@
     }
 
     .step-number.active {
-        background-color: #6c63ff; /* Purple for active step */
+        background-color: #228b22; /* Purple for active step */
     }
 
     .step-text {
@@ -156,16 +165,18 @@
     /* Dropdown Selection */
     .dropdown-container {
         margin-bottom: 20px;
+        flex: 1;
     }
 
+    
     .dropdown {
-        width: 100%;
+        width: 100%; /* Full width within its container */
+        max-width: 300px; /* Limit dropdown width */
         padding: 10px;
         border: 1px solid #ddd;
         border-radius: 8px;
-        background-color: #fff;
         font-size: 14px;
-        color: #333;
+        background-color: #fff;
     }
 
     /* Live Chat Button */
@@ -256,54 +267,58 @@
             <!-- Dynamic suggestions will be added here -->
         </ul>
     </div>
-
-    <!-- No Answer Section -->
-    <div style="margin-top: 20px;">
-        <strong style="font-size: 18px;">Can't find an answer?</strong>
+</main>
+<!-- No Answer Section -->
+<section class="no-answer-section mt-3">
+    <div class="container text-center">
+        <strong class="section-title text-center">Can't find an answer?</strong>
 
         <!-- Assistance Section -->
         <div class="assistance-container">
-            <div class="assistance-header">
+            <div class="assistance-header text-start">
                 Select a topic and order to get assistance
             </div>
             <div class="assistance-body">
-                <!-- Step-by-step process -->
+                <!-- Inline Step and Dropdown -->
+                <div class="inline-container">
+                    <!-- Step-by-step process -->
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-number active">1</div>
+                            <div class="step-text">Select the topic</div>
+                        </div>
+                    </div>
+            
+                    <!-- Dropdown Selection -->
+                    <div class="dropdown-container">
+                        <select class="dropdown">
+                            <option selected disabled>Select Topic</option>
+                            <option value="1">Billing</option>
+                            <option value="2">Technical Support</option>
+                            <option value="3">Account Management</option>
+                        </select>
+                    </div>
+                </div>
+            
+                <!-- Step 2 -->
                 <div class="steps">
                     <div class="step">
-                        <div class="step-number active">1</div>
-                        <div class="step-text">Select the topic</div>
-                    </div>
-                    <div class="step">
                         <div class="step-number">2</div>
-                        <div class="step-text">Select the subscription</div>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">3</div>
                         <div class="step-text">Get support from our team</div>
                     </div>
                 </div>
-
-                <!-- Dropdown Selection -->
-                <div class="dropdown-container">
-                    <select class="dropdown">
-                        <option selected disabled>Select Topic</option>
-                        <option value="1">Billing</option>
-                        <option value="2">Technical Support</option>
-                        <option value="3">Account Management</option>
-                    </select>
-                </div>
-
+            
                 <!-- Live Chat Button -->
                 <div class="live-chat-container">
-                    <button class="live-chat-button">
+                    <button class="btn btn-custom">
                         <i class="fas fa-comment-alt"></i> Start a live chat
                     </button>
                 </div>
             </div>
+            
         </div>
     </div>
-
-</main>
+</section>
 
 @include('Components.footer')
 @endsection
