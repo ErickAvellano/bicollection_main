@@ -106,6 +106,7 @@
     .breadcrumb-item a {
         color: #666;
         text-decoration: none;
+        font-size: 14px;
     }
 
     .breadcrumb-item.active {
