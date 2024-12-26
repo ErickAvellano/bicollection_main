@@ -77,6 +77,10 @@
         display: none; /* Initially hidden */
     }
 
+    .container{
+        max-width: 700px;
+    }
+    
     .dropdown-item {
         padding: 5px;
         font-size: 14px;
@@ -98,39 +102,38 @@
         background-color: #ffeeba; /* Light yellow */
         padding: 0;
         font-weight: bold;
-        color: #d9534f; /* Optional: Change text color */
+        color: #d9534f; /* Optional: Change  color */
         border-radius: 3px;
     }
     .inline-container {
-    display: flex;
-    align-items: center; /* Align items vertically */
-    gap: 20px; /* Space between the step and dropdown */
-    margin-bottom: 20px; /* Space below the inline row */
-}
+        display: flex;
+        align-items: center;
+        gap: 20px; 
+        flex-wrap: wrap; 
+    }
+
     .assistance-container {
-        margin-top: 15px;
-        padding: 20px;
+        display: flex;
+        flex-direction: column; 
+        justify-content: space-between; 
+        height: 100%;
+        padding: 20px; 
         border: 1px solid #ddd;
         border-radius: 8px;
         background-color: #f9f9fc;
         box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
     }
 
-    /* Header Section */
-    .assistance-header {
-        font-size: 16px;
-        font-weight: 500;
-        margin-bottom: 15px;
-    }
-
-    /* Step-by-step process */
+    /* Steps */
     .steps {
         display: flex;
-        flex-direction: column;
-        gap: 10px;
-        margin-bottom: 20px;
         align-items: center;
+        gap: 10px;
+        margin-bottom: 15px; /* Add space between steps */
+    }
 
+    .step-2 {
+        margin-top: 10px; /* Add extra spacing for Step 2 */
     }
 
     .step {
@@ -153,7 +156,7 @@
     }
 
     .step-number.active {
-        background-color: #228b22; /* Purple for active step */
+        background-color: #228b22; /* Green for active step */
     }
 
     .step-text {
@@ -162,30 +165,38 @@
         color: #333;
     }
 
-    /* Dropdown Selection */
+    /* Dropdown Styling */
     .dropdown-container {
-        margin-bottom: 20px;
-        flex: 1;
+        flex: 1; /* Allow dropdown to grow */
     }
 
-    
     .dropdown {
-        width: 100%; /* Full width within its container */
-        max-width: 300px; /* Limit dropdown width */
+        width: 100%;
+        max-width: 300px;
         padding: 10px;
-        border: 1px solid #ddd;
+        border: 1px solid #228b22;
         border-radius: 8px;
         font-size: 14px;
         background-color: #fff;
     }
 
-    /* Live Chat Button */
+    .dropdown:active, .dropdown:focus {
+
+        border: 1px solid #228b22; /* Green border when dropdown is focused */
+        outline: none; /* Remove the default browser outline */
+        transition: border-color 0.3s ease-in-out; /* Smooth transition */
+
+    }
+
+    /* Live Chat Button Styling */
     .live-chat-container {
-        text-align: right;
+        text-align: right; 
+        display: flex; 
+        justify-content: flex-end; 
     }
 
     .live-chat-button {
-        background-color: #6c63ff;
+        background-color: #228b22;
         color: #fff;
         border: none;
         border-radius: 8px;
@@ -197,15 +208,19 @@
         align-items: center;
         justify-content: center;
         gap: 8px;
-    }
-
-    .live-chat-button i {
-        font-size: 14px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        text-decoration:none;
     }
 
     .live-chat-button:hover {
-        background-color: #5a54d1;
+        background-color: #196619;
     }
+    #error-message {
+        color: red;
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
 
 
     @media only screen and (max-width: 425px) {
@@ -274,52 +289,56 @@
         <strong class="section-title text-center">Can't find an answer?</strong>
 
         <!-- Assistance Section -->
-        <div class="assistance-container">
-            <div class="assistance-header text-start">
-                Select a topic and order to get assistance
+        <div class="assistance-container mt-2">
+            <div class="assistance-header text-start mb-2">
+                Select a topic to get assistance
             </div>
             <div class="assistance-body">
-                <!-- Inline Step and Dropdown -->
+                <!-- Inline Steps and Dropdown -->
                 <div class="inline-container">
-                    <!-- Step-by-step process -->
-                    <div class="steps">
+                    <!-- Step 1: Select the topic -->
+                    <div class="steps mt-3">
                         <div class="step">
                             <div class="step-number active">1</div>
                             <div class="step-text">Select the topic</div>
                         </div>
                     </div>
-            
+        
                     <!-- Dropdown Selection -->
-                    <div class="dropdown-container">
-                        <select class="dropdown">
-                            <option selected disabled>Select Topic</option>
+                    <div class="dropdown-container text-end">
+                        <select class="dropdown" id="topic-dropdown" >
+                            <option value="" selected disabled>Select Topic</option>
                             <option value="1">Billing</option>
                             <option value="2">Technical Support</option>
-                            <option value="3">Account Management</option>
+                            <option value="3">Others</option>
                         </select>
+                        <div id="error-message" style="color: red; font-size: 12px; display: none; margin-top: 5px;">
+                            Please select a topic first.
+                        </div>
                     </div>
                 </div>
-            
+        
                 <!-- Step 2 -->
-                <div class="steps">
+                <div class="steps step-2" id="step-2">
                     <div class="step">
                         <div class="step-number">2</div>
                         <div class="step-text">Get support from our team</div>
                     </div>
                 </div>
-            
+        
                 <!-- Live Chat Button -->
                 <div class="live-chat-container">
-                    <button class="btn btn-custom">
+                    <a class="live-chat-button" id="live-chat-button">
                         <i class="fas fa-comment-alt"></i> Start a live chat
-                    </button>
+                    </a>
                 </div>
             </div>
-            
         </div>
+        
     </div>
 </section>
 
+@include('Components.chat-support-modal')
 @include('Components.footer')
 @endsection
 
@@ -417,6 +436,53 @@
         // Fetch suggestions when the page loads
         fetchSuggestions();
     });
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const dropdown = document.getElementById('topic-dropdown');
+        const liveChatButton = document.getElementById('live-chat-button');
+        const errorMessage = document.getElementById('error-message');
+        const step2 = document.querySelector('.step-2 .step-number');
+
+        // Listen for dropdown selection
+        dropdown.addEventListener('change', function () {
+            if (dropdown.value) {
+                // Enable the live chat button
+                liveChatButton.style.pointerEvents = 'auto'; // Enable link click
+                liveChatButton.style.backgroundColor = '#228b22'; // Change to active color
+                liveChatButton.style.cursor = 'pointer';
+
+                // Turn Step 2 green (active)
+                step2.classList.add('active');
+                step2.style.backgroundColor = '#228b22'; // Green for active step
+
+                // Hide the error message if visible
+                errorMessage.style.display = 'none';
+
+                dropdown.style.border = '1px solid #228b22'; 
+            }
+        });
+
+        // Listen for Live Chat button click
+        liveChatButton.addEventListener('click', function (event) {
+            if (!dropdown.value) {
+                // Prevent the anchor from proceeding
+                event.preventDefault();
+
+                // Show the error message
+                errorMessage.style.display = 'block';
+
+                dropdown.style.border = '1px solid red';
+                const modal = new bootstrap.Modal(document.getElementById('chatSupportModal'));
+                modal.hide();
+            } else {
+                const modal = new bootstrap.Modal(document.getElementById('chatSupportModal'));
+                modal.show();
+            }
+        });
+    });
+
 
 </script>
 @endsection
