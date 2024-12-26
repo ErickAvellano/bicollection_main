@@ -271,7 +271,7 @@
     .btn {
     --bs-btn-padding-x: 1.1rem;
     --bs-btn-padding-y: 0.3rem;
-    --bs-btn-font-size: 1rem;
+    --bs-btn-font-size: 0.9rem;
     }
 
     /* Popular product header */

@@ -259,7 +259,7 @@
     .btn {
     --bs-btn-padding-x: 0.7rem;
     --bs-btn-padding-y: 0.2rem;
-    --bs-btn-font-size: 1rem;
+    --bs-btn-font-size: 0.9rem;
     }
 
     /* Popular product header */
