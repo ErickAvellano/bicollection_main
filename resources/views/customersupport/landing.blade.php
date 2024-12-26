@@ -100,6 +100,102 @@
         color: #d9534f; /* Optional: Change text color */
         border-radius: 3px;
     }
+    .assistance-container {
+        margin-top: 15px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9fc;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Header Section */
+    .assistance-header {
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 15px;
+    }
+
+    /* Step-by-step process */
+    .steps {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .step {
+        display: flex;
+        align-items: center;
+    }
+
+    .step-number {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background-color: #ddd;
+        color: #fff;
+        font-size: 14px;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 10px;
+    }
+
+    .step-number.active {
+        background-color: #6c63ff; /* Purple for active step */
+    }
+
+    .step-text {
+        font-size: 14px;
+        font-weight: 500;
+        color: #333;
+    }
+
+    /* Dropdown Selection */
+    .dropdown-container {
+        margin-bottom: 20px;
+    }
+
+    .dropdown {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #fff;
+        font-size: 14px;
+        color: #333;
+    }
+
+    /* Live Chat Button */
+    .live-chat-container {
+        text-align: right;
+    }
+
+    .live-chat-button {
+        background-color: #6c63ff;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .live-chat-button i {
+        font-size: 14px;
+    }
+
+    .live-chat-button:hover {
+        background-color: #5a54d1;
+    }
+
 
     @media only screen and (max-width: 425px) {
         body {
