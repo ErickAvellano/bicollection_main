@@ -163,7 +163,48 @@
 
     <!-- No Answer Section -->
     <div style="margin-top: 20px;">
-        <strong>Can't find an answer?</strong>
+        <strong style="font-size: 18px;">Can't find an answer?</strong>
+
+        <!-- Assistance Section -->
+        <div class="assistance-container">
+            <div class="assistance-header">
+                Select a topic and order to get assistance
+            </div>
+            <div class="assistance-body">
+                <!-- Step-by-step process -->
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number active">1</div>
+                        <div class="step-text">Select the topic</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-text">Select the subscription</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-text">Get support from our team</div>
+                    </div>
+                </div>
+
+                <!-- Dropdown Selection -->
+                <div class="dropdown-container">
+                    <select class="dropdown">
+                        <option selected disabled>Select Topic</option>
+                        <option value="1">Billing</option>
+                        <option value="2">Technical Support</option>
+                        <option value="3">Account Management</option>
+                    </select>
+                </div>
+
+                <!-- Live Chat Button -->
+                <div class="live-chat-container">
+                    <button class="live-chat-button">
+                        <i class="fas fa-comment-alt"></i> Start a live chat
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
 </main>
