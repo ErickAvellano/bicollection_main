@@ -373,8 +373,9 @@
                                 // Highlight matching parts
                                 let highlightedText = highlightMatch(item.guide_title, query);
 
+                                // Include the suggestion id in the URL
                                 $('#suggestions').append(`
-                                    <a class="dropdown-item" href="{{ url('/customer-support/search') }}?query=${encodeURIComponent(item.guide_title)}">
+                                    <a class="dropdown-item" href="{{ url('/customer-support/search') }}?query=${encodeURIComponent(item.guide_title)}&id=${item.guide_id}">
                                         ${highlightedText}
                                     </a>
                                 `);
@@ -403,8 +404,6 @@
             return text.replace(regex, '<mark>$1</mark>'); // Wrap matching parts in <mark>
         }
     });
-
-
 </script>
 <script>
     $(document).ready(function () {

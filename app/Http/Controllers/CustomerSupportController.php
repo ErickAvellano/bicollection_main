@@ -13,13 +13,26 @@ class CustomerSupportController extends Controller
     public function search(Request $request)
     { 
         $query = $request->input('query');
+        $guideId = $request->input('id');
 
-        // Search only in the guide_title column
-        $results = CustomerSupportGuide::where('guide_title', 'LIKE', "%$query%")->get();
+        // Fetch guide based on id or title
+        if ($guideId) {
+            $guide = CustomerSupportGuide::find($guideId);
+        } else {
+            $guide = CustomerSupportGuide::where('guide_title', 'LIKE', "%$query%")->first();
+        }
 
-        // Return the search results to the view
-        return view('customersupport.search-results', compact('results', 'query'));
+        // Check if a guide exists
+        if (!$guide) {
+            return redirect()->back()->with('error', 'No guide found for your search.');
+        }
+
+        // Return the single guide to the view
+        return view('customersupport.search-results', compact('guide'));
     }
+
+
+
     public function autocomplete(Request $request)
     {
         // Get the search query
