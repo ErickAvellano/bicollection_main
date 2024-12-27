@@ -179,7 +179,7 @@
             font-size: 1.2rem;
         }
 
-        .mobile-nav {
+        .mobile-nav {s
             display: none !important;
         }
 
@@ -195,7 +195,7 @@
             font-size: 12px;
         }
         .guide-step-image{
-            max-width: 425px;
+            max-width: 400px;
         }
     }
 </style>
