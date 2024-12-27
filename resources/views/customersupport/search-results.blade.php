@@ -198,7 +198,7 @@
             max-width: auto !important;
         }
         .guide-image{
-            width:200px;
+            width:300px;
         }
     }
 </style>
