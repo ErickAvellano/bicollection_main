@@ -259,16 +259,22 @@
 
                         <!-- Check if the step has an image based on the database flag -->
                         @php
-                            // Set image path
-                            $imagePath = "guide-images/{$guide->guide_id}_step_{$i}.jpg";
+                            $imagePathJpg = "guide-images/{$guide->guide_id}_step_{$i}.jpg";
+                            $imagePathPng = "guide-images/{$guide->guide_id}_step_{$i}.png";
                             $stepHasImage = $guide->{'step_' . $i . '_has_image'}; 
+
+                            $imageToShow = null;
+                            if (file_exists(storage_path('app/public/' . $imagePathJpg))) {
+                                $imageToShow = $imagePathJpg;
+                            } elseif (file_exists(storage_path('app/public/' . $imagePathPng))) {
+                                $imageToShow = $imagePathPng;
+                            }
                         @endphp
 
-                        @if ($stepHasImage)
+                        @if ($stepHasImage && $imageToShow)
                             <div class="guide-step-image text-center">
-                                <img src="{{ asset('storage/' . $imagePath) }}" alt="Guide Image">
+                                <img src="{{ asset('storage/' . $imageToShow) }}" alt="Guide Image">
                             </div>
-                        
                         @endif
                     </div>
                 @endif
