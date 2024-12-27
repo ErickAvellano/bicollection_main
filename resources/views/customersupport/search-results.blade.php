@@ -257,19 +257,22 @@
                         <h5 class="ms-2">Step {{ $i }}: {{ $guide->$step }}</h5>
                         <p class="ms-5 mt-3">{{ $guide->$stepDescription }}</p>
 
-                        <!-- Check for images -->
+                        <!-- Check if the step has an image based on the database flag -->
                         @php
-                            // Define the image path relative to storage/app/public
-                            $imagePath = "guide-images/{$guide->guide_id}_step_{$i}.jpg"; 
+                            // Set image path
+                            $imagePath = "guide-images/{$guide->guide_id}_step_{$i}.jpg";
+                            $stepHasImage = $guide->{'step_' . $i . '_has_image'}; // Check the specific step's has_image flag
                         @endphp
 
-                        @if (Storage::exists($imagePath))
+                        @if ($stepHasImage)
                             <div class="guide-step-image">
                                 <img src="{{ asset('storage/' . $imagePath) }}" alt="Guide Step Image">
                             </div>
+                        
                         @endif
                     </div>
                 @endif
+
             @endfor
         </div>
     </div>
