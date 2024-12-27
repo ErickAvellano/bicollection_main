@@ -67,18 +67,45 @@ class CustomerSupportController extends Controller
 
     public function store(Request $request)
     {
-        // Validation rules for guide title and category (required)
+        // Validation rules (hardcoded for 10 steps)
         $validationRules = [
             'guide_title' => 'required|string|max:255',
             'category' => 'required|string|max:255',
-        ];
+            'step_1' => 'nullable|string|max:255',
+            'step_1_description' => 'nullable|string',
+            'step_1_has_image' => 'nullable|file|image|max:2048',
+            'step_2' => 'nullable|string|max:255',
+            'step_2_description' => 'nullable|string',
+            'step_2_has_image' => 'nullable|file|image|max:2048',
+            'step_3' => 'nullable|string|max:255',
+            'step_3_description' => 'nullable|string',
+            'step_3_has_image' => 'nullable|file|image|max:2048',
+            'step_4' => 'nullable|string|max:255',
+            'step_4_description' => 'nullable|string',
+            'step_4_has_image' => 'nullable|file|image|max:2048',
+            'step_5' => 'nullable|string|max:255',
+            'step_5_description' => 'nullable|string',
+            'step_5_has_image' => 'nullable|file|image|max:2048',
+            'step_6' => 'nullable|string|max:255',
+            'step_6_description' => 'nullable|string',
+            'step_6_has_image' => 'nullable|file|image|max:2048',
+            'step_7' => 'nullable|string|max:255',
+            'step_7_description' => 'nullable|string',
+            'step_7_has_image' => 'nullable|file|image|max:2048',
+            'step_8' => 'nullable|string|max:255',
+            'step_8_description' => 'nullable|string',
+            'step_8_has_image' => 'nullable|file|image|max:2048',
+            'step_9' => 'nullable|string|max:255',
+            'step_9_description' => 'nullable|string',
+            'step_9_has_image' => 'nullable|file|image|max:2048',
+            'step_10' => 'nullable|string|max:255',
+            'step_10_description' => 'nullable|string',
+            'step_10_has_image' => 'nullable|file|image|max:2048',
 
-        // Validation for steps: make the fields optional
-        for ($i = 1; $i <= 10; $i++) {
-            $validationRules["step_{$i}"] = 'nullable|string|max:255'; // Step title is optional
-            $validationRules["step_{$i}_description"] = 'nullable|string'; // Step description is optional
-            $validationRules["step_{$i}_has_image"] = 'nullable|file|image|max:2048'; // Image is optional
-        }
+
+
+            // Repeat for steps 3 to 10
+        ];
 
         // Validate the request
         $request->validate($validationRules);
@@ -92,26 +119,20 @@ class CustomerSupportController extends Controller
         // Create a temporary guide to get its ID for image naming
         $guide = CustomerSupportGuide::create($data);
 
-        // Loop through steps to process titles, descriptions, and images
+        // Process each step (hardcoded for 10 steps)
         for ($i = 1; $i <= 10; $i++) {
-            $stepTitle = $request->input("step_{$i}"); // Nullable (optional)
-            $stepDescription = $request->input("step_{$i}_description"); // Nullable (optional)
-            $hasImage = 0; // Default to no image
+            $stepTitle = $request->input("step_{$i}");
+            $stepDescription = $request->input("step_{$i}_description");
+            $hasImage = 0;
 
-            // Check if an image is uploaded
             if ($request->hasFile("step_{$i}_has_image")) {
                 $imageFile = $request->file("step_{$i}_has_image");
-
-                // Generate the file name using guide_id and step number
                 $fileName = "{$guide->guide_id}_step_{$i}.jpg";
-
-                // Save the image in the storage path
                 $imageFile->storeAs('guide-images', $fileName, 'public');
-
-                $hasImage = 1; // Set the flag to 1 if an image is uploaded
+                $hasImage = 1;
             }
 
-            // Only update step details if provided
+            // Update step data only if details are provided
             if ($stepTitle || $stepDescription || $hasImage) {
                 $data["step_{$i}"] = $stepTitle ?? null;
                 $data["step_{$i}_description"] = $stepDescription ?? null;
@@ -119,11 +140,12 @@ class CustomerSupportController extends Controller
             }
         }
 
-        // Update the guide with step details
+        // Update the guide with all step details
         $guide->update($data);
 
         return redirect()->route('customersupport.store-guide')->with('success', 'Guide created successfully!');
     }
+
 
 
 

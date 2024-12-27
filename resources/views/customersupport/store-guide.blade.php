@@ -234,33 +234,266 @@
             @enderror
         </div>
 
-        @for ($i = 1; $i <= 10; $i++)
-            <h5>Step {{ $i }}</h5>
-            <div class="mb-3">
-                <label for="step_{{ $i }}" class="form-label">Step {{ $i }} Title</label>
-                <input type="text" class="form-control @error('step_{{ $i }}') is-invalid @enderror" id="step_{{ $i }}" name="step_{{ $i }}" value="{{ old("step_{$i}") }}">
-                @error("step_{$i}")
-                <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
+        <h5>Step 1</h5>
+        <div class="mb-3">
+            <label for="step_1" class="form-label">Step 1 Title</label>
+            <input type="text" class="form-control @error('step_1') is-invalid @enderror" id="step_1" name="step_1" value="{{ old('step_1') }}">
+            @error('step_1')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
 
-            <div class="mb-3">
-                <label for="step_{{ $i }}_description" class="form-label">Step {{ $i }} Description</label>
-                <textarea class="form-control @error('step_{{ $i }}_description') is-invalid @enderror" id="step_{{ $i }}_description" name="step_{{ $i }}_description" rows="3">{{ old("step_{$i}_description") }}</textarea>
-                @error("step_{$i}_description")
-                <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
+        <div class="mb-3">
+            <label for="step_1_description" class="form-label">Step 1 Description</label>
+            <textarea class="form-control @error('step_1_description') is-invalid @enderror" id="step_1_description" name="step_1_description" rows="3">{{ old('step_1_description') }}</textarea>
+            @error('step_1_description')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
 
-            <div class="mb-3">
-                <label for="step_{{ $i }}_has_image" class="form-label">Step {{ $i }} Image (Optional)</label>
-                <input type="file" class="form-control @error('step_{{ $i }}_has_image') is-invalid @enderror" id="step_{{ $i }}_has_image" name="step_{{ $i }}_has_image" accept="image/*">
-                @error("step_{$i}_has_image")
-                <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-            <hr>
-        @endfor
+        <div class="mb-3">
+            <label for="step_1_has_image" class="form-label">Step 1 Image (Optional)</label>
+            <input type="file" class="form-control @error('step_1_has_image') is-invalid @enderror" id="step_1_has_image" name="step_1_has_image" accept="image/*">
+            @error('step_1_has_image')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        <hr>
+
+        <h5>Step 2</h5>
+        <div class="mb-3">
+            <label for="step_2" class="form-label">Step 2 Title</label>
+            <input type="text" class="form-control @error('step_2') is-invalid @enderror" id="step_2" name="step_2" value="{{ old('step_2') }}">
+            @error('step_2')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="step_2_description" class="form-label">Step 2 Description</label>
+            <textarea class="form-control @error('step_2_description') is-invalid @enderror" id="step_2_description" name="step_2_description" rows="3">{{ old('step_2_description') }}</textarea>
+            @error('step_2_description')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="step_2_has_image" class="form-label">Step 2 Image (Optional)</label>
+            <input type="file" class="form-control @error('step_2_has_image') is-invalid @enderror" id="step_2_has_image" name="step_2_has_image" accept="image/*">
+            @error('step_2_has_image')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        <hr>
+
+        <h5>Step 3</h5>
+        <div class="mb-3">
+            <label for="step_3" class="form-label">Step 3 Title</label>
+            <input type="text" class="form-control @error('step_3') is-invalid @enderror" id="step_3" name="step_3" value="{{ old('step_3') }}">
+            @error('step_3')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="step_3_description" class="form-label">Step 3 Description</label>
+            <textarea class="form-control @error('step_3_description') is-invalid @enderror" id="step_3_description" name="step_3_description" rows="3">{{ old('step_3_description') }}</textarea>
+            @error('step_3_description')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="step_3_has_image" class="form-label">Step 3 Image (Optional)</label>
+            <input type="file" class="form-control @error('step_3_has_image') is-invalid @enderror" id="step_3_has_image" name="step_3_has_image" accept="image/*">
+            @error('step_3_has_image')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        <hr>
+
+        <h5>Step 4</h5>
+        <div class="mb-3">
+            <label for="step_4" class="form-label">Step 4 Title</label>
+            <input type="text" class="form-control @error('step_4') is-invalid @enderror" id="step_4" name="step_4" value="{{ old('step_4') }}">
+            @error('step_4')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="step_4_description" class="form-label">Step 4 Description</label>
+            <textarea class="form-control @error('step_4_description') is-invalid @enderror" id="step_4_description" name="step_4_description" rows="3">{{ old('step_4_description') }}</textarea>
+            @error('step_4_description')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="step_4_has_image" class="form-label">Step 4 Image (Optional)</label>
+            <input type="file" class="form-control @error('step_4_has_image') is-invalid @enderror" id="step_4_has_image" name="step_4_has_image" accept="image/*">
+            @error('step_4_has_image')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        <hr>
+
+        <h5>Step 5</h5>
+        <div class="mb-3">
+            <label for="step_5" class="form-label">Step 5 Title</label>
+            <input type="text" class="form-control @error('step_5') is-invalid @enderror" id="step_5" name="step_5" value="{{ old('step_5') }}">
+            @error('step_5')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="step_5_description" class="form-label">Step 5 Description</label>
+            <textarea class="form-control @error('step_5_description') is-invalid @enderror" id="step_5_description" name="step_5_description" rows="3">{{ old('step_5_description') }}</textarea>
+            @error('step_5_description')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="step_5_has_image" class="form-label">Step 5 Image (Optional)</label>
+            <input type="file" class="form-control @error('step_5_has_image') is-invalid @enderror" id="step_5_has_image" name="step_5_has_image" accept="image/*">
+            @error('step_5_has_image')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        <hr>
+
+        <h5>Step 6</h5>
+        <div class="mb-3">
+            <label for="step_6" class="form-label">Step 6 Title</label>
+            <input type="text" class="form-control @error('step_6') is-invalid @enderror" id="step_6" name="step_6" value="{{ old('step_6') }}">
+            @error('step_6')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="step_6_description" class="form-label">Step 6 Description</label>
+            <textarea class="form-control @error('step_6_description') is-invalid @enderror" id="step_6_description" name="step_6_description" rows="3">{{ old('step_6_description') }}</textarea>
+            @error('step_6_description')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="step_6_has_image" class="form-label">Step 6 Image (Optional)</label>
+            <input type="file" class="form-control @error('step_6_has_image') is-invalid @enderror" id="step_6_has_image" name="step_6_has_image" accept="image/*">
+            @error('step_6_has_image')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        <hr>
+
+        <h5>Step 7</h5>
+        <div class="mb-3">
+            <label for="step_7" class="form-label">Step 7 Title</label>
+            <input type="text" class="form-control @error('step_7') is-invalid @enderror" id="step_7" name="step_7" value="{{ old('step_7') }}">
+            @error('step_7')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="step_7_description" class="form-label">Step 7 Description</label>
+            <textarea class="form-control @error('step_7_description') is-invalid @enderror" id="step_7_description" name="step_7_description" rows="3">{{ old('step_7_description') }}</textarea>
+            @error('step_7_description')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="step_7_has_image" class="form-label">Step 7 Image (Optional)</label>
+            <input type="file" class="form-control @error('step_7_has_image') is-invalid @enderror" id="step_7_has_image" name="step_7_has_image" accept="image/*">
+            @error('step_7_has_image')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        <hr>
+
+        <h5>Step 8</h5>
+        <div class="mb-3">
+            <label for="step_8" class="form-label">Step 8 Title</label>
+            <input type="text" class="form-control @error('step_8') is-invalid @enderror" id="step_8" name="step_8" value="{{ old('step_8') }}">
+            @error('step_8')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="step_8_description" class="form-label">Step 8 Description</label>
+            <textarea class="form-control @error('step_8_description') is-invalid @enderror" id="step_8_description" name="step_8_description" rows="3">{{ old('step_8_description') }}</textarea>
+            @error('step_8_description')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="step_8_has_image" class="form-label">Step 8 Image (Optional)</label>
+            <input type="file" class="form-control @error('step_8_has_image') is-invalid @enderror" id="step_8_has_image" name="step_8_has_image" accept="image/*">
+            @error('step_8_has_image')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        <hr>
+
+        <h5>Step 9</h5>
+        <div class="mb-3">
+            <label for="step_9" class="form-label">Step 9 Title</label>
+            <input type="text" class="form-control @error('step_9') is-invalid @enderror" id="step_9" name="step_9" value="{{ old('step_9') }}">
+            @error('step_9')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="step_9_description" class="form-label">Step 9 Description</label>
+            <textarea class="form-control @error('step_9_description') is-invalid @enderror" id="step_9_description" name="step_9_description" rows="3">{{ old('step_9_description') }}</textarea>
+            @error('step_9_description')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="step_9_has_image" class="form-label">Step 9 Image (Optional)</label>
+            <input type="file" class="form-control @error('step_9_has_image') is-invalid @enderror" id="step_9_has_image" name="step_9_has_image" accept="image/*">
+            @error('step_9_has_image')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        <hr>
+
+        <h5>Step 10</h5>
+        <div class="mb-3">
+            <label for="step_10" class="form-label">Step 10 Title</label>
+            <input type="text" class="form-control @error('step_10') is-invalid @enderror" id="step_10" name="step_10" value="{{ old('step_10') }}">
+            @error('step_10')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="step_10_description" class="form-label">Step 10 Description</label>
+            <textarea class="form-control @error('step_10_description') is-invalid @enderror" id="step_10_description" name="step_10_description" rows="3">{{ old('step_10_description') }}</textarea>
+            @error('step_10_description')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="step_10_has_image" class="form-label">Step 10 Image (Optional)</label>
+            <input type="file" class="form-control @error('step_10_has_image') is-invalid @enderror" id="step_10_has_image" name="step_10_has_image" accept="image/*">
+            @error('step_10_has_image')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        <hr>
+
 
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
