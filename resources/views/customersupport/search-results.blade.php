@@ -195,7 +195,7 @@
             font-size: 12px;
         }
         .guide-step-image{
-            max-width: 400px;
+            max-width: 200px;
         }
     }
 </style>
