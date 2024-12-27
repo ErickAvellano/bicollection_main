@@ -592,7 +592,6 @@
                 </a>
             </li>
         </ul>
-        
 
         <div class="table-data">
             @if($viewType == 'merchants') <!-- Check the viewType to determine which section to show -->
@@ -762,8 +761,6 @@
                             </table>
                         </div>
                     @endif
-
-
         </div>
     </main>
 </section>
@@ -803,6 +800,7 @@
             </div>
         </div>
     @endif
+    
 @endforeach
 
 <!-- DTI Certificate Modal -->
@@ -871,6 +869,10 @@
         </div>
     </div>
 </div>
+
+
+@include('Components.admin-icon')
+
 @endsection
 
 
