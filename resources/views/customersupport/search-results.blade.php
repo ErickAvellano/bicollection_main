@@ -266,7 +266,7 @@
 
                         @if ($stepHasImage)
                             <div class="guide-step-image text-center">
-                                <img src="{{ asset('storage/' . $imagePath) }}" alt="Guide Step Image">
+                                <img src="{{ asset('storage/' . $imagePath) }}" alt="Guide Image">
                             </div>
                         
                         @endif
