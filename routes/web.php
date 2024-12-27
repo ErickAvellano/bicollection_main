@@ -84,6 +84,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard/transactions', [AdminDashboardController::class, 'viewTransactions'])->name('admin.dashboard.transactions');
     });
 
+    Route::get('/customersupport/store-guide', [CustomerSupportController::class, 'create'])->name('customersupport.store-guide');
+    Route::post('/customersupport/store-guide', [CustomerSupportController::class, 'store'])->name('customersupport.store-guide.submit');
+
     Route::post('/admin/applications/{id}/confirm', [AdminDashboardController::class, 'confirm'])->name('applications.confirm');
     Route::post('/admin/applications/{id}/decline', [AdminDashboardController::class, 'decline'])->name('applications.decline');
 
@@ -165,8 +168,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/shop/update-images', [ShopController::class, 'updateImages'])->name('shop.updateImages');
     Route::get('/merchant/partial/{nav}', [ShopController::class, 'getPartial'])->name('merchant.partial');
     Route::get('/category/{category_name}', [ProductController::class, 'showByCategory'])->name('category.products');
-    
-   
+
+
     Route::post('/merchant/upload-picture', [MerchantController::class, 'uploadPicture'])->name('merchant.uploadPicture');
 
     // Product Ratings
