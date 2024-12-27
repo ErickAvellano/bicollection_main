@@ -654,9 +654,7 @@
                                         </p>
                                     @endif
                                     <div class="action-buttons">
-                                        <a href="#" class="btn btn-custom add-to-cart" data-product-id="{{ $product->product_id }}">
-                                            Add to Cart
-                                        </a>
+                                        <a class="btn btn-custom add-to-cart" data-product-id="{{ $product->product_id }}">Add to Cart</a>
                                         <a href="#"
                                             class="btn {{ !empty($favorites) && in_array($product->product_id, $favorites) ? 'btn-danger' : 'btn-outline-danger' }} favorite-button"
                                             data-product-id="{{ $product->product_id }}"

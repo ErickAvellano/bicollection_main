@@ -215,30 +215,32 @@
         <!-- Title and Subtitle -->
         <h2 class="guide-title">{{ $guide->guide_title }}</h2>
         <p class="guide-subtitle">{{ $guide->category }}</p>
-        <p class="guide-updated">Updated {{ $guide->updated_at->diffForHumans() }}</p>
+        <div class="d-flex align-items-center">
+             <!-- Ratings -->
+             <div class="guide-ratings">
+                <span class="rating-stars">
+                    @php
+                        $filledStars = floor($guide->ratings);
+                        $halfStar = $guide->ratings - $filledStars >= 0.5;
+                        $emptyStars = 5 - $filledStars - ($halfStar ? 1 : 0);
+                    @endphp
 
-        <!-- Ratings -->
-        <div class="guide-ratings">
-            <span class="rating-stars">
-                @php
-                    $filledStars = floor($guide->ratings);
-                    $halfStar = $guide->ratings - $filledStars >= 0.5;
-                    $emptyStars = 5 - $filledStars - ($halfStar ? 1 : 0);
-                @endphp
+                    @for ($i = 0; $i < $filledStars; $i++)
+                        <i class="fas fa-star text-warning"></i>
+                    @endfor
 
-                @for ($i = 0; $i < $filledStars; $i++)
-                    <i class="fas fa-star text-warning"></i>
-                @endfor
+                    @if ($halfStar)
+                        <i class="fas fa-star-half-alt text-warning"></i>
+                    @endif
 
-                @if ($halfStar)
-                    <i class="fas fa-star-half-alt text-warning"></i>
-                @endif
+                    @for ($i = 0; $i < $emptyStars; $i++)
+                        <i class="far fa-star text-muted"></i>
+                    @endfor
+                </span>
+                <span class="rating-value">({{ $guide->ratings }}/5)</span>
+            </div>
 
-                @for ($i = 0; $i < $emptyStars; $i++)
-                    <i class="far fa-star text-muted"></i>
-                @endfor
-            </span>
-            <span class="rating-value">({{ $guide->ratings }}/5)</span>
+            <p class="guide-updated ms-4 mb-0">Updated {{ $guide->updated_at->diffForHumans() }}</p>
         </div>
         <hr>
 
@@ -250,19 +252,21 @@
                     $stepDescription = 'step_' . $i . '_description';
                     $stepHasImage = 'step_' . $i . '_has_image';
                 @endphp
-
                 @if (!empty($guide->$step) && !empty($guide->$stepDescription))
                     <div class="guide-step mb-4">
                         <h5 class="ms-2">Step {{ $i }}: {{ $guide->$step }}</h5>
-                        <p  class="ms-5 mt-3">{{ $guide->$stepDescription }}</p>
+                        <p class="ms-5 mt-3">{{ $guide->$stepDescription }}</p>
 
                         <!-- Check for images -->
-                        @if ($guide->$stepHasImage)
+                        @php
+                            // Define the image path relative to storage/app/public
+                            $imagePath = "guide-images/{$guide->guide_id}_step_{$i}.jpg"; 
+                        @endphp
+
+                        @if (Storage::exists($imagePath))
                             <div class="guide-step-image">
-                                <img src="{{ Storage::url() ?? 'https://via.placeholder.com/150' }}" alt="Step {{ $i }} Image" class="img-fluid rounded" />
+                                <img src="{{ asset('storage/' . $imagePath) }}" alt="Guide Step Image">
                             </div>
-                        @else
-                            <p class="text-muted">No image available for this step.</p>
                         @endif
                     </div>
                 @endif
