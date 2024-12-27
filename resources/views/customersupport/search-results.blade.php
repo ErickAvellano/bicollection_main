@@ -257,19 +257,29 @@
                         <h5 class="ms-2">Step {{ $i }}: {{ $guide->$step }}</h5>
                         <p class="ms-5 mt-3">{{ $guide->$stepDescription }}</p>
 
-                        <!-- Check if the step has an image based on the database flag -->
+                        <!-- Check if the step has images based on the database flags -->
                         @php
-                            // Set image path
-                            $imagePath = "guide-images/{$guide->guide_id}_step_{$i}.jpg";
-                            $stepHasImage = $guide->{'step_' . $i . '_has_image'}; 
+                            // Set image paths for the first and second images
+                            $imagePath1 = "guide-images/{$guide->guide_id}_step_{$i}_1.jpg";
+                            $imagePath2 = "guide-images/{$guide->guide_id}_step_{$i}_2.jpg";
+                            $stepHasImage1 = $guide->{'step_' . $i . '_has_image_1'}; 
+                            $stepHasImage2 = $guide->{'step_' . $i . '_has_image_2'}; 
                         @endphp
 
-                        @if ($stepHasImage)
+                        <!-- Check if the first image exists and display it -->
+                        @if ($stepHasImage1)
                             <div class="guide-step-image text-center">
-                                <img src="{{ asset('storage/' . $imagePath) }}" alt="Guide Image">
+                                <img src="{{ asset('storage/' . $imagePath1) }}" alt="Guide Image 1">
                             </div>
-                        
                         @endif
+
+                        <!-- Check if the second image exists and display it -->
+                        @if ($stepHasImage2)
+                            <div class="guide-step-image text-center">
+                                <img src="{{ asset('storage/' . $imagePath2) }}" alt="Guide Image 2">
+                            </div>
+                        @endif
+
                     </div>
                 @endif
 
@@ -307,11 +317,6 @@
         <span class="fa fa-star"></span>
     </div>
 </section>
-
-
-
-
-
 
 @include('Components.footer')
 @endsection
