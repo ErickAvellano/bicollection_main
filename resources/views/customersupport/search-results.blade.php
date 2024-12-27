@@ -197,8 +197,8 @@
         .guide-step{
             max-width: auto !important;
         }
-        .guide-step-image{
-            width:300px;
+        .guide-image{
+            width:200px;
         }
     }
 </style>
@@ -279,7 +279,7 @@
 
                         @if ($stepHasImage && $imageToShow)
                             <div class="guide-step-image text-center">
-                                <img src="{{ asset('storage/' . $imageToShow) }}" alt="Guide Image">
+                                <img class="guide-image" src="{{ asset('storage/' . $imageToShow) }}" alt="Guide Image">
                             </div>
                         @endif
                     </div>
