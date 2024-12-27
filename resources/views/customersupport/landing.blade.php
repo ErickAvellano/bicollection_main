@@ -223,7 +223,7 @@
 
 
 
-    @media only screen and (max-width: 425px) {
+    @media only screen and (min-width: 360px) and (max-width: 425px) {
         body {
             font-size: 12px;
         }
