@@ -115,157 +115,31 @@ class CustomerSupportController extends Controller
         // Create a temporary guide to get its ID for image naming
         $guide = CustomerSupportGuide::create($data);
 
-        // Process each step manually
-        if ($request->step_1 || $request->step_1_description || $request->hasFile('step_1_has_image')) {
-            $hasImage = 0;
-            if ($request->hasFile('step_1_has_image')) {
-                $imageFile = $request->file('step_1_has_image');
-                $fileName = "{$guide->guide_id}_step_1.jpg";
-                $imageFile->storeAs('guide-images', $fileName, 'public');
-                $hasImage = 1;
-            }
-            $guide->update([
-                'step_1' => $request->step_1,
-                'step_1_description' => $request->step_1_description,
-                'step_1_has_image' => $hasImage,
-            ]);
-        }
+        // Process each step and check if there are any changes
+        for ($i = 1; $i <= 10; $i++) {
+            $stepField = "step_{$i}";
+            $stepDescriptionField = "step_{$i}_description";
+            $stepImageField = "step_{$i}_has_image";
 
-        if ($request->step_2 || $request->step_2_description || $request->hasFile('step_2_has_image')) {
-            $hasImage = 0;
-            if ($request->hasFile('step_2_has_image')) {
-                $imageFile = $request->file('step_2_has_image');
-                $fileName = "{$guide->guide_id}_step_2.jpg";
-                $imageFile->storeAs('guide-images', $fileName, 'public');
-                $hasImage = 1;
-            }
-            $guide->update([
-                'step_2' => $request->step_2,
-                'step_2_description' => $request->step_2_description,
-                'step_2_has_image' => $hasImage,
-            ]);
-        }
+            if ($request->$stepField || $request->$stepDescriptionField || $request->hasFile($stepImageField)) {
+                $hasImage = 0;
 
-        if ($request->step_3 || $request->step_3_description || $request->hasFile('step_3_has_image')) {
-            $hasImage = 0;
-            if ($request->hasFile('step_3_has_image')) {
-                $imageFile = $request->file('step_3_has_image');
-                $fileName = "{$guide->guide_id}_step_3.jpg";
-                $imageFile->storeAs('guide-images', $fileName, 'public');
-                $hasImage = 1;
-            }
-            $guide->update([
-                'step_3' => $request->step_3,
-                'step_3_description' => $request->step_3_description,
-                'step_3_has_image' => $hasImage,
-            ]);
-        }
+                // Check for image upload
+                if ($request->hasFile($stepImageField)) {
+                    $imageFile = $request->file($stepImageField);
+                    $fileName = "{$guide->guide_id}_step_{$i}.jpg";
+                    $imageFile->storeAs('guide-images', $fileName, 'public');
+                    $hasImage = 1;
+                }
 
-        if ($request->step_4 || $request->step_4_description || $request->hasFile('step_4_has_image')) {
-            $hasImage = 0;
-            if ($request->hasFile('step_4_has_image')) {
-                $imageFile = $request->file('step_4_has_image');
-                $fileName = "{$guide->guide_id}_step_4.jpg";
-                $imageFile->storeAs('guide-images', $fileName, 'public');
-                $hasImage = 1;
+                // Update step data if values are present
+                $guide->update([
+                    $stepField => $request->$stepField,
+                    $stepDescriptionField => $request->$stepDescriptionField,
+                    "{$stepField}_has_image" => $hasImage,
+                ]);
             }
-            $guide->update([
-                'step_4' => $request->step_4,
-                'step_4_description' => $request->step_4_description,
-                'step_4_has_image' => $hasImage,
-            ]);
         }
-
-        if ($request->step_5 || $request->step_5_description || $request->hasFile('step_5_has_image')) {
-            $hasImage = 0;
-            if ($request->hasFile('step_5_has_image')) {
-                $imageFile = $request->file('step_5_has_image');
-                $fileName = "{$guide->guide_id}_step_5.jpg";
-                $imageFile->storeAs('guide-images', $fileName, 'public');
-                $hasImage = 1;
-            }
-            $guide->update([
-                'step_5' => $request->step_5,
-                'step_5_description' => $request->step_5_description,
-                'step_5_has_image' => $hasImage,
-            ]);
-        }
-
-        if ($request->step_6 || $request->step_6_description || $request->hasFile('step_6_has_image')) {
-            $hasImage = 0;
-            if ($request->hasFile('step_6_has_image')) {
-                $imageFile = $request->file('step_6_has_image');
-                $fileName = "{$guide->guide_id}_step_6.jpg";
-                $imageFile->storeAs('guide-images', $fileName, 'public');
-                $hasImage = 1;
-            }
-            $guide->update([
-                'step_6' => $request->step_6,
-                'step_6_description' => $request->step_6_description,
-                'step_6_has_image' => $hasImage,
-            ]);
-        }
-
-        if ($request->step_7 || $request->step_7_description || $request->hasFile('step_7_has_image')) {
-            $hasImage = 0;
-            if ($request->hasFile('step_7_has_image')) {
-                $imageFile = $request->file('step_7_has_image');
-                $fileName = "{$guide->guide_id}_step_7.jpg";
-                $imageFile->storeAs('guide-images', $fileName, 'public');
-                $hasImage = 1;
-            }
-            $guide->update([
-                'step_7' => $request->step_7,
-                'step_7_description' => $request->step_7_description,
-                'step_7_has_image' => $hasImage,
-            ]);
-        }
-
-        if ($request->step_8 || $request->step_8_description || $request->hasFile('step_8_has_image')) {
-            $hasImage = 0;
-            if ($request->hasFile('step_8_has_image')) {
-                $imageFile = $request->file('step_8_has_image');
-                $fileName = "{$guide->guide_id}_step_8.jpg";
-                $imageFile->storeAs('guide-images', $fileName, 'public');
-                $hasImage = 1;
-            }
-            $guide->update([
-                'step_8' => $request->step_8,
-                'step_8_description' => $request->step_8_description,
-                'step_8_has_image' => $hasImage,
-            ]);
-        }
-
-        if ($request->step_9 || $request->step_9_description || $request->hasFile('step_9_has_image')) {
-            $hasImage = 0;
-            if ($request->hasFile('step_9_has_image')) {
-                $imageFile = $request->file('step_9_has_image');
-                $fileName = "{$guide->guide_id}_step_9.jpg";
-                $imageFile->storeAs('guide-images', $fileName, 'public');
-                $hasImage = 1;
-            }
-            $guide->update([
-                'step_9' => $request->step_9,
-                'step_9_description' => $request->step_9_description,
-                'step_9_has_image' => $hasImage,
-            ]);
-        }
-
-        if ($request->step_10 || $request->step_10_description || $request->hasFile('step_10_has_image')) {
-            $hasImage = 0;
-            if ($request->hasFile('step_10_has_image')) {
-                $imageFile = $request->file('step_10_has_image');
-                $fileName = "{$guide->guide_id}_step_10.jpg";
-                $imageFile->storeAs('guide-images', $fileName, 'public');
-                $hasImage = 1;
-            }
-            $guide->update([
-                'step_10' => $request->step_10,
-                'step_10_description' => $request->step_10_description,
-                'step_10_has_image' => $hasImage,
-            ]);
-        }
-
 
         return redirect()->route('customersupport.store-guide')->with('success', 'Guide created successfully!');
     }
