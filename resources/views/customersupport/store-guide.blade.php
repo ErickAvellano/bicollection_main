@@ -238,7 +238,7 @@
             <h5>Step {{ $i }}</h5>
             <div class="mb-3">
                 <label for="step_{{ $i }}" class="form-label">Step {{ $i }} Title</label>
-                <input type="text" class="form-control @error('step_{{ $i }}') is-invalid @enderror" id="step_{{ $i }}" name="step_{{ $i }}" value="{{ old("step_{$i}") }}" required>
+                <input type="text" class="form-control @error('step_{{ $i }}') is-invalid @enderror" id="step_{{ $i }}" name="step_{{ $i }}" value="{{ old("step_{$i}") }}">
                 @error("step_{$i}")
                 <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
