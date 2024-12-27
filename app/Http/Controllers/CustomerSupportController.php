@@ -67,19 +67,20 @@ class CustomerSupportController extends Controller
 
     public function store(Request $request)
     {
-        // Validation rules
+        // Validation rules for guide title and category (required)
         $validationRules = [
             'guide_title' => 'required|string|max:255',
             'category' => 'required|string|max:255',
         ];
 
-        // Add validation for each step
+        // Validation for steps: make the fields optional
         for ($i = 1; $i <= 10; $i++) {
-            $validationRules["step_{$i}"] = 'required|string|max:255'; // Step title
-            $validationRules["step_{$i}_description"] = 'nullable|string'; // Step description
-            $validationRules["step_{$i}_has_image"] = 'nullable|file|image|max:2048'; // Image (optional)
+            $validationRules["step_{$i}"] = 'nullable|string|max:255'; // Step title is optional
+            $validationRules["step_{$i}_description"] = 'nullable|string'; // Step description is optional
+            $validationRules["step_{$i}_has_image"] = 'nullable|file|image|max:2048'; // Image is optional
         }
 
+        // Validate the request
         $request->validate($validationRules);
 
         // Prepare base data
@@ -93,8 +94,8 @@ class CustomerSupportController extends Controller
 
         // Loop through steps to process titles, descriptions, and images
         for ($i = 1; $i <= 10; $i++) {
-            $stepTitle = $request->input("step_{$i}");
-            $stepDescription = $request->input("step_{$i}_description");
+            $stepTitle = $request->input("step_{$i}"); // Nullable (optional)
+            $stepDescription = $request->input("step_{$i}_description"); // Nullable (optional)
             $hasImage = 0; // Default to no image
 
             // Check if an image is uploaded
@@ -110,17 +111,20 @@ class CustomerSupportController extends Controller
                 $hasImage = 1; // Set the flag to 1 if an image is uploaded
             }
 
-            // Update the data array with step information
-            $data["step_{$i}"] = $stepTitle;
-            $data["step_{$i}_description"] = $stepDescription;
-            $data["step_{$i}_has_image"] = $hasImage;
+            // Only update step details if provided
+            if ($stepTitle || $stepDescription || $hasImage) {
+                $data["step_{$i}"] = $stepTitle ?? null;
+                $data["step_{$i}_description"] = $stepDescription ?? null;
+                $data["step_{$i}_has_image"] = $hasImage;
+            }
         }
 
         // Update the guide with step details
         $guide->update($data);
 
-        return redirect()->route('customer-support-guide.create')->with('success', 'Guide created successfully!');
+        return redirect()->route('customersupport.store-guide')->with('success', 'Guide created successfully!');
     }
+
 
 
 
