@@ -259,26 +259,32 @@
 
                         <!-- Check if the step has images based on the database flags -->
                         @php
-                            // Set image paths for the first and second images
                             $imagePath1 = "guide-images/{$guide->guide_id}_step_{$i}_1.jpg";
                             $imagePath2 = "guide-images/{$guide->guide_id}_step_{$i}_2.jpg";
+                            $imagePath3 = "guide-images/{$guide->guide_id}_step_{$i}_3.jpg"; // For the third image
                             $stepHasImage1 = $guide->{'step_' . $i . '_has_image_1'}; 
                             $stepHasImage2 = $guide->{'step_' . $i . '_has_image_2'}; 
+                            $stepHasImage3 = $guide->{'step_' . $i . '_has_image_3'}; // Check for third image
                         @endphp
 
-                        <!-- Check if the first image exists and display it -->
                         @if ($stepHasImage1)
                             <div class="guide-step-image text-center">
                                 <img src="{{ asset('storage/' . $imagePath1) }}" alt="Guide Image 1">
                             </div>
                         @endif
 
-                        <!-- Check if the second image exists and display it -->
                         @if ($stepHasImage2)
                             <div class="guide-step-image text-center">
                                 <img src="{{ asset('storage/' . $imagePath2) }}" alt="Guide Image 2">
                             </div>
                         @endif
+
+                        @if ($stepHasImage3)
+                            <div class="guide-step-image text-center">
+                                <img src="{{ asset('storage/' . $imagePath3) }}" alt="Guide Image 3">
+                            </div>
+                        @endif
+
 
                     </div>
                 @endif
