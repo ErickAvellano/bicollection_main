@@ -261,11 +261,11 @@
                         @php
                             // Set image path
                             $imagePath = "guide-images/{$guide->guide_id}_step_{$i}.jpg";
-                            $stepHasImage = $guide->{'step_' . $i . '_has_image'}; // Check the specific step's has_image flag
+                            $stepHasImage = $guide->{'step_' . $i . '_has_image'}; 
                         @endphp
 
                         @if ($stepHasImage)
-                            <div class="guide-step-image">
+                            <div class="guide-step-image text-center">
                                 <img src="{{ asset('storage/' . $imagePath) }}" alt="Guide Step Image">
                             </div>
                         
