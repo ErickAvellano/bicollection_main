@@ -1,4 +1,4 @@
-<div id="support-add-icon" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; gap: 10px;">
+<div id="support-add-icon" style="position: fixed;bottom: 20px;right: 20px;z-index: 9999;display: flex;gap: 10px;flex-direction: column-reverse;">
     <a href="{{ route('customersupport.store-guide') }}" style="text-decoration: none;">
         <div style="
             width: 50px;
