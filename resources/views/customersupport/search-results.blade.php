@@ -194,6 +194,9 @@
         .support-search-container input {
             font-size: 12px;
         }
+        .guide-step-image{
+            max-width: 425px;
+        }
     }
 </style>
 
