@@ -1,5 +1,5 @@
 <div id="support-add-icon" style="position: fixed;bottom: 20px;right: 20px;z-index: 9999;display: flex;gap: 10px;flex-direction: column-reverse;">
-    <a href="" style="text-decoration: none;">
+    <a href="javascript:void(0);" style="text-decoration: none;" id="chat-button">
         <div style="
             width: 50px;
             height: 50px;

@@ -872,6 +872,7 @@
 
 
 @include('Components.admin-icon')
+@include('Components.chat-popup')
 
 @endsection
 
