@@ -278,7 +278,7 @@
     </div>
 </section>
 
-<section class="mt-4">
+<section class="mt-5">
     <h4 class="mt-4 text-center">Have we solved your problem?</h4>
 
     <div class="container-fluid">
