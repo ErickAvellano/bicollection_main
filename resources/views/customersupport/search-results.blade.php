@@ -251,7 +251,7 @@
         <hr>
 
         <!-- Steps -->
-        <div class="guide-steps">
+        <div class="guide-steps mb-3">
             @for ($i = 1; $i <= 10; $i++)
                 @php
                     $step = 'step_' . $i;
@@ -261,7 +261,7 @@
                 @if (!empty($guide->$step) && !empty($guide->$stepDescription))
                     <div class="guide-step mb-4">
                         <h5 class="ms-2">Step {{ $i }}: {{ $guide->$step }}</h5>
-                        <p class="ms-5 mt-3">{!! str_replace("\n", "<br>", e($guide->$stepDescription)) !!}</p>
+                        <p class="ms-5 mt-3">{!! str_replace("\\n", "<br>", $guide->$stepDescription) !!}</p>
                         <!-- Check if the step has an image based on the database flag -->
                         @php
                             $imagePathJpg = "guide-images/{$guide->guide_id}_step_{$i}.jpg";
