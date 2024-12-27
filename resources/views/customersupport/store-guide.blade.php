@@ -215,7 +215,7 @@
     </div>
     @endif
 
-    <form action="{{ route('customer-support-guide.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('customer-support-guide.submit') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="mb-3">
