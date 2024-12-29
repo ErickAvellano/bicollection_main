@@ -1,0 +1,187 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Models\Chat;
+use App\Models\Shop;
+use Illuminate\Support\Facades\Log;
+use App\Models\User;
+use App\Models\Message;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+
+class ChatController extends Controller
+{
+    public function fetchInquiries()
+    {
+        // Get the authenticated user
+        $user = Auth::user();
+
+        // Ensure only admin users can access this method
+        if ($user->type !== 'admin') {
+            return redirect()->route('dashboard');
+        }
+
+        // Fetch inquiries where chats are sent to the admin, including the latest message
+        $inquiries = Chat::with(['customer.customerImage', 'latestMessage'])
+            ->where('admin_id', $user->user_id)
+            ->get()
+            ->map(function ($chat) {
+                $latestMessage = Message::where('chat_id', $chat->chat_id)
+                ->orderBy('created_at', 'desc')
+                ->first();
+                $avatarPath = $chat->customer?->customerImage?->img_path;
+
+                return [
+                    'chat_id' => $chat->chat_id,
+                    'customer_id' => $chat->customer?->customer_id,
+                    'customer_name' => $chat->customer?->username,
+                    'customer_avatar' => $avatarPath ? asset('/storage/'.$avatarPath) : null,
+                    'last_message' => $latestMessage?->message,
+                    'last_message_time' => $latestMessage ? $latestMessage->created_at : null,
+                ];
+            });
+        // Return the inquiries as JSON
+        return response()->json($inquiries);
+    }
+    public function fetchMerchants()
+    {
+        // Get the authenticated user
+        $user = Auth::user();
+
+        // Ensure only admin users can access this method
+        if ($user->type !== 'admin') {
+            return redirect()->route('dashboard');
+        }
+
+        // Fetch all merchants and their shops
+        $shops = Shop::with('merchant') // Load the associated merchant
+            ->get()
+            ->map(function ($shop) use ($user) {
+                // Find the chat between the merchant and the admin
+                $chat = Chat::where('merchant_id', $shop->merchant_id)
+                    ->where('admin_id', $user->user_id)
+                    ->first();
+
+                // Retrieve the latest message, if a chat exists
+                $latestMessage = null;
+                if ($chat) {
+                    $latestMessage = Message::where('chat_id', $chat->chat_id)
+                        ->where('sender_id', $shop->merchant_id) // Merchant is the sender
+                        ->where('receiver_id', $user->user_id) // Admin is the receiver
+                        ->orderBy('created_at', 'desc')
+                        ->first();
+                }
+
+                return [
+                    'shop_id' => $shop->shop_id,
+                    'merchant_id' => $shop->merchant_id,
+                    'shop_name' => $shop->shop_name ?? 'Unknown Shop',
+                    'shop_img' => $shop->shop_img ? asset('/storage/' . $shop->shop_img) : 'https://via.placeholder.com/150',
+                    'last_message' => $latestMessage?->message,
+                    'last_message_time' => $latestMessage ? $latestMessage->created_at : null,
+                ];
+            });
+
+        // Return the merchants as JSON
+        return response()->json($shops);
+    }
+    public function getChatMessages($chatId)
+    {
+        try {
+
+            // Get all messages for the given chat_id
+            $messages = Message::where('chat_id', $chatId)
+                ->orderBy('created_at', 'asc') // Order messages by creation time
+                ->get()
+                ->map(function ($message) {
+                    return [
+                        'message_id' => $message->message_id,
+                        'chat_id' => $message->chat_id,
+                        'sender_id' => $message->sender_id,
+                        'receiver_id' => $message->receiver_id,
+                        'message' => $message->message,
+                        'created_at' => $message->created_at,
+                        'sender_avatar' => $message->sender?->avatar_path ? asset('/storage/' . $message->sender->avatar_path) : 'https://via.placeholder.com/40', // Optional sender avatar
+                    ];
+                });
+
+            return response()->json($messages);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Unable to fetch messages'], 500);
+        }
+    }
+    // Method to send a message
+    public function sendMessage(Request $request)
+    {
+        // Log the incoming request
+        Log::info('Incoming message request', [
+            'chatId' => $request->input('chatId'),
+            'message' => $request->input('message')
+        ]);
+    
+        try {
+            // Validate the incoming request
+            $request->validate([
+                'message' => 'required|string|max:255',
+                'chatId' => 'required|integer|exists:chats,chat_id',  // Validate chatId if necessary
+            ]);
+    
+            // Log after validation
+            Log::info('Message validated', [
+                'chatId' => $request->input('chatId'),
+                'message' => $request->input('message')
+            ]);
+    
+            // Process the message
+            $chat = Chat::find($request->input('chatId'));
+    
+            if (!$chat) {
+                Log::error('Chat not found', ['chatId' => $request->input('chatId')]);
+                return response()->json(['success' => false, 'message' => 'Chat not found.']);
+            }
+    
+            // Log when chat is found
+            Log::info('Chat found', ['chatId' => $request->input('chatId')]);
+    
+            $message = new Message();
+            $message->chat_id = $request->input('chatId');
+            $message->message = $request->input('message');
+            $message->save();
+    
+            // Log successful message creation
+            Log::info('Message sent successfully', [
+                'chatId' => $request->input('chatId'),
+                'message' => $message->message
+            ]);
+    
+            // Return success response
+            return response()->json(['success' => true, 'message' => 'Message sent successfully.']);
+        } catch (\Exception $e) {
+            // Log the error
+            Log::error('Error sending message', ['error' => $e->getMessage()]);
+    
+            // Return an error response
+            return response()->json(['success' => false, 'message' => 'An error occurred while sending the message.']);
+        }
+    }
+
+            
+    
+
+
+
+
+
+
+
+
+
+
+
+}

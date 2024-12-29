@@ -36,6 +36,7 @@ use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\CustomerSupportController;
+use App\Http\Controllers\ChatController;
 
 
 // Home route for both guests and authenticated users
@@ -86,7 +87,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/customersupport/store-guide', [CustomerSupportController::class, 'create'])->name('customersupport.store-guide');
     Route::post('/customersupport/store-guide', [CustomerSupportController::class, 'store'])->name('customersupport.store-guide.submit');
-
+    Route::get('/inquiries', [ChatController::class, 'fetchInquiries']);
+    Route::get('/merchantschat', [ChatController::class, 'fetchMerchants']);
+    Route::get('/chat/messages/{chatId}', [ChatController::class, 'getChatMessages'])->name('chat.messages');
+    Route::post('/chat/send-message', [ChatController::class, 'sendMessage'])->name('chat.sendmessages');
+    
     Route::post('/admin/applications/{id}/confirm', [AdminDashboardController::class, 'confirm'])->name('applications.confirm');
     Route::post('/admin/applications/{id}/decline', [AdminDashboardController::class, 'decline'])->name('applications.decline');
 

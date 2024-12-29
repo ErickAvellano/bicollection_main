@@ -1198,20 +1198,6 @@
             document.getElementById("chat-popup").style.display = "none";
         });
 
-        document.getElementById("send-button").addEventListener("click", function() {
-            const chatInput = document.getElementById("chat-input");
-            const chatMessages = document.getElementById("chat-messages");
-            
-            if (chatInput.value.trim() !== "") {
-                const newMessage = document.createElement("div");
-                newMessage.textContent = chatInput.value;
-                newMessage.style = "padding: 5px; margin-bottom: 5px; background-color: #f1f1f1; border-radius: 5px;";
-                chatMessages.appendChild(newMessage);
-                chatInput.value = "";
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-        });
-
     </script>
 
     @yield('scripts')
