@@ -219,6 +219,7 @@
 
 @include('Components.add-to-cart')
 @include('Components.favorite-success-modal')
+@include('Components.footer')
 @endsection
 @section('scripts')
     <script>
