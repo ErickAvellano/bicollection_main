@@ -9,8 +9,10 @@ class CustomerSupportController extends Controller
 {
     public function landing()
     {
-        return view('customersupport.landing');
-    }
+        $customerId = Auth::check() ? Auth::id() : null;
+
+        return view('customersupport.landing', compact('customerId'));
+}
     public function search(Request $request)
     {
         // Get the search query from the request

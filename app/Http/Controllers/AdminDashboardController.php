@@ -43,12 +43,22 @@ class AdminDashboardController extends Controller
     }
     public function index()
     {
+
+        $user = Auth::user();
+
+        // Ensure only admin users can access this method
+        if ($user->type !== 'admin') {
+            return redirect()->route('dashboard');
+        }
+
+        $adminId = $user->user_id;
         $transactionCount = Order::count();
         $customerCount = Customer::count();
         $applications = Application::with(['shop.merchant'])->whereHas('shop')->get();
         $transactions = collect();
 
         return view('admin.admindashboard', [
+            'adminId' => $adminId,
             'transactionCount' => $transactionCount,
             'customerCount' => $customerCount,
             'applications' => $applications,

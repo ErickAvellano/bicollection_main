@@ -116,6 +116,72 @@ class ChatController extends Controller
             return response()->json(['error' => 'Unable to fetch messages'], 500);
         }
     }
+    public function getMessagesByCustomer($customerId)
+    {
+        $adminID = 63;
+
+        // Log the incoming request
+        Log::info('Fetching messages for customer', ['customerId' => $customerId, 'adminID' => $adminID]);
+
+        // Try to find the existing chat
+        $chat = Chat::where(function ($query) use ($customerId, $adminID) {
+            $query->where('customer_id', $customerId)
+                ->where('admin_id', $adminID);
+        })->first();
+
+        // Log whether the chat was found or not
+        if ($chat) {
+            Log::info('Found existing chat', ['chatId' => $chat->chat_id]);
+        } else {
+            Log::info('No existing chat found, creating a new one', ['customerId' => $customerId, 'adminID' => $adminID]);
+
+            // If no existing chat, create a new one
+            $chat = Chat::create([
+                'customer_id' => $customerId,
+                'admin_id' => $adminID,
+            ]);
+
+            // Log the new chat creation
+            Log::info('New chat created', ['chatId' => $chat->chat_id, 'customerId' => $customerId, 'adminID' => $adminID]);
+        }
+
+        // Ensure $chat and $chat->chat_id exist
+        if (!$chat || !$chat->chat_id) {
+            Log::error('Chat creation or retrieval failed', ['customerId' => $customerId, 'adminID' => $adminID]);
+            return response()->json(['error' => 'Unable to retrieve or create chat'], 500);
+        }
+
+        $chatId = $chat->chat_id;
+
+        // Get all messages for the given chat_id
+        $messages = Message::where('chat_id', $chatId)
+            ->orderBy('created_at', 'asc') // Order messages by creation time
+            ->get()
+            ->map(function ($message) use ($adminID) {
+                return [
+                    'message_id' => $message->message_id,
+                    'chat_id' => $message->chat_id,
+                    'sender_id' => $message->sender_id,
+                    'receiver_id' => $adminID,
+                    'message' => $message->message,
+                    'created_at' => $message->created_at,
+                    'sender_avatar' => $message->sender?->avatar_path 
+                        ? asset('/storage/' . $message->sender->avatar_path) 
+                        : 'https://via.placeholder.com/40', // Optional sender avatar
+                ];
+            });
+
+        // Log the fetched messages count
+        Log::info('Fetched messages for chat', ['chatId' => $chatId, 'messagesCount' => $messages->count()]);
+
+        return response()->json($messages);
+    }
+
+
+    
+    
+
+
     // Method to send a message
     public function sendMessage(Request $request)
     {
@@ -124,55 +190,101 @@ class ChatController extends Controller
             'chatId' => $request->input('chatId'),
             'message' => $request->input('message')
         ]);
-    
+
         try {
             // Validate the incoming request
             $request->validate([
                 'message' => 'required|string|max:255',
-                'chatId' => 'required|integer|exists:chats,chat_id',  // Validate chatId if necessary
+                'chatId' => 'required|integer|exists:chats,chat_id', 
             ]);
-    
-            // Log after validation
-            Log::info('Message validated', [
-                'chatId' => $request->input('chatId'),
-                'message' => $request->input('message')
-            ]);
-    
+
             // Process the message
             $chat = Chat::find($request->input('chatId'));
-    
+
             if (!$chat) {
                 Log::error('Chat not found', ['chatId' => $request->input('chatId')]);
                 return response()->json(['success' => false, 'message' => 'Chat not found.']);
             }
-    
+
             // Log when chat is found
             Log::info('Chat found', ['chatId' => $request->input('chatId')]);
-    
+
             $message = new Message();
             $message->chat_id = $request->input('chatId');
+            $message->sender_id = $chat->admin_id;
+            $message->receiver_id = $chat->customer_id; 
             $message->message = $request->input('message');
             $message->save();
-    
+
             // Log successful message creation
             Log::info('Message sent successfully', [
                 'chatId' => $request->input('chatId'),
                 'message' => $message->message
             ]);
-    
+
             // Return success response
             return response()->json(['success' => true, 'message' => 'Message sent successfully.']);
         } catch (\Exception $e) {
             // Log the error
             Log::error('Error sending message', ['error' => $e->getMessage()]);
-    
+
             // Return an error response
             return response()->json(['success' => false, 'message' => 'An error occurred while sending the message.']);
         }
     }
+    public function customertoadminmessage(Request $request)
+{
+    Log::info('Customer initiating or continuing a conversation', [
+        'customerId' => $request->input('customerId'),
+        'message' => $request->input('message')
+    ]);
 
-            
-    
+    try {
+        // Validate the incoming request
+        $request->validate([
+            'message' => 'required|string|max:255',
+            'customerId' => 'required|integer|exists:customer,customer_id', // Ensure the customer exists
+        ]);
+
+        // Retrieve or create the chat
+        $customerId = $request->input('customerId');
+        $chat = Chat::where('customer_id', $customerId)->first();
+
+        if (!$chat) {
+            // No existing chat, create a new one
+            $chat = Chat::create([
+                'customer_id' => $customerId,
+                'admin_id' => 63 
+            ]);
+
+            Log::info('New chat created', ['chatId' => $chat->id]);
+        } else {
+            Log::info('Existing chat found', ['chatId' => $chat->id]);
+        }
+
+        // Create the message
+        $message = new Message();
+        $message->chat_id = $chat->chat_id;
+        $message->sender_id = $customerId; // Customer as sender
+        $message->receiver_id = $chat->admin_id;  // Admin as receiver
+        $message->message = $request->input('message');
+        $message->save();
+
+        Log::info('Message sent successfully', [
+            'chatId' => $chat->id,
+            'message' => $message->message
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'Message sent successfully.']);
+    } catch (\Exception $e) {
+        Log::error('Error handling customer message', ['error' => $e->getMessage()]);
+        return response()->json(['success' => false, 'message' => 'An error occurred while sending the message.']);
+    }
+}
+
+
+
+
 
 
 

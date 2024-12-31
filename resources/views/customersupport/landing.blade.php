@@ -341,10 +341,15 @@
         </div>
 
     </div>
+    @include('Components.customer-support')
 </section>
 
 @include('Components.chat-support-modal')
-@include('Components.footer')
+@include('Components.chat-support-icon')
+
+<footer>
+    @include('Components.footer')
+</footer>
 @endsection
 
 @section('scripts')
@@ -514,4 +519,24 @@
 
 
 </script>
+
+<script>
+    // Ensure the chat popup is hidden by default
+    document.addEventListener("DOMContentLoaded", function () {
+        const chatPopup = document.getElementById("customer-support");
+        chatPopup.style.display = "none"; // Default to hidden
+    });
+
+    // Toggle chat popup visibility on icon click
+    document.getElementById("chat-support-icon").addEventListener("click", function () {
+        const chatPopup = document.getElementById("customer-support");
+        chatPopup.style.display = chatPopup.style.display === "none" ? "block" : "none";
+    });
+
+    // Close the chat popup on close button click
+    document.getElementById("close-chat").addEventListener("click", function () {
+        document.getElementById("customer-support").style.display = "none";
+    });
+</script>
+
 @endsection

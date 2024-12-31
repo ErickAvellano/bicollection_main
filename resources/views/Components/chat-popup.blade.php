@@ -316,10 +316,10 @@
         function renderChatMessages(messages) {
             chatMessagesContainer.innerHTML = ''; // Clear previous messages
 
-            let lastMessageTime = null; // Variable to track the time of the last message
-
+            let lastMessageTime = null; 
+            let adminId = {{ json_encode($adminId) }};
             messages.forEach(message => {
-                const isSender = message.sender_id;
+                const isSender = message.sender_id === adminId;
                 const messageItem = document.createElement('div');
 
                 // Get current time and format it
@@ -353,12 +353,12 @@
                 if (isSender) {
                     messageItem.style = `
                         display: flex;
+                        justify-content: flex-end;
                         align-items: flex-start;
                     `;
                     messageItem.innerHTML = `
-                        <img src="${message.sender_avatar || 'https://via.placeholder.com/40'}" alt="User Avatar" style="width: 20px; height: 20px; border-radius: 50%; margin-right: 5px;">
-                        <div style="max-width: 70%;">
-                            <div style="padding: 5px; background-color: #333; color: white; border-radius: 5px; text-align: left;">
+                        <div style="max-width: 70%; text-align: right;">
+                            <div style="padding: 5px; background-color: #7b4dd3; color: white; border-radius: 5px;">
                                 ${message.message}
                             </div>
                             ${dateString} <!-- Display date separator if different day -->
@@ -368,12 +368,12 @@
                 } else {
                     messageItem.style = `
                         display: flex;
-                        justify-content: flex-end;
                         align-items: flex-start;
                     `;
                     messageItem.innerHTML = `
-                        <div style="max-width: 70%; text-align: right;">
-                            <div style="padding: 5px; background-color: #7b4dd3; color: white; border-radius: 5px;">
+                        <img src="${message.sender_avatar || 'https://via.placeholder.com/40'}" alt="User Avatar" style="width: 20px; height: 20px; border-radius: 50%; margin-right: 5px;">
+                        <div style="max-width: 70%;">
+                            <div style="padding: 5px; background-color: #333; color: white; border-radius: 5px; text-align: left;">
                                 ${message.message}
                             </div>
                             ${dateString} <!-- Display date separator if different day -->

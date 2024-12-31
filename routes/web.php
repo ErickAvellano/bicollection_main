@@ -91,7 +91,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/merchantschat', [ChatController::class, 'fetchMerchants']);
     Route::get('/chat/messages/{chatId}', [ChatController::class, 'getChatMessages'])->name('chat.messages');
     Route::post('/chat/send-message', [ChatController::class, 'sendMessage'])->name('chat.sendmessages');
-    
+    Route::post('/chat/sendMessageToAdmin', [ChatController::class, 'sendMessage'])->name('chat.sendMessageToAdmin');
+    Route::get('/chat/message/{customerId}', [ChatController::class, 'getMessagesByCustomer']);
+    Route::post('/chat/send-messages', [ChatController::class, 'customertoadminmessage'])->name('chat.sendmessage');
+
     Route::post('/admin/applications/{id}/confirm', [AdminDashboardController::class, 'confirm'])->name('applications.confirm');
     Route::post('/admin/applications/{id}/decline', [AdminDashboardController::class, 'decline'])->name('applications.decline');
 
