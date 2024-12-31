@@ -381,34 +381,28 @@
                 lastMessageTime = messageDate;
 
                 if (isSender) {
-                    messageItem.style = `
-                        display: flex;
-                        justify-content: flex-end;
-                        align-items: flex-start;
-                    `;
                     messageItem.innerHTML = `
-                        <div style="max-width: 70%; text-align: right;">
-                            <div style="padding: 5px 10px; background-color: #7b4dd3; color: white; border-radius: 5px; border: 1px solid #6a3bb5;">
+                        <div style="max-width: 70%; min-width: 120px; text-align: right; margin: 5px 0;">
+                            <div style="padding: 5px 10px; background-color: #7b4dd3; color: white; border-radius: 5px; border: 1px solid #6a3bb5; display: inline-block;">
                                 ${message.message}
                             </div>
-                            <div style="font-size: 12px; color: gray; margin-top: 2px;">
-                                ${dateString} ${timeDisplay} <!-- Display date and time -->
+                            <div style="font-size: 10px; color: gray; margin-top: 5px;">
+                                 ${dateString} ${timeDisplay} 
                             </div>
                         </div>
                     `;
                 } else {
-                    messageItem.style = `
-                        display: flex;
-                        align-items: flex-start;
-                    `;
                     messageItem.innerHTML = `
-                        <img src="${message.sender_avatar || 'https://via.placeholder.com/40'}" alt="User Avatar" style="width: 20px; height: 20px; border-radius: 50%; margin-right: 5px;">
-                        <div style="max-width: 70%;">
-                            <div style="padding: 5px 10px; background-color: #333; color: white; border-radius: 5px; border: 1px solid #222; text-align: left;">
-                                ${message.message}
-                            </div>
-                            <div style="font-size: 12px; color: gray; margin-top: 2px;">
-                                ${dateString} ${timeDisplay} <!-- Display date and time -->
+                        <div style="display: flex; margin: 5px 0; align-items: flex-start;">
+                            <img src="${message.sender_avatar || 'https://via.placeholder.com/40'}" alt="User Avatar" 
+                                style="width: 20px; height: 20px; border-radius: 50%; margin-right: 5px;">
+                            <div style="max-width: 70%; min-width: 120px;">
+                                <div style="padding: 5px 10px; background-color: #333; color: white; border-radius: 5px; border: 1px solid #222; display: inline-block; text-align: left;">
+                                    ${message.message}
+                                </div>
+                                <div style="font-size: 10px; color: gray; margin-top: 5px;">
+                                     ${dateString} ${timeDisplay} 
+                                </div>
                             </div>
                         </div>
                     `;
