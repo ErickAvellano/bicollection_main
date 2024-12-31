@@ -387,8 +387,8 @@
                         align-items: flex-start;
                     `;
                     messageItem.innerHTML = `
-                        <div style="max-width: 70%; min-width: 120px; text-align: right;">
-                            <div style="padding: 5px; background-color: #7b4dd3; color: white; border-radius: 5px;">
+                        <div style="max-width: 70%; text-align: right;">
+                            <div style="padding: 5px 10px; background-color: #7b4dd3; color: white; border-radius: 5px;">
                                 ${message.message}
                             </div>
                             ${dateString} <!-- Display date separator if different day -->
@@ -402,8 +402,8 @@
                     `;
                     messageItem.innerHTML = `
                         <img src="${message.sender_avatar || 'https://via.placeholder.com/40'}" alt="User Avatar" style="width: 20px; height: 20px; border-radius: 50%; margin-right: 5px;">
-                        <div style="max-width: 70%; min-width: 120px;">
-                            <div style="padding: 5px; background-color: #333; color: white; border-radius: 5px; text-align: left;">
+                        <div style="max-width: 70%;">
+                            <div style="padding: 5px 10px; background-color: #333; color: white; border-radius: 5px; text-align: left;">
                                 ${message.message}
                             </div>
                             ${dateString} <!-- Display date separator if different day -->
