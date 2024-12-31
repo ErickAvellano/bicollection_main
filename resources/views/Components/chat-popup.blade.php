@@ -384,6 +384,8 @@
 
                 chatMessagesContainer.appendChild(messageItem);
             });
+
+            setInterval(renderChatMessages, 1000); 
         }
         // Helper function to check if two Date objects represent the same time (up to minute)
         function isSameTime(lastTime, currentTime) {

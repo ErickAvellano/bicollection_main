@@ -297,9 +297,9 @@
         fetchChatMessages();
 
         // Auto-refresh the chat messages every 5 seconds
-        setInterval(fetchChatMessages, 3000);
+        setInterval(fetchChatMessages, 1000);
     });
-</script>s
+</script>
 
 
 <script>
