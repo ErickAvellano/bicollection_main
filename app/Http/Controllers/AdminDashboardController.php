@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Application; 
+use App\Models\Application;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Customer;
 use App\Models\Shop;
@@ -33,10 +33,10 @@ class AdminDashboardController extends Controller
         $application = Application::findOrFail($id);
 
         // Update the shop's verification status to Rejected
-        $shop = Shop::find($application->shop_id); 
+        $shop = Shop::find($application->shop_id);
         if ($shop) {
             $shop->verification_status = 'Rejected';
-            $shop->save(); 
+            $shop->save();
         }
 
         return response()->json(['message' => 'Application declined successfully.']);
@@ -63,19 +63,28 @@ class AdminDashboardController extends Controller
             'customerCount' => $customerCount,
             'applications' => $applications,
             'viewType' => 'dashboard',
-            'transactions' => $transactions, 
+            'transactions' => $transactions,
         ]);
     }
 
 
     public function viewMerchants()
     {
+        $user = Auth::user();
+
+        // Ensure only admin users can access this method
+        if ($user->type !== 'admin') {
+            return redirect()->route('dashboard');
+        }
+
+        $adminId = $user->user_id;
         $transactionCount = Order::count();
         $customerCount = Customer::count();
         $applications = Application::with(['shop.merchant'])->whereHas('shop')->get();
-        $transactions = []; 
+        $transactions = [];
 
         return view('admin.admindashboard', [
+            'adminId' => $adminId,
             'customerCount' => $customerCount,
             'applications' => $applications,
             'viewType' => 'merchants',
@@ -86,6 +95,14 @@ class AdminDashboardController extends Controller
 
     public function viewCustomers()
     {
+        $user = Auth::user();
+
+        // Ensure only admin users can access this method
+        if ($user->type !== 'admin') {
+            return redirect()->route('dashboard');
+        }
+
+        $adminId = $user->user_id;
         $transactionCount = Order::count();
 
         // Fetch transactions
@@ -107,17 +124,26 @@ class AdminDashboardController extends Controller
         $customers = Customer::with('addresses')->get();
 
         return view('admin.admindashboard', [
+            'adminId' => $adminId,
             'customers' => $customers,
             'customerCount' => $customerCount,
             'viewType' => 'customers',
             'transactionCount' => $transactionCount,
             'applications' => $applications,
-            'transactions' => $transactions, 
+            'transactions' => $transactions,
         ]);
     }
 
     public function viewTransactions()
     {
+        $user = Auth::user();
+
+        // Ensure only admin users can access this method
+        if ($user->type !== 'admin') {
+            return redirect()->route('dashboard');
+        }
+
+        $adminId = $user->user_id;
         $applications = Application::with(['shop.merchant'])->whereHas('shop')->get();
         $customerCount = Customer::count();
         $transactionCount = Order::count();
@@ -136,11 +162,12 @@ class AdminDashboardController extends Controller
             ->get();
 
         return view('admin.admindashboard', [
+            'adminId' => $adminId,
             'transactions' => $transactions,
             'transactionCount' => $transactionCount,
             'viewType' => 'transactions',
-            'applications' => $applications, 
-            'customerCount' => $customerCount, 
+            'applications' => $applications,
+            'customerCount' => $customerCount,
         ]);
     }
 
