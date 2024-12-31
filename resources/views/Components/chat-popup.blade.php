@@ -250,12 +250,13 @@
                     inquiryItem.style.border = '1px solid #228b22'; // Highlight the selected chat
 
                     const chatIdInput = document.getElementById('chatIdInput');
-                    
+
                     if (chatIdInput) {
                         chatIdInput.value = selectedChatId; // Set the selected chat ID
                     }
 
                     try {
+                        // Fetch and render messages for the selected chat
                         const response = await fetch(`/chat/messages/${chatId}`, {
                             method: 'GET',
                             headers: {
@@ -266,7 +267,26 @@
                         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
                         const messages = await response.json();
-                        renderChatMessages(messages);
+                        renderChatMessages(messages); // Render the initial messages
+
+                        // Set interval for auto-refreshing the messages
+                        setInterval(async () => {
+                            try {
+                                const refreshResponse = await fetch(`/chat/messages/${chatId}`, {
+                                    method: 'GET',
+                                    headers: {
+                                        'X-Requested-With': 'XMLHttpRequest',
+                                    },
+                                });
+
+                                if (!refreshResponse.ok) throw new Error(`HTTP error! status: ${refreshResponse.status}`);
+
+                                const newMessages = await refreshResponse.json();
+                                renderChatMessages(newMessages); // Update the chat with new messages
+                            } catch (error) {
+                                console.error('Error refreshing messages:', error);
+                            }
+                        }, 5000); // Refresh every 5 seconds
 
                     } catch (error) {
                         console.error('Error fetching messages:', error);
@@ -311,7 +331,6 @@
             });
         }
 
-        // Function to render chat messages
         // Function to render chat messages
         function renderChatMessages(messages) {
             chatMessagesContainer.innerHTML = ''; // Clear previous messages
@@ -385,7 +404,7 @@
                 chatMessagesContainer.appendChild(messageItem);
             });
 
-            setInterval(renderChatMessages, 1000); 
+            
         }
         // Helper function to check if two Date objects represent the same time (up to minute)
         function isSameTime(lastTime, currentTime) {
