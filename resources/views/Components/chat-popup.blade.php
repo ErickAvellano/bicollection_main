@@ -383,7 +383,7 @@
                 if (isSender) {
                     messageItem.innerHTML = `
                         <div style="max-width: 100%; min-width: 120px; text-align: right; margin: 5px auto;">
-                            <div style="padding: 8px 12px; background-color: #7b4dd3; color: white; border-radius: 8px; border: 1px solid #6a3bb5; display: inline-block; font-size: 14px;">
+                            <div style="padding: 5px 10px; background-color: #7b4dd3; color: white; border-radius: 8px; border: 1px solid #6a3bb5; display: inline-block; font-size: 14px;">
                                 ${message.message}
                             </div>
                             <div style="font-size: 10px; color: gray; margin-top: 5px;">
@@ -397,7 +397,7 @@
                             <img src="${message.sender_avatar || 'https://via.placeholder.com/40'}" alt="User Avatar" 
                                 style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px; flex-shrink: 0;">
                             <div style="max-width: 70%; min-width: 120px;">
-                                <div style="padding: 8px 12px; background-color: #333; color: white; border-radius: 8px; border: 1px solid #222; display: inline-block; font-size: 14px; text-align: left;">
+                                <div style="padding: 5px 10px; background-color: #333; color: white; border-radius: 8px; border: 1px solid #222; display: inline-block; font-size: 14px; text-align: left;">
                                     ${message.message}
                                 </div>
                                 <div style="font-size: 10px; color: gray; margin-top: 5px;">
@@ -557,7 +557,7 @@
 
                 messageItem.innerHTML = `
                     <div style="max-width: 70%; min-width: 120px; text-align: right;">
-                        <div style="padding: 5px; background-color: #7b4dd3; color: white; border-radius: 5px; display: inline-block;">
+                        <div style="padding:5px 10px; background-color: #7b4dd3; color: white; border-radius: 5px; display: inline-block;">
                             ${message}
                         </div>
                         ${dateString}  
