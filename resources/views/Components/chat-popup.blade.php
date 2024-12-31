@@ -298,7 +298,7 @@
                     } catch (error) {
                         console.error('Error refreshing messages:', error);
                     }
-                }, 100000); // Refresh every 5 seconds
+                }, 3000);
             }
 
             // If there's a chat already selected (e.g., on page load or after a refresh), start auto-refresh immediately
@@ -382,7 +382,7 @@
 
                 if (isSender) {
                     messageItem.innerHTML = `
-                        <div style="max-width: 70%; min-width: 120px; text-align: right; margin: 5px auto;">
+                        <div style="max-width: 100%; min-width: 120px; text-align: right; margin: 5px auto;">
                             <div style="padding: 8px 12px; background-color: #7b4dd3; color: white; border-radius: 8px; border: 1px solid #6a3bb5; display: inline-block; font-size: 14px;">
                                 ${message.message}
                             </div>
