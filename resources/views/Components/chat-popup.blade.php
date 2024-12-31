@@ -244,13 +244,13 @@
                     const chatId = inquiryItem.getAttribute('data-chat-id');
                     selectedChatId = chatId; // Update the selected chat ID
 
+                    // Reset borders for all inquiry items and highlight the selected one
                     inquiriesListElement.querySelectorAll('.chat-user').forEach(user => {
-                        user.style.border = '1px solid #ccc'; // Reset borders
+                        user.style.border = '1px solid #ccc';
                     });
                     inquiryItem.style.border = '1px solid #228b22'; // Highlight the selected chat
 
                     const chatIdInput = document.getElementById('chatIdInput');
-
                     if (chatIdInput) {
                         chatIdInput.value = selectedChatId; // Set the selected chat ID
                     }
@@ -269,24 +269,8 @@
                         const messages = await response.json();
                         renderChatMessages(messages); // Render the initial messages
 
-                        // Set interval for auto-refreshing the messages
-                        setInterval(async () => {
-                            try {
-                                const refreshResponse = await fetch(`/chat/messages/${chatId}`, {
-                                    method: 'GET',
-                                    headers: {
-                                        'X-Requested-With': 'XMLHttpRequest',
-                                    },
-                                });
-
-                                if (!refreshResponse.ok) throw new Error(`HTTP error! status: ${refreshResponse.status}`);
-
-                                const newMessages = await refreshResponse.json();
-                                renderChatMessages(newMessages); // Update the chat with new messages
-                            } catch (error) {
-                                console.error('Error refreshing messages:', error);
-                            }
-                        }, 5000); // Refresh every 5 seconds
+                        // Start auto-refresh for this chat
+                        startAutoRefresh(chatId);
 
                     } catch (error) {
                         console.error('Error fetching messages:', error);
@@ -295,7 +279,34 @@
 
                 inquiriesListElement.appendChild(inquiryItem);
             });
+
+            // Function to handle auto-refresh of messages for a specific chat
+            function startAutoRefresh(chatId) {
+                setInterval(async () => {
+                    try {
+                        const refreshResponse = await fetch(`/chat/messages/${chatId}`, {
+                            method: 'GET',
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest',
+                            },
+                        });
+
+                        if (!refreshResponse.ok) throw new Error(`HTTP error! status: ${refreshResponse.status}`);
+
+                        const newMessages = await refreshResponse.json();
+                        renderChatMessages(newMessages); // Update the chat with new messages
+                    } catch (error) {
+                        console.error('Error refreshing messages:', error);
+                    }
+                }, 5000); // Refresh every 5 seconds
+            }
+
+            // If there's a chat already selected (e.g., on page load or after a refresh), start auto-refresh immediately
+            if (selectedChatId) {
+                startAutoRefresh(selectedChatId);
+            }
         }
+
 
         // Function to render merchants list
         function renderMerchantList(merchants) {
