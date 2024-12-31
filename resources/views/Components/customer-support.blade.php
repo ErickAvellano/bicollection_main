@@ -222,13 +222,12 @@
                 const messageItem = document.createElement('div');
 
                 // Get current time and format it
-                const now = new Date();
                 const messageDate = new Date(message.created_at);
                 const timeString = messageDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
                 // Format the date separator if the date is different
                 let dateString = '';
-                if (now.toDateString() !== messageDate.toDateString()) {
+                if (!lastMessageTime || lastMessageTime.toDateString() !== messageDate.toDateString()) {
                     dateString = ` 
                         <div style="text-align: center; margin-top: 5px; font-size: 12px; color: gray;">
                             ---------------${messageDate.toLocaleDateString()}-------------
@@ -260,9 +259,8 @@
                             <div style="padding: 5px; background-color: #7b4dd3; color: white; border-radius: 5px;">
                                 ${message.message}
                             </div>
-                             ${timeDisplay}
+                            ${timeDisplay}
                             ${dateString} <!-- Display date separator if different day -->
-                            <!-- Display time only if it's not the same as the previous message -->
                         </div>
                     `;
                 } else {
@@ -278,10 +276,8 @@
                             </div>
                             ${timeDisplay}
                             ${dateString} <!-- Display date separator if different day -->
-                             <!-- Display time only if it's not the same as the previous message -->
                         </div>
                     `;
-                    
                 }
 
                 chatMessagesContainer.appendChild(messageItem);
@@ -299,10 +295,11 @@
 
         // Fetch chat messages on page load
         fetchChatMessages();
+
+        // Auto-refresh the chat messages every 5 seconds
+        setInterval(fetchChatMessages, 3000);
     });
-</script>
-
-
+</script>s
 
 
 <script>
