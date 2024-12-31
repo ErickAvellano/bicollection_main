@@ -49,7 +49,7 @@ class CustomerSupportController extends Controller
         // Return the results as JSON
         return response()->json($results);
     }
-    public function getSuggestions()
+    public function getSuggestions() 
     {
         // Fetch 5 titles from the CustomerSupportGuide table
         $suggestions = CustomerSupportGuide::select('guide_title')->limit(3)->get();
