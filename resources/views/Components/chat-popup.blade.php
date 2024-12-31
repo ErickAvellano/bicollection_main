@@ -388,11 +388,12 @@
                     `;
                     messageItem.innerHTML = `
                         <div style="max-width: 70%; text-align: right;">
-                            <div style="padding: 5px 10px; background-color: #7b4dd3; color: white; border-radius: 5px;">
+                            <div style="padding: 5px 10px; background-color: #7b4dd3; color: white; border-radius: 5px; border: 1px solid #6a3bb5;">
                                 ${message.message}
                             </div>
-                            ${dateString} <!-- Display date separator if different day -->
-                            ${timeDisplay} <!-- Display time only if it's not the same as the previous message -->
+                            <div style="font-size: 12px; color: gray; margin-top: 2px;">
+                                ${dateString} ${timeDisplay} <!-- Display date and time -->
+                            </div>
                         </div>
                     `;
                 } else {
@@ -403,14 +404,16 @@
                     messageItem.innerHTML = `
                         <img src="${message.sender_avatar || 'https://via.placeholder.com/40'}" alt="User Avatar" style="width: 20px; height: 20px; border-radius: 50%; margin-right: 5px;">
                         <div style="max-width: 70%;">
-                            <div style="padding: 5px 10px; background-color: #333; color: white; border-radius: 5px; text-align: left;">
+                            <div style="padding: 5px 10px; background-color: #333; color: white; border-radius: 5px; border: 1px solid #222; text-align: left;">
                                 ${message.message}
                             </div>
-                            ${dateString} <!-- Display date separator if different day -->
-                            ${timeDisplay} <!-- Display time only if it's not the same as the previous message -->
+                            <div style="font-size: 12px; color: gray; margin-top: 2px;">
+                                ${dateString} ${timeDisplay} <!-- Display date and time -->
+                            </div>
                         </div>
                     `;
                 }
+
 
                 chatMessagesContainer.appendChild(messageItem);
             });
