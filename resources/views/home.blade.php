@@ -713,7 +713,7 @@
             <div class="mt-3 mb-2 col-md-12">
                 <div class="overflow-hidden d-flex" style="gap:2px" id="productCarousel_partner">
                     <!-- Shop Details -->
-                    <div class="col-md-7">
+                    <div class="col-md-7 ">
                         <div style="display: flex; align-items: center; margin-bottom:20px;">
                             <h3 style="margin: 0;">MERCHANT</h3>
                             <div style="flex-grow: 1; height: 1px; background-color: black; margin-left: 10px;"></div>
@@ -741,12 +741,14 @@
 
                                         <!-- Shop Name and Location -->
                                         <div class="col-md-8">
-                                            <h5 class="text-white text-start">{{ $shop->shop_name }} <span><i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                            </span></h5>
+                                            <h5 class="text-white text-start">{{ $shop->shop_name }} </h5>
+                                                <p class="mb-0 text-white text-start">
+                                                    <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                                    <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                                    <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                                    <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                                    <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                                </p>
                                             <p class="mb-0 text-white text-start">
                                                 <i class="fa-solid fa-location-dot text-danger"></i>
                                                 <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($shop->shop_street . ', ' . $shop->barangay . ', ' . $shop->city . ', ' . $shop->province) }}"
@@ -870,6 +872,8 @@
         </div>
     </div>
 @endif
+
+
 @if(isset($recentlyAddedProducts) && !empty($recentlyAddedProducts))
     <!-- Recently Added Product -->
     <div class="container recently-added-container">
