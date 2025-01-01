@@ -171,8 +171,8 @@
 
             <!-- Chat Input -->
             <!-- Chat Input -->
-            <form 
-                id="chat-form" 
+            <form
+                id="chat-form"
                 action="{{ route('chat.sendmessages') }}"
                 method="POST"
                 style="padding: 10px; min-height:57px; border-top: 1px solid #ccc; display: flex; align-items: center;">
@@ -185,7 +185,7 @@
                     style="flex-grow: 1; padding: 5px; margin-right: 0px; font-size:14px;"
                 >
                 <input type="hidden" id="chatIdInput" name="chatId"> <!-- Hidden field for chatId -->
-                <a 
+                <a
                     href="#"
                     id="send-buttons"
                     style="padding: 10px 10px; color: #228b22; display: flex; align-items: center; justify-content: center; background: none; border: none; cursor: pointer;">
@@ -346,7 +346,7 @@
         function renderChatMessages(messages) {
             chatMessagesContainer.innerHTML = ''; // Clear previous messages
 
-            let lastMessageTime = null; 
+            let lastMessageTime = null;
             let adminId = {{ json_encode($adminId) }};
             messages.forEach(message => {
                 const isSender = message.sender_id === adminId;
@@ -360,7 +360,7 @@
                 // Format the date separator if the date is different
                 var dateString = '';
                 if (now.toDateString() !== messageDate.toDateString()) {
-                    dateString = ` 
+                    dateString = `
                         <div style="text-align: center; margin-top: 5px; font-size: 12px; color: gray;">
                             ---------------${messageDate.toLocaleDateString()}-------------
                         </div>
@@ -387,21 +387,21 @@
                                 ${message.message}
                             </div>
                             <div style="font-size: 10px; color: gray; margin-top: 5px;">
-                                ${dateString} ${timeDisplay} 
+                                ${dateString} ${timeDisplay}
                             </div>
                         </div>
                     `;
                 } else {
                     messageItem.innerHTML = `
                         <div style="display: flex; align-items: flex-start; margin: 5px auto;">
-                            <img src="${message.sender_avatar || 'https://via.placeholder.com/40'}" alt="User Avatar" 
+                            <img src="${message.sender_avatar || 'https://via.placeholder.com/40'}" alt="User Avatar"
                                 style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px; flex-shrink: 0;">
                             <div style="max-width: 70%; min-width: 120px;">
                                 <div style="padding: 5px 10px; background-color: #333; color: white; border-radius: 8px; border: 1px solid #222; display: inline-block; font-size: 14px; text-align: left;">
                                     ${message.message}
                                 </div>
                                 <div style="font-size: 10px; color: gray; margin-top: 5px;">
-                                    ${dateString} ${timeDisplay} 
+                                    ${dateString} ${timeDisplay}
                                 </div>
                             </div>
                         </div>
@@ -412,7 +412,7 @@
                 chatMessagesContainer.appendChild(messageItem);
             });
 
-            
+
         }
         // Helper function to check if two Date objects represent the same time (up to minute)
         function isSameTime(lastTime, currentTime) {
@@ -560,7 +560,7 @@
                         <div style="padding:5px 10px; background-color: #7b4dd3; color: white; border-radius: 5px; display: inline-block;">
                             ${message}
                         </div>
-                        ${dateString}  
+                        ${dateString}
                         <div id="message-time" style="font-size: 10px; color: gray; margin-top: 5px;">
                             Sent
                         </div>

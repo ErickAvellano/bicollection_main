@@ -184,7 +184,7 @@
                 name="message"
                 placeholder="Type your message..."
                 style="flex-grow: 1; padding: 5px; margin-right: 0px; font-size: 14px;">
-            <a 
+            <a
                 href="#"
                 id="send-buttons"
                 style="padding: 10px 10px; color: #228b22; display: flex; align-items: center; justify-content: center; background: none; border: none; cursor: pointer;">
@@ -214,7 +214,7 @@
         // Function to render chat messages
         function renderChatMessages(messages) {
             chatMessagesContainer.innerHTML = ''; // Clear previous messages
-            
+
             if (!messages || messages.length === 0 || messages[0].chat_id === null) {
                 chatMessagesContainer.innerHTML = `
                     <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; text-align: center;">
@@ -293,7 +293,7 @@
                 // Format the date separator if the date is different
                 var dateString = '';
                 if (now.toDateString() !== messageDate.toDateString()) {
-                    dateString = ` 
+                    dateString = `
                         <div style="text-align: center; margin-top: 5px; font-size: 12px; color: gray;">
                             ---------------${messageDate.toLocaleDateString()}-------------
                         </div>
@@ -320,14 +320,14 @@
                                 ${message.message}
                             </div>
                             <div style="font-size: 10px; color: gray; margin-top: 5px;">
-                                ${dateString} ${timeDisplay} 
+                                ${dateString} ${timeDisplay}
                             </div>
                         </div>
                     `;
                 } else {
                     messageItem.innerHTML = `
                         <div style="display: flex; align-items: flex-start; margin: 5px auto;">
-                            <img src="{{ asset('images/assets/bicollectionlogowname2.png') }}" alt="User Avatar" 
+                            <img src="{{ asset('images/assets/bicollectionlogowname2.png') }}" alt="User Avatar"
                                 style="width: 20px; height: 20px; border-radius: 50%; margin-right: 10px; flex-shrink: 0; object-fit: cover;">
 
                             <div style="max-width: 70%; min-width: 120px;">
@@ -335,7 +335,7 @@
                                     ${message.message}
                                 </div>
                                 <div style="font-size: 10px; color: gray; margin-top: 5px;">
-                                    ${dateString} ${timeDisplay} 
+                                    ${dateString} ${timeDisplay}
                                 </div>
                             </div>
                         </div>
@@ -450,19 +450,15 @@
     });
 </script>
 <script>
-    // Handle problem selection to update the chat input placeholder and show the chat form
     const problemSelectionButtons = document.querySelectorAll('#problem-selection a');
     problemSelectionButtons.forEach(button => {
         button.addEventListener('click', function(event) {
-            event.preventDefault(); // Prevents the default behavior (e.g., page reload)
-            
-            // Get the problem type from the clicked button's data-problem attribute
+            event.preventDefault();
+
             const problemType = this.getAttribute('data-problem');
-            
-            // Update the chat input placeholder with the problem type
+
             document.getElementById('chat-input').placeholder = `Enter your message about ${problemType}...`;
-            
-            // Show the chat form and hide the problem selection
+
             document.getElementById('chat-form').style.display = 'flex';
             document.getElementById('problem-selection').style.display = 'none';
         });
@@ -492,7 +488,7 @@
                 if (data.success) {
                     // Clear the input field
                     document.getElementById('chat-input').value = '';
-                    
+
                     // Append the message to the chat display area
                     var chatBox = document.getElementById('chat-messages');
 
