@@ -323,6 +323,13 @@
         var message = document.getElementById('chat-input').value;
         const customerId = {{$customerId}};
 
+
+        if (customerId == null) {
+            alert('Customer ID is missing. Please log in.');
+            window.location.href = '/login';  // Redirect to login page
+            return;  // Exit the function if customerId is invalid
+        }
+
         // Create a FormData object for sending the form data
         var formData = new FormData();
         formData.append('message', message);

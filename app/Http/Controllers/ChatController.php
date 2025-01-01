@@ -181,6 +181,9 @@ class ChatController extends Controller
     //customer to admin
     public function customertoadminmessage(Request $request)
     {
+        if (!Auth::check() || Auth::user()->type !== 'customer') {
+            return redirect()->route('login')->with('error', 'Unauthorized access. Only merchants can view this page.');
+        }
         // Validate the incoming request
         $request->validate([
             'message' => 'required|string|max:255',
