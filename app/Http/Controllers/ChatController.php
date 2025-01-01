@@ -119,18 +119,21 @@ class ChatController extends Controller
     public function getMessagesByCustomer($customerId)
     {
         $adminID = 63;
-
-        // Try to find the existing chat
+    
+        // Find chat or return a default response
         $chat = Chat::where(function ($query) use ($customerId, $adminID) {
             $query->where('customer_id', $customerId)
-                ->where('admin_id', $adminID);
+                  ->where('admin_id', $adminID);
         })->first();
-
-        $chatId = $chat->chat_id;
-
+    
+        $chatId = $chat?->chat_id ?? null;
+        if (!$chatId) {
+            return response()->json(['success' => false, 'message' => 'No chat found']);
+        }
+    
         // Get all messages for the given chat_id
         $messages = Message::where('chat_id', $chatId)
-            ->orderBy('created_at', 'asc') // Order messages by creation time
+            ->orderBy('created_at', 'asc')
             ->get()
             ->map(function ($message) use ($adminID) {
                 return [
@@ -142,12 +145,13 @@ class ChatController extends Controller
                     'created_at' => $message->created_at,
                     'sender_avatar' => $message->sender?->avatar_path
                         ? asset('/storage/' . $message->sender->avatar_path)
-                        : 'https://via.placeholder.com/40', // Optional sender avatar
+                        : 'https://via.placeholder.com/40',
                 ];
             });
-
-        return response()->json($messages);
+    
+        return response()->json(['success' => true, 'messages' => $messages, 'chat_id' => $chatId]);
     }
+    
     // Method to send a message Admin
     public function sendMessage(Request $request)
     {
@@ -224,7 +228,7 @@ class ChatController extends Controller
     
         $adminID = 63; // Replace with your admin ID logic if dynamic
         $customerId = $request->input('customerId');
-        $problem = $request->input('problem'); // Use the validated input from the request
+        $problem = 22112; // Use the validated input from the request
         
         // Log the admin and customer details
         Log::info('Admin ID and Customer ID details', [
@@ -249,14 +253,10 @@ class ChatController extends Controller
                 'admin_id' => $adminID,
             ]);
             
-            // Get the newly created chat's ID
-            $chatID = $chat->chat_id;
-            
-            // Log the new chat creation
-            Log::info('Created new chat', ['chat_id' => $chatID]);
-        } else {
-            $chatID = $chat->chat_id; // If the chat already exists, use its chat ID
-        }
+        } 
+
+        // Get the newly created chat's ID
+        $chatID = $chat->chat_id;
     
         // Create a new message
         $message = new Message();

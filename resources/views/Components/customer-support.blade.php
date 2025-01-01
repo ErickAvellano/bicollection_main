@@ -142,80 +142,85 @@
         async function fetchChatMessages() {
             try {
                 const response = await fetch(`/chat/message/${customerIds}`);
-                const messages = await response.json();
-                renderChatMessages(messages);
+                const data = await response.json(); // Parse response JSON once
+                
+                if (!data.success || !data.messages || data.messages.length === 0 || data.chat_id === null) {
+                    displayNoChatContent(); // Call a function to handle "no chat" display
+                    document.getElementById('chat-form').style.display = 'none'; // Hide chat form
+                    return;
+                }
+
+                renderChatMessages(data.messages); // Pass messages to render function
+                document.getElementById('chat-form').style.display = 'flex'; // Show chat form if messages exist
             } catch (error) {
                 console.error("Error fetching chat messages:", error);
             }
+        }
+        function displayNoChatContent() {
+            chatMessagesContainer.innerHTML = `
+                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; text-align: center;">
+                    <h5 class="mt-4">Hi, how can we help you?</h5>
+                    <h6 class="mt-4">Select a topic:</h6>
+                    <div id="problem-selection" style="
+                        display: flex;
+                        justify-content: center;
+                        gap: 5px;
+                        padding: 10px;
+                        background-color: #f9f9f9;">
+                        <!-- Option Buttons -->
+                        <a href="#" data-customer-id="{{$customerId}}" class="btn btn-outline-custom" data-problem="Account" style="
+                            padding: 5px;
+                            font-size: 14px;
+                            border-radius: 8px;
+                            background: #228b22;
+                            color: white;
+                            border: none;
+                            cursor: pointer;
+                            height: var(--button-height, 30px);">
+                            Account
+                        </a>
+                        <a href="#" data-customer-id="{{$customerId}}" class="btn btn-outline-custom" data-problem="Billing" style="
+                            padding: 5px;
+                            font-size: 14px;
+                            border-radius: 8px;
+                            background: #228b22;
+                            color: white;
+                            border: none;
+                            cursor: pointer;
+                            height: var(--button-height, 30px);">
+                            Billing
+                        </a>
+                        <a href="#" data-customer-id="{{$customerId}}" class="btn btn-outline-custom" data-problem="Technical Support" style="
+                            padding: 5px;
+                            font-size: 14px;
+                            border-radius: 8px;
+                            background: #228b22;
+                            color: white;
+                            border: none;
+                            cursor: pointer;
+                            height: var(--button-height, 30px);">
+                            Technical Support
+                        </a>
+                        <a href="#" data-customer-id="{{$customerId}}" class="btn btn-outline-custom" data-problem="Others" style="
+                            padding: 5px;
+                            font-size: 14px;
+                            border-radius: 8px;
+                            background: #228b22;
+                            color: white;
+                            border: none;
+                            cursor: pointer;
+                            height: var(--button-height, 30px);">
+                            Others
+                        </a>
+                    </div>
+                </div>
+            `;
+            document.getElementById('chat-form').style.display = 'none';
         }
 
         // Function to render chat messages
         function renderChatMessages(messages) {
             chatMessagesContainer.innerHTML = ''; // Clear previous messages
-
-            if (!messages || messages.length === 0 || messages[0].chat_id === null) {
-                chatMessagesContainer.innerHTML = `
-                    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; text-align: center;">
-                        <h5 class="mt-4">Hi, how can we help you?</h5>
-                        <h6 class="mt-4">Select a topic:</h6>
-                        <div id="problem-selection" style="
-                            display: flex;
-                            justify-content: center;
-                            gap: 5px;
-                            padding: 10px;
-                            background-color: #f9f9f9;">
-                            <!-- Option Buttons -->
-                            <a href="#" data-customer-id="{{$customerId}}" class="btn btn-outline-custom" data-problem="Account" style="
-                                padding: 5px;
-                                font-size: 14px;
-                                border-radius: 8px;
-                                background: #228b22;
-                                color: white;
-                                border: none;
-                                cursor: pointer;
-                                height: var(--button-height, 30px);">
-                                Account
-                            </a>
-                            <a href="#" data-customer-id="{{$customerId}}" class="btn btn-outline-custom" data-problem="Billing" style="
-                                padding: 5px;
-                                font-size: 14px;
-                                border-radius: 8px;
-                                background: #228b22;
-                                color: white;
-                                border: none;
-                                cursor: pointer;
-                                height: var(--button-height, 30px);">
-                                Billing
-                            </a>
-                            <a href="#" data-customer-id="{{$customerId}}" class="btn btn-outline-custom" data-problem="Technical Support" style="
-                                padding: 5px;
-                                font-size: 14px;
-                                border-radius: 8px;
-                                background: #228b22;
-                                color: white;
-                                border: none;
-                                cursor: pointer;
-                                height: var(--button-height, 30px);">
-                                Technical Support
-                            </a>
-                            <a href="#" data-customer-id="{{$customerId}}" class="btn btn-outline-custom" data-problem="Others" style="
-                                padding: 5px;
-                                font-size: 14px;
-                                border-radius: 8px;
-                                background: #228b22;
-                                color: white;
-                                border: none;
-                                cursor: pointer;
-                                height: var(--button-height, 30px);">
-                                Others
-                            </a>
-                        </div>
-                    </div>
-                `;
-                document.getElementById('chat-form').style.display = 'none';
-                return;
-            }
-            document.getElementById('chat-form').style.display = 'flex';
 
             let lastMessageTime = null; // Variable to track the time of the last message
 
