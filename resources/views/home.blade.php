@@ -160,6 +160,14 @@
         gap: 5px;
 
     }
+    //added new
+    .product-carousel-recently {
+        display: flex;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        gap: 5px;
+
+    }
 
     /* Product link styles */
     .product-link {
@@ -595,6 +603,11 @@
         .product-item{
             transform: scale(0.9);
         }
+        .container {
+            width: 100%; 
+            padding-right: 0; 
+            padding-left: 0; 
+        }
 
     }
 </style>
@@ -860,7 +873,7 @@
             </div>
 
             <div class="mt-3 col-md-12">
-                <div id="productCarouselRecentlyAdded" class="overflow-hidden d-flex">
+                <div id="productCarouselRecentlyAdded" class="product-carousel-recently">
                     @foreach($recentlyAddedProducts as $product)
                         <a href="{{ route('product.view', $product->product_id) }}" class="text-decoration-none product-link">
                             <div class="p-2 product-item product-card-hover">
