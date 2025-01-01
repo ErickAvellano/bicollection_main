@@ -148,14 +148,14 @@
     }
     .product-carousel {
         display: flex;
-        overflow-x: hidden;
+        overflow-x: auto;
         scroll-behavior: smooth;
         gap: 5px;
 
     }
     .product-carousel-product {
         display: flex;
-        overflow-x: hidden;
+        overflow-x: auto;
         scroll-behavior: smooth;
         gap: 5px;
 
@@ -588,10 +588,12 @@
             font-size: 1.2rem;
         }
         .product-carousel{
-            transform: scale(0.9);
-            overflow: hidden; /* Ensures items are clipped when swiped */
             display: flex; /* Allows horizontal scrolling of items */
             transition: transform 0.3s ease;
+            -webkit-overflow-scrolling: touch;
+        }
+        .product-item{
+            transform: scale(0.9);
         }
 
     }
