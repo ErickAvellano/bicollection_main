@@ -252,10 +252,7 @@ class ChatController extends Controller
                 'customer_id' => $customerId,
                 'admin_id' => $adminID,
             ]);
-            
-        } 
-
-        // Get the newly created chat's ID
+              // Get the newly created chat's ID
         $chatID = $chat->chat_id;
     
         // Create a new message
@@ -264,6 +261,10 @@ class ChatController extends Controller
         $message->sender_id = $chat->customer_id; // Customer is the sender
         $message->receiver_id = $chat->admin_id; // Admin is the receiver
         $message->message = $problem;
+            
+        } 
+
+      
     
         // Log the message details
         Log::info('Message details', [
