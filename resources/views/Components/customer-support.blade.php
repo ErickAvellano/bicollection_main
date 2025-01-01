@@ -391,7 +391,7 @@
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
 
-        const customerId =  this.getAttribute('data-customer-id');
+        const customerIds =  this.getAttribute('data-customer-id');
         const problem = this.getAttribute('data-problem');
 
         // Send the data to the backend
@@ -402,7 +402,7 @@
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // Laravel CSRF token
             },
             body: JSON.stringify({
-                customer_id: customerId,
+                customerId: customerIds,
                 problem: problem
             })
         })
