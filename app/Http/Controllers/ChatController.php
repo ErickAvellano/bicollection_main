@@ -119,18 +119,18 @@ class ChatController extends Controller
     public function getMessagesByCustomer($customerId)
     {
         $adminID = 63;
-    
+
         // Find chat or return a default response
         $chat = Chat::where(function ($query) use ($customerId, $adminID) {
             $query->where('customer_id', $customerId)
-                  ->where('admin_id', $adminID);
+                ->where('admin_id', $adminID);
         })->first();
-    
+
         $chatId = $chat?->chat_id ?? null;
         if (!$chatId) {
             return response()->json(['success' => false, 'message' => 'No chat found']);
         }
-    
+
         // Get all messages for the given chat_id
         $messages = Message::where('chat_id', $chatId)
             ->orderBy('created_at', 'asc')
@@ -148,10 +148,10 @@ class ChatController extends Controller
                         : 'https://via.placeholder.com/40',
                 ];
             });
-    
+
         return response()->json(['success' => true, 'messages' => $messages, 'chat_id' => $chatId]);
     }
-    
+
     // Method to send a message Admin
     public function sendMessage(Request $request)
     {
@@ -253,21 +253,21 @@ class ChatController extends Controller
                 'admin_id' => $adminID,
             ]);
             
+            // Get the newly created chat's ID
+            $chatID = $chat->chat_id;
             
+            // Log the new chat creation
+            Log::info('Created new chat', ['chat_id' => $chatID]);
         } else {
-            $chatID = $chat->chat_id; 
-            
-                
-            // Create a new message
-            $message = new Message();
-            $message->chat_id = $chatID;
-            $message->sender_id = $chat->customer_id; // Customer is the sender
-            $message->receiver_id = $chat->admin_id; // Admin is the receiver
-            $message->message = $problem;
+            $chatID = $chat->chat_id; // If the chat already exists, use its chat ID
         }
-
-
-
+    
+        // Create a new message
+        $message = new Message();
+        $message->chat_id = $chatID;
+        $message->sender_id = $chat->customer_id; // Customer is the sender
+        $message->receiver_id = $chat->admin_id; // Admin is the receiver
+        $message->message = $problem;
     
         // Log the message details
         Log::info('Message details', [
