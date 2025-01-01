@@ -270,7 +270,7 @@ class ChatController extends Controller
         $message->chat_id = $chat->chat_id;
         $message->sender_id = $customerId; // Customer as sender
         $message->receiver_id = $chat->admin_id;  // Admin as receiver
-        $message->message = $request->input('message');
+        $message->message = $problem;
         $message->save();
 
         // Return the response
