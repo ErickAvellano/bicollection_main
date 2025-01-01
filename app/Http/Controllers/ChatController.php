@@ -215,7 +215,7 @@ class ChatController extends Controller
         
         // Validate the incoming request
         $validated = $request->validate([
-            'customerId' => 'required|integer|exists:customers,customer_id',  // Ensure the table and column names are correct
+            'customerId' => 'required|integer|exists:customer,customer_id',  
             'problem' => 'nullable|string|max:255',
         ]);
         
