@@ -266,24 +266,12 @@ class ChatController extends Controller
             Log::error('Chat creation failed or chat_id is missing', ['chat_data' => $chat]);
             return response()->json(['success' => false, 'message' => 'Chat creation failed.']);
         }
-
-        $chatID = $chat->chat_id;
-
-        // Create a new message with the problem
-        $message = Message::create([
-            'chat_id' => $chatID,
-            'sender_id' => $customerId,
-            'receiver_id' => $adminID,
-            'message' => $problem,
-            'message_type' => 'text',
-        ]);
-
-        // Log the message creation
-        Log::info('New message created', [
-            'message_id' => $message->message_id,
-            'chat_id' => $chatID,
-            'message' => $problem,
-        ]);
+        $message = new Message();
+        $message->chat_id = $chat->chat_id;
+        $message->sender_id = $customerId; // Customer as sender
+        $message->receiver_id = $chat->admin_id;  // Admin as receiver
+        $message->message = $request->input('message');
+        $message->save();
 
         // Return the response
         return response()->json([
