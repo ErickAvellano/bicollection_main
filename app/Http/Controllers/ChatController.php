@@ -178,11 +178,8 @@ class ChatController extends Controller
     }
 
 
-    
-    
 
-
-    // Method to send a message
+    // Method to send a message Admin
     public function sendMessage(Request $request)
     {
         // Log the incoming request
@@ -232,14 +229,14 @@ class ChatController extends Controller
             return response()->json(['success' => false, 'message' => 'An error occurred while sending the message.']);
         }
     }
+    //customer to admin
     public function customertoadminmessage(Request $request)
-{
-    Log::info('Customer initiating or continuing a conversation', [
-        'customerId' => $request->input('customerId'),
-        'message' => $request->input('message')
-    ]);
+    {
+        Log::info('Customer initiating or continuing a conversation', [
+            'customerId' => $request->input('customerId'),
+            'message' => $request->input('message')
+        ]);
 
-    try {
         // Validate the incoming request
         $request->validate([
             'message' => 'required|string|max:255',
@@ -257,9 +254,9 @@ class ChatController extends Controller
                 'admin_id' => 63 
             ]);
 
-            Log::info('New chat created', ['chatId' => $chat->id]);
+            Log::info('New chat created', ['chatId' => $chat->chat_id]);
         } else {
-            Log::info('Existing chat found', ['chatId' => $chat->id]);
+            Log::info('Existing chat found', ['chatId' => $chat->chat_id]);
         }
 
         // Create the message
@@ -271,16 +268,14 @@ class ChatController extends Controller
         $message->save();
 
         Log::info('Message sent successfully', [
-            'chatId' => $chat->id,
+            'chatId' => $chat->chat_id,
             'message' => $message->message
         ]);
 
         return response()->json(['success' => true, 'message' => 'Message sent successfully.']);
-    } catch (\Exception $e) {
-        Log::error('Error handling customer message', ['error' => $e->getMessage()]);
-        return response()->json(['success' => false, 'message' => 'An error occurred while sending the message.']);
     }
-}
+
+    
 
 
 

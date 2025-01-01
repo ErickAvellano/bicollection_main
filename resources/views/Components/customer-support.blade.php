@@ -364,7 +364,7 @@
 </script>
 <script>
     document.getElementById('send-buttons').addEventListener('click', function(e) {
-        e.preventDefault();  // Prevent the default form submission behavior
+        e.preventDefault();  // Prevent the def ault form submission behavior
 
         // Get the message and customerId values from the form
         var message = document.getElementById('chat-input').value;
@@ -479,7 +479,7 @@
             formData.append('_token', document.querySelector('input[name="_token"]').value);  // Include CSRF token
 
             // Send the form data via AJAX (using Fetch API)
-            fetch("{{ route('chat.sendmessage') }}", {
+            fetch("{{ route('chat.startmessages') }}", {
                 method: 'POST',
                 body: formData
             })
@@ -561,10 +561,10 @@
         }
     });
 
-    // Submit the form when the send button is clicked
-    document.getElementById('send-buttons').addEventListener('click', function(event) {
-        event.preventDefault();
-        document.getElementById('chat-form').submit(); // Submit the form
-    });
+    // // Submit the form when the send button is clicked
+    // document.getElementById('send-buttons').addEventListener('click', function(event) {
+    //     event.preventDefault();
+    //     document.getElementById('chat-form').submit(); // Submit the form
+    // });
 
     </script>

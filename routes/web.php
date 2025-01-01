@@ -94,6 +94,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/chat/sendMessageToAdmin', [ChatController::class, 'sendMessage'])->name('chat.sendMessageToAdmin');
     Route::get('/chat/message/{customerId}', [ChatController::class, 'getMessagesByCustomer']);
     Route::post('/chat/send-messages', [ChatController::class, 'customertoadminmessage'])->name('chat.sendmessage');
+    Route::post('/chat/start-messages', [ChatController::class, 'startcustomertoadminmessage'])->name('chat.startmessages');
 
     Route::post('/admin/applications/{id}/confirm', [AdminDashboardController::class, 'confirm'])->name('applications.confirm');
     Route::post('/admin/applications/{id}/decline', [AdminDashboardController::class, 'decline'])->name('applications.decline');

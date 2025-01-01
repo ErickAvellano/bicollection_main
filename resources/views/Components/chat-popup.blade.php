@@ -438,7 +438,7 @@
                 }
 
                 const inquiries = await response.json();
-                renderInquiryList(inquiries); // Call the inquiries rendering function
+                renderInquiryList(inquiries); 
             } catch (error) {
                 console.error('Error fetching inquiries:', error);
             }
