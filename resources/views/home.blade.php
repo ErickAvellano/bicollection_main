@@ -587,6 +587,12 @@
         .navbar-brand{
             font-size: 1.2rem;
         }
+        .product-carousel{
+            transform: scale(0.9);
+            overflow: hidden; /* Ensures items are clipped when swiped */
+            display: flex; /* Allows horizontal scrolling of items */
+            transition: transform 0.3s ease;
+        }
 
     }
 </style>
