@@ -267,10 +267,30 @@
                 lastMessageTime = messageDate;
 
                 if (isSender) {
+                    // Function to format the message into lines of up to 30 characters
+                    const formatMessage = (msg, maxLength = 25) => {
+                        const words = msg.split(' '); // Split the message into words
+                        let line = '';
+                        let formatted = '';
+
+                        words.forEach(word => {
+                            if ((line + word).length > maxLength) {
+                                formatted += line.trim() + '<br>'; // Add the current line and start a new one
+                                line = '';
+                            }
+                            line += word + ' '; // Add word to the current line
+                        });
+
+                        formatted += line.trim(); // Add any remaining text
+                        return formatted;
+                    };
+
+                    const formattedMessage = formatMessage(message.message);
+
                     messageItem.innerHTML = `
                         <div style="max-width: 100%; min-width: 120px; text-align: right; margin: 5px auto;">
-                            <div style="padding: 5px 10px; background-color: #7b4dd3; color: white; border-radius: 8px; border: 1px solid #6a3bb5; display: inline-block; font-size: 14px;">
-                                ${message.message}
+                            <div style="text-align: left; padding: 5px 10px; background-color: #7b4dd3; color: white; border-radius: 8px; border: 1px solid #6a3bb5; display: inline-block; font-size: 14px;">
+                                ${formattedMessage}
                             </div>
                             <div style="font-size: 10px; color: gray; margin-top: 5px;">
                                 ${dateString} ${timeDisplay}
@@ -278,6 +298,26 @@
                         </div>
                     `;
                 } else {
+                    // Function to format the message into lines of up to 30 characters
+                    const formatMessage = (msg, maxLength = 25) => {
+                        const words = msg.split(' '); // Split the message into words
+                        let line = '';
+                        let formatted = '';
+
+                        words.forEach(word => {
+                            if ((line + word).length > maxLength) {
+                                formatted += line.trim() + '<br>'; // Add the current line and start a new one
+                                line = '';
+                            }
+                            line += word + ' '; // Add word to the current line
+                        });
+
+                        formatted += line.trim(); // Add any remaining text
+                        return formatted;
+                    };
+
+                    const formattedMessage = formatMessage(message.message);
+
                     messageItem.innerHTML = `
                         <div style="display: flex; align-items: flex-start; margin: 5px auto;">
                             <img src="{{ asset('images/assets/bicollectionlogowname2.png') }}" alt="User Avatar"
@@ -285,7 +325,7 @@
 
                             <div style="max-width: 70%; min-width: 120px;">
                                 <div style="padding: 5px 10px; background-color: #333; color: white; border-radius: 8px; border: 1px solid #222; display: inline-block; font-size: 14px; text-align: left;">
-                                    ${message.message}
+                                    ${formattedMessage}
                                 </div>
                                 <div style="font-size: 10px; color: gray; margin-top: 5px;">
                                     ${dateString} ${timeDisplay}
@@ -294,6 +334,7 @@
                         </div>
                     `;
                 }
+
 
                 chatMessagesContainer.appendChild(messageItem);
             });

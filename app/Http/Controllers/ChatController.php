@@ -215,7 +215,7 @@ class ChatController extends Controller
     public function startcustomertoadminmessage(Request $request)
     {
         if (!Auth::check() || Auth::user()->type !== 'customer') {
-            return redirect()->route('login')->with('error', 'Unauthorized access. Only merchants can view this page.');
+            return redirect()->route('login')->with('error', 'Unauthorized access.');
         }
 
         // Validate the incoming request
@@ -261,7 +261,74 @@ class ChatController extends Controller
             'message' => $message,
         ]);
     }
-
+    public function startliveChat(Request $request)
+    {
+        // Validate the incoming request to ensure a topic is selected
+        $validated = $request->validate([
+            
+            'topic' => 'required|string|max:255', 
+        ]);
+        
+        if (!Auth::check() || Auth::user()->type !== 'customer') {
+            Log::warning('Unauthorized access attempt.', [
+                'customer_id' => Auth::id(),
+            ]);
+            return redirect()->route('login')->with('error', 'Unauthorized access.');
+        }
+    
+        // Get the authenticated customer
+        $customerId = Auth::id();
+        Log::info('Authenticated customer retrieved.', [
+            'customer_id' => $customerId,
+        ]);
+    
+        // Check if there's an existing chat, or create a new one if necessary
+        $adminID = 63; // Replace this with logic to select the admin based on the topic or other criteria
+        $chat = Chat::where('customer_id',  $customerId)->where('admin_id', $adminID)->first();
+    
+        if (!$chat) {
+            // If no existing chat, create a new chat
+            Log::info('No existing chat found. Creating a new chat.', [
+                'customer_id' => $customerId,
+                'admin_id' => $adminID,
+                'topic' => $request->topic,
+            ]);
+    
+            $chat = Chat::create([
+                'customer_id' =>  $customerId,
+                'admin_id' => $adminID,
+                'topic_id' => $request->topic, // Store the selected topic ID in the chat
+            ]);
+        } else {
+            Log::info('Existing chat found.', [
+                'chat_id' => $chat->chat_id,
+            ]);
+        }
+    
+        // Create a new message to notify the admin about the new chat
+        $message = new Message();
+        $message->chat_id = $chat->chat_id;
+        $message->sender_id = $customerId;
+        $message->receiver_id = $adminID; // Assuming the admin is receiving the message
+        $message->message = "Customer has started a chat on topic: " . $request->topic;
+        $message->save();
+        
+        // Log the message creation
+        Log::info('Message created for chat.', [
+            'chat_id' => $chat->chat_id,
+            'sender_id' => $customerId,
+            'receiver_id' => $adminID,
+            'message' => $message->message,
+        ]);
+    
+        // Return the response with success and the customer support section
+        return response()->json([
+            'success' => true,
+            'message' => 'Chat started successfully!',
+            'chat_id' => $chat->chat_id, // Return chat ID
+        ]);
+    }
+    
     
 
 }

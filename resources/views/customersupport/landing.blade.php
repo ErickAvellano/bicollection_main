@@ -293,60 +293,61 @@
     <div class="container text-center">
         <strong class="section-title text-center">Can't find an answer?</strong>
 
-         
         <!-- Assistance Section -->
         <div class="assistance-container mt-2">
-            <div class="assistance-header text-start mb-2">
-                Select a topic to get assistance
-            </div>
-            <div class="assistance-body">
-                <!-- Inline Steps and Dropdown -->
-                <div class="inline-container">
-                    <!-- Step 1: Select the topic -->
-                    <div class="steps mt-3">
+            <form id="assistance-form">
+                <div class="assistance-header text-start mb-2">
+                    Select a topic to get assistance
+                </div>
+                <div class="assistance-body">
+                    <!-- Inline Steps and Dropdown -->
+                    <div class="inline-container">
+                        <!-- Step 1: Select the topic -->
+                        <div class="steps mt-3">
+                            <div class="step">
+                                <div class="step-number active">1</div>
+                                <div class="step-text">Select the topic</div>
+                            </div>
+                        </div>
+
+                        <!-- Dropdown Selection -->
+                        <div class="dropdown-container text-end">
+                            <select class="dropdown" id="topic-dropdown"  name="topic" required>
+                                <option value="" selected disabled>Select Topic</option>
+                                <option value="Account">Account</option>
+                                <option value="Billing" data-topic="">Billing</option>
+                                <option value="Technical Support">Technical Support</option>
+                                <option value="Others">Others</option>
+                            </select>
+                            <div id="error-message" style="color: red; font-size: 12px; display: none; margin-top: 5px;">
+                                Please select a topic first.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="steps step-2" id="step-2">
                         <div class="step">
-                            <div class="step-number active">1</div>
-                            <div class="step-text">Select the topic</div>
+                            <div class="step-number">2</div>
+                            <div class="step-text">Get support from our team</div>
                         </div>
                     </div>
 
-                    <!-- Dropdown Selection -->
-                    <div class="dropdown-container text-end">
-                        <select class="dropdown" id="topic-dropdown" >
-                            <option value="" selected disabled>Select Topic</option>
-                            <option value="1">Account</option>                          
-                            <option value="1">Billing</option>
-                            <option value="2">Technical Support</option>
-                            <option value="3">Others</option>
-                        </select>
-                        <div id="error-message" style="color: red; font-size: 12px; display: none; margin-top: 5px;">
-                            Please select a topic first.
-                        </div>
+                    <!-- Live Chat Button -->
+                    <div class="live-chat-container">
+                        <button type="submit" class="live-chat-button" id="live-chat-button">
+                            <i class="fas fa-comment-alt"></i> Start a live chat
+                        </button>
                     </div>
                 </div>
-
-                <!-- Step 2 -->
-                <div class="steps step-2" id="step-2">
-                    <div class="step">
-                        <div class="step-number">2</div>
-                        <div class="step-text">Get support from our team</div>
-                    </div>
-                </div>
-
-                <!-- Live Chat Button -->
-                <div class="live-chat-container">
-                    <a class="live-chat-button" id="live-chat-button">
-                        <i class="fas fa-comment-alt"></i> Start a live chat
-                    </a>
-                </div>
-            </div>
+            </form>
         </div>
+
 
     </div>
     @include('Components.customer-support')
 </section>
 
-@include('Components.chat-support-modal')
 @include('Components.chat-support-icon')
 
 <footer>
@@ -362,7 +363,7 @@
     </script>
 @endif
 
-<script>
+<script> 
     $(document).ready(function () {
         // Add CSRF token to AJAX requests
         $.ajaxSetup({
@@ -474,19 +475,43 @@
     });
 
 </script> --}}
+
+<script>
+    // Ensure the chat popup is hidden by default
+    document.addEventListener("DOMContentLoaded", function () {
+        const chatPopup = document.getElementById("customer-support");
+        chatPopup.style.display = "none"; 
+    });
+
+    // Toggle chat popup visibility on icon click
+    document.getElementById("chat-support-icon").addEventListener("click", function () {
+        const chatPopup = document.getElementById("customer-support");
+        chatPopup.style.display = chatPopup.style.display === "none" ? "block" : "none";
+    });
+
+    // Close the chat popup on close button click
+    document.getElementById("close-chat").addEventListener("click", function () {
+        document.getElementById("customer-support").style.display = "none";
+    });
+</script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('assistance-form');
         const dropdown = document.getElementById('topic-dropdown');
         const liveChatButton = document.getElementById('live-chat-button');
         const errorMessage = document.getElementById('error-message');
+        const chatPopup = document.getElementById("customer-support");
+        const chatForm = document.getElementById('chat-form');
+        const problemSelectionContainer = document.getElementById('problem-selection-container');
         const step2 = document.querySelector('.step-2 .step-number');
 
         // Listen for dropdown selection
         dropdown.addEventListener('change', function () {
             if (dropdown.value) {
                 // Enable the live chat button
-                liveChatButton.style.pointerEvents = 'auto'; // Enable link click
-                liveChatButton.style.backgroundColor = '#228b22'; // Change to active color
+                liveChatButton.style.pointerEvents = 'auto';  // Enable link click
+                liveChatButton.style.backgroundColor = '#228b22';  // Change to active color
                 liveChatButton.style.cursor = 'pointer';
 
                 // Turn Step 2 green (active)
@@ -502,43 +527,124 @@
 
         // Listen for Live Chat button click
         liveChatButton.addEventListener('click', function (event) {
+
+            
             if (!dropdown.value) {
-                // Prevent the anchor from proceeding
+                // Prevent the button from proceeding
                 event.preventDefault();
 
                 // Show the error message
                 errorMessage.style.display = 'block';
 
+
                 dropdown.style.border = '1px solid red';
-                const modal = new bootstrap.Modal(document.getElementById('chatSupportModal'));
-                modal.hide();
             } else {
-                const modal = new bootstrap.Modal(document.getElementById('chatSupportModal'));
-                modal.show();
+                 // Handle form submission
+                 chatPopup.style.display ='flex';
+                 chatForm.style.display = 'flex';
+                 problemSelectionContainer.style.display = 'none';
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();  // Prevent the default form submission behavior
+
+            const selectedOption = dropdown.options[dropdown.selectedIndex];
+            const topic = selectedOption.value;  // Get the value of the selected optioN
+
+            // Check if a topic is selected
+            if (!topic) {
+                document.getElementById('error-message').style.display = 'block';
+                return;
+            }
+
+            // Hide error message if topic is selected
+            document.getElementById('error-message').style.display = 'none';
+
+            // Send the selected topic and the corresponding data-topic to the backend
+            const formData = new FormData();
+            formData.append('topic', topic);  
+            formData.append('_token', document.querySelector('input[name="_token"]').value);  // Include CSRF token
+
+            fetch("{{ route('chat.start') }}", {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const chatPopup = document.getElementById("customer-support");
+                    chatPopup.style.display = chatPopup.style.display === "block";
+
+                    // Append the message to the chat display area
+                    var chatBox = document.getElementById('chat-messages');
+
+                    // Optional: Add a date separator if it's a new day
+                    var lastMessageDate = chatBox.getAttribute('data-last-date');
+                    var currentDate = new Date().toDateString();
+
+                    if (lastMessageDate !== currentDate) {
+                        var dateSeparator = document.createElement('div');
+                        dateSeparator.style = `
+                            text-align: center;
+                            margin: 10px 0;
+                            font-size: 12px;
+                            color: gray;
+                        `;
+                        dateSeparator.innerHTML = `--- ${currentDate} ---`;
+                        chatBox.appendChild(dateSeparator);
+
+                        // Update the last date attribute
+                        chatBox.setAttribute('data-last-date', currentDate);
+                    }
+
+                    // Create the message element
+                    var messageItem = document.createElement('div');
+                    messageItem.style = `
+                        display: flex;
+                        justify-content: flex-end;
+                        align-items: flex-start;
+                        margin-bottom: 10px;
+                    `;
+
+                    var now = new Date();
+                    var timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                    messageItem.innerHTML = `
+                        <div style="max-width: 70%; text-align: right;">
+                            <div style="padding: 5px 10px; background-color: #7b4dd3; color: white; border-radius: 8px; display: inline-block;">
+                                ${topic}
+                            </div>
+                            <div style="font-size: 10px; color: gray; margin-top: 5px;" id="message-time">
+                                Sending...
+                            </div>
+                        </div>
+                    `;
+
+                    chatBox.appendChild(messageItem);
+                    chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom
+
+                    
+                    
+
+                    // Simulate updating the "Sending..." status to the actual time
+                    setTimeout(() => {
+                        var timeElement = messageItem.querySelector('#message-time');
+                        timeElement.innerHTML = timeString;
+                    }, 2000);
+                } else {
+                    alert(data.message); // Show the error message
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An unexpected error occurred.');
+            });
+        });
             }
         });
-    });
 
-
-</script>
-
-<script>
-    // Ensure the chat popup is hidden by default
-    document.addEventListener("DOMContentLoaded", function () {
-        const chatPopup = document.getElementById("customer-support");
-        chatPopup.style.display = "none"; // Default to hidden
-    });
-
-    // Toggle chat popup visibility on icon click
-    document.getElementById("chat-support-icon").addEventListener("click", function () {
-        const chatPopup = document.getElementById("customer-support");
-        chatPopup.style.display = chatPopup.style.display === "none" ? "block" : "none";
-    });
-
-    // Close the chat popup on close button click
-    document.getElementById("close-chat").addEventListener("click", function () {
-        document.getElementById("customer-support").style.display = "none";
+       
     });
 </script>
+
 
 @endsection
