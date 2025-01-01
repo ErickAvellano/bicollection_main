@@ -619,6 +619,9 @@
         .popular-product-header h3, .recently-product-header h3 {
             margin-left:10px;
         }
+        .button-group{
+            margin-right:10px;
+        }
         
 
     }
