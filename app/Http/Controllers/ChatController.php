@@ -228,12 +228,12 @@ class ChatController extends Controller
 
         // Validate the incoming request
         $request->validate([
-            'customer_id' => 'required|integer|exists:customer,customer_id',
+            'customerId' => 'required|integer|exists:customer,customer_id',
             'problem' => 'required|string|max:255',
         ]);
 
         $adminID = 63; // Replace with your admin ID logic if dynamic
-        $customerId = $request->input('customer_id');
+        $customerId = $request->input('customerId');
         $problem = $request->input('problem');
 
         // Log the admin and customer details
