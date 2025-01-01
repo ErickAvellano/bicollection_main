@@ -616,6 +616,9 @@
             padding-right: 0; 
             padding-left: 0; 
         }
+        .popular-product-header h3, .recently-product-header h3 {
+            margin-left:10px;
+        }
         
 
     }
