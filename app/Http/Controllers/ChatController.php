@@ -267,9 +267,11 @@ class ChatController extends Controller
             return response()->json(['success' => false, 'message' => 'Chat creation failed.']);
         }
 
+        $chatID = $chat->chat_id;
+
         // Create a new message with the problem
         $message = Message::create([
-            'chat_id' => $chat->chat_id,
+            'chat_id' => $chatID,
             'sender_id' => $customerId,
             'receiver_id' => $adminID,
             'message' => $problem,
@@ -279,14 +281,14 @@ class ChatController extends Controller
         // Log the message creation
         Log::info('New message created', [
             'message_id' => $message->message_id,
-            'chat_id' => $chat->chat_id,
+            'chat_id' => $chatID,
             'message' => $problem,
         ]);
 
         // Return the response
         return response()->json([
             'success' => true,
-            'chat_id' => $chat->chat_id,
+            'chat_id' => $chatID,
             'message_id' => $message->message_id,
         ]);
     }
