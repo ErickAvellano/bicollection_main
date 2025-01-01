@@ -393,7 +393,7 @@
         e.preventDefault(); // Prevent the default link behavior
 
         const customerId = {{$customerId}};
-        const problem = 123132;
+        var problem = 123132;
 
         console.log('Customer ID:', customerId);
         console.log('Problem:', problem);
