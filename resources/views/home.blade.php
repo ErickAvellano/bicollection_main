@@ -599,7 +599,15 @@
             display: flex; /* Allows horizontal scrolling of items */
             transition: transform 0.3s ease;
             -webkit-overflow-scrolling: touch;
+            gap:0;
         }
+        .product-carousel-product{
+            gap:0;
+        }
+        .product-carousel-recently{
+            gap:0;
+        }
+
         .product-item{
             transform: scale(0.9);
         }
@@ -608,6 +616,7 @@
             padding-right: 0; 
             padding-left: 0; 
         }
+        
 
     }
 </style>
