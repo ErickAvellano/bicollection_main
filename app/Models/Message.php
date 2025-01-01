@@ -10,6 +10,7 @@ class Message extends Model
     // Specify the table if it's not the plural of the model name
     protected $table = 'messages';
 
+    protected $primaryKey = 'message_id';
     // Define fillable attributes for mass assignment
     protected $fillable = [
         'chat_id',
@@ -18,7 +19,7 @@ class Message extends Model
         'message',
         'message_type',
     ];
-    
+
     // Define the relationship to the chat
     public function chat()
     {

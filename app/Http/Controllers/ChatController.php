@@ -225,33 +225,36 @@ class ChatController extends Controller
             'customerId' => $request->input('customerId'),
             'problem' => $request->input('problem')
         ]);
-
+    
         // Validate the incoming request
-        $request->validate([
-            'customerId' => 'required|integer|exists:customer,customer_id',
-            'problem' => 'required|string|max:255',
+        $validated = $request->validate([
+            'customerId' => 'required|integer|exists:customers,customer_id',  // Ensure the table and column names are correct
+            'problem' => 'nullable|string|max:255',
         ]);
-
+        
+        // Log the validation result
+        Log::info('Request validated', ['validated' => $validated]);
+    
         $adminID = 63; // Replace with your admin ID logic if dynamic
         $customerId = $request->input('customerId');
         $problem = $request->input('problem');
-
+    
         // Log the admin and customer details
         Log::info('Admin ID and Customer ID details', [
             'admin_id' => $adminID,
             'customer_id' => $customerId,
         ]);
-
+    
         // Check if there's an existing chat
         $chat = Chat::where('customer_id', $customerId)->where('admin_id', $adminID)->first();
-
+    
         // Log whether a chat exists or not
         if ($chat) {
             Log::info('Found existing chat', ['chat_id' => $chat->chat_id]);
         } else {
             Log::info('No existing chat found, creating new chat');
         }
-
+    
         // Create a new chat if none exists
         if (!$chat) {
             $chat = Chat::create([
@@ -260,37 +263,30 @@ class ChatController extends Controller
             ]);
             Log::info('New chat created', ['chat_id' => $chat->chat_id]);
         }
-
+    
         // Ensure chat_id is valid before proceeding to create a message
         if (!$chat || !$chat->chat_id) {
             Log::error('Chat creation failed or chat_id is missing', ['chat_data' => $chat]);
             return response()->json(['success' => false, 'message' => 'Chat creation failed.']);
         }
-
+    
         $chatID = $chat->chat_id;
-
-        // Create a new message with the problem
-        $message = new Message();
-        $message->chat_id = $chatID;
-        $message->sender_id = $chat->customer_id;
-        $message->receiver_id = $chat->admin_id;
-        $message->message = $request->input('problem');
-        $message->save();
-
-        // Log the message creation
-        Log::info('New message created', [
-            'message_id' => $message->message_id,
+    
+        // Create a new message
+        $message = Message::create([
             'chat_id' => $chatID,
+            'sender_id' => $chat->customer_id,
+            'receiver_id' => $chat->admin_id,
             'message' => $problem,
         ]);
-
+    
         // Return the response
         return response()->json([
             'success' => true,
             'chat_id' => $chatID,
-            'message_id' => $message->message_id,
         ]);
     }
+    
 
 
 

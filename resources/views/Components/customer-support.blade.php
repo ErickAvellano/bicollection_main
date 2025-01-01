@@ -136,7 +136,8 @@
     document.addEventListener('DOMContentLoaded', function() {
         const customerIds = {{$customerId}};
         const chatMessagesContainer = document.getElementById('chat-messages');
-
+        let hasChat = false;
+        
         // Asynchronous function to fetch chat messages
         async function fetchChatMessages() {
             try {
@@ -387,12 +388,15 @@
     });
 </script>
 <script>
-    document.querySelectorAll('#problem-selection a').forEach(anchor => {
+   document.querySelectorAll('#problem-selection a').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-        e.preventDefault();
+        e.preventDefault(); // Prevent the default link behavior
 
-        const customerIds =  this.getAttribute('data-customer-id');
-        const problem = this.getAttribute('data-problem');
+        const customerId = {{$customerId}};
+        const problem = 123132;
+
+        console.log('Customer ID:', customerId);
+        console.log('Problem:', problem);
 
         // Send the data to the backend
         fetch('/chat/start-messages', {
@@ -402,73 +406,16 @@
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // Laravel CSRF token
             },
             body: JSON.stringify({
-                customerId: customerIds,
+                customerId: customerId,
                 problem: problem
             })
         })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                // Clear the input field
-                const chatInput = document.getElementById('chat-input');
-                if (chatInput) chatInput.value = '';
-
-                // Append the message to the chat display area
-                const chatBox = document.getElementById('chat-messages');
-                if (!chatBox) return;
-
-                // Optional: Add a date separator if it's a new day
-                const lastMessageDate = chatBox.getAttribute('data-last-date');
-                const currentDate = new Date().toDateString();
-
-                if (lastMessageDate !== currentDate) {
-                    const dateSeparator = document.createElement('div');
-                    dateSeparator.style = `
-                        text-align: center;
-                        margin: 10px 0;
-                        font-size: 12px;
-                        color: gray;
-                    `;
-                    dateSeparator.innerHTML = `--- ${currentDate} ---`;
-                    chatBox.appendChild(dateSeparator);
-
-                    // Update the last date attribute
-                    chatBox.setAttribute('data-last-date', currentDate);
-                }
-
-                // Create the message element
-                const messageItem = document.createElement('div');
-                messageItem.style = `
-                    display: flex;
-                    justify-content: flex-end;
-                    align-items: flex-start;
-                    margin-bottom: 10px;
-                `;
-
-                const now = new Date();
-                const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-                messageItem.innerHTML = `
-                    <div style="max-width: 70%; min-width: 120px; text-align: right;">
-                        <div style="padding: 5px 10px; background-color: #7b4dd3; color: white; border-radius: 8px; display: inline-block;">
-                            ${problem}
-                        </div>
-                        <div style="font-size: 10px; color: gray; margin-top: 5px;" id="message-time">
-                            Sending...
-                        </div>
-                    </div>
-                `;
-
-                chatBox.appendChild(messageItem);
-                chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom
-
-                // Simulate updating the "Sending..." status to the actual time
-                setTimeout(() => {
-                    const timeElement = messageItem.querySelector('#message-time');
-                    timeElement.innerHTML = timeString;
-                }, 2000);
+                console.log('Message sent successfully');
             } else {
-                alert('Failed to send the message. Please try again.');
+                console.log('Error sending message:', data.message);
             }
         })
         .catch(error => {
@@ -477,5 +424,6 @@
         });
     });
 });
+
 
 </script>

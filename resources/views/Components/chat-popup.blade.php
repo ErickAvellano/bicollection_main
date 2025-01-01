@@ -196,6 +196,17 @@
     </div>
 </div>
 <script>
+    document.getElementById("chat-button").addEventListener("click", function() {
+        const chatPopup = document.getElementById("chat-popup");
+        chatPopup.style.display = chatPopup.style.display === "none" ? "block" : "none";
+    });
+
+    document.getElementById("close-chat").addEventListener("click", function() {
+        document.getElementById("chat-popup").style.display = "none";
+    });
+
+</script>
+<script>
     document.addEventListener('DOMContentLoaded', () => {
         const inquiriesContainer = document.getElementById('inquiries-container');
         const merchantsContainer = document.getElementById('merchants-container');
