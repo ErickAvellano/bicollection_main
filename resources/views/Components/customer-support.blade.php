@@ -409,10 +409,6 @@
 
         const customerId = {{$customerId}};
         const problem = this.getAttribute('data-problem');
-
-        console.log('Customer ID:', customerId);
-        console.log('Problem:', problem);
-
         // Send the data to the backend
         fetch('/chat/start-messages', {
             method: 'POST',
@@ -486,12 +482,10 @@
                     timeElement.innerHTML = timeString;
                 }, 2000);
             } else {
-                console.log('Error sending message:', data.message);
             }
         })
         .catch(error => {
-            console.error('Error:', error);
-            alert('An unexpected error occurred.');
+
         });
     });
 });

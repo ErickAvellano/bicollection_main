@@ -211,80 +211,46 @@ class ChatController extends Controller
     }
     public function startcustomertoadminmessage(Request $request)
     {
-        // Log the incoming request for debugging
-        Log::info('Received customer to admin message request', [
-            'customerId' => $request->input('customerId'),
-            'problem' => $request->input('problem')
-        ]);
-        
+        if (!Auth::check() || Auth::user()->type !== 'customer') {
+            return redirect()->route('login')->with('error', 'Unauthorized access. Only merchants can view this page.');
+        }
+
         // Validate the incoming request
         $validated = $request->validate([
             'customerId' => 'required|integer|exists:customer,customer_id',  
-            'problem' => 'nullable|string|max:255',
+            'problem' => 'required|string|max:255',
         ]);
-        
-        // Log the validation result
-        Log::info('Request validated', ['validated' => $validated]);
-    
+
         $adminID = 63; // Replace with your admin ID logic if dynamic
         $customerId = $request->input('customerId');
         $problem = $request->input('problem'); // Use the validated input from the request
-        
-        // Log the admin and customer details
-        Log::info('Admin ID and Customer ID details', [
-            'admin_id' => $adminID,
-            'customer_id' => $customerId,
-        ]);
-        
+
         // Check if there's an existing chat
         $chat = Chat::where('customer_id', $customerId)->where('admin_id', $adminID)->first();
-        
-        // Log whether a chat exists or not
-        if ($chat) {
-            Log::info('Found existing chat', ['chat_id' => $chat->chat_id]);
-        } else {
-            Log::info('No existing chat found, creating new chat');
-        }
-        
+
         // Create a new chat if none exists
         if (!$chat) {
             $chat = Chat::create([
                 'customer_id' => $customerId,
                 'admin_id' => $adminID,
             ]);
-            
-            // Get the newly created chat's ID
             $chatID = $chat->chat_id;
-            
-            // Log the new chat creation
-            Log::info('Created new chat', ['chat_id' => $chatID]);
         } else {
             $chatID = $chat->chat_id; // If the chat already exists, use its chat ID
         }
-    
+
         // Create a new message
         $message = new Message();
         $message->chat_id = $chatID;
-        $message->sender_id = $chat->customer_id; // Customer is the sender
-        $message->receiver_id = $chat->admin_id; // Admin is the receiver
+        $message->sender_id = $chat->customer_id; 
+        $message->receiver_id = $chat->admin_id; 
         $message->message = $problem;
-    
-        // Log the message details
-        Log::info('Message details', [
-            'chat_id' => $chatID,
-            'sender_id' => $message->sender_id,
-            'receiver_id' => $message->receiver_id,
-            'message' => $message->message,
-        ]);
-    
+
         // Save the message and check if the save was successful
-        if ($message->save()) {
-            Log::info('Message saved successfully');
-        } else {
-            Log::error('Message not saved');
+        if (!$message->save()) {
             return response()->json(['success' => false, 'message' => 'Message not saved'], 500);
         }
-    
+
         // Return the response with the chat ID
         return response()->json([
             'success' => true,
@@ -292,6 +258,7 @@ class ChatController extends Controller
             'message' => $message,
         ]);
     }
+
     
 
 }

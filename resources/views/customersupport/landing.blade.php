@@ -293,6 +293,7 @@
     <div class="container text-center">
         <strong class="section-title text-center">Can't find an answer?</strong>
 
+         
         <!-- Assistance Section -->
         <div class="assistance-container mt-2">
             <div class="assistance-header text-start mb-2">
@@ -313,6 +314,7 @@
                     <div class="dropdown-container text-end">
                         <select class="dropdown" id="topic-dropdown" >
                             <option value="" selected disabled>Select Topic</option>
+                            <option value="1">Account</option>                          
                             <option value="1">Billing</option>
                             <option value="2">Technical Support</option>
                             <option value="3">Others</option>

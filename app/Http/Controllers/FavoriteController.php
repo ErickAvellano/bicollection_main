@@ -59,7 +59,7 @@ class FavoriteController extends Controller
             return response()->json(['success' => true, 'message' => 'Added to favorites!']);
 
         } catch (\Exception $e) {
-            Log::error('Error adding to favorites', ['error' => $e->getMessage()]);
+        
             return response()->json(['success' => false, 'message' => 'Failed to add to favorites.'], 500);
         }
     }
