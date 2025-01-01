@@ -276,7 +276,7 @@ class ChatController extends Controller
         // Return the response
         return response()->json([
             'success' => true,
-            'chat_id' => $chatID,
+            'chat_id' =>  $chat->chat_id,
             'message_id' => $message->message_id,
         ]);
     }
