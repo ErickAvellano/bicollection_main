@@ -228,7 +228,7 @@ class ChatController extends Controller
     
         $adminID = 63; // Replace with your admin ID logic if dynamic
         $customerId = $request->input('customerId');
-        $problem = 22112; // Use the validated input from the request
+        $problem = $request->input('problem'); // Use the validated input from the request
         
         // Log the admin and customer details
         Log::info('Admin ID and Customer ID details', [
@@ -253,8 +253,7 @@ class ChatController extends Controller
                 'admin_id' => $adminID,
             ]);
             
-            // Log the new chat creation
-            Log::info('Created new chat', ['chat_id' => $chatID]);
+            
         } else {
             $chatID = $chat->chat_id; 
             
