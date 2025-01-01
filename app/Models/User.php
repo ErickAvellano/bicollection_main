@@ -110,6 +110,10 @@ class User extends Authenticatable
     {
         return $this->type === 'admin'; 
     }
+    public function messagesAsSender()
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
 
 
 

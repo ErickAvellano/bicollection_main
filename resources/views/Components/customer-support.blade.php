@@ -298,9 +298,8 @@
                         </div>
                     `;
                 } else {
-                    // Function to format the message into lines of up to 30 characters
                     const formatMessage = (msg, maxLength = 25) => {
-                        const words = msg.split(' '); // Split the message into words
+                        const words = msg.split(' ');
                         let line = '';
                         let formatted = '';
 
@@ -340,7 +339,6 @@
             });
         }
 
-        // Helper function to check if two Date objects represent the same time (up to minute)
         function isSameTime(lastTime, currentTime) {
             return lastTime.getFullYear() === currentTime.getFullYear() &&
                 lastTime.getMonth() === currentTime.getMonth() &&
@@ -366,7 +364,6 @@
 
 
         if (customerId == null) {
-            alert('Customer ID is missing. Please log in.');
             window.location.href = '/login';  // Redirect to login page
             return;  // Exit the function if customerId is invalid
         }
@@ -457,6 +454,7 @@
 
         const customerId = {{$customerId}};
         const problem = this.getAttribute('data-problem');
+        const problemFormat = `Customer has started a chat on topic: ${problem}`;
         // Send the data to the backend
         fetch('/chat/start-messages', {
             method: 'POST',
@@ -506,16 +504,35 @@
                 var now = new Date();
                 var timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-                messageItem.innerHTML = `
-                    <div style="max-width: 70%; min-width: 120px; text-align: right;">
-                        <div style="padding: 5px 10px; background-color: #7b4dd3; color: white; border-radius: 8px; display: inline-block;">
-                            ${problem}
+                const formatMessage = (msg, maxLength = 25) => {
+                        const words = msg.split(' '); // Split the message into words
+                        let line = '';
+                        let formatted = '';
+
+                        words.forEach(word => {
+                            if ((line + word).length > maxLength) {
+                                formatted += line.trim() + '<br>'; // Add the current line and start a new one
+                                line = '';
+                            }
+                            line += word + ' '; // Add word to the current line
+                        });
+
+                        formatted += line.trim(); // Add any remaining text
+                        return formatted;
+                    };
+
+                    const formattedMessage = formatMessage(problemFormat);
+
+                    messageItem.innerHTML = `
+                        <div style="max-width: 70%; text-align: right;">
+                            <div style="padding: 5px 10px; background-color: #7b4dd3; color: white; border-radius: 8px; display: inline-block;">
+                                ${formattedMessage}
+                            </div>
+                            <div style="font-size: 10px; color: gray; margin-top: 5px;" id="message-time">
+                                Sending...
+                            </div>
                         </div>
-                        <div style="font-size: 10px; color: gray; margin-top: 5px;" id="message-time">
-                            Sending...
-                        </div>
-                    </div>
-                `;
+                    `;
 
                 chatBox.appendChild(messageItem);
                 chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom

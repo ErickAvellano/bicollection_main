@@ -549,6 +549,7 @@
 
             const selectedOption = dropdown.options[dropdown.selectedIndex];
             const topic = selectedOption.value;  // Get the value of the selected optioN
+            const topicFormat = `Customer has started a chat on topic: ${topic}`;
 
             // Check if a topic is selected
             if (!topic) {
@@ -608,10 +609,29 @@
                     var now = new Date();
                     var timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
+                    const formatMessage = (msg, maxLength = 25) => {
+                        const words = msg.split(' '); // Split the message into words
+                        let line = '';
+                        let formatted = '';
+
+                        words.forEach(word => {
+                            if ((line + word).length > maxLength) {
+                                formatted += line.trim() + '<br>'; // Add the current line and start a new one
+                                line = '';
+                            }
+                            line += word + ' '; // Add word to the current line
+                        });
+
+                        formatted += line.trim(); // Add any remaining text
+                        return formatted;
+                    };
+
+                    const formattedMessage = formatMessage(topicFormat);
+
                     messageItem.innerHTML = `
                         <div style="max-width: 70%; text-align: right;">
                             <div style="padding: 5px 10px; background-color: #7b4dd3; color: white; border-radius: 8px; display: inline-block;">
-                                ${topic}
+                                ${formattedMessage}
                             </div>
                             <div style="font-size: 10px; color: gray; margin-top: 5px;" id="message-time">
                                 Sending...
