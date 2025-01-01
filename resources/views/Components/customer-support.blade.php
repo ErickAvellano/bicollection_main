@@ -105,69 +105,6 @@
             padding: 10px;
             background-color: #f1f1f1;
         ">
-        <!-- Sender's Message -->
-            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; text-align: center;">
-                <h5 class="mt-4">Hi, how can we help you?</h5>
-                <h6 class="mt-4">Select a topic:</h6>
-                <div id="problem-selection" style="
-                display: flex;
-                justify-content: center;
-                gap: 5px;
-                padding: 10px;
-                background-color: #f9f9f9;
-            ">
-                <!-- Option Buttons -->
-                <button data-customer-id="{{ $customerId }}" class="btn btn-outline-custom" data-problem="Account" style="
-                    padding: 5px;
-                    font-size: 14px;
-                    border-radius: 8px;
-                    background: #228b22;
-                    color: white;
-                    border: none;
-                    cursor: pointer;
-                    height: var(--button-height, 40px); /* CSS Variable for height */
-                ">
-                    Account
-                </button>
-                <button class="btn btn-outline-custom" data-problem="Billing" style="
-                    padding: 5px;
-                    font-size: 14px;
-                    border-radius: 8px;
-                    background: #228b22;
-                    color: white;
-                    border: none;
-                    cursor: pointer;
-                    height: var(--button-height, 40px); /* CSS Variable for height */
-                ">
-                    Billing
-                </button>
-                <button class="btn btn-outline-custom" data-problem="Technical Support" style="
-                    padding: 5px;
-                    font-size: 14px;
-                    border-radius: 8px;
-                    background: #228b22;
-                    color: white;
-                    border: none;
-                    cursor: pointer;
-                    height: var(--button-height, 40px); /* CSS Variable for height */
-                ">
-                    Technical Support
-                </button>
-                <button class="btn btn-outline-custom" data-problem="Others" style="
-                    padding: 5px;
-                    font-size: 14px;
-                    border-radius: 8px;
-                    background: #228b22;
-                    color: white;
-                    border: none;
-                    cursor: pointer;
-                    height: var(--button-height, 40px); /* CSS Variable for height */
-                ">
-                    Others
-                </button>
-            </div>
-        </div>
-         <!-- Problem Selection -->
 
         </div>
 
@@ -227,7 +164,7 @@
                             padding: 10px;
                             background-color: #f9f9f9;">
                             <!-- Option Buttons -->
-                            <a href="#" data-customer-id="${customerIds}" class="btn btn-outline-custom" data-problem="Account" style="
+                            <a href="#" data-customer-id="{{$customerId}}" class="btn btn-outline-custom" data-problem="Account" style="
                                 padding: 5px;
                                 font-size: 14px;
                                 border-radius: 8px;
@@ -238,7 +175,7 @@
                                 height: var(--button-height, 30px);">
                                 Account
                             </a>
-                            <a href="#" data-customer-id="${customerIds}" class="btn btn-outline-custom" data-problem="Billing" style="
+                            <a href="#" data-customer-id="{{$customerId}}" class="btn btn-outline-custom" data-problem="Billing" style="
                                 padding: 5px;
                                 font-size: 14px;
                                 border-radius: 8px;
@@ -249,7 +186,7 @@
                                 height: var(--button-height, 30px);">
                                 Billing
                             </a>
-                            <a href="#" data-customer-id="${customerIds}" class="btn btn-outline-custom" data-problem="Technical Support" style="
+                            <a href="#" data-customer-id="{{$customerId}}" class="btn btn-outline-custom" data-problem="Technical Support" style="
                                 padding: 5px;
                                 font-size: 14px;
                                 border-radius: 8px;
@@ -260,7 +197,7 @@
                                 height: var(--button-height, 30px);">
                                 Technical Support
                             </a>
-                            <a href="#" data-customer-id="${customerIds}" class="btn btn-outline-custom" data-problem="Others" style="
+                            <a href="#" data-customer-id="{{$customerId}}" class="btn btn-outline-custom" data-problem="Others" style="
                                 padding: 5px;
                                 font-size: 14px;
                                 border-radius: 8px;
@@ -450,121 +387,95 @@
     });
 </script>
 <script>
-    const problemSelectionButtons = document.querySelectorAll('#problem-selection a');
-    problemSelectionButtons.forEach(button => {
-        button.addEventListener('click', function(event) {
-            event.preventDefault();
+    document.querySelectorAll('#problem-selection a').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
 
-            const problemType = this.getAttribute('data-problem');
+        const customerId =  this.getAttribute('data-customer-id');
+        const problem = this.getAttribute('data-problem');
 
-            document.getElementById('chat-input').placeholder = `Enter your message about ${problemType}...`;
-
-            document.getElementById('chat-form').style.display = 'flex';
-            document.getElementById('problem-selection').style.display = 'none';
-        });
-    });
-
-    // Handle sending the message when the send button is clicked
-    document.querySelectorAll('.btn.btn-outline-custom').forEach(function(button) {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();  // Prevent the default anchor behavior
-
-            const message = button.getAttribute('data-problem');
-            const customerId = button.getAttribute('data-customer-id');
-
-            // Create a FormData object for sending the form data
-            var formData = new FormData();
-            formData.append('message', message);
-            formData.append('customerId', customerId);
-            formData.append('_token', document.querySelector('input[name="_token"]').value);  // Include CSRF token
-
-            // Send the form data via AJAX (using Fetch API)
-            fetch("{{ route('chat.startmessages') }}", {
-                method: 'POST',
-                body: formData
+        // Send the data to the backend
+        fetch('/chat/start-messages', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // Laravel CSRF token
+            },
+            body: JSON.stringify({
+                customer_id: customerId,
+                problem: problem
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Clear the input field
-                    document.getElementById('chat-input').value = '';
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Clear the input field
+                const chatInput = document.getElementById('chat-input');
+                if (chatInput) chatInput.value = '';
 
-                    // Append the message to the chat display area
-                    var chatBox = document.getElementById('chat-messages');
+                // Append the message to the chat display area
+                const chatBox = document.getElementById('chat-messages');
+                if (!chatBox) return;
 
-                    // Optional: Add a date separator if it's a new day
-                    var lastMessageDate = chatBox.getAttribute('data-last-date');
-                    var currentDate = new Date().toDateString();
+                // Optional: Add a date separator if it's a new day
+                const lastMessageDate = chatBox.getAttribute('data-last-date');
+                const currentDate = new Date().toDateString();
 
-                    if (lastMessageDate !== currentDate) {
-                        var dateSeparator = document.createElement('div');
-                        dateSeparator.style = `
-                            text-align: center;
-                            margin: 10px 0;
-                            font-size: 12px;
-                            color: gray;
-                        `;
-                        dateSeparator.innerHTML = `--- ${currentDate} ---`;
-                        chatBox.appendChild(dateSeparator);
-
-                        // Update the last date attribute
-                        chatBox.setAttribute('data-last-date', currentDate);
-                    }
-
-                    // Create the message element
-                    var messageItem = document.createElement('div');
-                    messageItem.style = `
-                        display: flex;
-                        justify-content: flex-end;
-                        align-items: flex-start;
-                        margin-bottom: 10px;
+                if (lastMessageDate !== currentDate) {
+                    const dateSeparator = document.createElement('div');
+                    dateSeparator.style = `
+                        text-align: center;
+                        margin: 10px 0;
+                        font-size: 12px;
+                        color: gray;
                     `;
+                    dateSeparator.innerHTML = `--- ${currentDate} ---`;
+                    chatBox.appendChild(dateSeparator);
 
-                    var now = new Date();
-                    var timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-                    messageItem.innerHTML = `
-                        <div style="max-width: 70%; min-width: 120px; text-align: right;">
-                            <div style="padding: 5px 10px; background-color: #7b4dd3; color: white; border-radius: 8px; display: inline-block;">
-                                ${message}
-                            </div>
-                            <div style="font-size: 10px; color: gray; margin-top: 5px;" id="message-time">
-                                Sending...
-                            </div>
-                        </div>
-                    `;
-
-                    chatBox.appendChild(messageItem);
-                    chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom
-
-                    // Simulate updating the "Sending..." status to the actual time
-                    setTimeout(() => {
-                        var timeElement = messageItem.querySelector('#message-time');
-                        timeElement.innerHTML = timeString;
-                    }, 2000);
-                } else {
-                    alert('Failed to send the message. Please try again.');
+                    // Update the last date attribute
+                    chatBox.setAttribute('data-last-date', currentDate);
                 }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An unexpected error occurred.');
-            });
+
+                // Create the message element
+                const messageItem = document.createElement('div');
+                messageItem.style = `
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: flex-start;
+                    margin-bottom: 10px;
+                `;
+
+                const now = new Date();
+                const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                messageItem.innerHTML = `
+                    <div style="max-width: 70%; min-width: 120px; text-align: right;">
+                        <div style="padding: 5px 10px; background-color: #7b4dd3; color: white; border-radius: 8px; display: inline-block;">
+                            ${problem}
+                        </div>
+                        <div style="font-size: 10px; color: gray; margin-top: 5px;" id="message-time">
+                            Sending...
+                        </div>
+                    </div>
+                `;
+
+                chatBox.appendChild(messageItem);
+                chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom
+
+                // Simulate updating the "Sending..." status to the actual time
+                setTimeout(() => {
+                    const timeElement = messageItem.querySelector('#message-time');
+                    timeElement.innerHTML = timeString;
+                }, 2000);
+            } else {
+                alert('Failed to send the message. Please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An unexpected error occurred.');
         });
     });
+});
 
-    // Handle the Enter key to submit the form
-    document.getElementById('chat-input').addEventListener('keydown', function(event) {
-        if (event.key === 'Enter') {
-            event.preventDefault(); // Prevent the default Enter key behavior (new line in input)
-            document.getElementById('chat-form').submit(); // Submit the form
-        }
-    });
-
-    // // Submit the form when the send button is clicked
-    // document.getElementById('send-buttons').addEventListener('click', function(event) {
-    //     event.preventDefault();
-    //     document.getElementById('chat-form').submit(); // Submit the form
-    // });
-
-    </script>
+</script>
