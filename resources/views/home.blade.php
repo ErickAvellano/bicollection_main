@@ -765,7 +765,7 @@
                                     background-size: cover; background-position: center;">
                                     <div class="card-body d-flex align-items-center justify-content-center" style="width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); border-radius:10px;">
                                         <!-- Shop Image -->
-                                        <div class="col-md-4 d-flex align-items-center justify-content-center">
+                                        <div class="col-3 col-md-4 d-flex align-items-center justify-content-center">
                                             @if ($shop->shop_img)
                                                 <div class="rounded-circle" style="background-image: url('{{ asset('storage/' . $shop->shop_img) }}');"></div>
                                             @else
