@@ -699,11 +699,8 @@
         .shop-contact i {
             font-size: 0.8rem; /* Adjust icon size for smaller screens */
         }
-        .product-card-hover .card-body {
-            padding: 8px; /* Adjust padding for small screens */
-        }
         .featured-title {
-            font-size: 0.85rem; /* Smaller font size for title */
+            font-size: 0.8rem; /* Smaller font size for title */
         }
         .card-reviews i {
             font-size: 0.75rem; /* Adjust star size */
