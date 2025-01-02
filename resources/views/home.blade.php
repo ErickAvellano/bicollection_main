@@ -685,6 +685,9 @@
             padding: 5px;
             background-color: transparent;
         }
+        .merchant-header{
+            padding:0px;
+        }
         
 
     }
@@ -915,10 +918,17 @@
                                                     </div>
                                                     <!-- Add to Cart & Wishlist Buttons -->
                                                     <div class="view-button position-absolute" style="bottom: 10px; right:20px;">
-                                                        <a href="{{ route('login') }}" class="btn btn-custom" style="font-size: 12px;">
+                                                        <!-- Text Button (Shown on larger screens) -->
+                                                        <a href="{{ route('login') }}" class="btn btn-custom d-none d-md-inline" style="font-size: 12px;">
                                                             Add to Cart
                                                         </a>
-                                                        <a href="{{ route('login') }}" class="btn btn-outline-danger btn-sm" style="width: 2rem; padding: 0.2rem 0; font-size: 12px">
+                                                    
+                                                        <!-- Icon Button (Shown on smaller screens) -->
+                                                        <a href="{{ route('login') }}" class="btn btn-custom d-inline d-md-none" style="font-size: 12px;">
+                                                            <i class="fa-solid fa-cart-plus"></i>
+                                                        </a>
+                                                    
+                                                        <a href="{{ route('login') }}" class="btn btn-outline-danger btn-sm" style="width: 2rem; padding: 0.2rem 0; font-size: 12px;">
                                                             <i class="fas fa-heart"></i>
                                                         </a>
                                                     </div>
