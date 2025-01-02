@@ -488,8 +488,8 @@
     }
 
     .merchant-header{
-        display: flex; 
-        align-items: center; 
+        display: flex;
+        align-items: center;
         margin-bottom:20px;
 
     }
@@ -569,16 +569,22 @@
     border-radius: 5px;
 }
 .merchant-card{
-    height: 312px; 
-    width:100%; 
-    padding:10px; 
-    background-color:#228b22; 
+    height: 312px;
+    width:100%;
+    padding:10px;
+    background-color:#228b22;
     border-radius:0;
 }
 .merchant-card-body{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.rounded-circle{
+    width: 100px;
+    height: 100px;
+    background-size: cover; 
+    background-position: center;
 }
 
 
@@ -739,7 +745,7 @@
 
             <!-- Shop and Products Section -->
             <div class="mt-3 mb-2 col-md-12" style="padding:0;">
-                <div class="overflow-hidden d-flex" id="productCarousel_partner">
+                <div class="row" id="productCarousel_partner">
                     <!-- Shop Details -->
                     <div class="col-12 col-md-7 ">
                         <div class="merchant-header">
@@ -761,9 +767,9 @@
                                         <!-- Shop Image -->
                                         <div class="col-md-4 d-flex align-items-center justify-content-center">
                                             @if ($shop->shop_img)
-                                                <div class="rounded-circle" style="width: 100px; height: 100px; background-image: url('{{ asset('storage/' . $shop->shop_img) }}'); background-size: cover; background-position: center;"></div>
+                                                <div class="rounded-circle" style="background-image: url('{{ asset('storage/' . $shop->shop_img) }}');"></div>
                                             @else
-                                                <div class="rounded-circle bg-secondary" style="width: 100px; height: 100px;"></div>
+                                                <div class="rounded-circle bg-secondary"></div>
                                             @endif
                                         </div>
 
