@@ -708,9 +708,6 @@
         .rating {
             font-size: 0.75rem; /* Adjust font size */
         }
-        .card featured-product-card .card-body{
-            padding:0;
-        }
 }
         
 
