@@ -882,6 +882,7 @@
                                         <div class="product-card-hover">
                                             <div class="mb-1 card" style="height: 72px; width:auto;">
                                                 <div class="card-body" style="padding: 10px;">
+                                                    <div class="row">
                                                         <!-- Product Image -->
                                                         <div class="col-md-2">
                                                             @if($product->images->first())
@@ -917,6 +918,7 @@
                                                             </p>
                                                             <p class="mb-0 rating" style="font-size: 13px">₱{{ $product->price }}</p>
                                                         </div>
+                                                    </div>
                                                     <!-- Add to Cart & Wishlist Buttons -->
                                                     <div class="view-button position-absolute d-flex" style="bottom: 10px; right: 20px; gap: 3px;">
                                                         <!-- Text Button (Shown on larger screens) -->
