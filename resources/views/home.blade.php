@@ -688,9 +688,20 @@
         .merchant-header{
             margin-bottom:0px;
         }
+        .shop-name {
+            font-size: 1.2rem; /* Smaller font size for phones */
+        }
+        .shop-rating, .shop-address, .shop-contact {
+            font-size: 0.9rem;
+        }
+        .shop-rating i,
+        .shop-address i,
+        .shop-contact i {
+            font-size: 0.8rem; /* Adjust icon size for smaller screens */
+        }
+}
         
 
-    }
 </style>
 @endsection
 
@@ -807,38 +818,34 @@
 
                                         <!-- Shop Name and Location -->
                                         <div class="col-md-8">
-                                            <h5 class="text-white text-start">{{ $shop->shop_name }} </h5>
-                                                <p class="mb-0 text-white text-start">
-                                                    <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                                    <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                                    <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                                    <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                                    <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                                </p>
-                                            <p class="mb-0 text-white text-start">
+                                            <h5 class="shop-name text-white text-start">{{ $shop->shop_name }}</h5>
+                                            <p class="shop-rating mb-0 text-white text-start">
+                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                            </p>
+                                            <p class="shop-address mb-0 text-white text-start">
                                                 <i class="fa-solid fa-location-dot text-danger"></i>
                                                 <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($shop->shop_street . ', ' . $shop->barangay . ', ' . $shop->city . ', ' . $shop->province) }}"
-                                                    target="_blank"
-                                                    style="text-decoration: none; color: inherit; font-size:1rem;">
+                                                   target="_blank"
+                                                   style="text-decoration: none; color: inherit;">
                                                     {{ $shop->shop_street }}, {{ $shop->barangay }}, {{ $shop->city }}, {{ $shop->province }}
                                                 </a>
                                             </p>
-                                            <p class="mb-0 text-white text-start text-gray">
+                                            <p class="shop-contact mb-0 text-white text-start">
                                                 <i class="text-black fa-solid fa-phone"></i>
                                                 @if($shop->merchant->contact_number)
                                                     @php
                                                         $contactNumber = $shop->merchant->contact_number;
                                                         if (strpos($contactNumber, '+63') === 0) {
-                                                            // If it starts with +63, keep it as is
                                                             $formattedNumber = $contactNumber;
                                                         } elseif (strpos($contactNumber, '63') === 0) {
-                                                            // If it starts with 63 without the +, add the +
                                                             $formattedNumber = '+' . $contactNumber;
                                                         } elseif (strpos($contactNumber, '0') === 0) {
-                                                            // If it starts with 0, replace it with +63
                                                             $formattedNumber = '+63' . substr($contactNumber, 1);
                                                         } else {
-                                                            // Otherwise, keep the number as is
                                                             $formattedNumber = $contactNumber;
                                                         }
                                                     @endphp
@@ -849,12 +856,8 @@
                                                     No contact number set
                                                 @endif
                                             </p>
-                                            <p class="mb-0 text-white text-start">
-
-
-                                            </p>
-
                                         </div>
+                                        
                                         <!-- View Store Button -->
                                         <div class="view-button position-absolute" style="bottom: 20px; right:20px;">
                                             <a href="{{ route('merchant.viewstore', ['shopId' => $shop->shop_id]) }}" class="btn btn-custom">
