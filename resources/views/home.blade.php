@@ -441,6 +441,7 @@
         align-items: center;
         justify-content: space-between;
         width: 100%;
+        padding:0;
     }
 
     .popular-product-header h3 {
@@ -464,6 +465,7 @@
         align-items: center;
         justify-content: space-between;
         width: 100%;
+        padding:0;
     }
 
     .recently-product-header h3 {
@@ -477,6 +479,22 @@
         border-top: 2px solid #333; /* Set color and thickness */
         margin: 0 10px;
     }
+    .merchant-header .line {
+        flex-grow: 1;
+        height: 2px;
+        border: none;             /* Remove default border */
+        border-top: 2px solid #333; /* Set color and thickness */
+        margin: 0 10px;
+    }
+
+    .merchant-header{
+        display: flex; 
+        align-items: center; 
+        margin-bottom:20px;
+
+    }
+
+
     .recently-product-header .button-group {
         display: flex;
         gap: 5px; /* Adjusts space between buttons */
@@ -555,7 +573,7 @@
     @media only screen and (min-width: 360px) and (max-width: 425px) {
         /* Styles for devices in this range */
         body {
-            font-size: 16px;
+            font-size: 12px;
         }
         #dynamicBanner {
             position: relative;
@@ -582,13 +600,7 @@
             width: 5px;
             height: 5px;
         }
-        .popular-product-header .line{
-            display: none;
-        }
-         /* Hide the line in the popular product header on small screens */
-        .popular-product-header .line {
-            display: none;
-        }
+
         .btn{
             --bs-btn-font-size: 0.9rem;
         }
@@ -617,11 +629,11 @@
             padding-left: 0;
         }
         .popular-product-header h3, .recently-product-header h3 {
-            margin-left:10px;
+            padding:0;
         }
-        .button-group{
+        /* .button-group{
             margin-right:10px;
-        }
+        } */
 
 
     }
@@ -710,15 +722,15 @@
             </div>
 
             <!-- Shop and Products Section -->
-            <div class="mt-3 mb-2 col-md-12">
+            <div class="mt-3 mb-2 col-md-12" style="padding:0;">
                 <div class="overflow-hidden d-flex" id="productCarousel_partner">
                     <!-- Shop Details -->
                     <div class="col-12 col-md-7 ">
-                        <div style="display: flex; align-items: center; margin-bottom:20px;">
+                        <div class="merchant-header">
                             <h3 style="margin: 0;">MERCHANT</h3>
-                            <div style="flex-grow: 1; height: 1px; background-color: black; margin-left: 10px;"></div>
+                            <hr class="line">
                         </div>
-                        <div class="card" style="height: 312px; width:auto; padding:10px; background-color:#228b22; border-radius:0;">
+                        <div class="card" style="height: 312px; width:90%; padding:10px; background-color:#228b22; border-radius:0;">
                             <div class="card-body d-flex align-items-center justify-content-center">
                                 <!-- Nested Card with Dynamic Background -->
                                 <div class="card"
