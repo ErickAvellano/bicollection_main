@@ -703,17 +703,17 @@
                     <div class="col-12 col-md-7">
 
                     </div>
-                    <div class="col-12 col-md-5">
+                    <div class=" col-12 col-md-5">
 
                     </div>
                 </div>
             </div>
 
             <!-- Shop and Products Section -->
-            <div class="mt-3 mb-2 col-12 col-md-12">
+            <div class="mt-3 mb-2 col-md-12">
                 <div class="overflow-hidden d-flex" style="gap:2px" id="productCarousel_partner">
                     <!-- Shop Details -->
-                    <div class="col-md-7 ">
+                    <div class="col-12 col-md-7 ">
                         <div style="display: flex; align-items: center; margin-bottom:20px;">
                             <h3 style="margin: 0;">MERCHANT</h3>
                             <div style="flex-grow: 1; height: 1px; background-color: black; margin-left: 10px;"></div>
