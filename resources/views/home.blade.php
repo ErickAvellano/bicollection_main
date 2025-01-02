@@ -612,9 +612,9 @@
             transform: scale(0.9);
         }
         .container {
-            width: 100%; 
-            padding-right: 0; 
-            padding-left: 0; 
+            width: 100%;
+            padding-right: 0;
+            padding-left: 0;
         }
         .popular-product-header h3, .recently-product-header h3 {
             margin-left:10px;
@@ -622,7 +622,7 @@
         .button-group{
             margin-right:10px;
         }
-        
+
 
     }
 </style>
@@ -700,17 +700,17 @@
         <div class="row">
             <div class="mt-3 col-md-12">
                 <div class="row">
-                    <div class="col-md-7">
+                    <div class="col-12 col-md-7">
 
                     </div>
-                    <div class="col-md-5">
+                    <div class=" col-12 col-md-5">
 
                     </div>
                 </div>
             </div>
 
             <!-- Shop and Products Section -->
-            <div class="mt-3 mb-2 col-md-12">
+            <div class="mt-3 mb-2 col-12 col-md-12">
                 <div class="overflow-hidden d-flex" style="gap:2px" id="productCarousel_partner">
                     <!-- Shop Details -->
                     <div class="col-md-7 ">
@@ -801,7 +801,7 @@
                         </div>
                     </div>
                     <!-- Featured Products -->
-                    <div class="col-md-5">
+                    <div class="col-12 col-md-5">
                         <div style="display: flex; align-items: center; width: 100%; margin-bottom:20px;">
                             <h3 style="margin: 0px 0px 0px 10px; padding-bottom:0;">Featured Product</h3>
                             <div style="flex-grow: 1; height: 1px; background-color: black; margin-left: 10px; margin-right: 10px;"></div>
