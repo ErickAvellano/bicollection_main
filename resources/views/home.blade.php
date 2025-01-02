@@ -703,7 +703,7 @@
                     <div class="col-12 col-md-7">
 
                     </div>
-                    <div class=" col-12 col-md-5">
+                    <div class="col-12 col-md-5">
 
                     </div>
                 </div>
