@@ -711,7 +711,7 @@
 
             <!-- Shop and Products Section -->
             <div class="mt-3 mb-2 col-md-12">
-                <div class="overflow-hidden d-flex" style="gap:2px" id="productCarousel_partner">
+                <div class="overflow-hidden d-flex" id="productCarousel_partner">
                     <!-- Shop Details -->
                     <div class="col-12 col-md-7 ">
                         <div style="display: flex; align-items: center; margin-bottom:20px;">
