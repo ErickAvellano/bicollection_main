@@ -587,6 +587,25 @@
     background-position: center;
 }
 
+.featured-product{
+    display: flex; 
+    align-items: center; 
+    width: 100%; 
+    margin-bottom:20px;
+} 
+
+.featured-product-title {
+    margin: 0px 0px 0px 10px; 
+    padding-bottom:0;
+}
+
+.featured-product-card{
+    height: 312px; 
+    width:auto; 
+    border: none; 
+    background-color:#fafafa; 
+    border-radius:0;
+}
 
     @media only screen and (min-width: 360px) and (max-width: 425px) {
         /* Styles for devices in this range */
@@ -663,7 +682,10 @@
         }
         .merchant-card {
             height:225px;
+            padding: 5px;
+            background-color: transparent;
         }
+        
 
     }
 </style>
@@ -843,11 +865,11 @@
                     </div>
                     <!-- Featured Products -->
                     <div class="col-12 col-md-5">
-                        <div style="display: flex; align-items: center; width: 100%; margin-bottom:20px;">
-                            <h3 style="margin: 0px 0px 0px 10px; padding-bottom:0;">Featured Product</h3>
-                            <div style="flex-grow: 1; height: 1px; background-color: black; margin-left: 10px; margin-right: 10px;"></div>
+                        <div class="featured-product">
+                            <h3 class="featured-product-title">Featured Product</h3>
+                            <hr class="line">
                         </div>
-                        <div class="card " style="height: 312px; width:auto; border: none; background-color:#fafafa; border-radius:0;">
+                        <div class="card featured-product-card">
                             <div class="card-body" style="padding-top:0; width:auto;">
                                 @foreach($featuredProducts as $product)
                                     <a href="{{ route('product.view', $product->product_id) }}" class="text-decoration-none " style="text-decoration: none; color: inherit;">
