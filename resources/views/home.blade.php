@@ -658,8 +658,11 @@
         }
 
         .rounded-circle{
-            width: 50px;
-            height: 50px;
+            width: 70px;
+            height: 70px;
+        }
+        .merchant-card {
+            height:225px;
         }
 
     }
