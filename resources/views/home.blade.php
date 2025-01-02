@@ -686,7 +686,7 @@
             background-color: transparent;
         }
         .merchant-header{
-            padding:0px;
+            margin-bottom:0px;
         }
         
 
@@ -917,7 +917,7 @@
                                                         </div>
                                                     </div>
                                                     <!-- Add to Cart & Wishlist Buttons -->
-                                                    <div class="view-button position-absolute d-flex" style="bottom: 10px; right: 20px; gap: 5px;">
+                                                    <div class="view-button position-absolute d-flex" style="bottom: 10px; right: 20px; gap: 3px;">
                                                         <!-- Text Button (Shown on larger screens) -->
                                                         <a href="{{ route('login') }}" class="btn btn-custom d-none d-md-inline" style="font-size: 12px;">
                                                             Add to Cart
