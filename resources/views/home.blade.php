@@ -917,7 +917,7 @@
                                                         </div>
                                                     </div>
                                                     <!-- Add to Cart & Wishlist Buttons -->
-                                                    <div class="view-button position-absolute" style="bottom: 10px; right:20px;">
+                                                    <div class="view-button position-absolute d-flex" style="bottom: 10px; right: 20px; gap: 5px;">
                                                         <!-- Text Button (Shown on larger screens) -->
                                                         <a href="{{ route('login') }}" class="btn btn-custom d-none d-md-inline" style="font-size: 12px;">
                                                             Add to Cart
