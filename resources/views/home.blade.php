@@ -689,10 +689,10 @@
             margin-bottom:0px;
         }
         .shop-name {
-            font-size: 1.2rem; /* Smaller font size for phones */
+            font-size: 1rem; /* Smaller font size for phones */
         }
         .shop-rating, .shop-address, .shop-contact {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
         .shop-rating i,
         .shop-address i,
