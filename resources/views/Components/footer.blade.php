@@ -106,5 +106,5 @@
 
   </footer>
   <div class="footer-bottom text-center">
-    <p style="margin: 0; color:#fafafa">&copy; 2024 BiCollection. All rights reserved.</p>
+    <p style="margin: 0; color:#fafafa">&copy; 2025 BiCollection. All rights reserved.</p>
   </div>
