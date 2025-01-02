@@ -568,6 +568,18 @@
     padding: 5px;
     border-radius: 5px;
 }
+.merchant-card{
+    height: 312px; 
+    width:100%; 
+    padding:10px; 
+    background-color:#228b22; 
+    border-radius:0;
+}
+.merchant-card-body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 
     @media only screen and (min-width: 360px) and (max-width: 425px) {
@@ -623,17 +635,21 @@
         .product-item{
             transform: scale(0.9);
         }
-        .container {
-            width: 100%;
-            padding-right: 0;
-            padding-left: 0;
-        }
         .popular-product-header h3, .recently-product-header h3 {
             padding:0;
         }
         /* .button-group{
             margin-right:10px;
         } */
+        .popularContainer{
+            padding:0;
+        }
+        .popular-product-header, .merchant-header, .recently-product-header{
+            padding: 0 10px;
+        }
+        .line{
+            display:none;
+        }
 
 
     }
@@ -661,7 +677,7 @@
             </div>
         </div>
 
-        <div class="mt-3 col-md-12">
+        <div class="mt-3 col-md-12 popularContainer">
             <div id="productCarouselPopular" class="product-carousel">
                 @foreach($products as $product)
                     <a href="{{ route('product.view', $product->product_id) }}" class="product-link">
@@ -730,8 +746,8 @@
                             <h3 style="margin: 0;">MERCHANT</h3>
                             <hr class="line">
                         </div>
-                        <div class="card" style="height: 312px; width:90%; padding:10px; background-color:#228b22; border-radius:0;">
-                            <div class="card-body d-flex align-items-center justify-content-center">
+                        <div class="card merchant-card">
+                            <div class="card-body merchant-card-body">
                                 <!-- Nested Card with Dynamic Background -->
                                 <div class="card"
                                     style="width:100%; height:100%; border-radius:10px;
