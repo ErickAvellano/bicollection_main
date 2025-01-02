@@ -708,6 +708,9 @@
         .rating {
             font-size: 0.75rem; /* Adjust font size */
         }
+        .card featured-product-card .card-body{
+            padding:0;
+        }
 }
         
 
@@ -893,7 +896,7 @@
                                                 <div class="card-body" style="padding: 10px;">
                                                     <div class="row">
                                                         <!-- Product Image -->
-                                                        <div class="col-3 col-md-2">
+                                                        <div class="col-2 col-md-2">
                                                             @if($product->images->first())
                                                                 <div class="bg-secondary" style="width: 54px; height: 54px; background-image: url('{{ asset('storage/' . $product->images->first()->product_img_path1) }}'); background-size: cover;"></div>
                                                             @else
@@ -901,7 +904,7 @@
                                                             @endif
                                                         </div>
                                                         <!-- Product Details -->
-                                                        <div class="col-9 col-md-8 text-start">
+                                                        <div class="col-8 col-md-8 text-start">
                                                             <h6 class="card-title featured-title">{{ $product->product_name }}</h6>
                                                             <p class="card-reviews">
                                                                 @if($product->averageRating > 0)
