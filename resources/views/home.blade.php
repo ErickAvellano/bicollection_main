@@ -500,112 +500,112 @@
         gap: 5px; /* Adjusts space between buttons */
     }
     /* Recently Added Products Header */
-.recently-product-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-}
+    .recently-product-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
 
-#productCarouselRecentlyAdded {
-    display: flex;
-    overflow-x: hidden;
-    scroll-behavior: smooth;
-    gap: 5px;
-}
+    #productCarouselRecentlyAdded {
+        display: flex;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+        gap: 5px;
+    }
 
-/* Product Item Styling */
-.product-item {
-    padding: 0.5rem;
-    transition: transform 0.3s;
-    cursor: pointer;
-    position: relative;
-}
+    /* Product Item Styling */
+    .product-item {
+        padding: 0.5rem;
+        transition: transform 0.3s;
+        cursor: pointer;
+        position: relative;
+    }
 
-.product-item:hover .view-product-text {
-    display: block;
-}
+    .product-item:hover .view-product-text {
+        display: block;
+    }
 
-/* Card and Content Styling */
-.card {
-    width: 11rem;
-    border: none;
-    position: relative;
-    transition: transform 0.3s;
-}
+    /* Card and Content Styling */
+    .card {
+        width: 11rem;
+        border: none;
+        position: relative;
+        transition: transform 0.3s;
+    }
 
-.card-img-top {
-    width: 100%;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 0.5rem;
-}
+    .card-img-top {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 0.5rem;
+    }
 
-.card-body {
-    text-align: center;
-}
+    .card-body {
+        text-align: center;
+    }
 
 
-/* Add to Cart and Wishlist Buttons */
-.add-to-cart {
-    font-size: 0.875rem;
-    margin-right: 4px;
-}
+    /* Add to Cart and Wishlist Buttons */
+    .add-to-cart {
+        font-size: 0.875rem;
+        margin-right: 4px;
+    }
 
-.wishlist-button {
-    width: 2rem;
-    text-align: center;
-}
+    .wishlist-button {
+        width: 2rem;
+        text-align: center;
+    }
 
-/* View Product Text on Hover */
-.view-product-text {
-    display: none;
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(255, 255, 255, 0.8);
-    padding: 5px;
-    border-radius: 5px;
-}
-.merchant-card{
-    height: 312px;
-    width:100%;
-    padding:10px;
-    background-color:#228b22;
-    border-radius:0;
-}
-.merchant-card-body{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.rounded-circle{
-    width: 100px;
-    height: 100px;
-    background-size: cover;
-    background-position: center;
-}
+    /* View Product Text on Hover */
+    .view-product-text {
+        display: none;
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.8);
+        padding: 5px;
+        border-radius: 5px;
+    }
+    .merchant-card{
+        height: 312px;
+        width:100%;
+        padding:10px;
+        background-color:#228b22;
+        border-radius:0;
+    }
+    .merchant-card-body{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .rounded-circle{
+        width: 100px;
+        height: 100px;
+        background-size: cover;
+        background-position: center;
+    }
 
-.featured-product{
-    display: flex;
-    align-items: center;
-    width: 100%;
-    margin-bottom:20px;
-}
+    .featured-product{
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin-bottom:20px;
+    }
 
-.featured-product-title {
-    margin: 0px 0px 0px 10px;
-    padding-bottom:0;
-}
+    .featured-product-title {
+        margin: 0px 0px 0px 10px;
+        padding-bottom:0;
+    }
 
-.featured-product-card{
-    height: 312px;
-    width:auto;
-    border: none;
-    background-color:#fafafa;
-    border-radius:0;
-}
+    .featured-product-card{
+        height: 312px;
+        width:auto;
+        border: none;
+        background-color:#fafafa;
+        border-radius:0;
+    }
 
     @media only screen and (min-width: 360px) and (max-width: 425px) {
         /* Styles for devices in this range */

@@ -148,14 +148,22 @@
     }
     .product-carousel {
         display: flex;
-        overflow-x: hidden;
+        overflow-x: auto;
         scroll-behavior: smooth;
         gap: 5px;
 
     }
     .product-carousel-product {
         display: flex;
-        overflow-x: hidden;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        gap: 5px;
+
+    }
+    //added new
+    .product-carousel-recently {
+        display: flex;
+        overflow-x: auto;
         scroll-behavior: smooth;
         gap: 5px;
 
@@ -216,19 +224,7 @@
         font-size: 1rem;
         font-weight: bold;
         margin: 0;
-        display: -webkit-box;
-        -webkit-line-clamp: 1;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;s
    }
-
-    /* Price styling */
-    .card-price {
-        font-size: 14px;
-        color: #555;
-        font-weight: bold;
-    }
 
     /* Reviews text */
     .card-reviews {
@@ -269,8 +265,8 @@
     }
 
     .btn {
-    --bs-btn-padding-x: 1.1rem;
-    --bs-btn-padding-y: 0.3rem;
+    --bs-btn-padding-x: 0.7rem;
+    --bs-btn-padding-y: 0.2rem;
     --bs-btn-font-size: 0.9rem;
     }
 
@@ -445,6 +441,7 @@
         align-items: center;
         justify-content: space-between;
         width: 100%;
+        padding:0;
     }
 
     .popular-product-header h3 {
@@ -468,6 +465,7 @@
         align-items: center;
         justify-content: space-between;
         width: 100%;
+        padding:0;
     }
 
     .recently-product-header h3 {
@@ -481,85 +479,138 @@
         border-top: 2px solid #333; /* Set color and thickness */
         margin: 0 10px;
     }
+    .merchant-header .line {
+        flex-grow: 1;
+        height: 2px;
+        border: none;             /* Remove default border */
+        border-top: 2px solid #333; /* Set color and thickness */
+        margin: 0 10px;
+    }
+
+    .merchant-header{
+        display: flex;
+        align-items: center;
+        margin-bottom:20px;
+
+    }
+
+
     .recently-product-header .button-group {
         display: flex;
         gap: 5px; /* Adjusts space between buttons */
     }
-    /* Recently Added Products Header */
-.recently-product-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-}
+        /* Recently Added Products Header */
+    .recently-product-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
 
-#productCarouselRecentlyAdded {
-    display: flex;
-    overflow-x: hidden;
-    scroll-behavior: smooth;
-    gap: 5px;
-}
+    #productCarouselRecentlyAdded {
+        display: flex;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+        gap: 5px;
+    }
 
-/* Product Item Styling */
-.product-item {
-    padding: 0.5rem;
-    transition: transform 0.3s;
-    cursor: pointer;
-    position: relative;
-}
+    /* Product Item Styling */
+    .product-item {
+        padding: 0.5rem;
+        transition: transform 0.3s;
+        cursor: pointer;
+        position: relative;
+    }
 
-.product-item:hover .view-product-text {
-    display: block;
-}
+    .product-item:hover .view-product-text {
+        display: block;
+    }
 
-/* Card and Content Styling */
-.card {
-    width: 11rem;
-    border: none;
-    position: relative;
-    transition: transform 0.3s;
-}
+    /* Card and Content Styling */
+    .card {
+        width: 11rem;
+        border: none;
+        position: relative;
+        transition: transform 0.3s;
+    }
 
-.card-img-top {
-    width: 100%;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 0.5rem;
-}
+    .card-img-top {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 0.5rem;
+    }
 
-.card-body {
-    text-align: center;
-}
+    .card-body {
+        text-align: center;
+    }
 
 
-/* Add to Cart and Wishlist Buttons */
-.add-to-cart {
-    font-size: 0.875rem;
-    margin-right: 4px;
-}
+    /* Add to Cart and Wishlist Buttons */
+    .add-to-cart {
+        font-size: 0.875rem;
+        margin-right: 4px;
+    }
 
-.wishlist-button {
-    width: 2rem;
-    text-align: center;
-}
+    .wishlist-button {
+        width: 2rem;
+        text-align: center;
+    }
 
-/* View Product Text on Hover */
-.view-product-text {
-    display: none;
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(255, 255, 255, 0.8);
-    padding: 5px;
-    border-radius: 5px;
-}
+    /* View Product Text on Hover */
+    .view-product-text {
+        display: none;
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.8);
+        padding: 5px;
+        border-radius: 5px;
+    }
+    .merchant-card{
+        height: 312px;
+        width:100%;
+        padding:10px;
+        background-color:#228b22;
+        border-radius:0;
+    }
+    .merchant-card-body{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .rounded-circle{
+        width: 100px;
+        height: 100px;
+        background-size: cover;
+        background-position: center;
+    }
 
+    .featured-product{
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin-bottom:20px;
+    }
+
+    .featured-product-title {
+        margin: 0px 0px 0px 10px;
+        padding-bottom:0;
+    }
+
+    .featured-product-card{
+        height: 312px;
+        width:auto;
+        border: none;
+        background-color:#fafafa;
+        border-radius:0;
+    }
 
     @media only screen and (min-width: 360px) and (max-width: 425px) {
         /* Styles for devices in this range */
         body {
-            font-size: 16px;
+            font-size: 12px;
         }
         #dynamicBanner {
             position: relative;
@@ -586,21 +637,105 @@
             width: 5px;
             height: 5px;
         }
-        .popular-product-header .line{
-            display: none;
-        }
-         /* Hide the line in the popular product header on small screens */
-        .popular-product-header .line {
-            display: none;
-        }
+
         .btn{
-            --bs-btn-font-size: 0.8rem;
+            --bs-btn-font-size: 0.9rem;
         }
         .navbar-brand{
             font-size: 1.2rem;
         }
+        .product-carousel{
+            display: flex; /* Allows horizontal scrolling of items */
+            transition: transform 0.3s ease;
+            -webkit-overflow-scrolling: touch;
+            gap:0;
+        }
+        .product-carousel-product{
+            gap:0;
+        }
+        .product-carousel-recently{
+            gap:0;
+        }
 
-    }
+        .product-item{
+            transform: scale(0.9);
+        }
+        .popular-product-header h3, .recently-product-header h3 {
+            padding:0;
+        }
+        /* .button-group{
+            margin-right:10px;
+        } */
+        .popularContainer{
+            padding:0;
+        }
+        .popular-product-header, .merchant-header, .recently-product-header{
+            padding: 0 10px;
+        }
+        .line{
+            display:none;
+        }
+
+        .rounded-circle{
+            width: 70px;
+            height: 70px;
+        }
+        .merchant-card {
+            height:225px;
+            width:100%;
+            padding: 5px;
+            background-color: transparent;
+        }
+
+        .merchant-header{
+            margin-bottom: 0px;
+        }
+        .shop-name {
+            font-size: 1rem; /* Smaller font size for phones */
+        }
+        .shop-rating, .shop-address, .shop-contact {
+            font-size: 0.8rem;
+        }
+        .shop-rating i,
+        .shop-address i,
+        .shop-contact i {
+            font-size: 0.8rem; /* Adjust icon size for smaller screens */
+        }
+
+        .featured-title {
+            font-size: 0.8rem; /* Smaller font size for title */
+            margin-left: 0.5rem;
+        }
+        .card-reviews{
+            margin-left: 0.5rem;
+        }
+        .card-reviews i {
+            font-size: 0.75rem; /* Adjust star size */
+          
+        }
+        .price {
+            font-size: 0.75rem; /* Adjust font size */
+            margin-left: 0.5rem;
+        }
+        .featured-product-card{
+            height:auto;
+            max-height: 312px;
+        }
+        .shop-location-style{
+            margin-left: 0.5rem;
+        }
+        .popular-product-header h3, 
+        .popular-product-header h3, 
+        .merchant-header h3,
+        .featured-product-title, 
+        .recently-product-header h3, 
+        .popular-product-header h3{
+            font-size:20px;
+
+        }
+}
+
+
 </style>
 @endsection
 
@@ -611,21 +746,21 @@
 </section>
 <!--Popular Product-->
 <div class="container">
-    <div class="row mt-3">
+    <div class="mt-3 row">
         <div class="popular-product-header">
             <h3>POPULAR PRODUCT</h3>
             <hr class="line">
             <div class="button-group">
-                <button id="prevBtnPopular" class="btn btn-outline-dark btn-sm mb-2">
+                <button id="prevBtnPopular" class="mb-2 btn btn-outline-dark btn-sm">
                     <i class="fa-solid fa-chevron-left" style="font-size: 14px;"></i>
                 </button>
-                <button id="nextBtnPopular" class="btn btn-outline-dark btn-sm mb-2">
+                <button id="nextBtnPopular" class="mb-2 btn btn-outline-dark btn-sm">
                     <i class="fa-solid fa-chevron-right" style="font-size: 14px;"></i>
                 </button>
             </div>
         </div>
 
-        <div class="col-md-12 mt-3">
+        <div class="mt-3 col-md-12 popularContainer">
             <div id="productCarouselPopular" class="product-carousel">
                 @foreach($products as $product)
                     <a href="{{ route('product.view', $product->product_id) }}" class="product-link">
@@ -636,8 +771,8 @@
                                      loading="lazy"
                                      alt="{{ $product->product_name }}">
                                 <div class="card-body">
-                                    <h6 class="card-title product-title ">{{ $product->product_name }}</h6>
-                                    <p class="card-price mb-1">₱{{ number_format($product->price, 2) }}</p>
+                                    <h6 class="card-title product-title">{{ $product->product_name }}</h6>
+                                    <p class="mb-1 card-price">₱{{ number_format($product->price, 2) }}</p>
                                     @if($product->averageRating > 0)
                                         <p class="card-reviews">
                                             {{-- Display stars based on the rating --}}
@@ -653,7 +788,7 @@
                                             <span class="rating-value">{{ $product->averageRating }} / 5</span>
                                         </p>
                                     @endif
-                                    <div class="action-buttons">
+                                    <div class="mt-2 d-flex justify-content-between align-items-center">
                                         <a class="btn btn-custom add-to-cart" data-product-id="{{ $product->product_id }}">Add to Cart</a>
                                         <a href="#"
                                             class="btn {{ !empty($favorites) && in_array($product->product_id, $favorites) ? 'btn-danger' : 'btn-outline-danger' }} favorite-button"
@@ -661,8 +796,7 @@
                                             style="width: 2rem; padding: 0.2rem 0;"
                                             title="{{ !empty($favorites) && in_array($product->product_id, $favorites) ? 'Unfavorite' : 'Favorite' }}">
                                                 <i class="fas fa-heart {{ !empty($favorites) && in_array($product->product_id, $favorites) ? 'text-white' : '' }}"></i>
-                                            </a>
-
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -679,171 +813,179 @@
     <!-- Merchant Card -->
     <div class="container">
         <div class="row">
-            <div class="col-md-12 mt-3">
+            <div class="mt-3 col-md-12">
                 <div class="row">
-                    <div class="col-md-7">
+                    <div class="col-12 col-md-7">
 
                     </div>
-                    <div class="col-md-5">
+                    <div class=" col-12 col-md-5">
 
                     </div>
                 </div>
             </div>
-
+        </div>
             <!-- Shop and Products Section -->
-            <div class="col-md-12 mt-3 mb-2">
-                <div class="d-flex overflow-hidden" style="gap:2px" id="productCarousel_partner">
-                    <!-- Shop Details -->
-                    <div class="col-md-7">
-                        <div style="display: flex; align-items: center; margin-bottom:20px;">
-                            <h3 style="margin: 0;">MERCHANT</h3>
-                            <div style="flex-grow: 1; height: 1px; background-color: black; margin-left: 10px;"></div>
-                        </div>
-                        <div class="card" style="height: 312px; width:auto; padding:10px; background-color:#228b22; border-radius:0;">
-                            <div class="card-body d-flex align-items-center justify-content-center">
-                                <!-- Nested Card with Dynamic Background -->
-                                <div class="card"
-                                    style="width:100%; height:100%; border-radius:10px;
-                                    @if ($shop->coverphotopath)
-                                        background-image: url('{{ asset('storage/' . $shop->coverphotopath) }}');
-                                    @else
-                                        background-image: url('{{ asset('images/default-cover.jpg') }}');
-                                    @endif
-                                    background-size: cover; background-position: center;">
-                                    <div class="card-body d-flex align-items-center justify-content-center" style="width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); border-radius:10px;">
-                                        <!-- Shop Image -->
-                                        <div class="col-md-4 d-flex align-items-center justify-content-center">
-                                            @if ($shop->shop_img)
-                                                <div class="rounded-circle" style="width: 100px; height: 100px; background-image: url('{{ asset('storage/' . $shop->shop_img) }}'); background-size: cover; background-position: center;"></div>
-                                            @else
-                                                <div class="rounded-circle bg-secondary" style="width: 100px; height: 100px;"></div>
-                                            @endif
-                                        </div>
+        <div class="mt-3 mb-2 col-md-12" style="padding:0;">
+            <div class="row" id="productCarousel_partner">
+                <!-- Shop Details -->
+                <div class="col-12 col-md-7" style="padding:0;">
+                    <div class="merchant-header">
+                        <h3 style="margin: 0;">MERCHANT</h3>
+                        <hr class="line">
+                    </div>
+                    <div class="card merchant-card">
+                        <div class="card-body merchant-card-body">
+                            <!-- Nested Card with Dynamic Background -->
+                            <div class="card"
+                                style="width:100%; height:100%; border-radius:10px;
+                                @if ($shop->coverphotopath)
+                                    background-image: url('{{ asset('storage/' . $shop->coverphotopath) }}');
+                                @else
+                                    background-image: url('{{ asset('images/default-cover.jpg') }}');
+                                @endif
+                                background-size: cover; background-position: center;">
+                                <div class="card-body d-flex align-items-center justify-content-center" style="width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); border-radius:10px;">
+                                    <!-- Shop Image -->
+                                    <div class="col-3 col-md-4 d-flex align-items-center justify-content-center">
+                                        @if ($shop->shop_img)
+                                            <div class="rounded-circle" style="background-image: url('{{ asset('storage/' . $shop->shop_img) }}');"></div>
+                                        @else
+                                            <div class="rounded-circle bg-secondary"></div>
+                                        @endif
+                                    </div>
 
-                                        <!-- Shop Name and Location -->
-                                        <div class="col-md-8">
-                                            <h5 class="text-white text-start">{{ $shop->shop_name }} <span><i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                            </span></h5>
-                                            <p class="text-white text-start mb-0">
-                                                <i class="fa-solid fa-location-dot" style="color: red;"></i>
+                                    <!-- Shop Name and Location -->
+                                    <div class="col-md-8 shop-location-style">
+                                        <h5 class="shop-name text-white text-start">{{ $shop->shop_name }}</h5>
+                                        <p class="shop-rating mb-0 text-white text-start">
+                                            <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                            <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                            <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                            <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                            <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                        </p>
+                                        <p class="shop-address mb-0 text-white text-start">
+                                            <i class="fa-solid fa-location-dot text-danger"></i>
+                                            <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($shop->shop_street . ', ' . $shop->barangay . ', ' . $shop->city . ', ' . $shop->province) }}"
+                                                target="_blank"
+                                                style="text-decoration: none; color: inherit;">
                                                 {{ $shop->shop_street }}, {{ $shop->barangay }}, {{ $shop->city }}, {{ $shop->province }}
-                                            </p>
-                                            <p class="text-white text-start mb-0 text-gray">
-                                                <i class="fa-solid fa-phone text-black"></i>
-                                                @if($shop->merchant->contact_number)
-                                                    @php
-                                                        $contactNumber = $shop->merchant->contact_number;
-                                                        if (strpos($contactNumber, '+63') === 0) {
-                                                            // If it starts with +63, keep it as is
-                                                            $formattedNumber = $contactNumber;
-                                                        } elseif (strpos($contactNumber, '63') === 0) {
-                                                            // If it starts with 63 without the +, add the +
-                                                            $formattedNumber = '+' . $contactNumber;
-                                                        } elseif (strpos($contactNumber, '0') === 0) {
-                                                            // If it starts with 0, replace it with +63
-                                                            $formattedNumber = '+63' . substr($contactNumber, 1);
-                                                        } else {
-                                                            // Otherwise, keep the number as is
-                                                            $formattedNumber = $contactNumber;
-                                                        }
-                                                    @endphp
-                                                    {{ $formattedNumber }}
-                                                @else
-                                                    No contact number set
-                                                @endif
-                                            </p>
-                                            <p class="text-white text-start mb-0">
-
-
-                                            </p>
-
-                                        </div>
-                                        <!-- View Store Button -->
-                                        <div class="view-button position-absolute" style="bottom: 20px; right:20px;">
-                                            <a href="{{ route('merchant.viewstore', ['shopId' => $shop->shop_id]) }}" class="btn btn-custom">
-                                                View Store
                                             </a>
-                                        </div>
+                                        </p>
+                                        <p class="shop-contact mb-0 text-white text-start">
+                                            <i class="text-black fa-solid fa-phone"></i>
+                                            @if($shop->merchant->contact_number)
+                                                @php
+                                                    $contactNumber = $shop->merchant->contact_number;
+                                                    if (strpos($contactNumber, '+63') === 0) {
+                                                        $formattedNumber = $contactNumber;
+                                                    } elseif (strpos($contactNumber, '63') === 0) {
+                                                        $formattedNumber = '+' . $contactNumber;
+                                                    } elseif (strpos($contactNumber, '0') === 0) {
+                                                        $formattedNumber = '+63' . substr($contactNumber, 1);
+                                                    } else {
+                                                        $formattedNumber = $contactNumber;
+                                                    }
+                                                @endphp
+                                                <a href="tel:{{ $formattedNumber }}" style="text-decoration: none; color: inherit;">
+                                                    {{ $formattedNumber }}
+                                                </a>
+                                            @else
+                                                No contact number set
+                                            @endif
+                                        </p>
+                                    </div>
+
+                                    <!-- View Store Button -->
+                                    <div class="view-button position-absolute" style="bottom: 20px; right:20px;">
+                                        <a href="{{ route('merchant.viewstore', ['shopId' => $shop->shop_id]) }}" class="btn btn-custom d-none d-md-inline">
+                                            View Store
+                                        </a>
+
+                                        <!-- Icon Button (Shown on smaller screens) -->
+                                        <a href="{{ route('merchant.viewstore', ['shopId' => $shop->shop_id]) }}}" class="btn btn-custom d-inline d-md-none" style="font-size: 12px;">
+                                            View Store
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Featured Products -->
-                    <div class="col-md-5">
-                        <div style="display: flex; align-items: center; width: 100%; margin-bottom:20px;">
-                            <h3 style="margin: 0px 0px 0px 10px; padding-bottom:0;">Featured Product</h3>
-                            <div style="flex-grow: 1; height: 1px; background-color: black; margin-left: 10px; margin-right: 10px;"></div>
-                        </div>
-                        <div class="card " style="height: 312px; width:auto; border: none; background-color:#fafafa; border-radius:0;">
-                            <div class="card-body" style="padding-top:0; width:auto;">
-                                @foreach($featuredProducts as $product)
-                                    <a href="{{ route('product.view', $product->product_id) }}" class="text-decoration-none " style="text-decoration: none; color: inherit;">
-                                        <div class="product-card-hover">
-                                            <div class="card mb-1" style="height: 72px; width:auto;">
-                                                <div class="card-body" style="padding: 10px;">
-                                                    <div class="row">
-                                                        <!-- Product Image -->
-                                                        <div class="col-md-2">
-                                                            @if($product->images->first())
-                                                                <div class="bg-secondary" style="width: 54px; height: 54px; background-image: url('{{ asset('storage/' . $product->images->first()->product_img_path1) }}'); background-size: cover;"></div>
+                </div>
+                <!-- Featured Products -->
+                <div class="col-12 col-md-5" style="padding:0;">
+                    <div class="featured-product">
+                        <h3 class="featured-product-title">FEATURED PRODUCT</h3>
+                        <hr class="line">
+                    </div>
+                    <div class="card featured-product-card">
+                        <div class="card-body" style="padding-top:0; width:auto;">
+                            @foreach($featuredProducts as $product)
+                                <a href="{{ route('product.view', $product->product_id) }}" class="text-decoration-none " style="text-decoration: none; color: inherit;">
+                                    <div class="product-card-hover">
+                                        <div class="mb-1 card" style="height: 72px; width:auto;">
+                                            <div class="card-body" style="padding: 10px;">
+                                                <div class="row">
+                                                    <!-- Product Image -->
+                                                    <div class="col-2 col-md-2">
+                                                        @if($product->images->first())
+                                                            <div class="bg-secondary" style="width: 54px; height: 54px; background-image: url('{{ asset('storage/' . $product->images->first()->product_img_path1) }}'); background-size: cover;"></div>
+                                                        @else
+                                                            <div class="bg-secondary" style="width: 54px; height: 54px;"></div>
+                                                        @endif
+                                                    </div>
+                                                    <!-- Product Details -->
+                                                    <div class="col-8 col-md-8 text-start">
+                                                        <h6 class="card-title featured-title">{{ $product->product_name }}</h6>
+                                                        <p class="card-reviews">
+                                                            @if($product->averageRating > 0)
+                                                                {{-- Display stars based on the rating --}}
+                                                                @for ($i = 1; $i <= 5; $i++)
+                                                                    @if ($i <= floor($product->averageRating))
+                                                                        <i class="fa-solid fa-star" style="color: #FFD700;"></i> {{-- Full star in gold --}}
+                                                                    @elseif ($i - $product->averageRating < 1)
+                                                                        <i class="fa-solid fa-star-half-stroke" style="color: #FFD700;"></i> {{-- Half star in light gold --}}
+                                                                    @else
+                                                                        <i class="fa-regular fa-star" style="color: #C0C0C0;"></i> {{-- Empty star in gray --}}
+                                                                    @endif
+                                                                @endfor
+                                                                <span class="rating-value">{{ $product->averageRating }} / 5</span>
                                                             @else
-                                                                <div class="bg-secondary" style="width: 54px; height: 54px;"></div>
+                                                                {{-- Display empty stars if no reviews --}}
+                                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
                                                             @endif
-                                                        </div>
-                                                        <!-- Product Details -->
-                                                        <div class="col-md-8 text-start">
-                                                            <h6 class="card-title featured-title">{{ $product->product_name }}</h6>
-                                                            <p class="card-reviews">
-                                                                @if($product->averageRating > 0)
-                                                                    {{-- Display stars based on the rating --}}
-                                                                    @for ($i = 1; $i <= 5; $i++)
-                                                                        @if ($i <= floor($product->averageRating))
-                                                                            <i class="fa-solid fa-star" style="color: #FFD700;"></i> {{-- Full star in gold --}}
-                                                                        @elseif ($i - $product->averageRating < 1)
-                                                                            <i class="fa-solid fa-star-half-stroke" style="color: #FFD700;"></i> {{-- Half star in light gold --}}
-                                                                        @else
-                                                                            <i class="fa-regular fa-star" style="color: #C0C0C0;"></i> {{-- Empty star in gray --}}
-                                                                        @endif
-                                                                    @endfor
-                                                                    <span class="rating-value">{{ $product->averageRating }} / 5</span>
-                                                                @else
-                                                                    {{-- Display empty stars if no reviews --}}
-                                                                    <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                                                    <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                                                    <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                                                    <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                                                    <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                                                @endif
-                                                            </p>
-                                                            <p class="rating mb-0" style="font-size: 13px">₱{{ $product->price }}</p>
-                                                        </div>
+                                                        </p>
+                                                        <p class="mb-0 price" style="font-size: 13px">₱{{ $product->price }}</p>
                                                     </div>
-                                                    <!-- Add to Cart & Wishlist Buttons -->
-                                                    <div class="t">
-                                                        <div class="view-button position-absolute" style="bottom: 10px; right:20px;">
-                                                            <a href="#" class="btn btn-custom add-to-cart" style="height:30px; font-size:10px;" data-product-id="{{ $product->product_id }}">
-                                                                Add to Cart
-                                                            </a>
-                                                            <a href="#"
-                                                                class="btn {{ !empty($favorites) && in_array($product->product_id, $favorites) ? 'btn-danger' : 'btn-outline-danger' }} favorite-button"
-                                                                data-product-id="{{ $product->product_id }}"
-                                                                style="width: 2rem; font-size:0.8rem; font-size:0.9rem; padding: 0.2rem 0;"
-                                                                title="{{ !empty($favorites) && in_array($product->product_id, $favorites) ? 'Unfavorite' : 'Favorite' }}">
-                                                                <i class="fas fa-heart {{ !empty($favorites) && in_array($product->product_id, $favorites) ? 'text-white' : '' }}"></i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
+                                                </div>
+                                                <!-- Add to Cart & Wishlist Buttons -->
+                                                <div class="view-button position-absolute d-flex" style="bottom: 10px; right: 20px; gap: 3px;">
+                                                    <!-- Text Button (Shown on larger screens) -->
+                                                    <a class="btn btn-custom add-to-cart d-none d-md-inline" data-product-id="{{ $product->product_id }}" style="font-size: 12px;">
+                                                        Add to Cart
+                                                    </a>
+
+                                                    <!-- Icon Button (Shown on smaller screens) -->
+                                                    <a class="btn btn-custom add-to-cart d-inline d-md-none" data-product-id="{{ $product->product_id }}" style="font-size: 12px;">
+                                                        <i class="fa-solid fa-cart-plus"></i>
+                                                    </a>
+                                                    <a href="#"
+                                                        class="btn {{ !empty($favorites) && in_array($product->product_id, $favorites) ? 'btn-danger' : 'btn-outline-danger' }} favorite-button"
+                                                        data-product-id="{{ $product->product_id }}"
+                                                        style="width: 2rem; font-size:0.8rem; font-size:0.9rem; padding: 0.2rem 0;"
+                                                        title="{{ !empty($favorites) && in_array($product->product_id, $favorites) ? 'Unfavorite' : 'Favorite' }}">
+                                                        <i class="fas fa-heart {{ !empty($favorites) && in_array($product->product_id, $favorites) ? 'text-white' : '' }}"></i>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
-                                    </a>
-                                @endforeach
-                            </div>
+                                    </div>
+                                </a>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -851,36 +993,36 @@
         </div>
     </div>
 @endif
-@if(isset($recentlyAddedProducts) && !empty($recentlyAddedProducts))
+@if(!empty($recentlyAddedProducts) && $recentlyAddedProducts->isNotEmpty())
     <!-- Recently Added Product -->
     <div class="container recently-added-container">
-        <div class="row mt-4">
+        <div class="mt-4 row">
             <div class="recently-product-header">
                 <h3>RECENTLY ADDED</h3>
                 <hr class="line">
                 <div class="button-group">
-                    <button id="prevBtnRecentlyAdded" class="btn btn-outline-dark btn-sm mb-2">
+                    <button id="prevBtnRecentlyAdded" class="mb-2 btn btn-outline-dark btn-sm">
                         <i class="fa-solid fa-chevron-left"></i>
                     </button>
-                    <button id="nextBtnRecentlyAdded" class="btn btn-outline-dark btn-sm mb-2">
+                    <button id="nextBtnRecentlyAdded" class="mb-2 btn btn-outline-dark btn-sm">
                         <i class="fa-solid fa-chevron-right"></i>
                     </button>
                 </div>
             </div>
 
-            <div class="col-md-12 mt-3">
-                <div id="productCarouselRecentlyAdded" class="d-flex overflow-hidden">
+            <div class="mt-3 col-md-12">
+                <div id="productCarouselRecentlyAdded" class="product-carousel-recently">
                     @foreach($recentlyAddedProducts as $product)
                         <a href="{{ route('product.view', $product->product_id) }}" class="text-decoration-none product-link">
-                            <div class="product-item p-2 product-card-hover">
+                            <div class="p-2 product-item product-card-hover">
                                 <div class="card">
                                     <img src="{{ $product->images->first() ? Storage::url($product->images->first()->product_img_path1) : 'https://via.placeholder.com/150' }}"
                                         class="card-img-top"
                                         loading="lazy"
                                         alt="{{ $product->product_name }}">
-                                    <div class="card-body text-center">
+                                    <div class="text-center card-body">
                                         <h6 class="card-title product-title">{{ $product->product_name }}</h6>
-                                        <p class="card-price mb-1">₱{{ number_format($product->price, 2) }}</p>
+                                        <p class="mb-1 card-price">₱{{ number_format($product->price, 2) }}</p>
                                         <p class="card-reviews">
                                             @if($product->averageRating > 0)
                                                 {{-- Display stars based on the rating --}}
@@ -911,7 +1053,7 @@
                                                 style="width: 2rem; padding: 0.2rem 0;"
                                                 title="{{ !empty($favorites) && in_array($product->product_id, $favorites) ? 'Unfavorite' : 'Favorite' }}">
                                                     <i class="fas fa-heart {{ !empty($favorites) && in_array($product->product_id, $favorites) ? 'text-white' : '' }}"></i>
-                                                </a>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -927,20 +1069,20 @@
 <!-- End Recently Added Product-->
 <!-- All Product Carousel -->
 <div class="container">
-    <div class="row mt-3">
+    <div class="mt-3 row">
         <div class="popular-product-header">
             <h3>ALL PRODUCTS</h3>
             <hr class="line">
             <div class="button-group">
-                <button id="prevBtnProductAll" class="btn btn-outline-dark btn-sm mb-2">
+                <button id="prevBtnProductAll" class="mb-2 btn btn-outline-dark btn-sm">
                     <i class="fa-solid fa-chevron-left" style="font-size: 14px;"></i>
                 </button>
-                <button id="nextBtnProductAll" class="btn btn-outline-dark btn-sm mb-2">
+                <button id="nextBtnProductAll" class="mb-2 btn btn-outline-dark btn-sm">
                     <i class="fa-solid fa-chevron-right" style="font-size: 14px;"></i>
                 </button>
             </div>
         </div>
-        <div class="col-md-12 mt-3">
+        <div class="mt-3 col-md-12">
             <div id="productCarouselAll" class="product-carousel-product">
                 <!-- Loop through products -->
                 @foreach($allProducts as $product)
@@ -953,7 +1095,7 @@
                                      alt="{{ $product->product_name }}">
                                 <div class="card-body">
                                     <h6 class="card-title product-title">{{ $product->product_name }}</h6>
-                                    <p class="card-price mb-1">₱{{ number_format($product->price, 2) }}</p>
+                                    <p class="mb-1 card-price">₱{{ number_format($product->price, 2) }}</p>
                                     <p class="card-reviews">
                                         {{-- Display stars based on the rating if available --}}
                                         @if($product->averageRating > 0)
@@ -976,7 +1118,7 @@
                                             <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
                                         @endif
                                     </p>
-                                    <div class="action-buttons">
+                                    <div class="mt-2 d-flex justify-content-between align-items-center">
                                         <a href="#" class="btn btn-custom add-to-cart" data-product-id="{{ $product->product_id }}">Add to Cart</a>
 
                                         <a href="#"
@@ -985,7 +1127,7 @@
                                             style="width: 2rem; padding: 0.2rem 0;"
                                             title="{{ !empty($favorites) && in_array($product->product_id, $favorites) ? 'Unfavorite' : 'Favorite' }}">
                                                 <i class="fas fa-heart {{ !empty($favorites) && in_array($product->product_id, $favorites) ? 'text-white' : '' }}"></i>
-                                            </a>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -996,7 +1138,6 @@
         </div>
     </div>
 </div>
-
 
 
 <!-- Merchant Modal -->
@@ -1049,7 +1190,7 @@
 @include('Components.supporticon')
 @include('Components.footer')
 
-@include('Components.favorite-success-modal')
+@include('Components.favorite-success-modal') 
 @endsection
 @section('scripts')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
