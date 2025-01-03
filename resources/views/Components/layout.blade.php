@@ -239,8 +239,8 @@
 
                 <!-- Mobile Navigation -->
                 <ul class="navbar-nav mobile-nav">
-                    <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center text-start" href="{{ route('dashboard') }}">
+                    <li class="nav-item ">
+                        <a class="nav-link d-flex align-items-center text-start return-icon" href="{{ route('dashboard') }}">
                             <i class="fa-solid fa-arrow-left return-hidden-icon"></i>
                         </a>
                     </li>
