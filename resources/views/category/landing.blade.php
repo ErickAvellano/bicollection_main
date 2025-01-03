@@ -41,6 +41,9 @@
     .category_description{
         font-size:14px;
     }
+    .see-more{
+        color:#228b22;
+    }
     @media (min-width: 360px) and (max-width: 425px) {
         body {
             font-size: 12px;
@@ -85,7 +88,10 @@
                                 <!-- About Store --> 
                                 <h5>{{$category->category_name}}</h5>
                                 <p class="mb-0 category_description">
-                                    {{ Str::limit($category->category_description, 100, '...') }}
+                                    {!! Str::limit($category->category_description, 100, '... <span class="see-more">See More</span>') !!}
+                                </p>
+                                <p class="d-inline d-md-none mt-2" style="font-size:14px; color:#228b22;">
+                                    Click to View
                                 </p>
                             </div>
                             <!-- Shop Content -->
