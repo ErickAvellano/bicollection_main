@@ -228,8 +228,7 @@
                                 <a class="nav-link d-flex align-items-center" href="{{ route('login') }}">
                                     <i class="fas fa-user"></i>
                                     <span class="login-text">
-                                        Login /<br>
-                                        Sign In
+                                        Log In
                                     </span>
                                 </a>
                             </li>
@@ -256,9 +255,9 @@
                         </a>
                     </li>
                     <li class="nav-item cart">
-                        <a href="{{ route('cart.show') }}" class="nav-link position-relative order" id="cartIcon" title="Cart" data-bs-toggle="popover" data-bs-html="true" data-bs-content='@include("Components.cart-tooltip")'>
+                        <a href="{{ route('cart.show') }}" class="nav-link position-relative order" id="cartIcon">
                             <i class="fa fa-shopping-cart"></i>
-                            <span id="cart-count" class="badge">0</span> <!-- Placeholder for cart count -->
+                            <span id="cart-counts" class="badge">0</span> <!-- Badge for cart -->
                         </a>
                     </li>
                     <li class="nav-item">
@@ -279,8 +278,7 @@
                             <a class="nav-link d-flex align-items-center" href="{{ route('login') }}">
                                 <i class="fas fa-user"></i>
                                 <span class="login-text">
-                                    Login /<br>
-                                    Sign In
+                                    Log In
                                 </span>
                             </a>
                         @endif
@@ -356,13 +354,8 @@
         <h5 class="sidebar-title">MENU</h5>
         <ul class="mt-4 mb-5">
             <li class="nav-item home">
-                <a class="nav-link d-flex align-items-center me-2" href="#">
+                <a class="nav-link d-flex align-items-center me-2" href="/">
                     <i class="fa-solid fa-house"></i>Home
-                </a>
-            </li>
-            <li class="nav-item product">
-                <a class="nav-link d-flex align-items-center me-2" href="{{ route('product.index') }}">
-                    <i class="fa-solid fa-table-list"></i> Products
                 </a>
             </li>
             <li class="nav-item category">
@@ -371,16 +364,16 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link d-flex align-items-center" href="#">
-                    <i class="fa-solid fa-store pills-icon"></i> Stores</a>
+                <a class="nav-link d-flex align-items-center" href="{{ route('merchants.index') }}">
+                    <i class="fa-solid fa-store pills-icon"></i> Merchants</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#"><i class="fa-regular fa-pen-to-square pills-icon">
                     </i> Customize a Product</a>
             </li>
             <li class="nav-item liked">
-                <a class="nav-link d-flex align-items-center" href="#">
-                    <i class="fa-solid fa-heart"></i> Liked
+                <a class="nav-link d-flex align-items-center" href="{{ route('favorites.index') }}">
+                    <i class="fa-solid fa-heart"></i> Favorites
                 </a>
             </li>
             <li class="nav-item truck">
@@ -624,6 +617,7 @@
                     type: 'GET',
                     success: function (response) {
                         $('#cart-count').text(response.cartItemCount);
+                        $('#cart-counts').text(response.cartItemCount);
                     },
                     // error: function () {
                     //     console.error('Failed to load cart item count');
@@ -657,6 +651,7 @@
                 type: 'GET',
                 success: function(response) {
                     $('#cart-count').text(response.cartItemCount);
+                    $('#cart-counts').text(response.cartItemCount);
                 },
                 // error: function() {
                 //     console.error('Failed to load cart item count');
@@ -1188,7 +1183,7 @@
 
     </script>
 
-    
+
 
     @yield('scripts')
 </body>

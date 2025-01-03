@@ -699,11 +699,11 @@
 
                 <!-- Action Buttons -->
                 <div class="button-group">
-                    <a href="#" 
-                        class="btn btn-outline-custom add-to-cart-btn" 
+                    <button href="#"
+                        class="btn btn-outline-custom add-to-cart-btn"
                         data-product-id="{{ $product->product_id }}">
                         <i class="fas fa-shopping-cart" style="margin-right: 4px;"></i> Add to Cart
-                    </a>
+                    </button>
                     <button class="btn btn-custom" onclick="buyNow()">Buy Now</button>
                 </div>
             </div>
@@ -737,7 +737,7 @@
                     @endif
                     <h5 class="card-title mb-0 fw-bold">{{ $shop->shop_name ?? 'Store Name' }}</h5>
                 </div>
-                <a href="#" class="btn btn-outline-custom">View Store</a>
+                <a href="{{ route('merchant.viewstore', ['shopId' => $shop->shop_id]) }}" class="btn btn-outline-custom">View Store</a>
             </div>
         </div>
     </section>

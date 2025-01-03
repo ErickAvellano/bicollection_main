@@ -152,7 +152,7 @@
                                     <label for="variation-select-{{ $cartItem->cart_id }}" class="me-2">Variations:</label>
                                     <select id="variation-select-{{ $cartItem->cart_id }}" class="form-select variation-select" style="width: 150px;">
                                         @foreach($cartItem->product->variations as $variation)
-                                            <option value="{{ $variation->product_variation_id }}" 
+                                            <option value="{{ $variation->product_variation_id }}"
                                                 {{ $cartItem->product_variation_id == $variation->product_variation_id ? 'selected' : '' }}>
                                                 {{ $variation->variation_name }}
                                             </option>
@@ -327,7 +327,6 @@
                 quantity: currentQuantity // Pass the updated quantity
             },
             success: function (response) {
-                console.log('Quantity updated successfully:', response);
 
                 // Assuming the response contains the updated price per item from the database
                 const pricePerItem = parseFloat(response.updatedPrice); // Fetch the price from the backend response
