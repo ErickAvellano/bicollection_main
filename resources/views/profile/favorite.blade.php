@@ -218,7 +218,7 @@
                             @php
                                 $product = $favoriteItem->product;
                             @endphp
-                            <div style="width:170px; padding:5px;"> 
+                            <div style="width:170px; padding:5px;">
                                 <a href="{{ route('product.view', $product->product_id) }}" class="text-decoration-none product-link">
                                     <div class="product-item p-1 product-card-hover">
                                         <div class="card">
@@ -281,6 +281,7 @@
 
 
 </div>
+@include('Components.footer')
 @include('Components.add-to-cart')
 @include('Components.favorite-success-modal')
 @endsection
