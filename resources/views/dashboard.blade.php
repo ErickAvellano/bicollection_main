@@ -903,7 +903,7 @@
                                         </a>
 
                                         <!-- Icon Button (Shown on smaller screens) -->
-                                        <a href="{{ route('merchant.viewstore', ['shopId' => $shop->shop_id]) }}}" class="btn btn-custom d-inline d-md-none" style="font-size: 12px;">
+                                        <a href="{{ route('merchant.viewstore', ['shopId' => $shop->shop_id]) }}" class="btn btn-custom d-inline d-md-none" style="font-size: 12px;">
                                             View Store
                                         </a>
                                     </div>
