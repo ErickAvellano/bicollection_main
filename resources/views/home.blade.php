@@ -882,8 +882,13 @@
 
                                     <!-- View Store Button -->
                                     <div class="view-button position-absolute" style="bottom: 20px; right:20px;">
-                                        <a href="{{ route('merchant.viewstore', ['shopId' => $shop->shop_id]) }}" class="btn btn-custom">
+                                        <a href="{{ route('merchant.viewstore', ['shopId' => $shop->shop_id]) }}" class="btn btn-custom d-none d-md-inline" style="font-size: 12px;">
                                             View Store
+                                        </a>
+
+                                        <!-- Icon Button (Shown on smaller screens) -->
+                                        <a href="{{ route('merchant.viewstore', ['shopId' => $shop->shop_id]) }}}" class="btn btn-custom d-inline d-md-none" style="font-size: 12px;">
+                                            Visit <i class="fa-solid fa-arrow-right"></i>
                                         </a>
                                     </div>
                                 </div>
