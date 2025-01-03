@@ -583,27 +583,27 @@
 .rounded-circle{
     width: 100px;
     height: 100px;
-    background-size: cover; 
+    background-size: cover;
     background-position: center;
 }
 
 .featured-product{
-    display: flex; 
-    align-items: center; 
-    width: 100%; 
+    display: flex;
+    align-items: center;
+    width: 100%;
     margin-bottom:20px;
-} 
+}
 
 .featured-product-title {
-    margin: 0px 0px 0px 10px; 
+    margin: 0px 0px 0px 10px;
     padding-bottom:0;
 }
 
 .featured-product-card{
-    height: 312px; 
-    width:auto; 
-    border: none; 
-    background-color:#fafafa; 
+    height: 312px;
+    width:auto;
+    border: none;
+    background-color:#fafafa;
     border-radius:0;
 }
 
@@ -709,7 +709,7 @@
             font-size: 0.75rem; /* Adjust font size */
         }
 }
-        
+
 
 </style>
 @endsection
@@ -866,7 +866,7 @@
                                                 @endif
                                             </p>
                                         </div>
-                                        
+
                                         <!-- View Store Button -->
                                         <div class="view-button position-absolute" style="bottom: 20px; right:20px;">
                                             <a href="{{ route('merchant.viewstore', ['shopId' => $shop->shop_id]) }}" class="btn btn-custom">
@@ -879,7 +879,7 @@
                         </div>
                     </div>
                     <!-- Featured Products -->
-                    <div class="col-12 col-md-5">
+                    <div class="col-11 col-md-5">
                         <div class="featured-product">
                             <h3 class="featured-product-title">FEATURED PRODUCT</h3>
                             <hr class="line">
@@ -934,12 +934,12 @@
                                                         <a href="{{ route('login') }}" class="btn btn-custom d-none d-md-inline" style="font-size: 12px;">
                                                             Add to Cart
                                                         </a>
-                                                    
+
                                                         <!-- Icon Button (Shown on smaller screens) -->
                                                         <a href="{{ route('login') }}" class="btn btn-custom d-inline d-md-none" style="font-size: 12px;">
                                                             <i class="fa-solid fa-cart-plus"></i>
                                                         </a>
-                                                    
+
                                                         <a href="{{ route('login') }}" class="btn btn-outline-danger btn-sm" style="width: 2rem; padding: 0.2rem 0; font-size: 12px;">
                                                             <i class="fas fa-heart"></i>
                                                         </a>
