@@ -309,6 +309,9 @@
         border-color: #228b22 !important; /* Ensure border color matches */
         box-shadow: 0 0 0 0.2rem rgba(34, 139, 34, 0.25); /* Adjust the box shadow */
     }
+    .payment-option{
+        height:100px;
+    }
 
 </style>
 @endsection
@@ -703,39 +706,61 @@
         </div>
     </div>
 </div>
+
+<!-- Payment Modal -->
 <!-- Payment Modal -->
 <div class="modal fade" id="selectPaymentModal" tabindex="-1" role="dialog" aria-labelledby="selectPaymentModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content ">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content" style="height: 200px">
             <div class="modal-header d-flex justify-content-between">
-                <h5 class="modal-title" id="selectPaymentModalLabel">Select Payment Option</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" style="background: transparent; border: none;">
-                    <span aria-hidden="true"><i class="fa-solid fa-xmark"></i></span>
-                </button>
+            <h5 class="modal-title" id="selectPaymentModalLabel">Select Payment Option</h5>
+            <button
+                type="button"
+                class="close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                style="background: transparent; border: none;"
+            >
+                <span aria-hidden="true"><i class="fa-solid fa-xmark"></i></span>
+            </button>
             </div>
             <div class="modal-body">
+            <div class="row text-center">
                 <!-- COD Option -->
-                <div class="payment-option mb-2" id="codOption">
-                    <button class="btn btn-outline-success w-100"
-                            id="selectCodButton"
-                            @if(!$merchantSupportsCOD) disabled @endif>
-                        Cash on Delivery (COD)
-                    </button>
+                <div class="col-6 payment-option" id="codOption">
+                <button
+                    class="btn btn-outline-success w-100 h-100 d-flex flex-column align-items-center justify-content-center"
+                    id="selectCodButton"
+                    @if(!$merchantSupportsCOD) disabled @endif
+                >
+                    <i class="fa-solid fa-truck mb-2" style="font-size: 24px;"></i>
+                    <span>Cash on Delivery</span>
+                </button>
                 </div>
-
+    
                 <!-- GCash Option -->
-                <div class="payment-option mt-2" id="gcashOption">
-                    <button class="btn btn-outline-success w-100 d-flex align-items-center justify-content-center"
-                            id="selectGcashButton"
-                            @if(!$merchantSupportsGCash) disabled @endif>
-                        <img src="{{ asset('images/assets/gcash_logo.png') }}" alt="GCash Logo" class="me-2" style="width: 24px; height: 24px;">
-                        GCash
-                    </button>
+                <div class="col-6 payment-option" id="gcashOption">
+                <button
+                    class="btn btn-outline-success w-100 h-100 d-flex flex-column align-items-center justify-content-center"
+                    id="selectGcashButton"
+                    @if(!$merchantSupportsGCash) disabled @endif
+                >
+                    <img
+                    src="{{ asset('images/assets/gcash_logo.png') }}"
+                    alt="GCash Logo"
+                    class="mb-2"
+                    style="width: 40px; height: 40px;"
+                    />
+                    <span>GCash</span>
+                </button>
                 </div>
+            </div>
             </div>
         </div>
     </div>
 </div>
+  
+
 <!-- Success Modal -->
 <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -1189,7 +1214,6 @@
         }
     });
 </script>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const placeOrderBtn = document.getElementById('placeOrderBtn');
@@ -1448,73 +1472,89 @@
     var gcashMopId = @json($gcashMopId);
     var codMopId = @json($codMopId);
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const paymentMethodInput = document.getElementById('paymentMethod');
-        const paymentMethodIdInput = document.getElementById('paymentMethodId'); // Add this input in the HTML
-        const selectedPaymentMethodText = document.getElementById('selectedPaymentMethodText');
-        const selectCodButton = document.getElementById('selectCodButton');
-        const selectGcashButton = document.getElementById('selectGcashButton');
+    document.addEventListener("DOMContentLoaded", function () {
+        const paymentMethodInput = document.getElementById("paymentMethod");
+        const paymentMethodIdInput = document.getElementById("paymentMethodId");
+        const selectedPaymentMethodText = document.getElementById("selectedPaymentMethodText");
+        const selectCodButton = document.getElementById("selectCodButton");
+        const selectGcashButton = document.getElementById("selectGcashButton");
 
-        // Check if the elements exist
-        if (!paymentMethodInput || !selectedPaymentMethodText || !selectCodButton || !selectGcashButton) {
-            console.error('Payment elements are not found in the DOM.');
-            return;
+        // Utility: Toggle active class
+        function toggleActive(selectedButton) {
+            [selectCodButton, selectGcashButton].forEach((button) => {
+                if (button === selectedButton) {
+                    button.classList.remove("btn-outline-success");
+                    button.classList.add("btn-success");
+                } else {
+                    button.classList.remove("btn-success");
+                    button.classList.add("btn-outline-success");
+                }
+            });
         }
 
-        // Auto-select available payment method
-        function autoSelectPaymentMethod() {
-            // Enable or disable buttons based on availability
-            selectCodButton.disabled = !merchantSupportsCod;
-            selectGcashButton.disabled = !merchantSupportsGcash;
-
-            // Auto-select based on availability
-            if (merchantSupportsCod) {
-                paymentMethodInput.value = 'COD';
-                paymentMethodIdInput.value = codMopId; // Set the COD merchant_mop_id
-                selectedPaymentMethodText.textContent = 'Cash on Delivery';
-            } else if (merchantSupportsGcash) {
-                paymentMethodInput.value = 'GCash';
-                paymentMethodIdInput.value = gcashMopId; // Set the GCash merchant_mop_id
-                selectedPaymentMethodText.innerHTML = `
-                    <img src="{{ asset('images/assets/gcash_logo.png') }}" alt="GCash Logo" style="width: 30px; height: 30px;" class="me-2">
-                    GCash
-                `;
+        // Set initial state based on current selection
+        function setInitialState() {
+            if (paymentMethodInput.value === "COD") {
+                toggleActive(selectCodButton);
+            } else if (paymentMethodInput.value === "GCash") {
+                toggleActive(selectGcashButton);
             } else {
-                selectedPaymentMethodText.textContent = 'No available payment method';
+                // Default to COD if both are available
+                if (merchantSupportsCod) {
+                    paymentMethodInput.value = "COD";
+                    paymentMethodIdInput.value = codMopId;
+                    selectedPaymentMethodText.textContent = "Cash on Delivery";
+                    toggleActive(selectCodButton);
+                } else if (merchantSupportsGcash) {
+                    paymentMethodInput.value = "GCash";
+                    paymentMethodIdInput.value = gcashMopId;
+                    selectedPaymentMethodText.innerHTML = `
+                        <img src="{{ asset('images/assets/gcash_logo.png') }}" alt="GCash Logo" style="width: 30px; height: 30px;" class="me-2">
+                        GCash
+                    `;
+                    toggleActive(selectGcashButton);
+                } else {
+                    selectedPaymentMethodText.textContent = "No available payment method";
+                }
             }
         }
 
         // Handle GCash selection
-        selectGcashButton.addEventListener('click', function () {
-            if (!selectGcashButton.disabled && paymentMethodInput.value !== 'GCash') {
-                paymentMethodInput.value = 'GCash';
-                paymentMethodIdInput.value = gcashMopId; // Set the GCash merchant_mop_id
+        selectGcashButton.addEventListener("click", function () {
+            if (!selectGcashButton.disabled) {
+                paymentMethodInput.value = "GCash";
+                paymentMethodIdInput.value = gcashMopId;
                 selectedPaymentMethodText.innerHTML = `
                     <img src="{{ asset('images/assets/gcash_logo.png') }}" alt="GCash Logo" style="width: 30px; height: 30px;" class="me-2">
                     GCash
                 `;
-                $('#selectPaymentModal').modal('hide'); // Close the modal
+                toggleActive(selectGcashButton);
+                $("#selectPaymentModal").modal("hide");
             }
         });
 
         // Handle COD selection
-        selectCodButton.addEventListener('click', function () {
-            if (!selectCodButton.disabled && paymentMethodInput.value !== 'COD') {
-                paymentMethodInput.value = 'COD';
-                paymentMethodIdInput.value = codMopId; // Set the COD merchant_mop_id
-                selectedPaymentMethodText.textContent = 'Cash on Delivery';
-                $('#selectPaymentModal').modal('hide'); // Close the modal
+        selectCodButton.addEventListener("click", function () {
+            if (!selectCodButton.disabled) {
+                paymentMethodInput.value = "COD";
+                paymentMethodIdInput.value = codMopId;
+                selectedPaymentMethodText.textContent = "Cash on Delivery";
+                toggleActive(selectCodButton);
+                $("#selectPaymentModal").modal("hide");
             }
         });
 
         // Initialize with auto-selection
-        autoSelectPaymentMethod();
+        setInitialState();
+
+        // Update state each time the modal is shown
+        $('#selectPaymentModal').on('show.bs.modal', function () {
+            setInitialState();
+        });
     });
-
-
-
 </script>
 
+  
 
 
 @endsection
