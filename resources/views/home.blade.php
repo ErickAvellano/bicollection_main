@@ -686,6 +686,10 @@
             padding: 5px;
             background-color: transparent;
         }
+
+        .merchant-header{
+            margin-bottom: 0px;
+        }
         .shop-name {
             font-size: 1rem; /* Smaller font size for phones */
         }
@@ -697,6 +701,7 @@
         .shop-contact i {
             font-size: 0.8rem; /* Adjust icon size for smaller screens */
         }
+
         .featured-title {
             font-size: 0.8rem; /* Smaller font size for title */
         }
