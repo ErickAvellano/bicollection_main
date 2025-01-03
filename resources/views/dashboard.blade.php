@@ -580,7 +580,7 @@
         align-items: center;
         justify-content: center;
     }
-    .rounded-circle{
+    .shop-img{
         width: 100px;
         height: 100px;
         background-size: cover;
@@ -676,7 +676,7 @@
             display:none;
         }
 
-        .rounded-circle{
+        .shop-img{
             width: 70px;
             height: 70px;
         }
@@ -848,9 +848,9 @@
                                     <!-- Shop Image -->
                                     <div class="col-3 col-md-4 d-flex align-items-center justify-content-center">
                                         @if ($shop->shop_img)
-                                            <div class="rounded-circle" style="background-image: url('{{ asset('storage/' . $shop->shop_img) }}');"></div>
+                                            <div class="rounded-circle shop-img" style="background-image: url('{{ asset('storage/' . $shop->shop_img) }}');"></div>
                                         @else
-                                            <div class="rounded-circle bg-secondary"></div>
+                                            <div class="rounded-circle shop-img bg-secondary"></div>
                                         @endif
                                     </div>
 
