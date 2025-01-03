@@ -27,7 +27,19 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'email' => ['required', 'string', 'email', 'max:255', 'unique:user'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        ],
+        [
+            'email.required' => 'The email field is required.',
+            'email.string' => 'The email must be a valid string.',
+            'email.email' => 'Please provide a valid email address.',
+            'email.max' => 'The email must not exceed 255 characters.',
+            'email.unique' => 'This email is already registered.',
+            'password.required' => 'The password field is required.',
+            'password.string' => 'The password must be a valid string.',
+            'password.min' => 'Password must be at least 8 characters.',
+            'password.confirmed' => 'Password does not match.',
+        ]
+    );
     }
 
     protected function create(array $data)
@@ -45,6 +57,7 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
+
         // Check if the email already exists in the users table
         $existingUser = User::where('email', $request->input('email'))->first();
 
@@ -78,6 +91,7 @@ class RegisterController extends Controller
 
         return redirect()->route('verification.notice');
     }
+
 
     public function showVerificationForm()
     {

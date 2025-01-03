@@ -50,6 +50,10 @@
     .sidebar{
         z-index: 10;
     }
+    .error{
+        font-size: 12px;
+        color: red;
+    }
 
     @media (max-width: 576px) {
 
@@ -112,41 +116,84 @@
                     @csrf
                     <h4 class="text-center mb-4">Sign Up</h4>
                     <input type="hidden" name="type" value="customer">
+
+                    <!-- Email Field -->
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" id="email" name="email" value="{{ old('email') }}" required>
-                        @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
+                        <input type="email"
+                               class="form-control @error('email') is-invalid @enderror"
+                               id="email"
+                               name="email"
+                               value="{{ old('email') }}"
+                               placeholder="Email"
+                               required>
+                        @if ($errors->has('email'))
+                            <span class="error" role="alert">
+                                <ul>
+                                    @foreach ($errors->get('email') as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
                             </span>
-                        @enderror
+                        @endif
                     </div>
+
+                    <!-- Password Field -->
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
                         <div class="input-group">
-                            <input type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" id="password" name="password" required>
+                            <input type="password"
+                                   class="form-control @error('password') is-invalid @enderror"
+                                   id="password"
+                                   name="password"
+                                   placeholder="Password"
+                                   required>
                             <button class="btn btn-outline-secondary" type="button" id="togglePassword">
                                 <i class="fas fa-eye-slash"></i>
                             </button>
                         </div>
-                        @error('password')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
+                        @if ($errors->has('password'))
+                            <span class="error" role="alert">
+                                <ul>
+                                    @foreach ($errors->get('password') as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
                             </span>
-                        @enderror
+                        @endif
                     </div>
+
+                    <!-- Confirm Password Field -->
                     <div class="mb-3">
                         <label for="password-confirm" class="form-label">Confirm Password</label>
                         <div class="input-group">
-                            <input type="password" class="form-control" placeholder="Confirm Password" id="password-confirm" name="password_confirmation" required>
+                            <input type="password"
+                                   class="form-control @error('password') is-invalid @enderror"
+                                   id="password-confirm"
+                                   name="password_confirmation"
+                                   placeholder="Confirm Password"
+                                   required>
                             <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPassword">
                                 <i class="fas fa-eye-slash"></i>
                             </button>
                         </div>
+                        @if ($errors->has('password'))
+                            <span class="error" role="alert">
+                                <ul>
+                                    @foreach ($errors->get('password') as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </span>
+                        @endif
                     </div>
+
+                    <!-- Submit Button -->
                     <div class="mb-3">
                         <button class="btn btn-custom w-100" type="submit">Sign Up</button>
                     </div>
+
+                    <!-- Login Link -->
                     <div class="mb-3 text-center">
                         <span>Already have an account? <a href="{{ route('login') }}" class="login">Log in</a></span>
                     </div>
