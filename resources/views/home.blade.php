@@ -699,15 +699,7 @@
         .shop-contact i {
             font-size: 0.8rem; /* Adjust icon size for smaller screens */
         }
-        .featured-title {
-            font-size: 0.8rem; /* Smaller font size for title */
-        }
-        .card-reviews i {
-            font-size: 0.75rem; /* Adjust star size */
-        }
-        .rating {
-            font-size: 0.75rem; /* Adjust font size */
-        }
+
 }
 
 
@@ -879,7 +871,7 @@
                         </div>
                     </div>
                     <!-- Featured Products -->
-                    <div class="col-11 col-md-5">
+                    <div class="col-12 col-md-5">
                         <div class="featured-product">
                             <h3 class="featured-product-title">FEATURED PRODUCT</h3>
                             <hr class="line">
