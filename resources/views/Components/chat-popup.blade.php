@@ -839,6 +839,7 @@
 
                 chatMessagesContainer.appendChild(messageItem);
             });
+        }
 
         // Fetch inquiries
         async function fetchInquiries() {
