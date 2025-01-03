@@ -686,9 +686,6 @@
             padding: 5px;
             background-color: transparent;
         }
-        .merchant-header{
-            margin-bottom:0px;
-        }
         .shop-name {
             font-size: 1rem; /* Smaller font size for phones */
         }
@@ -800,7 +797,7 @@
             <div class="mt-3 mb-2 col-md-12" style="padding:0;">
                 <div class="row" id="productCarousel_partner">
                     <!-- Shop Details -->
-                    <div class="col-12 col-md-7 ">
+                    <div class="col-12 col-md-7">
                         <div class="merchant-header">
                             <h3 style="margin: 0;">MERCHANT</h3>
                             <hr class="line">
