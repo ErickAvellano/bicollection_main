@@ -57,6 +57,7 @@ class HomeController extends Controller
                 $featuredProductIds = explode(',', $shopDesign->featuredProduct);
                 $featuredProducts = Product::whereIn('product_id', $featuredProductIds)
                     ->with('reviews')
+                    ->take(4)
                     ->get();
             }
 
