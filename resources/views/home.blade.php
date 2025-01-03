@@ -711,6 +711,9 @@
         .rating {
             font-size: 0.75rem; /* Adjust font size */
         }
+        .featured-product-card{
+            max-height: 312px;
+        }
 }
 
 
