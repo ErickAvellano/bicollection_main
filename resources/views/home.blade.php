@@ -792,162 +792,161 @@
                     </div>
                 </div>
             </div>
-
+        </div>
             <!-- Shop and Products Section -->
-            <div class="mt-3 mb-2 col-md-12" style="padding:0;">
-                <div class="row" id="productCarousel_partner">
-                    <!-- Shop Details -->
-                    <div class="col-12 col-md-7" style="padding:0;">
-                        <div class="merchant-header">
-                            <h3 style="margin: 0;">MERCHANT</h3>
-                            <hr class="line">
-                        </div>
-                        <div class="card merchant-card">
-                            <div class="card-body merchant-card-body">
-                                <!-- Nested Card with Dynamic Background -->
-                                <div class="card"
-                                    style="width:100%; height:100%; border-radius:10px;
-                                    @if ($shop->coverphotopath)
-                                        background-image: url('{{ asset('storage/' . $shop->coverphotopath) }}');
-                                    @else
-                                        background-image: url('{{ asset('images/default-cover.jpg') }}');
-                                    @endif
-                                    background-size: cover; background-position: center;">
-                                    <div class="card-body d-flex align-items-center justify-content-center" style="width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); border-radius:10px;">
-                                        <!-- Shop Image -->
-                                        <div class="col-3 col-md-4 d-flex align-items-center justify-content-center">
-                                            @if ($shop->shop_img)
-                                                <div class="rounded-circle" style="background-image: url('{{ asset('storage/' . $shop->shop_img) }}');"></div>
-                                            @else
-                                                <div class="rounded-circle bg-secondary"></div>
-                                            @endif
-                                        </div>
+        <div class="mt-3 mb-2 col-md-12" style="padding:0;">
+            <div class="row" id="productCarousel_partner">
+                <!-- Shop Details -->
+                <div class="col-12 col-md-7" style="padding:0;">
+                    <div class="merchant-header">
+                        <h3 style="margin: 0;">MERCHANT</h3>
+                        <hr class="line">
+                    </div>
+                    <div class="card merchant-card">
+                        <div class="card-body merchant-card-body">
+                            <!-- Nested Card with Dynamic Background -->
+                            <div class="card"
+                                style="width:100%; height:100%; border-radius:10px;
+                                @if ($shop->coverphotopath)
+                                    background-image: url('{{ asset('storage/' . $shop->coverphotopath) }}');
+                                @else
+                                    background-image: url('{{ asset('images/default-cover.jpg') }}');
+                                @endif
+                                background-size: cover; background-position: center;">
+                                <div class="card-body d-flex align-items-center justify-content-center" style="width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); border-radius:10px;">
+                                    <!-- Shop Image -->
+                                    <div class="col-3 col-md-4 d-flex align-items-center justify-content-center">
+                                        @if ($shop->shop_img)
+                                            <div class="rounded-circle" style="background-image: url('{{ asset('storage/' . $shop->shop_img) }}');"></div>
+                                        @else
+                                            <div class="rounded-circle bg-secondary"></div>
+                                        @endif
+                                    </div>
 
-                                        <!-- Shop Name and Location -->
-                                        <div class="col-md-8">
-                                            <h5 class="shop-name text-white text-start">{{ $shop->shop_name }}</h5>
-                                            <p class="shop-rating mb-0 text-white text-start">
-                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                            </p>
-                                            <p class="shop-address mb-0 text-white text-start">
-                                                <i class="fa-solid fa-location-dot text-danger"></i>
-                                                <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($shop->shop_street . ', ' . $shop->barangay . ', ' . $shop->city . ', ' . $shop->province) }}"
-                                                   target="_blank"
-                                                   style="text-decoration: none; color: inherit;">
-                                                    {{ $shop->shop_street }}, {{ $shop->barangay }}, {{ $shop->city }}, {{ $shop->province }}
-                                                </a>
-                                            </p>
-                                            <p class="shop-contact mb-0 text-white text-start">
-                                                <i class="text-black fa-solid fa-phone"></i>
-                                                @if($shop->merchant->contact_number)
-                                                    @php
-                                                        $contactNumber = $shop->merchant->contact_number;
-                                                        if (strpos($contactNumber, '+63') === 0) {
-                                                            $formattedNumber = $contactNumber;
-                                                        } elseif (strpos($contactNumber, '63') === 0) {
-                                                            $formattedNumber = '+' . $contactNumber;
-                                                        } elseif (strpos($contactNumber, '0') === 0) {
-                                                            $formattedNumber = '+63' . substr($contactNumber, 1);
-                                                        } else {
-                                                            $formattedNumber = $contactNumber;
-                                                        }
-                                                    @endphp
-                                                    <a href="tel:{{ $formattedNumber }}" style="text-decoration: none; color: inherit;">
-                                                        {{ $formattedNumber }}
-                                                    </a>
-                                                @else
-                                                    No contact number set
-                                                @endif
-                                            </p>
-                                        </div>
-
-                                        <!-- View Store Button -->
-                                        <div class="view-button position-absolute" style="bottom: 20px; right:20px;">
-                                            <a href="{{ route('merchant.viewstore', ['shopId' => $shop->shop_id]) }}" class="btn btn-custom">
-                                                View Store
+                                    <!-- Shop Name and Location -->
+                                    <div class="col-md-8">
+                                        <h5 class="shop-name text-white text-start">{{ $shop->shop_name }}</h5>
+                                        <p class="shop-rating mb-0 text-white text-start">
+                                            <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                            <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                            <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                            <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                            <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                        </p>
+                                        <p class="shop-address mb-0 text-white text-start">
+                                            <i class="fa-solid fa-location-dot text-danger"></i>
+                                            <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($shop->shop_street . ', ' . $shop->barangay . ', ' . $shop->city . ', ' . $shop->province) }}"
+                                                target="_blank"
+                                                style="text-decoration: none; color: inherit;">
+                                                {{ $shop->shop_street }}, {{ $shop->barangay }}, {{ $shop->city }}, {{ $shop->province }}
                                             </a>
-                                        </div>
+                                        </p>
+                                        <p class="shop-contact mb-0 text-white text-start">
+                                            <i class="text-black fa-solid fa-phone"></i>
+                                            @if($shop->merchant->contact_number)
+                                                @php
+                                                    $contactNumber = $shop->merchant->contact_number;
+                                                    if (strpos($contactNumber, '+63') === 0) {
+                                                        $formattedNumber = $contactNumber;
+                                                    } elseif (strpos($contactNumber, '63') === 0) {
+                                                        $formattedNumber = '+' . $contactNumber;
+                                                    } elseif (strpos($contactNumber, '0') === 0) {
+                                                        $formattedNumber = '+63' . substr($contactNumber, 1);
+                                                    } else {
+                                                        $formattedNumber = $contactNumber;
+                                                    }
+                                                @endphp
+                                                <a href="tel:{{ $formattedNumber }}" style="text-decoration: none; color: inherit;">
+                                                    {{ $formattedNumber }}
+                                                </a>
+                                            @else
+                                                No contact number set
+                                            @endif
+                                        </p>
+                                    </div>
+
+                                    <!-- View Store Button -->
+                                    <div class="view-button position-absolute" style="bottom: 20px; right:20px;">
+                                        <a href="{{ route('merchant.viewstore', ['shopId' => $shop->shop_id]) }}" class="btn btn-custom">
+                                            View Store
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Featured Products -->
-                    <div class="col-12 col-md-5" style="padding:0;">
-                        <div class="featured-product">
-                            <h3 class="featured-product-title">FEATURED PRODUCT</h3>
-                            <hr class="line">
-                        </div>
-                        <div class="card featured-product-card">
-                            <div class="card-body" style="padding-top:0; width:auto;">
-                                @foreach($featuredProducts as $product)
-                                    <a href="{{ route('product.view', $product->product_id) }}" class="text-decoration-none " style="text-decoration: none; color: inherit;">
-                                        <div class="product-card-hover">
-                                            <div class="mb-1 card" style="height: 72px; width:auto;">
-                                                <div class="card-body" style="padding: 10px;">
-                                                    <div class="row">
-                                                        <!-- Product Image -->
-                                                        <div class="col-2 col-md-2">
-                                                            @if($product->images->first())
-                                                                <div class="bg-secondary" style="width: 54px; height: 54px; background-image: url('{{ asset('storage/' . $product->images->first()->product_img_path1) }}'); background-size: cover;"></div>
+                </div>
+                <!-- Featured Products -->
+                <div class="col-12 col-md-5" style="padding:0;">
+                    <div class="featured-product">
+                        <h3 class="featured-product-title">FEATURED PRODUCT</h3>
+                        <hr class="line">
+                    </div>
+                    <div class="card featured-product-card">
+                        <div class="card-body" style="padding-top:0; width:auto;">
+                            @foreach($featuredProducts as $product)
+                                <a href="{{ route('product.view', $product->product_id) }}" class="text-decoration-none " style="text-decoration: none; color: inherit;">
+                                    <div class="product-card-hover">
+                                        <div class="mb-1 card" style="height: 72px; width:auto;">
+                                            <div class="card-body" style="padding: 10px;">
+                                                <div class="row">
+                                                    <!-- Product Image -->
+                                                    <div class="col-2 col-md-2">
+                                                        @if($product->images->first())
+                                                            <div class="bg-secondary" style="width: 54px; height: 54px; background-image: url('{{ asset('storage/' . $product->images->first()->product_img_path1) }}'); background-size: cover;"></div>
+                                                        @else
+                                                            <div class="bg-secondary" style="width: 54px; height: 54px;"></div>
+                                                        @endif
+                                                    </div>
+                                                    <!-- Product Details -->
+                                                    <div class="col-8 col-md-8 text-start">
+                                                        <h6 class="card-title featured-title">{{ $product->product_name }}</h6>
+                                                        <p class="card-reviews">
+                                                            @if($product->averageRating > 0)
+                                                                {{-- Display stars based on the rating --}}
+                                                                @for ($i = 1; $i <= 5; $i++)
+                                                                    @if ($i <= floor($product->averageRating))
+                                                                        <i class="fa-solid fa-star" style="color: #FFD700;"></i> {{-- Full star in gold --}}
+                                                                    @elseif ($i - $product->averageRating < 1)
+                                                                        <i class="fa-solid fa-star-half-stroke" style="color: #FFD700;"></i> {{-- Half star in light gold --}}
+                                                                    @else
+                                                                        <i class="fa-regular fa-star" style="color: #C0C0C0;"></i> {{-- Empty star in gray --}}
+                                                                    @endif
+                                                                @endfor
+                                                                <span class="rating-value">{{ $product->averageRating }} / 5</span>
                                                             @else
-                                                                <div class="bg-secondary" style="width: 54px; height: 54px;"></div>
+                                                                {{-- Display empty stars if no reviews --}}
+                                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
+                                                                <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
                                                             @endif
-                                                        </div>
-                                                        <!-- Product Details -->
-                                                        <div class="col-8 col-md-8 text-start">
-                                                            <h6 class="card-title featured-title">{{ $product->product_name }}</h6>
-                                                            <p class="card-reviews">
-                                                                @if($product->averageRating > 0)
-                                                                    {{-- Display stars based on the rating --}}
-                                                                    @for ($i = 1; $i <= 5; $i++)
-                                                                        @if ($i <= floor($product->averageRating))
-                                                                            <i class="fa-solid fa-star" style="color: #FFD700;"></i> {{-- Full star in gold --}}
-                                                                        @elseif ($i - $product->averageRating < 1)
-                                                                            <i class="fa-solid fa-star-half-stroke" style="color: #FFD700;"></i> {{-- Half star in light gold --}}
-                                                                        @else
-                                                                            <i class="fa-regular fa-star" style="color: #C0C0C0;"></i> {{-- Empty star in gray --}}
-                                                                        @endif
-                                                                    @endfor
-                                                                    <span class="rating-value">{{ $product->averageRating }} / 5</span>
-                                                                @else
-                                                                    {{-- Display empty stars if no reviews --}}
-                                                                    <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                                                    <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                                                    <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                                                    <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                                                    <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
-                                                                @endif
-                                                            </p>
-                                                            <p class="mb-0 rating" style="font-size: 13px">₱{{ $product->price }}</p>
-                                                        </div>
+                                                        </p>
+                                                        <p class="mb-0 rating" style="font-size: 13px">₱{{ $product->price }}</p>
                                                     </div>
-                                                    <!-- Add to Cart & Wishlist Buttons -->
-                                                    <div class="view-button position-absolute d-flex" style="bottom: 10px; right: 20px; gap: 3px;">
-                                                        <!-- Text Button (Shown on larger screens) -->
-                                                        <a href="{{ route('login') }}" class="btn btn-custom d-none d-md-inline" style="font-size: 12px;">
-                                                            Add to Cart
-                                                        </a>
+                                                </div>
+                                                <!-- Add to Cart & Wishlist Buttons -->
+                                                <div class="view-button position-absolute d-flex" style="bottom: 10px; right: 20px; gap: 3px;">
+                                                    <!-- Text Button (Shown on larger screens) -->
+                                                    <a href="{{ route('login') }}" class="btn btn-custom d-none d-md-inline" style="font-size: 12px;">
+                                                        Add to Cart
+                                                    </a>
 
-                                                        <!-- Icon Button (Shown on smaller screens) -->
-                                                        <a href="{{ route('login') }}" class="btn btn-custom d-inline d-md-none" style="font-size: 12px;">
-                                                            <i class="fa-solid fa-cart-plus"></i>
-                                                        </a>
+                                                    <!-- Icon Button (Shown on smaller screens) -->
+                                                    <a href="{{ route('login') }}" class="btn btn-custom d-inline d-md-none" style="font-size: 12px;">
+                                                        <i class="fa-solid fa-cart-plus"></i>
+                                                    </a>
 
-                                                        <a href="{{ route('login') }}" class="btn btn-outline-danger btn-sm" style="width: 2rem; padding: 0.2rem 0; font-size: 12px;">
-                                                            <i class="fas fa-heart"></i>
-                                                        </a>
-                                                    </div>
+                                                    <a href="{{ route('login') }}" class="btn btn-outline-danger btn-sm" style="width: 2rem; padding: 0.2rem 0; font-size: 12px;">
+                                                        <i class="fas fa-heart"></i>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
-                                    </a>
-                                @endforeach
-                            </div>
+                                    </div>
+                                </a>
+                            @endforeach
                         </div>
                     </div>
                 </div>
