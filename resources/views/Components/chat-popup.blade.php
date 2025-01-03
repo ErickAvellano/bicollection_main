@@ -195,7 +195,7 @@
 
     </div>
 </div>
-<script>
+{{-- <script>
     document.getElementById("chat-button").addEventListener("click", function() {
         const chatPopup = document.getElementById("chat-popup");
         chatPopup.style.display = chatPopup.style.display === "none" ? "block" : "none";
@@ -521,7 +521,7 @@
         }
 
         // Fetch merchants
-        async function fetchMerchants() {
+         async function fetchMerchants() {
             try {
                 const response = await fetch('/merchantschat', {
                     headers: {
@@ -579,7 +579,199 @@
             });
         });
     });
+</script> --}}
+<script>
+    document.getElementById("chat-button").addEventListener("click", function() {
+        const chatPopup = document.getElementById("chat-popup");
+        chatPopup.style.display = chatPopup.style.display === "none" ? "block" : "none";
+    });
+
+    document.getElementById("close-chat").addEventListener("click", function() {
+        document.getElementById("chat-popup").style.display = "none";
+    });
+
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const inquiriesContainer = document.getElementById('inquiries-container');
+        const merchantsContainer = document.getElementById('merchants-container');
+        const inquiriesListElement = document.getElementById('inquiries-list');
+        const merchantsListElement = document.getElementById('merchants-list');
+        const chatMessagesContainer = document.getElementById('chat-messages');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const searchInput = document.getElementById('search');
+        const tabs = document.querySelectorAll('.tab');
+
+        let selectedChatId = null;
+
+        // Function to render inquiries list
+        function renderInquiryList(inquiries) {
+            inquiriesListElement.innerHTML = ''; // Clear the existing list
+
+            inquiries.forEach(inquiry => {
+                const inquiryItem = document.createElement('div');
+                inquiryItem.className = 'chat-user';
+                inquiryItem.style = `
+                    display: flex;
+                    margin-bottom: 10px;
+                    cursor: pointer;
+                    padding: 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    background-color: #fff;
+                    align-items: center;
+                `;
+                inquiryItem.setAttribute('data-chat-id', inquiry.chat_id);
+
+                inquiryItem.innerHTML = `
+                    <img src="${inquiry.customer_avatar || 'https://via.placeholder.com/40'}" alt="Customer Avatar" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+                    <div style="flex: 1; overflow: hidden;">
+                        <strong style="display: block; font-size: 14px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+                            ${inquiry.customer_name || 'Unknown Customer'}
+                        </strong>
+                        <p style="margin: 0; font-size: 12px; color: gray; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+                            ${inquiry.last_message || 'No messages yet'}
+                        </p>
+                    </div>
+                `;
+
+                // Add click event to fetch and display messages
+                inquiryItem.addEventListener('click', async () => {
+                    const chatId = inquiryItem.getAttribute('data-chat-id');
+                    selectedChatId = chatId; // Update the selected chat ID
+
+                    // Reset borders for all inquiry items and highlight the selected one
+                    inquiriesListElement.querySelectorAll('.chat-user').forEach(user => {
+                        user.style.border = '1px solid #ccc';
+                    });
+                    inquiryItem.style.border = '1px solid #228b22'; // Highlight the selected chat
+
+                    const chatIdInput = document.getElementById('chatIdInput');
+                    if (chatIdInput) {
+                        chatIdInput.value = selectedChatId; // Set the selected chat ID
+                    }
+
+                    try {
+                        // Fetch and render messages for the selected chat
+                        const response = await fetch(`/chat/messages/${chatId}`, {
+                            method: 'GET',
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest',
+                            },
+                        });
+
+                        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+                        const messages = await response.json();
+                        renderChatMessages(messages); // Render the initial messages
+
+                        // Start auto-refresh for this chat
+                        startAutoRefresh(chatId);
+
+                    } catch (error) {
+                        console.error('Error fetching messages:', error);
+                    }
+                });
+
+                inquiriesListElement.appendChild(inquiryItem);
+            });
+
+            // Function to handle auto-refresh of messages for a specific chat
+            function startAutoRefresh(chatId) {
+                setInterval(async () => {
+                    try {
+                        const refreshResponse = await fetch(`/chat/messages/${chatId}`, {
+                            method: 'GET',
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest',
+                            },
+                        });
+
+                        if (!refreshResponse.ok) throw new Error(`HTTP error! status: ${refreshResponse.status}`);
+
+                        const newMessages = await refreshResponse.json();
+                        renderChatMessages(newMessages); // Update the chat with new messages
+                    } catch (error) {
+                        console.error('Error refreshing messages:', error);
+                    }
+                }, 3000);
+            }
+
+            // If there's a chat already selected (e.g., on page load or after a refresh), start auto-refresh immediately
+            if (selectedChatId) {
+                startAutoRefresh(selectedChatId);
+            }
+        }
+
+        // Function to render chat messages for the selected chat_id
+        function renderChatMessages(messages) {
+            chatMessagesContainer.innerHTML = ''; // Clear previous messages
+
+            let lastMessageTime = null;
+            messages.forEach(message => {
+                const messageItem = document.createElement('div');
+                const messageDate = new Date(message.created_at);
+                const timeString = messageDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                
+                messageItem.innerHTML = `
+                    <div style="padding: 5px 10px; background-color: #333; color: white; border-radius: 8px; margin: 5px auto; font-size: 14px;">
+                        ${message.message}
+                    </div>
+                    <div style="font-size: 10px; color: gray; text-align: right;">
+                        ${timeString}
+                    </div>
+                `;
+                
+                chatMessagesContainer.appendChild(messageItem);
+            });
+        }
+
+        // Fetch inquiries
+        async function fetchInquiries() {
+            try {
+                const response = await fetch('/inquiries', {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const inquiries = await response.json();
+                renderInquiryList(inquiries); 
+            } catch (error) {
+                console.error('Error fetching inquiries:', error);
+            }
+        }
+
+        // Fetch merchants
+        async function fetchMerchants() {
+            try {
+                const response = await fetch('/merchantschat', {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const merchants = await response.json();
+                renderMerchantList(merchants);
+            } catch (error) {
+                console.error('Error fetching merchants:', error);
+            }
+        }
+
+        fetchInquiries();
+        fetchMerchants();
+    });
+</script>
+
 
 <script>
     document.getElementById('send-buttons').addEventListener('click', function(e) {
