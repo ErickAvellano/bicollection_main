@@ -724,6 +724,15 @@
         .shop-location-style{
             margin-left: 0.5rem;
         }
+        .popular-product-header h3, 
+        .popular-product-header h3, 
+        .merchant-header h3 
+        .featured-product-title, 
+        .recently-product-header h3, 
+        .popular-product-header h3{
+            font-size:20px;
+
+        }
 }
 
 
@@ -891,7 +900,7 @@
 
                                         <!-- Icon Button (Shown on smaller screens) -->
                                         <a href="{{ route('merchant.viewstore', ['shopId' => $shop->shop_id]) }}}" class="btn btn-custom d-inline d-md-none" style="font-size: 12px;">
-                                            View Store <i class="fa-solid fa-arrow-right"></i>
+                                            View Store
                                         </a>
                                     </div>
                                 </div>
