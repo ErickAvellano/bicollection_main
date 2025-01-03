@@ -988,7 +988,7 @@
 @endif
 
 
-@if(isset($recentlyAddedProducts) && !empty($recentlyAddedProducts))
+@if(!empty($recentlyAddedProducts))
     <!-- Recently Added Product -->
     <div class="container recently-added-container">
         <div class="mt-4 row">
