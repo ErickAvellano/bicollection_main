@@ -712,6 +712,7 @@
             font-size: 0.75rem; /* Adjust font size */
         }
         .featured-product-card{
+            height:auto;
             max-height: 312px;
         }
 }
