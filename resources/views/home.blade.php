@@ -704,12 +704,18 @@
 
         .featured-title {
             font-size: 0.8rem; /* Smaller font size for title */
+            margin-left: 0.5rem;
+        }
+        .card-reviews{
+            margin-left: 0.5rem;
         }
         .card-reviews i {
             font-size: 0.75rem; /* Adjust star size */
+          
         }
-        .rating {
+        .price {
             font-size: 0.75rem; /* Adjust font size */
+            margin-left: 0.5rem;
         }
         .featured-product-card{
             height:auto;
@@ -932,7 +938,7 @@
                                                                 <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
                                                             @endif
                                                         </p>
-                                                        <p class="mb-0 rating" style="font-size: 13px">₱{{ $product->price }}</p>
+                                                        <p class="mb-0 price" style="font-size: 13px">₱{{ $product->price }}</p>
                                                     </div>
                                                 </div>
                                                 <!-- Add to Cart & Wishlist Buttons -->
