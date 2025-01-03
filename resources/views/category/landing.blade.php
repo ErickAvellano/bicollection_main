@@ -75,7 +75,7 @@
                     $filename = str_replace(' ', '', $category->category_name) . '.jpg';
                 @endphp
                 <div class="col-lg-3 col-md-6 col-sm-12 mb-4" style="max-height:285px;"> <!-- Adjusted column classes -->
-                    <a href="#" class="card-link">
+                    <a href="{{ route('category.product', ['category_name' => $category->category_name]) }}" class="card-link">
                         <div class="card shadow-sm rounded-lg" style="position: relative; overflow: hidden; height:100%;">
                             <!-- Cover Image -->
                             <div style="position: relative; height: 150px; overflow: hidden;">
