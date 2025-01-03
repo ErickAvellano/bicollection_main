@@ -682,6 +682,7 @@
         }
         .merchant-card {
             height:225px;
+            width:100%;
             padding: 5px;
             background-color: transparent;
         }
@@ -699,7 +700,15 @@
         .shop-contact i {
             font-size: 0.8rem; /* Adjust icon size for smaller screens */
         }
-
+        .featured-title {
+            font-size: 0.8rem; /* Smaller font size for title */
+        }
+        .card-reviews i {
+            font-size: 0.75rem; /* Adjust star size */
+        }
+        .rating {
+            font-size: 0.75rem; /* Adjust font size */
+        }
 }
 
 
