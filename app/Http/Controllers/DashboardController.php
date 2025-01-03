@@ -106,7 +106,7 @@ class DashboardController extends Controller
 
             if ($shopDesign && $shopDesign->featuredProduct) {
                 $featuredProductIds = explode(',', $shopDesign->featuredProduct);
-                $featuredProducts = Product::whereIn('product_id', $featuredProductIds)->with('reviews')->get();
+                $featuredProducts = Product::whereIn('product_id', $featuredProductIds)->with('reviews')->take(4)->get();
             }
 
             if ($featuredProducts->isEmpty()) {
