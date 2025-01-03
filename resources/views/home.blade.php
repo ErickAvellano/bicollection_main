@@ -721,6 +721,9 @@
             height:auto;
             max-height: 312px;
         }
+        .shop-location-style{
+            margin-left: 0.5rem;
+        }
 }
 
 
@@ -839,7 +842,7 @@
                                     </div>
 
                                     <!-- Shop Name and Location -->
-                                    <div class="col-md-8">
+                                    <div class="col-md-8 shop-location-style">
                                         <h5 class="shop-name text-white text-start">{{ $shop->shop_name }}</h5>
                                         <p class="shop-rating mb-0 text-white text-start">
                                             <i class="fa-regular fa-star" style="color: #C0C0C0;"></i>
