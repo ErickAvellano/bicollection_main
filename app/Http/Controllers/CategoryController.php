@@ -15,7 +15,7 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::whereNull('parentcategoryID')->get();
 
         // Pass categories to the view
         return view('category.landing', compact('categories'));

@@ -156,7 +156,10 @@
                             <div class="p-3 text-center" style="margin-top: 60px;">
                                 <!-- About Store -->
                                 <p class="mb-0">
-                                    <strong>About Store:</strong> {{ Str::limit($shop->description, 110, '...') }}
+                                    {{ Str::limit($category->category_name, 110, '...') }}
+                                </p>
+                                <p class="mb-0">
+                                    {{ Str::limit($category->category_description, 110, '...') }}
                                 </p>
                             </div>
                         </div>
