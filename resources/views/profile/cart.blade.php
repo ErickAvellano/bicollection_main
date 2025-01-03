@@ -129,67 +129,77 @@
                         <hr>
 
                         <!-- Products for the Store -->
-                        @foreach($cartItems as $cartItem)
-                        <div class="d-flex mb-3">
-                            <!-- Product Checkbox -->
-                            <div class="product-checkbox me-2 d-flex justify-content-center align-items-center">
-                                <input type="checkbox" class="form-check-input cart-item-checkbox custom-checkbox"
-                                       data-price="{{ $cartItem->product->price }}"
-                                       data-quantity="{{ $cartItem->quantity }}"
-                                       id="cart-item-{{ $cartItem->cart_id }}"
-                                       onchange="recalculateTotals()">
-                            </div>
+                        <div id="cart-container">
+                            @foreach($cartItems as $cartItem)
+                                <div class="d-flex mb-3">
+                                    <!-- Product Checkbox -->
+                                    <div class="product-checkbox me-2 d-flex justify-content-center align-items-center">
+                                        <input type="checkbox" class="form-check-input cart-item-checkbox custom-checkbox"
+                                            data-cart-id="{{ $cartItem->cart_id }}"
+                                            data-price="{{ $cartItem->product->price }}"
+                                            data-quantity="{{ $cartItem->quantity }}"
+                                            id="cart-item-{{ $cartItem->cart_id }}"
+                                            onchange="recalculateTotals()">
+                                    </div>
 
-                            <!-- Product Image -->
-                            <div class="product-image me-3">
-                                <img src="/storage/{{ $cartItem->product->images->first()->product_img_path1 }}" alt="Product Image" class="img-fluid rounded" style="width:80px; height:80px; object-fit: cover;">
-                            </div>
+                                    <!-- Product Image -->
+                                    <div class="product-image me-3">
+                                        <img src="/storage/{{ $cartItem->product->images->first()->product_img_path1 }}" alt="Product Image" class="img-fluid rounded" style="width:80px; height:80px; object-fit: cover;">
+                                    </div>
 
-                            <!-- Product Details -->
-                            <div class="flex-grow-1">
-                                <h6 class="mb-1">{{ $cartItem->product->product_name }}</h6>
-                                <div class="d-flex align-items-center">
-                                    <label for="variation-select-{{ $cartItem->cart_id }}" class="me-2">Variations:</label>
-                                    <select id="variation-select-{{ $cartItem->cart_id }}" class="form-select variation-select" style="width: 150px;">
-                                        @foreach($cartItem->product->variations as $variation)
-                                            <option value="{{ $variation->product_variation_id }}"
-                                                {{ $cartItem->product_variation_id == $variation->product_variation_id ? 'selected' : '' }}>
-                                                {{ $variation->variation_name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                                    <!-- Product Details -->
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">{{ $cartItem->product->product_name }}</h6>
+                                        <div class="d-flex align-items-center">
+                                            <label for="variation-select-{{ $cartItem->cart_id }}" class="me-2">Variations:</label>
+                                            <select id="variation-select-{{ $cartItem->cart_id }}" class="form-select variation-select" style="width: 150px;">
+                                                @foreach($cartItem->product->variations as $variation)
+                                                    <option value="{{ $variation->product_variation_id }}"
+                                                        {{ $cartItem->product_variation_id == $variation->product_variation_id ? 'selected' : '' }}>
+                                                        {{ $variation->variation_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="mt-3">
+                                            <span class="text-muted text-decoration-line-through">₱{{ number_format($cartItem->product->price + 500, 2) }}</span>
+                                            <span class="fw-bold ms-2 text-danger cart-item-price" data-price="{{ $cartItem->product->price }}">
+                                                ₱{{ number_format($cartItem->product->price, 2) }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Quantity & Price Section -->
+                                    <div class="d-flex flex-column justify-content-between text-end">
+                                        <!-- Quantity Control -->
+                                        <div class="quantity-control mb-2 input-group">
+                                            <button class="btn btn-outline-secondary btn-sm change-quantity" data-action="decrease" data-id="{{ $cartItem->cart_id }}">-</button>
+                                            <input type="text"
+                                                value="{{ $cartItem->quantity }}"
+                                                class="form-control text-center"
+                                                style="width: 60px; border-radius: 0; text-align: center; padding: 0; height: 38px;"
+                                                readonly
+                                                data-price="{{ $cartItem->product->price }}"
+                                                data-quantity="{{ $cartItem->quantity }}"
+                                                data-max="{{ $cartItem->product->quantity_item }}">
+                                            <button class="btn btn-outline-secondary btn-sm change-quantity" data-action="increase" data-id="{{ $cartItem->cart_id }}">+</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Actions Section -->
+                                    <div class="d-flex flex-column justify-content-between text-end ms-4">
+                                        <button class="btn btn-link text-danger p-0 remove-item-cart" style="text-decoration:none;" data-id="{{ $cartItem->cart_id }}">
+                                            Delete
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="mt-3">
-                                    <span class="text-muted text-decoration-line-through">₱{{ number_format($cartItem->product->price + 500, 2) }}</span>
-                                    <span class="fw-bold ms-2 text-danger cart-item-price" data-price="{{ $cartItem->product->price }}">
-                                        ₱{{ number_format($cartItem->product->price, 2) }}
-                                    </span>
-                                </div>
-                            </div>
-
-                            <!-- Quantity & Price Section -->
-                            <div class="d-flex flex-column justify-content-between text-end">
-                                <!-- Quantity Control -->
-                                <div class="quantity-control mb-2 input-group">
-                                    <button class="btn btn-outline-secondary btn-sm change-quantity" data-action="decrease" data-id="{{ $cartItem->cart_id }}">-</button>
-                                    <input type="text" value="{{ $cartItem->quantity }}" class="form-control text-center" style="width: 60px; border-radius: 0; text-align: center; padding: 0; height: 38px;" readonly data-price="{{ $cartItem->product->price }}" data-quantity="{{ $cartItem->quantity }}">
-                                    <button class="btn btn-outline-secondary btn-sm change-quantity" data-action="increase" data-id="{{ $cartItem->cart_id }}">+</button>
-                                </div>
-                            </div>
-
-                            <!-- Actions Section -->
-                            <div class="d-flex flex-column justify-content-between text-end ms-4">
-                                <button class="btn btn-link text-danger p-0 remove-item-cart" style="text-decoration:none;" data-id="{{ $cartItem->cart_id }}">
-                                    Delete
-                                </button>
-                            </div>
+                            @endforeach
                         </div>
-                        @endforeach
                     </div>
                 </div>
                 @endforeach
             @else
-                <p>Your cart is empty.</p>
+                <p class="text-center">Your cart is empty.</p>
             @endif
         </div>
     </div>
@@ -202,7 +212,7 @@
         <div class="d-flex align-items-center">
             <input type="checkbox" class="form-check-input custom-checkbox me-2" id="select-all-checkbox">
             <span>Select All (<span class="selected-items">0</span>)</span>
-            <button class="btn btn-link text-danger ms-3">Delete</button>
+            <button class="btn btn-link text-danger ms-3" id="delete-selected" disabled>Delete</button>
         </div>
 
         <!-- Display the total items and price -->
@@ -240,19 +250,119 @@
     let totalItems = 0;
     let totalPrice = 0;
 
-    // Function to update total items and price display
-    function updateTotalDisplay() {
-        document.querySelector('.total-items').textContent = totalItems;
-        document.querySelector('.total-price').textContent = '₱' + totalPrice.toFixed(2);
+    // Event listener for the "Select All" checkbox
+    document.getElementById('select-all-checkbox').addEventListener('change', function () {
+        const isChecked = this.checked;
+
+        // Select or deselect all checkboxes
+        document.querySelectorAll('.cart-item-checkbox').forEach(function (checkbox) {
+            checkbox.checked = isChecked;
+        });
+
+        // Recalculate totals based on the selection
+        recalculateTotals();
+    });
+
+    // Handle quantity change (increase or decrease)
+    $(document).on('click', '.change-quantity', function () {
+        const action = $(this).data('action');
+        const cartId = $(this).data('id');
+        const inputField = $(this).siblings('input');
+        let currentQuantity = parseInt(inputField.val());
+        const maxQuantity = parseInt(inputField.data('max'));
+        const pricePerItem = parseFloat(inputField.data('price'));
+
+        // Prevent decreasing below 1 and show delete confirmation
+        if (action === 'decrease' && currentQuantity === 1) {
+            $('#deleteConfirmationModal').modal('show');
+
+            $('#confirmDelete').off('click').on('click', function () {
+                removeCartItem(cartId);
+                $('#deleteConfirmationModal').modal('hide');
+            });
+
+            return;
+        }
+
+        // Update quantity based on action
+        if (action === 'increase') {
+            if (currentQuantity < maxQuantity) {
+                currentQuantity += 1;
+            } else {
+                $('#statusModalIcon').removeClass('fa-xmark').addClass('fa-solid fa-circle-exclamation text-danger');
+                $('#statusModalMessage').text('You cannot add more than the available stock.');
+                $('#statusModal').modal('show');
+
+                setTimeout(() => {
+                    $('#statusModal').modal('hide');
+                }, 1000);
+                return;
+            }
+        } else if (action === 'decrease' && currentQuantity > 1) {
+            currentQuantity -= 1;
+        }
+
+        // Update input field value and data attribute
+        inputField.val(currentQuantity);
+        // inputField.attr('data-quantity', currentQuantity);
+
+        // Send AJAX request to update the backend
+        $.ajax({
+            url: `/cart/update/${cartId}`,
+            type: 'PATCH',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+            data: { quantity: currentQuantity },
+            success: function (response) {
+                const checkbox = document.getElementById(`cart-item-${cartId}`);
+                if (checkbox) {
+                    const updatedPrice = parseFloat(response.updatedPrice); // Assume the backend returns the updated price
+                    checkbox.setAttribute('data-quantity', currentQuantity); // Update data-quantity attribute
+                    checkbox.setAttribute('data-price', updatedPrice); // Update data-price if needed
+                }
+
+                // Recalculate totals if the checkbox is checked
+                if (checkbox && checkbox.checked) {
+                    recalculateTotals();
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error updating quantity:', error);
+            },
+        });
+    });
+
+    // Function to remove a cart item
+    function removeCartItem(cartId) {
+        $.ajax({
+            url: `/cart/remove/${cartId}`,
+            type: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+            success: function (response) {
+                if (response.success) {
+                    $(`#cart-item-${cartId}`).closest('.d-flex.mb-3').remove();
+                    recalculateTotals();
+                    updateCartCount();
+                } else {
+                    alert('Failed to remove item from cart.');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error removing cart item:', error);
+            },
+        });
     }
 
-    // Function to recalculate total items, price, and selected items count
+    // Function to recalculate total items and price
     function recalculateTotals() {
         totalItems = 0;
         totalPrice = 0;
 
         // Loop through all checked checkboxes
-        document.querySelectorAll('.cart-item-checkbox:checked').forEach(function(checkbox) {
+        document.querySelectorAll('.cart-item-checkbox:checked').forEach(function (checkbox) {
             const price = parseFloat(checkbox.getAttribute('data-price'));
             const quantity = parseInt(checkbox.getAttribute('data-quantity'));
             totalItems += quantity;
@@ -263,119 +373,15 @@
         updateTotalDisplay();
     }
 
-    // Event listener for the "Select All" checkbox
-    document.getElementById('select-all-checkbox').addEventListener('change', function() {
-        const isChecked = this.checked;
-
-        // Select or deselect all checkboxes
-        document.querySelectorAll('.cart-item-checkbox').forEach(function(checkbox) {
-            checkbox.checked = isChecked;
-        });
-
-        // Recalculate totals based on the selection
-        recalculateTotals();
-    });
-
-    // Add event listeners for individual checkboxes to update totals
-    document.querySelectorAll('.cart-item-checkbox').forEach(function(checkbox) {
-        checkbox.addEventListener('change', function() {
-            recalculateTotals();
-        });
-    });
-
-    // Handle quantity change (increase or decrease)
-    $(document).on('click', '.change-quantity', function () {
-        const action = $(this).data('action');
-        const cartId = $(this).data('id');
-        const inputField = $(this).siblings('input');
-        let currentQuantity = parseInt(inputField.val());
-
-        if (action === 'decrease' && currentQuantity === 1) {
-            // Show modal to confirm deletion
-            $('#deleteConfirmationModal').modal('show');
-
-            // Set up event listener for modal confirmation button
-            $('#confirmDelete').off('click').on('click', function () {
-                removeCartItem(cartId); // Call function to remove the cart item
-                $('#deleteConfirmationModal').modal('hide'); // Hide the modal after confirmation
-            });
-
-            return; // Exit function to prevent further execution
-        }
-
-        // Update quantity based on action
-        if (action === 'increase') {
-            currentQuantity += 1; // Increment the quantity
-        } else if (action === 'decrease' && currentQuantity > 1) {
-            currentQuantity -= 1; // Decrement the quantity
-        }
-
-        // Update input field value
-        inputField.val(currentQuantity);
-
-        // Get the previous quantity from the input's data attribute
-        const previousQuantity = parseInt(inputField.attr('data-quantity'));
-
-        // Send AJAX request to update the quantity in the backend
-        $.ajax({
-            url: `/cart/update/${cartId}`, // URL to your update route
-            type: 'PATCH',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: {
-                quantity: currentQuantity // Pass the updated quantity
-            },
-            success: function (response) {
-
-                // Assuming the response contains the updated price per item from the database
-                const pricePerItem = parseFloat(response.updatedPrice); // Fetch the price from the backend response
-
-                // Update total items and total price based on the new price from the backend
-                totalItems = totalItems - previousQuantity + currentQuantity; // Update total items
-                totalPrice = totalPrice - (pricePerItem * previousQuantity) + (pricePerItem * currentQuantity); // Adjust total price
-
-                // Update the data attributes to reflect the new quantity and price
-                inputField.attr('data-quantity', currentQuantity); // Update the data attribute for quantity
-
-                // Update the total display after changing the quantity
-                updateTotalDisplay();
-            },
-            error: function (xhr, status, error) {
-                console.error('Error updating quantity:', error);
-            }
-        });
-    });
-
-    // Function to remove a cart item
-    function removeCartItem(cartId) {
-        $.ajax({
-            url: `/cart/remove/${cartId}`,
-            type: 'DELETE',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function (response) {
-                if (response.success) {
-                    console.log('Item removed successfully:', response);
-                    $(`#cart-item-${cartId}`).closest('.d-flex.mb-3').remove(); // Remove item from DOM
-                    recalculateTotals(); // Update totals
-                    updateCartCount(); // Update cart count
-                } else {
-                    alert('Failed to remove item from cart.');
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error('Error removing cart item:', error);
-            }
-        });
+    function updateTotalDisplay() {
+        document.querySelector('.total-items').textContent = totalItems;
+        document.querySelector('.total-price').textContent = '₱' + totalPrice.toFixed(2);
     }
 
     // Update totals on page load
     document.addEventListener('DOMContentLoaded', function () {
         recalculateTotals();
     });
-
 </script>
 <script>
     $(document).ready(function () {
@@ -452,7 +458,6 @@
         }
     });
 </script>
-
 {{-- changing product vartiations --}}
 <script>
     $(document).on('change', '.variation-select', function () {
@@ -481,6 +486,102 @@
 
 </script>
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const selectAllCheckbox = document.getElementById('select-all-checkbox');
+        const itemCheckboxes = document.querySelectorAll('.cart-item-checkbox');
+        const selectedItemsSpan = document.querySelector('.selected-items');
+        const deleteSelectedButton = document.getElementById('delete-selected');
+
+        // Update "Select All" checkbox and selected count
+        function updateSelectedCount() {
+            const checkedCount = Array.from(itemCheckboxes).filter(checkbox => checkbox.checked).length;
+            const totalCount = itemCheckboxes.length;
+
+            // Update the selected items count
+            selectedItemsSpan.textContent = checkedCount;
+
+            // Enable/Disable "Delete" button based on selection
+            deleteSelectedButton.disabled = checkedCount === 0;
+
+            // Sync "Select All" checkbox with individual checkboxes
+            if (checkedCount === totalCount) {
+                selectAllCheckbox.checked = true;
+                selectAllCheckbox.indeterminate = false;
+            } else if (checkedCount === 0) {
+                selectAllCheckbox.checked = false;
+                selectAllCheckbox.indeterminate = false;
+            } else {
+                selectAllCheckbox.checked = false;
+                selectAllCheckbox.indeterminate = false;
+            }
+        }
+
+        // "Select All" functionality
+        selectAllCheckbox.addEventListener('change', function () {
+            const isChecked = selectAllCheckbox.checked;
+            itemCheckboxes.forEach((checkbox) => (checkbox.checked = isChecked));
+            updateSelectedCount();
+        });
+
+        // Update count on individual checkbox change
+        itemCheckboxes.forEach((checkbox) =>
+            checkbox.addEventListener('change', updateSelectedCount)
+        );
+
+        // Bulk delete functionality
+        deleteSelectedButton.addEventListener('click', function () {
+            const selectedIds = Array.from(
+                document.querySelectorAll('.cart-item-checkbox:checked')
+            ).map((checkbox) => checkbox.dataset.cartId); // Ensure `data-cart-id` matches `cart_id`
+
+            $.ajax({
+                url: `/cart/delete-selected`,
+                type: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                },
+                data: { cartIds: selectedIds },
+                success: function (response) {
+                    
+                    selectedIds.forEach((id) => {
+                        const itemRow = document.querySelector(`[data-cart-id="${id}"]`).closest('.cart-item-row');
+                        if (itemRow) itemRow.remove();
+                    });
+                    $('#statusModalIcon').removeClass('fa-xmark').addClass('fa-solid fa-circle-check check-icon'); // Success icon
+                        $('#statusModalMessage').text('Items removed successfully');
+                        $('#statusModal').modal('show');
+
+                        setTimeout(() => {
+                            $('#statusModal').modal('hide');
+                            location.reload();
+                        }, 1000);
+
+                    updateSelectedCount(); 
+                },
+                error: function (xhr) {
+                    console.error('Error:', xhr.responseJSON.error);
+                },
+            });
+        });
+        function updateCartCount() {
+            $.ajax({
+                url: '{{ route("cart.count") }}', // Ensure this URL matches your route for fetching cart count
+                type: 'GET',
+                success: function(response) {
+                    $('#cart-count').text(response.cartItemCount); // Update the cart count span with the value from the server
+                },
+                error: function() {
+                    console.error('Failed to load cart item count');
+                }
+            });
+        }
+    });
+
+
+</script>
+
+
+<script>
     $('#checkout-button').on('click', function () {
         // Collect selected cart item IDs
         const selectedCartIds = [];
@@ -502,6 +603,7 @@
 
 
 </script>
+
 
 
 

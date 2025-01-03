@@ -30,6 +30,9 @@ class CartController extends Controller
             $groupedCartItems = collect(); // Empty collection if no cart items
         }
 
+        $availableStock = $cartItems->mapWithKeys(function ($cartItem) {
+            return [$cartItem->product->product_id => $cartItem->product->quantity_item];
+        });
         // Calculate subtotal, shipping, and other summary details
         $subtotal = $cartItems->sum(function ($cartItem) {
             return $cartItem->product->price * $cartItem->quantity;
@@ -39,22 +42,16 @@ class CartController extends Controller
         $totalAmount = $subtotal + $shippingCost + $packagingCost;
 
         // Pass data to the view
-        return view('profile.cart', compact('groupedCartItems', 'subtotal', 'shippingCost', 'packagingCost', 'totalAmount'));
+        return view('profile.cart', compact('groupedCartItems', 'subtotal', 'availableStock', 'shippingCost', 'packagingCost', 'totalAmount'));
     }
     public function add(Request $request, $productId)
     {
         try {
             $user = Auth::user();
-            Log::info('User attempting to add product to cart.', [
-                'user_id' => $user->user_id,
-                'product_id' => $productId,
-            ]);
-
             // Retrieve the product by ID
             $product = Product::with('variations', 'images')->find($productId);
 
             if (!$product) {
-                Log::warning('Product not found.', ['product_id' => $productId]);
                 return response()->json(['error' => 'Product not found.'], 404);
             }
 
@@ -69,10 +66,6 @@ class CartController extends Controller
                 // If it exists, update the quantity
                 $cartItem->quantity++;
                 $cartItem->save();
-                Log::info('Product quantity updated in cart.', [
-                    'cart_id' => $cartItem->cart_id,
-                    'quantity' => $cartItem->quantity,
-                ]);
             } else {
                 // Create a new cart entry and assign it to $cartItem
                 $cartItem = Cart::create([
@@ -83,10 +76,6 @@ class CartController extends Controller
                     'status' => 'active',
                     'product_id' => $productId,
                 ]);
-                Log::info('New product added to cart.', [
-                    'cart_id' => $cartItem->cart_id,
-                    'quantity' => $cartItem->quantity,
-                ]);
             }
 
             // Calculate cart totals
@@ -96,12 +85,6 @@ class CartController extends Controller
 
             // Retrieve the first product image
             $productImage = $product->images->first() ? $product->images->first()->product_img_path1 : null;
-
-            Log::info('Cart totals calculated.', [
-                'cart_total' => $cartTotal,
-                'cart_item_count' => $cartItemCount,
-                'total_cart_amount' => $totalCartAmount,
-            ]);
 
             // Return the response with updated data and variations
             return response()->json([
@@ -123,10 +106,7 @@ class CartController extends Controller
             ]);
 
         } catch (\Exception $e) {
-            Log::error('Error adding product to cart.', [
-                'error_message' => $e->getMessage(),
-                'stack_trace' => $e->getTraceAsString(),
-            ]);
+
             return response()->json(['error' => 'There was an error adding the product to the cart.'], 500);
         }
     }
@@ -148,7 +128,7 @@ class CartController extends Controller
     {
         // Validate the request
         $request->validate([
-            'quantity' => 'required|integer|min:1', 
+            'quantity' => 'required|integer|min:1',
         ]);
 
         // Find the cart item
@@ -162,7 +142,7 @@ class CartController extends Controller
             // Return a success response
             return response()->json(['success' => true,
                 'quantity' => $cartItem->quantity,
-                'updatedPrice' => $cartItem->product->price 
+                'updatedPrice' => $cartItem->product->price
             ]);
         }
 
@@ -173,7 +153,7 @@ class CartController extends Controller
         $user = Auth::user();
 
         $cartItems = Cart::where('customer_id', $user->user_id)
-            ->with('product.images') 
+            ->with('product.images')
             ->get();
 
         // Calculate the total amount in the cart
@@ -245,15 +225,15 @@ class CartController extends Controller
 
         // Find the cart item by ID
         $cartItem = Cart::where('cart_id', $cartId)
-            ->where('customer_id', Auth::id()) 
-            ->where('status', 'active') 
+            ->where('customer_id', Auth::id())
+            ->where('status', 'active')
             ->first();
 
         if (!$cartItem) {
             return response()->json(['success' => false, 'message' => 'Cart item not found.'], 404);
         }
 
-        // Update the product variation
+
         $cartItem->product_variation_id = $validated['product_variation_id'];
         $cartItem->save();
 
@@ -269,7 +249,7 @@ class CartController extends Controller
 
             $productId = $request->input('product_id');
             $variationId = $request->input('product_variation_id');
-            $quantity = $request->input('quantity', 1); 
+            $quantity = $request->input('quantity', 1);
 
             // Find the product and check variation
             $product = Product::with('variations')->find($productId);
@@ -280,15 +260,14 @@ class CartController extends Controller
             if (!$product->variations->contains('product_variation_id', $variationId)) {
                 return response()->json(['error' => 'Invalid variation selected.'], 400);
             }
-
-            // Add or update cart item
             $cartItem = Cart::where('customer_id', $user->user_id)
                             ->where('product_id', $productId)
                             ->where('product_variation_id', $variationId)
                             ->first();
 
+
             if ($cartItem) {
-                $cartItem->quantity += $quantity; 
+                $cartItem->quantity += $quantity;
                 $cartItem->save();
             } else {
                 Cart::create([
@@ -301,22 +280,31 @@ class CartController extends Controller
                 ]);
             }
 
-            return response()->noContent(200); 
+            return response()->noContent(200);
 
         } catch (\Exception $e) {
             return response()->json(['error' => 'Internal server error.'], 500);
         }
     }
-
-
+    public function removeSelected(Request $request)
+    {
+        $cartIds = $request->input('cartIds');
     
-
-
-
-
-
-
-
-
+        // Validate the input
+        if (!is_array($cartIds) || empty($cartIds)) {
+            return response()->json(['error' => 'No items selected.'], 400);
+        }
+    
+        // Check if any IDs were actually deleted
+        $deletedCount = Cart::whereIn('cart_id', $cartIds)->delete();
+    
+        if ($deletedCount > 0) {
+            return response()->json(['success' => true, 'deleted_ids' => $cartIds]);
+        }
+    
+        return response()->json(['error' => 'No items found to delete.'], 404);
+    }
+    
+    
 
 }
