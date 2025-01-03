@@ -359,7 +359,7 @@
                 </a>
             </li>
             <li class="nav-item category">
-                <a class="nav-link d-flex align-items-center me-2" href="#">
+                <a class="nav-link d-flex align-items-center me-2" href="{{ route('category.index') }}">
                     <i class="fa-solid fa-bars-staggered"></i> Category
                 </a>
             </li>

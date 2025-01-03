@@ -46,6 +46,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
+Route::get('/categories/index', [CategoryController::class, 'index'])->name('category.index');
 Route::get('/categories', [CategoryController::class, 'showCategories'])->name('categories');
 Route::get('/categories/{category_name}/products', [CategoryController::class, 'showProduct'])->name('category.product');
 Route::get('/subcategory/{subcategory}/products', [CategoryController::class, 'showSubProducts'])->name('subcategory.products');
@@ -168,7 +169,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/submit-review', [ProductReviewController::class, 'store'])->name('submit.review');
 
-    Route::get('/categories', [CategoryController::class, 'index'])->name('category.index');
+    
 
 
     Route::get('/mystore', [ShopController::class, 'showStore'])->name('mystore');

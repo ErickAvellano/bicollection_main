@@ -18,7 +18,7 @@ class CategoryController extends Controller
         $categories = Category::all();
 
         // Pass categories to the view
-        return view('category.index', compact('categories'));
+        return view('category.landing', compact('categories'));
     }
     public function showProduct(Request $request, $category_name)
     {
