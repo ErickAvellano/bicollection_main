@@ -826,7 +826,7 @@
                 <!-- Shop Details -->
                 <div class="col-12 col-md-7" style="padding:0;">
                     <div class="merchant-header">
-                        <h3 class="merchant-header-title" style="margin: 0;">MERCHANT</h3>
+                        <h3 style="margin: 0;">MERCHANT</h3>
                         <hr class="line">
                     </div>
                     <div class="card merchant-card">
