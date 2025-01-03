@@ -797,7 +797,7 @@
             <div class="mt-3 mb-2 col-md-12" style="padding:0;">
                 <div class="row" id="productCarousel_partner">
                     <!-- Shop Details -->
-                    <div class="col-12 col-md-7">
+                    <div class="col-12 col-md-7" style="padding:0;">
                         <div class="merchant-header">
                             <h3 style="margin: 0;">MERCHANT</h3>
                             <hr class="line">
@@ -877,7 +877,7 @@
                         </div>
                     </div>
                     <!-- Featured Products -->
-                    <div class="col-12 col-md-5">
+                    <div class="col-12 col-md-5" style="padding:0;">
                         <div class="featured-product">
                             <h3 class="featured-product-title">FEATURED PRODUCT</h3>
                             <hr class="line">
