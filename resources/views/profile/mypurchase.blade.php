@@ -335,7 +335,7 @@
                             @elseif ($purchase->order_status === 'cancel')
                                 <span class="btn btn-danger me-2 disabled">Order Cancelled</span>
                             @elseif ($purchase->order_status === 'pending')
-                                <a href="{{ route('orders.detail', ['order_id' => $purchase->order_id])}}" class="btn btn-view me-2">View</a>
+                                <a href="{{ route('orders.details', ['order_id' => $purchase->order_id])}}" class="btn btn-view me-2">View</a>
                                 <a class="btn btn-danger me-2" data-order-id="{{ $purchase->order_id }}" data-payment-id="{{ $purchase->payment->payment_id }}" data-payment-method="{{ $purchase->payment->payment_method ?? '' }}" onclick="openCancelModal(event)">Request Cancel</a>
                             @else
                                 <span class="btn btn-secondary me-2 disabled">Status Unknown</span>
@@ -573,7 +573,7 @@
                         </label>
 
                         <!-- Hidden input to store the full username (always unmasked here) -->
-                        <input type="hidden" id="fullUsername" name="username" 
+                        <input type="hidden" id="fullUsername" name="username"
                             value="{{ $username[0] . str_repeat('*', strlen($username) - 2) . substr($username, -1) }}">
                     </div>
                     <small class="text-muted">
@@ -676,7 +676,7 @@
 @section('scripts')
     @if (session('status'))
         <script>
-            document.addEventListener('DOMContentLoaded', function () { 
+            document.addEventListener('DOMContentLoaded', function () {
                 const confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
                 const statusIcon = document.querySelector('.status-icon');
                 const statusMessage = document.querySelector('.status-message');
@@ -1399,7 +1399,7 @@
                 const variationInput = document.getElementById('variationInput');
                 const reviewModalRatingInput = document.getElementById('reviewRatingInput');
                 const reviewModalStars = document.querySelectorAll('#productQualityRating .star');
-                
+
                 if (orderIdInput) orderIdInput.value = orderId; // Set orderId
                 if (productIdInput) productIdInput.value = productIds.join(',');
 

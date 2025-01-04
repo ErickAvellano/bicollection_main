@@ -349,6 +349,33 @@ class OrderController extends Controller
 
         return view('orders.detail', compact('orderData'));
     }
+    public function showOrder($orderId)
+    {
+        // Fetch order details with related order items and payment
+        $order = Order::with(['orderItems.product.images', 'orderItems.variation', 'payment'])
+                      ->where('order_id', $orderId)
+                      ->first();
+
+        if (!$order) {
+            return redirect()->route('home')->with('error', 'Order not found.');
+        }
+
+        // Prepare data for the view
+        $orderData = [
+            'order_id' => $order->order_id,
+            'total_amount' => $order->total_amount,
+            'order_status' => $order->order_status,
+            'shipping_address' => $order->shipping_address,
+            'contact_number' => $order->contact_number,
+            'order_items' => $order->orderItems,
+            'payment_method' => $order->payment->payment_method ?? 'N/A',
+            'payment_status' => $order->payment->payment_status ?? 'N/A',
+            'receipt_img' => $order->payment->receipt_img ?? null,
+            'customer_name' =>  $order->customer->name,
+        ];
+
+        return view('orders.orderdetail', compact('orderData'));
+    }
     public function showRefund($orderId)
     {
         // Fetch order details with related order items and payment
@@ -873,7 +900,7 @@ class OrderController extends Controller
 
         return response()->json(['status' => 'error', 'message' => 'Error marking refund as completed.']);
     }
-    // OrderController.php
+
     public function getOrderDetails($orderId)
     {
         $order = Order::with(['orderItems.product.images'])->find($orderId);
@@ -915,47 +942,7 @@ class OrderController extends Controller
             'message' => 'Order not found.',
         ]);
     }
-    public function getCustomerOrderDetails($orderId)
-    {
-        $order = Order::with(['orderItems.product.images'])->find($orderId);
 
-        if ($order) {
-            $orderDetails = [];
-
-            foreach ($order->orderItems as $orderItem) {
-                $product = $orderItem->product;
-                $image = $product && $product->images ? $product->images->first() : null;
-
-                // Get variation name if available
-                $variationName = null;
-                if ($orderItem->variation_id) {
-                    $variation = ProductVariation::find($orderItem->variation_id);
-                    $variationName = $variation ? $variation->variation_name : 'N/A';
-                }
-
-                // Prepare details for this order item
-                $orderDetails[] = [
-                    'product_id' => $product->product_id ?? null,
-                    'product_name' => $product->product_name ?? 'N/A',
-                    'variation_id' => $orderItem->variation_id ?? null,
-                    'variation' => $variationName,
-                    'quantity' => $orderItem->quantity ?? 0,
-                    'price' => $orderItem->product_price ?? 0, // Use product price from orderItem
-                    'product_image' => $image ? asset('storage/' . $image->product_img_path1) : 'https://via.placeholder.com/60',
-                ];
-            }
-
-            return response()->json([
-                'status' => 'success',
-                'order' => $orderDetails, // Return all order items as an array
-            ]);
-        }
-
-        return response()->json([
-            'status' => 'error',
-            'message' => 'Order not found.',
-        ]);
-    }
 
 
 }

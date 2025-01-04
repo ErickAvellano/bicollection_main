@@ -127,6 +127,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/order-count', [OrderController::class, 'getOrderCount']);
     Route::get('/orders-tooltip', [OrderController::class, 'getOrdersTooltip']);
     Route::get('/orders/{order_id}', [OrderController::class, 'show'])->name('orders.detail');
+    Route::get('/orderdetails/{order_id}', [OrderController::class, 'showOrder'])->name('orders.details');
     Route::get('/orders/refund/{order_id}', [OrderController::class, 'showRefund'])->name('orders.refund');
     // Route::post('/confirm-payment', [OrderController::class, 'confirmPayment'])->name('confirm.payment');
     // Route::post('/decline-payment', [OrderController::class, 'declinePayment'])->name('decline.payment');
