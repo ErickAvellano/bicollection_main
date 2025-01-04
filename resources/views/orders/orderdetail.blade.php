@@ -86,7 +86,6 @@
 
                 <!-- Check if there are additional products -->
                 @if (count($orderData['order_items']) > 1)
-
                     <!-- Hidden container for additional products -->
                     <div id="additional-products" style="display: none; margin-top: 20px;">
                         @foreach ($orderData['order_items'] as $index => $orderItem)

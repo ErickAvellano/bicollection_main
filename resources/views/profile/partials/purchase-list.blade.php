@@ -29,23 +29,25 @@
                                     <p><strong>Shipping Address:</strong> {{ $purchase->shipping_address ?? 'N/A' }}</p>
                                 </div>
                                 <div class="text-end">
-                                    <p><strong>Status:</strong>
-                                        <span class="badge
-                                            @if($purchase->order_status === 'cancelled') bg-danger
-                                            @elseif($purchase->order_status === 'declined') bg-warning
-                                            @elseif($purchase->order_status === 'to-ship') bg-info
-                                            @elseif($purchase->order_status === 'to-received') bg-primary
-                                            @elseif($purchase->order_status === 'completed') bg-success
-                                            @elseif($purchase->order_status === 'pending') bg-secondary
-                                            @else bg-dark
-                                            @endif">
-                                            {{ ucfirst($purchase->order_status) }}
-                                        </span>
-                                    </p>
-                                    <p><strong>Order Date:</strong> {{ \Carbon\Carbon::parse($purchase->created_at)->format('Y-m-d') }}</p>
+                                    <div class="text-start">
+                                        <p><strong>Status:</strong>
+                                            <span class="badge
+                                                @if($purchase->order_status === 'cancelled') bg-danger
+                                                @elseif($purchase->order_status === 'declined') bg-warning
+                                                @elseif($purchase->order_status === 'to-ship') bg-info
+                                                @elseif($purchase->order_status === 'to-received') bg-primary
+                                                @elseif($purchase->order_status === 'completed') bg-success
+                                                @elseif($purchase->order_status === 'pending') bg-secondary
+                                                @else bg-dark
+                                                @endif">
+                                                {{ ucfirst($purchase->order_status) }}
+                                            </span>
+                                        </p>
+                                        <p><strong>Order Date:</strong> {{ \Carbon\Carbon::parse($purchase->created_at)->format('Y-m-d') }}</p>
 
-                                    <p><strong>Qty:</strong> {{ $purchase->orderItems->sum('quantity') }}</p>
-                                    <p><strong>Total:</strong> ₱{{ number_format($purchase->total_amount, 2) }}</p>
+                                        <p><strong>Qty:</strong> {{ $purchase->orderItems->sum('quantity') }}</p>
+                                        <p><strong>Total:</strong> ₱{{ number_format($purchase->total_amount, 2) }}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
