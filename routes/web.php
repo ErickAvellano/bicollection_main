@@ -185,7 +185,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/merchant/upload-picture', [MerchantController::class, 'uploadPicture'])->name('merchant.uploadPicture');
 
     // Product Ratings
-    Route::get('/get-order-details/{orderId}', [OrderController::class, 'getOrderDetails'])->name('orders.details');
+    Route::get('/get-order-details/{orderId}', [OrderController::class, 'getOrderDetails']);
 
 
     // Define routes for merchant profile action
