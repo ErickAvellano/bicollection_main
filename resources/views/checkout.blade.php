@@ -370,6 +370,9 @@ z
             padding: 5px 15px;
             font-size: 14px;
         }
+        .breadcrumb-item a, breadcrumb-item active{
+            font-size:16px;
+        }
     }
 
 </style>
@@ -418,7 +421,7 @@ z
                     </span>
                 @endif
                 </p>
-                <a href="#" class="change-link text-success ms-2" data-bs-toggle="modal" data-bs-target="#changeContactModal" style="font-weight: bold; font-size: 14px;">
+                <a href="#" class="change-link ms-2" data-bs-toggle="modal" data-bs-target="#changeContactModal" style="font-size: 12px;">
                     Change
                 </a>
             </div>
@@ -437,7 +440,7 @@ z
                         <span class="text-danger">Add or press 'Change' to change your shipping address</span>
                     @endif
                 </p>
-                <a href="#" class="change-link text-success ms-2" data-bs-toggle="modal" data-bs-target="#selectAddressModal" style="font-weight: bold; font-size: 14px;">
+                <a href="#" class="change-link ms-2" data-bs-toggle="modal" data-bs-target="#selectAddressModal" style="font-size: 12px;">
                     Change
                 </a>
 
@@ -488,7 +491,7 @@ z
         <h3 class="section-title">Payment Options</h3>
         <div class="selected-payment-method d-flex align-items-center" id="selectedPaymentMethodDisplay">
             <span id="selectedPaymentMethodText"></span>
-            <a href="#" class="select-link ms-2" data-bs-toggle="modal" data-bs-target="#selectPaymentModal">CHANGE</a>
+            <a href="#" class="select-link ms-2" data-bs-toggle="modal" data-bs-target="#selectPaymentModal">Change</a>
         </div>
         <input type="hidden" id="paymentMethod" name="payment_method" required>
         <input type="hidden" id="paymentMethodId" name="payment_method_id">
@@ -968,7 +971,7 @@ z
                                     {{ $defaultAddress->postalcode ?? '' }}, {{ $defaultAddress->region ?? '' }}</span>
                                 <span class="default-badge">Default</span>
                             </div>
-                            <a href="#" class="change-link text-success ms-3" data-bs-toggle="modal" data-bs-target="#selectAddressModal" style="font-weight: bold; font-size: 14px;">
+                            <a href="#" class="change-link ms-3" data-bs-toggle="modal" data-bs-target="#selectAddressModal" style="font-weight: bold; font-size: 14px;">
                                 Change
                             </a>
                         </div>
@@ -983,7 +986,7 @@ z
                                 <span>${addressData.completeAddress}</span>
                                 <span class="default-badge">Custom</span>
                             </div>
-                            <a href="#" class="change-link text-success ms-3" data-bs-toggle="modal" data-bs-target="#selectAddressModal" style="font-weight: bold; font-size: 14px;">
+                            <a href="#" class="change-link ms-3" data-bs-toggle="modal" data-bs-target="#selectAddressModal" style="font-weight: bold; font-size: 14px;">
                                 Change
                             </a>
                         </div>
@@ -1271,7 +1274,7 @@ z
                     <span style="font-weight: bold;">Contact Number:</span>
                     <span class="mx-2" style="margin-right: 10px;">${newContactNumber}</span>
                 </div>
-                <a href="#" class="change-link text-success ms-3" data-bs-toggle="modal" data-bs-target="#changeContactModal" style="font-weight: bold; font-size: 14px;">
+                <a href="#" class="change-link ms-3" data-bs-toggle="modal" data-bs-target="#changeContactModal" style="font-weight: bold; font-size: 14px;">
                     Change
                 </a>
             `;
