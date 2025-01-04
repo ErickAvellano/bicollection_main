@@ -383,7 +383,6 @@
                                 <a class="btn btn-danger me-2" data-order-id="{{ $purchase->order_id }}" data-payment-id="{{ $purchase->payment->payment_id }}" data-payment-method="{{ $purchase->payment->payment_method ?? '' }}" onclick="openCancelModal(event)">Request Cancel</a>
                             @endif
                         </div>
-    
                     </div>
                 @endforeach
             </div>
