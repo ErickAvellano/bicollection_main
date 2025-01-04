@@ -19,8 +19,6 @@ class ProductReviewController extends Controller
 
     public function store(Request $request)
     {
-        Log::info('Review submission request:', $request->all());
-
         // Validate data
         $validator = Validator::make($request->all(), [
             'product_id' => 'required', 
@@ -39,11 +37,8 @@ class ProductReviewController extends Controller
         ]);
 
         if ($validator->fails()) {
-            Log::error('Validation failed:', $validator->errors()->toArray());
             return response()->json(['status' => 'error', 'errors' => $validator->errors()], 422);
         }
-
-        Log::info('Validation passed.');
 
         // Split product_id and variation_id into arrays
         $productIds = explode(',', $request->product_id);
@@ -62,7 +57,6 @@ class ProductReviewController extends Controller
                 ->first();
 
             if ($existingReview) {
-                Log::warning("Review already exists for product ID $productId and order ID {$request->order_id}");
                 continue; // Skip this product if a review already exists
             }
 
@@ -74,9 +68,7 @@ class ProductReviewController extends Controller
                     try {
                         $path = $request->file($imageField)->store('product_reviews', 'public');
                         $imagePaths[$imageField] = $path;
-                        Log::info("Image $i for product ID $productId uploaded successfully: $path");
                     } catch (\Exception $e) {
-                        Log::error("Failed to upload $imageField for product ID $productId: " . $e->getMessage());
                         return response()->json(['status' => 'error', 'message' => 'Failed to upload image. Please try again.'], 500);
                     }
                 } else {
@@ -106,9 +98,7 @@ class ProductReviewController extends Controller
                 ]);
 
                 $createdReviews[] = $review;
-                Log::info("Review created for product ID $productId:", $review->toArray());
             } catch (\Exception $e) {
-                Log::error("Failed to save review for product ID $productId: " . $e->getMessage());
                 return response()->json(['status' => 'error', 'message' => 'Failed to submit review. Please try again.'], 500);
             }
         }
@@ -120,10 +110,8 @@ class ProductReviewController extends Controller
                 $order->order_status = 'completed';
                 $order->updated_at = now();
                 $order->save();
-                Log::info("Order status updated to 'completed' for order ID {$request->order_id}");
             }
         } catch (\Exception $e) {
-            Log::error("Failed to update order status for order ID {$request->order_id}: " . $e->getMessage());
             return response()->json(['status' => 'error', 'message' => 'Failed to update order status.'], 500);
         }
 
