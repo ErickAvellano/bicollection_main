@@ -48,8 +48,7 @@
     <!-- Breadcrumb -->
     <ol class="breadcrumb mb-3">
         <li class="breadcrumb-item"><a href="{{ route('home') }}">BiCollection</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('mystore') }}">My Store</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('orders.index') }}">Order</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('mypurchase') }}">My Purchase</a></li>
         <li class="breadcrumb-item active">Order Details</li>
     </ol>
 
