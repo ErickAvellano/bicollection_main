@@ -2276,5 +2276,19 @@
         });
 
     </script>
+    <script>
+        function toggleAdditionalProducts(orderId) {
+            const additionalProducts = document.getElementById('additionalProducts-' + orderId);
+            const button = document.getElementById('view-more-products-btn-' + orderId);
+
+            if (additionalProducts.classList.contains('d-none')) {
+                additionalProducts.classList.remove('d-none');
+                button.innerHTML = 'View Less Products';
+            } else {
+                additionalProducts.classList.add('d-none');
+                button.innerHTML = 'View More Products';
+            }
+        }
+    </script>
 
 @endsection
