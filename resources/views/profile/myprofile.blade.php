@@ -153,10 +153,9 @@
                         </p>
                         <ul class="list-unstyled" id="accountLinks">
                             <li><a href="#" class="custom-link" data-target="#profileContent">Profile</a></li>
-                            <li><a href="#" class="custom-link" data-target="#banksContent">Banks & Cards</a></li>
-                            <li><a href="#" class="custom-link" data-target="#addressesContent">Addresses</a></li>
+                            <li><a href="#" class="custom-link" data-target="#banksContent">E-Wallet</a></li>
+                            <li><a href="#" class="custom-link" data-target="#addressesContent">Address</a></li>
                             <li><a href="#" class="custom-link" data-target="#changePasswordContent">Change Password</a></li>
-                            <li><a href="#" class="custom-link" data-target="#settingsContent">Settings</a></li>
                         </ul>
                         <p>
                             <a href="/my-purchase" class="text-decoration-none" style="color: #2e2e2e;">
@@ -442,15 +441,6 @@
         </div>
 
 
-
-        <div class="col-md-6" id="settingsContent" style="display: none;"> <!-- Initially hidden -->
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Settings</h5>
-                    <p>This is where the Settings content will go.</p>
-                </div>
-            </div>
-        </div>
     </div>
 <!-- Modal for updating email -->
 <div class="modal fade" id="updateEmailModal" tabindex="-1" aria-labelledby="updateEmailModalLabel" aria-hidden="true">
@@ -522,8 +512,7 @@
             profileImageContent: document.getElementById('profileImageContent'),
             banksContent: document.getElementById('banksContent'),
             addressesContent: document.getElementById('addressesContent'),
-            changePasswordContent: document.getElementById('changePasswordContent'),
-            settingsContent: document.getElementById('settingsContent')
+            changePasswordContent: document.getElementById('changePasswordContent')
         };
 
         const profileLink = document.querySelector('a[data-target="#profileContent"]');
@@ -583,9 +572,9 @@
         const confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
 
         // Define initial values for email and phone from the server
-        let originalEmail = "{{ $customer->email }}"; 
-        let maskedEmail = "{{ $maskedEmail }}"; 
-        let originalPhone = "{{ $customer->contact_number }}"; 
+        let originalEmail = "{{ $customer->email }}";
+        let maskedEmail = "{{ $maskedEmail }}";
+        let originalPhone = "{{ $customer->contact_number }}";
         let maskedPhone = "{{ $maskedPhone }}";
 
         // Show unmasked email in the email update modal
@@ -674,7 +663,7 @@
 
         // Enable fields for editing
         editButton.addEventListener('click', function() {
-            emailField.value = maskedEmail; 
+            emailField.value = maskedEmail;
             phoneField.value = maskedPhone;
             // Enable form fields for editing
             const formFields = document.querySelectorAll('#profileForm input, #profileForm select');
@@ -780,7 +769,7 @@
     });
 
     cancelButtonaddress.addEventListener('click', function() {
-        restoreOriginalFormData(); 
+        restoreOriginalFormData();
         formFields.forEach(field => field.disabled = true);
         editButtonaddress.style.display = 'inline-block';
         saveButtonaddress.style.display = 'none';
@@ -894,7 +883,7 @@
                     const option = document.createElement('option');
                     option.value = location.code;
                     option.textContent = location.name;
-                    option.dataset.isCity = location.isCity; 
+                    option.dataset.isCity = location.isCity;
                     citySelect.appendChild(option);
                 });
 
@@ -903,7 +892,7 @@
                     const prefilledOption = Array.from(citySelect.options).find(option => option.textContent === selectedCity);
                     if (prefilledOption) {
                         citySelect.value = prefilledOption.value;
-                        updateBarangays(); 
+                        updateBarangays();
                     }
                 }
             })
@@ -914,7 +903,7 @@
         const citySelect = document.getElementById('city');
         const cityCode = citySelect.value;
         const selectedBarangay = document.getElementById('selectedBarangay').value;
-        const isCity = citySelect.selectedOptions[0].dataset.isCity === 'true'; 
+        const isCity = citySelect.selectedOptions[0].dataset.isCity === 'true';
 
         const endpoint = isCity
             ? `https://psgc.gitlab.io/api/cities/${cityCode}/barangays.json`
