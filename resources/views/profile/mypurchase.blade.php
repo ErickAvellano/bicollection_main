@@ -256,7 +256,7 @@
     </div>
 
     <!-- Purchases List -->
-    <div id="purchaseContent" class="mt-3">
+    <div id="purchaseContent" class="mt-3 mb-3">
         @if ($purchases->isEmpty())
             <p>No {{ ucfirst($status) }} purchases found.</p>
         @else

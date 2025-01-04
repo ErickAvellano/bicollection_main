@@ -1,4 +1,4 @@
-<div id="purchaseContent" class="mt-3">
+<div id="purchaseContent" class="mt-3 mb-5">
     @if ($purchases->isEmpty())
         <p>No {{ ucfirst($status) }} purchases found.</p>
     @else

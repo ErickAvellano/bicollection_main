@@ -31,6 +31,17 @@ class MerchantController extends Controller
             'shopname' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:user',
             'password' => 'required|string|min:8|confirmed',
+        ],
+        [
+            'email.required' => 'The email field is required.',
+            'email.string' => 'The email must be a valid string.',
+            'email.email' => 'Please provide a valid email address.',
+            'email.max' => 'The email must not exceed 255 characters.',
+            'email.unique' => 'This email is already registered.',
+            'password.required' => 'The password field is required.',
+            'password.string' => 'The password must be a valid string.',
+            'password.min' => 'Password must be at least 8 characters.',
+            'password.confirmed' => 'Password does not match.',
         ]);
 
         Log::info('Validation passed.', $validated);

@@ -132,6 +132,10 @@
     .progress-step + .progress-step::before {
         margin-left: -10px;
     }
+    .error{
+        font-size: 12px;
+        color: red;
+    }
 
 
 </style>
@@ -165,11 +169,15 @@
                 <div class="mb-3 w-100">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" class="form-control email-input @error('email') is-invalid @enderror" placeholder="Email" id="email" name="email" value="{{ old('email') }}" required>
-                    @error('email')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
+                    @if ($errors->has('email'))
+                        <span class="error" role="alert">
+                            <ul>
+                                @foreach ($errors->get('email') as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
                         </span>
-                    @enderror
+                    @endif
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
@@ -180,11 +188,15 @@
                             <i class="fas fa-eye-slash"></i>
                         </button>
                     </div>
-                    @error('password')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
+                    @if ($errors->has('password'))
+                        <span class="error" role="alert">
+                            <ul>
+                                @foreach ($errors->get('password') as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
                         </span>
-                    @enderror
+                    @endif
                 </div>
 
                 <div class="mb-3">
@@ -196,6 +208,15 @@
                             <i class="fas fa-eye-slash"></i>
                         </button>
                     </div>
+                    @if ($errors->has('password'))
+                        <span class="error" role="alert">
+                            <ul>
+                                @foreach ($errors->get('password') as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </span>
+                    @endif
                 </div>
                 <div class="mb-3">
                     <button class="btn btn-custom w-100" type="submit" id="submitButton">Register</button>
