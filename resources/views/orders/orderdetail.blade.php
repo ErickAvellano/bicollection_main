@@ -155,6 +155,23 @@
 @endsection
 
 @section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const viewMoreProductsBtn = document.getElementById('view-more-products-btn');
+        const additionalProductsContainer = document.getElementById('additional-products');
 
+        if (viewMoreProductsBtn) {
+            viewMoreProductsBtn.addEventListener('click', function () {
+                if (additionalProductsContainer.style.display === 'none') {
+                    additionalProductsContainer.style.display = 'block';
+                    viewMoreProductsBtn.innerText = 'Hide More Products';
+                } else {
+                    additionalProductsContainer.style.display = 'none';
+                    viewMoreProductsBtn.innerText = 'View More Products';
+                }
+            });
+        }
+    });
+</script>
 
 @endsection
