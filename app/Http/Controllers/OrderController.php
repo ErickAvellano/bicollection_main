@@ -896,7 +896,48 @@ class OrderController extends Controller
                 $orderDetails[] = [
                     'product_id' => $product->product_id ?? null,
                     'product_name' => $product->product_name ?? 'N/A',
-                    'variation_id' => $orderItem->variation_id ?? null, 
+                    'variation_id' => $orderItem->variation_id ?? null,
+                    'variation' => $variationName,
+                    'quantity' => $orderItem->quantity ?? 0,
+                    'price' => $orderItem->product_price ?? 0, // Use product price from orderItem
+                    'product_image' => $image ? asset('storage/' . $image->product_img_path1) : 'https://via.placeholder.com/60',
+                ];
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'order' => $orderDetails, // Return all order items as an array
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Order not found.',
+        ]);
+    }
+    public function getCustomerOrderDetails($orderId)
+    {
+        $order = Order::with(['orderItems.product.images'])->find($orderId);
+
+        if ($order) {
+            $orderDetails = [];
+
+            foreach ($order->orderItems as $orderItem) {
+                $product = $orderItem->product;
+                $image = $product && $product->images ? $product->images->first() : null;
+
+                // Get variation name if available
+                $variationName = null;
+                if ($orderItem->variation_id) {
+                    $variation = ProductVariation::find($orderItem->variation_id);
+                    $variationName = $variation ? $variation->variation_name : 'N/A';
+                }
+
+                // Prepare details for this order item
+                $orderDetails[] = [
+                    'product_id' => $product->product_id ?? null,
+                    'product_name' => $product->product_name ?? 'N/A',
+                    'variation_id' => $orderItem->variation_id ?? null,
                     'variation' => $variationName,
                     'quantity' => $orderItem->quantity ?? 0,
                     'price' => $orderItem->product_price ?? 0, // Use product price from orderItem

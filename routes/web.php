@@ -169,7 +169,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/submit-review', [ProductReviewController::class, 'store'])->name('submit.review');
 
-    
+
 
 
     Route::get('/mystore', [ShopController::class, 'showStore'])->name('mystore');
@@ -184,7 +184,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/merchant/upload-picture', [MerchantController::class, 'uploadPicture'])->name('merchant.uploadPicture');
 
     // Product Ratings
-    Route::get('/get-order-details/{orderId}', [OrderController::class, 'getOrderDetails']);
+    Route::get('/get-order-details/{orderId}', [OrderController::class, 'getOrderDetails'])->name('orders.details');
+
 
     // Define routes for merchant profile action
     Route::get('/merchant/edit-profile', [MerchantController::class, 'editProfile'])->name('merchant.editProfile');
