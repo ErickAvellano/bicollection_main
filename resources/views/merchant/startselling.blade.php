@@ -392,6 +392,7 @@
 <footer class="text-center p-0 m-0 fc-white" style="background-color:#333;">
     <p class="p-0 m-0" style="color:white; font-size:12px;">&copy;2024 BiCollection. All rights reserved.</p>
 </footer> --}}
+@include('Components.supporticon')
 @include('Components.footer')
 @endsection
 
