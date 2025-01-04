@@ -22,3 +22,6 @@ yarn-error.log
 /storage/
 /public/storage/
 /vendor/
+node_modules
+node_modules
+node_modules
