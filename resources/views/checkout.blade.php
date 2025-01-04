@@ -161,6 +161,7 @@ z
     .breadcrumb .breadcrumb-item.active {
         font-weight: bold;
         color: #228b22;
+        font-size:14px;
     }
     .nav-pills{
         display: none;
@@ -316,9 +317,58 @@ z
     .payment-option{
         height:100px;
     }
+    #selectedPaymentMethodText{
+        margin-left:4rem;
+    }
+    .product-image {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        margin-right: 20px;
+    }
+    .summary-section{
+        
+    }
     @media only screen and (min-width: 360px) and (max-width: 425px) {
         body {
             font-size: 12px;
+        }
+        .section-title{
+            font-size: 16px;
+        }
+        .contact-number-section {
+            display: flex;
+            justify-content: space-between; /* Space between the items */
+            align-items: center;           /* Align items vertically in the center */
+        }
+        .product-name, .product-variation, .product-price p{
+            font-size: 12px;
+            margin-bottom:0;
+        }
+        .product-image{
+            width: 60px !important;
+            height: 60px  !important;
+        }
+        .select-link{
+            font-size: 12px;
+        }
+        .payment-section{
+            display: flex;
+            justify-content: space-between; /* Space between the items */
+            align-items: center;
+        }
+        #selectedPaymentMethodText{
+            margin-left:0;
+        }
+        .summary-section .summary-item{
+            font-size: 12px;
+        }
+        .summary-total{
+            font-size: 16px;
+        }
+        .place-order-btn{
+            padding: 5px 15px;
+            font-size: 14px;
         }
     }
 
@@ -339,9 +389,15 @@ z
             <div class="shipping-details d-flex justify-content-between align-items-center mb-2">
                 <!-- Name Section -->
                 <div class="name-section">
-                    <p class="mb-1">
-                        <strong>Name:</strong> <span style="font-weight: 600;">{{ $customer->first_name }} {{ $customer->last_name }}</span>
-                    </p>
+                    @if(empty($customer->username))
+                        <p class="mb-1">
+                            <strong>Name:</strong> <span style="font-weight: 600;">{{ $customer->first_name }} {{ $customer->last_name }}</span>
+                        </p>
+                    @else
+                        <p class="mb-1">
+                            <strong>Username:</strong> <span style="font-weight: 600;">{{ $customer->username }}</span>
+                        </p>
+                    @endif
                 </div>
             </div>
             @if (isset($cartIds) && is_array($cartIds))
@@ -402,8 +458,7 @@ z
 
                 <img src="{{ asset('storage/' . $cartItem->product->images->first()->product_img_path1 ?? 'https://via.placeholder.com/80') }}"
                     alt="{{ $cartItem->product->product_name }}"
-                    class="product-image"
-                    style="width: 80px; height: 80px; object-fit: cover; margin-right: 20px;">
+                    class="product-image">
 
                 <!-- Product Details -->
                 <div class="product-details">
@@ -432,7 +487,7 @@ z
         <!-- Payment Option Section -->
         <h3 class="section-title">Payment Options</h3>
         <div class="selected-payment-method d-flex align-items-center" id="selectedPaymentMethodDisplay">
-            <span id="selectedPaymentMethodText" style="margin-right:4rem;"></span>
+            <span id="selectedPaymentMethodText"></span>
             <a href="#" class="select-link ms-2" data-bs-toggle="modal" data-bs-target="#selectPaymentModal">CHANGE</a>
         </div>
         <input type="hidden" id="paymentMethod" name="payment_method" required>
@@ -478,7 +533,7 @@ z
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-success" id="proceedToPaymentBtn">Proceed to Payment</button>
+                <button type="button" class="btn btn-custom" id="proceedToPaymentBtn">Proceed to Payment</button>
             </div>
         </div>
     </div>
@@ -695,13 +750,13 @@ z
                     <div class="voucher-item mb-2">
                         <div class="d-flex align-items-center justify-content-between">
                             <span>Voucher 1: 10% Off</span>
-                            <button class="btn btn-success btn-sm select-voucher-btn" data-voucher="Voucher 1">Select</button>
+                            <button class="btn btn-custom btn-sm select-voucher-btn" data-voucher="Voucher 1">Select</button>
                         </div>
                     </div>
                     <div class="voucher-item mb-2">
                         <div class="d-flex align-items-center justify-content-between">
                             <span>Voucher 2: Free Shipping</span>
-                            <button class="btn btn-success btn-sm select-voucher-btn" data-voucher="Voucher 2">Select</button>
+                            <button class="btn btn-custom btn-sm select-voucher-btn" data-voucher="Voucher 2">Select</button>
                         </div>
                     </div>
                     <!-- Add more voucher items as needed -->
@@ -738,7 +793,7 @@ z
                 <!-- COD Option -->
                 <div class="col-6 payment-option" id="codOption">
                 <button
-                    class="btn btn-outline-success w-100 h-100 d-flex flex-column align-items-center justify-content-center"
+                    class="btn btn-outline-custom w-100 h-100 d-flex flex-column align-items-center justify-content-center"
                     id="selectCodButton"
                     @if(!$merchantSupportsCOD) disabled @endif
                 >
@@ -750,7 +805,7 @@ z
                 <!-- GCash Option -->
                 <div class="col-6 payment-option" id="gcashOption">
                 <button
-                    class="btn btn-outline-success w-100 h-100 d-flex flex-column align-items-center justify-content-center"
+                    class="btn btn-outline-custom w-100 h-100 d-flex flex-column align-items-center justify-content-center"
                     id="selectGcashButton"
                     @if(!$merchantSupportsGCash) disabled @endif
                 >
@@ -1492,11 +1547,11 @@ z
         function toggleActive(selectedButton) {
             [selectCodButton, selectGcashButton].forEach((button) => {
                 if (button === selectedButton) {
-                    button.classList.remove("btn-outline-success");
-                    button.classList.add("btn-success");
+                    button.classList.remove("btn-outline-custom");
+                    button.classList.add("btn-custom");
                 } else {
-                    button.classList.remove("btn-success");
-                    button.classList.add("btn-outline-success");
+                    button.classList.remove("btn-custom");
+                    button.classList.add("btn-outline-custom");
                 }
             });
         }
