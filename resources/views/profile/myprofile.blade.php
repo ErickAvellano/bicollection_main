@@ -158,7 +158,7 @@
                             <li><a href="#" class="custom-link" data-target="#changePasswordContent">Change Password</a></li>
                         </ul>
                         <p>
-                            <a href="/my-purchase" class="text-decoration-none" style="color: #2e2e2e;">
+                            <a href="{{ route('mypurchase') }}" class="text-decoration-none" style="color: #2e2e2e;">
                                 <i class="fas fa-solid fa-clipboard custom-icon"></i> My Purchase
                             </a>
                         </p>
