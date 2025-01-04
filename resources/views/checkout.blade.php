@@ -3,10 +3,14 @@
 
 @section('styles')
 <style>
-    /* General Styles */
-    body {
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    body, html {
+        overflow: auto;
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
         background-color: #fafafa;
     }
+z
 
     .container {
         max-width: 1200px;
@@ -312,6 +316,11 @@
     .payment-option{
         height:100px;
     }
+    @media only screen and (min-width: 360px) and (max-width: 425px) {
+        body {
+            font-size: 12px;
+        }
+    }
 
 </style>
 @endsection
@@ -386,7 +395,7 @@
 
     <!-- Products Ordered Section -->
     <div class="section">
-        <h2 class="section-title">Products Ordered</h2>
+        <h3 class="section-title">Products Ordered</h3>
         @foreach ($cartItems as $cartItem)
             <div class="product-item" style="display: flex; margin-bottom: 20px; margin-left:1.7rem;">
                 <!-- Product Image -->
@@ -416,12 +425,12 @@
     </div>
     <div class="section voucher-section">
         <!-- Shop Voucher Section -->
-        <h2 class="section-title ">Platform Voucher</h2>
+        <h3 class="section-title ">Platform Voucher</h3>
         <a href="#" class="select-link" data-bs-toggle="modal" data-bs-target="#selectVoucherModal">Select Voucher</a>
     </div>
     <div class="section payment-section">
         <!-- Payment Option Section -->
-        <h2 class="section-title">Payment Options</h2>
+        <h3 class="section-title">Payment Options</h3>
         <div class="selected-payment-method d-flex align-items-center" id="selectedPaymentMethodDisplay">
             <span id="selectedPaymentMethodText" style="margin-right:4rem;"></span>
             <a href="#" class="select-link ms-2" data-bs-toggle="modal" data-bs-target="#selectPaymentModal">CHANGE</a>
@@ -737,7 +746,7 @@
                     <span>Cash on Delivery</span>
                 </button>
                 </div>
-    
+
                 <!-- GCash Option -->
                 <div class="col-6 payment-option" id="gcashOption">
                 <button
@@ -759,7 +768,7 @@
         </div>
     </div>
 </div>
-  
+
 
 <!-- Success Modal -->
 <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
@@ -1554,7 +1563,7 @@
     });
 </script>
 
-  
+
 
 
 @endsection
