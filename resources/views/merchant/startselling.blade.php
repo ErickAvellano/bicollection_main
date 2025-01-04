@@ -367,7 +367,7 @@
     <p>Contact us for more inquiries!</p>
 </section>
 
-<section id="contact" class="contact-section">
+{{-- <section id="contact" class="contact-section">
     <h2>CONTACT US</h2>
     <p>Send us a message and we will get back to you soon!</p>
     <div class="contact-form">
@@ -391,7 +391,8 @@
 </section>
 <footer class="text-center p-0 m-0 fc-white" style="background-color:#333;">
     <p class="p-0 m-0" style="color:white; font-size:12px;">&copy;2024 BiCollection. All rights reserved.</p>
-</footer>
+</footer> --}}
+@include('Components.footer')
 @endsection
 
 @section('scripts')

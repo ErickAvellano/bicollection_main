@@ -78,7 +78,12 @@
       </div>
       <div class="footer-section text-center">
         <h5>USABLE LINKS</h5>
-
+        <ul class="footer-links">
+            <li><a href="terms-of-use.html">Dashboard</a></li>
+            <li><a href="privacy-policy.html">Sell on Bicollection</a></li>
+            <li><a href="terms-of-use.html">Customer Support</a></li>
+            <li><a href="terms-of-use.html">About Us</a></li>
+          </ul>
       </div>
 
       <!-- Terms and Policies -->
@@ -92,11 +97,11 @@
 
       <!-- Contact Us -->
       <div class="footer-section text-center">
-        <h5>CONTACT US:</h5>
-        <p>
+        <h5>CONTACT US</h5>
+        <p style="font-size:16px;">
           📍 123 Bicol Street, Legazpi City, Albay <br>
           ☎ +63 912 345 6789 <br>
-          ✉ <a href="mailto:bicollection.noreply@gmail.com">bicollection.noreply@gmail.com</a>
+          ✉ <a style="font-size:14px;" href="mailto:bicollection.noreply@gmail.com">bicollection.noreply@gmail.com</a>
         </p>
       </div>
 

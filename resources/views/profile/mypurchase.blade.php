@@ -676,7 +676,7 @@
 @section('scripts')
     @if (session('status'))
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('DOMContentLoaded', function () { 
                 const confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
                 const statusIcon = document.querySelector('.status-icon');
                 const statusMessage = document.querySelector('.status-message');
