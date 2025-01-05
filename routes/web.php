@@ -37,7 +37,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\CustomerSupportController;
 use App\Http\Controllers\ChatController;
-
+use App\Http\Controllers\ProductCustomizationController;
 
 // Home route for both guests and authenticated users
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -46,6 +46,8 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 Route::get('/terms-condition/view', [HomeController::class, 'showTerms'])->name('terms-condition');
+
+Route::get('/merchant/customize', [MerchantController::class, 'customize'])->name('merchant.customize');
 
 Route::get('/categories/index', [CategoryController::class, 'index'])->name('category.index');
 Route::get('/categories', [CategoryController::class, 'showCategories'])->name('categories');
@@ -209,7 +211,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/merchant/productpreview/{id}', [ProductController::class, 'previewProduct'])->name('product.preview');
 
     Route::delete('/variations/{id}', [VariationController::class, 'destroy'])->name('variation.delete');
-    Route::get('/merchant/customize', [MerchantController::class, 'customize'])->name('merchant.customize');
+
+    Route::post('/customizations', [ProductCustomizationController::class, 'store'])->name('save.customization');
+
+
     Route::post('/shop/update-display-image', [MerchantController::class, 'updateDisplayImage'])->name('shop.updateDisplayImage');
     Route::post('/featured-product/store', [FeaturedProductController::class, 'store'])->name('featured-product.store');
 
@@ -263,7 +268,7 @@ Route::get('/payment/success', [PaymentController::class, 'paymentSuccess'])->na
 Route::get('/payment/failed', [PaymentController::class, 'paymentFailed'])->name('payment.failed');
 
 Route::get('/gcash/form', function () {
-    return view('gcash_form');
+    return view('gcash_form');//paymongo
 });
 
 Route::get('/merchant/register', function () {

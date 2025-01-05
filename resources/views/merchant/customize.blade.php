@@ -212,61 +212,76 @@
     <!-- Product Customization -->
     <div class="box customization">
         <h2>Product Customization</h2>
-        <label for="pot-type">Pot Type</label>
-        <select class="material-select">
-            <option value="" disabled selected>---Select Pot Type---</option>
-            <option value="ceramic">Ceramic</option>
-            <option value="plastic">Plastic</option>
-            <option value="clay">Clay</option>
-        </select>
+        <form id="customization-form">
 
-        <label for="material">Select Material</label>
-        <select class="material-select">
-            <option value="" disabled selected>---Select Material---</option>
-            <option value="ceramic">Ceramic</option>
-            <option value="plastic">Plastic</option>
-            <option value="clay">Clay</option>
-        </select>
-
-        <label>Rim</label>
-        <div class="color-options" id="rim-options">
-            <div style="background-color: red;" data-color="red"></div>
-            <div style="background-color: green;" data-color="green"></div>
-            <div style="background-color: brown;" data-color="brown"></div>
-            <div style="background-color: black;" data-color="black"></div>
-            <div style="background-color: pink;" data-color="pink"></div>
-        </div>
-
-        <label>Body</label>
-        <div class="color-options" id="body-options">
-            <div style="background-color: red;" data-color="red"></div>
-            <div style="background-color: green;" data-color="green"></div>
-            <div style="background-color: brown;" data-color="brown"></div>
-            <div style="background-color: black;" data-color="black"></div>
-            <div style="background-color: pink;" data-color="pink"></div>
-        </div>
-
-        <label>Base</label>
-        <div class="color-options" id="base-options">
-            <div style="background-color: red;" data-color="red"></div>
-            <div style="background-color: green;" data-color="green"></div>
-            <div style="background-color: brown;" data-color="brown"></div>
-            <div style="background-color: black;" data-color="black"></div>
-            <div style="background-color: pink;" data-color="pink"></div>
-        </div>
-
-        <label>Pattern</label>
-        <div class="pattern-options">
-            <button>Dot</button>
-            <button>Stripe</button>
-            <button>Flower</button>
-        </div>
-
-        <div class="button">
-            <button class="remove">Remove Pattern</button>
-            <button class="save">Save</button>
-        </div>
+            <!-- Material -->
+            <label for="material">Select Material</label>
+            <select id="material" name="material" required>
+                <option value="" disabled selected>---Select Material---</option>
+                <option value="Ceramic"  data-material-price="350">Ceramic</option>
+                <option value="Plastic" data-material-price="150">Plastic</option>
+                <option value="Clay" data-material-price="200">Clay</option>
+            </select>
+    
+            <!-- Rim Color -->
+            <label>Rim Color</label>
+            <div class="color-options" id="rim-options">
+                <div style="background-color: red;" data-color="Red"  data-rim-price="50"></div>
+                <div style="background-color: green;" data-color="Green"  data-rim-price="50"></div>
+                <div style="background-color: brown;" data-color="Brown"  data-rim-price="30"></div>
+                <div style="background-color: black;" data-color="Black"  data-rim-price="50"></div>
+                <div style="background-color: pink;" data-color="Pink"  data-rim-price="50"></div>
+            </div>
+            <input type="hidden" name="rim_color" id="rim-color" required>
+    
+            <!-- Body Color -->
+            <label>Body Color</label>
+            <div class="color-options" id="body-options">
+                <div style="background-color: red;" data-color="Red" data-body-price="50"></div>
+                <div style="background-color: green;" data-color="Green" data-body-price="50"></div>
+                <div style="background-color: brown;" data-color="Brown" data-body-price="30"></div>
+                <div style="background-color: black;" data-color="Black" data-body-price="50"></div>
+                <div style="background-color: pink;" data-color="Pink" data-body-price="50"></div>
+            </div>
+            <input type="hidden" name="body_color" id="body-color" required>
+    
+            <!-- Base Color -->
+            <label>Base Color</label>
+            <div class="color-options" id="base-options">
+                <div style="background-color: red;" data-color="Red" data-base-price="50"></div>
+                <div style="background-color: green;" data-color="Green" data-base-price="50"></div>
+                <div style="background-color: brown;" data-color="Brown" data-base-price="50"></div>
+                <div style="background-color: black;" data-color="Black" data-base-price="50"></div>
+                <div style="background-color: pink;" data-color="Pink" data-base-price="50"></div>
+            </div>
+            <input type="hidden" name="base_color" id="base-color" required>
+    
+            <!-- Pattern -->
+            <label>Pattern</label>
+            <div class="pattern-options">
+                <button type="button" class="pattern-btn" data-pattern="Dot" data-pattern-price="50">Dot</button>
+                <button type="button" class="pattern-btn" data-pattern="Stripe" data-pattern-price="50">Stripe</button>
+                <button type="button" class="pattern-btn" data-pattern="Flower" data-pattern-price="50">Flower</button>
+            </div>
+            <input type="hidden" name="pattern" id="pattern">
+            <div class="text-end">
+                <h5>Customization Summary</h5>
+                <!-- Display the customization details -->
+                <p class="mb-0" id="PotMaterials"></p>
+                <p class="mb-0" id="PotRim"></p>
+                <p class="mb-0" id="PotBody"></p>
+                <p class="mb-0" id="PotBase"></p>
+                <p class="mb-0" id="PotPattern"></p>
+                
+                <!-- Display total price -->
+                <h5 id="total-price">Total: ₱0.00</h5>
+            </div>
+            
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-custom">Save Customization</button>
+        </form>
     </div>
+    
 @endsection
 @section('scripts')
 <script>
@@ -329,10 +344,122 @@
         });
     });
 
-    // Save button
-    document.querySelector('.save').addEventListener('click', function() {
-        alert('Saved!');
-    });
 
 </script>
+<script>
+    // Function to update the summary and calculate total price
+    function updateCustomizationSummary() {
+        let total = 0;
+
+        // Material selection
+        const materialSelect = document.getElementById("material");
+        const selectedMaterial = materialSelect.options[materialSelect.selectedIndex];
+        if (selectedMaterial.value) {
+            const materialName = selectedMaterial.text;
+            const materialPrice = parseFloat(selectedMaterial.getAttribute("data-material-price"));
+            total += materialPrice;
+            document.getElementById("PotMaterials").innerText = `${materialName} - ₱${materialPrice}`;
+        }
+
+        // Rim selection
+        const rimColor = document.getElementById("rim-color").value;
+        const rimColorOption = document.querySelector(`#rim-options [data-color="${rimColor}"]`);
+        if (rimColorOption) {
+            const rimPrice = parseFloat(rimColorOption.getAttribute("data-rim-price"));
+            total += rimPrice;
+            document.getElementById("PotRim").innerText = `${rimColor} Rim - ₱${rimPrice}`;
+        }
+
+        // Body selection
+        const bodyColor = document.getElementById("body-color").value;
+        const bodyColorOption = document.querySelector(`#body-options [data-color="${bodyColor}"]`);
+        if (bodyColorOption) {
+            const bodyPrice = parseFloat(bodyColorOption.getAttribute("data-body-price"));
+            total += bodyPrice;
+            document.getElementById("PotBody").innerText = `${bodyColor} Body - ₱${bodyPrice}`;
+        }
+
+        // Base selection
+        const baseColor = document.getElementById("base-color").value;
+        const baseColorOption = document.querySelector(`#base-options [data-color="${baseColor}"]`);
+        if (baseColorOption) {
+            const basePrice = parseFloat(baseColorOption.getAttribute("data-base-price"));
+            total += basePrice;
+            document.getElementById("PotBase").innerText = `${baseColor} Base - ₱${basePrice}`;
+        }
+
+        // Pattern selection
+        const pattern = document.getElementById("pattern").value;
+        const patternBtn = document.querySelector(`.pattern-btn[data-pattern="${pattern}"]`);
+        if (patternBtn) {
+            const patternPrice = parseFloat(patternBtn.getAttribute("data-pattern-price"));
+            total += patternPrice;
+            document.getElementById("PotPattern").innerText = `${pattern} Pattern - ₱${patternPrice}`;
+        }
+
+        // Display total
+        document.getElementById("total-price").innerText = `₱${total.toFixed(2)}`;
+    }
+
+    // Event listeners for form elements to update summary
+    document.getElementById("material").addEventListener("change", updateCustomizationSummary);
+    document.querySelectorAll("#rim-options div").forEach(rim => {
+        rim.addEventListener("click", function() {
+            document.getElementById("rim-color").value = this.getAttribute("data-color");
+            updateCustomizationSummary();
+        });
+    });
+    document.querySelectorAll("#body-options div").forEach(body => {
+        body.addEventListener("click", function() {
+            document.getElementById("body-color").value = this.getAttribute("data-color");
+            updateCustomizationSummary();
+        });
+    });
+    document.querySelectorAll("#base-options div").forEach(base => {
+        base.addEventListener("click", function() {
+            document.getElementById("base-color").value = this.getAttribute("data-color");
+            updateCustomizationSummary();
+        });
+    });
+    document.querySelectorAll(".pattern-btn").forEach(patternBtn => {
+        patternBtn.addEventListener("click", function() {
+            document.getElementById("pattern").value = this.getAttribute("data-pattern");
+            updateCustomizationSummary();
+        });
+    });
+
+    // Handle form submission via AJAX
+    document.getElementById("customization-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+
+        const customerId = {{ auth()->user()->user_id ?? 'null' }};
+        const merchantId = 615195522;
+        formData.append('customer_id', customerId); 
+        formData.append('merchant_id', merchantId); 
+        formData.append('price', parseFloat(document.getElementById("total-price").innerText.replace('₱', '').replace(',', '')));
+
+        fetch("{{ route('save.customization') }}", {
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Customization saved successfully!");
+            } else {
+                alert("There was an error saving the customization.");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("An error occurred.");
+        });
+    });
+</script>
+
 @endsection
