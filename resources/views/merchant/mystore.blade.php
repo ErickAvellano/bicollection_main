@@ -674,7 +674,7 @@
                         </div>
                     </div>
                     <div class="col-md-8">
-                        <div class="profile-actions d-flex justify-cont ent-end mt-4">
+                        <div class="profile-actions d-flex justify-content-end mt-4">
                             <button class="btn btn-edit me-2" id="showEditBtn"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
                             <button class="btn btn-edit" id="editBackgroundBtn" style="display: none;">Edit Background</button>
                             <form id="profileImageForm" method="POST" enctype="multipart/form-data" action="{{ route('shop.updateImages') }}">
