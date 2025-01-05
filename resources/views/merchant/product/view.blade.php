@@ -343,6 +343,9 @@
         #copyButton{
             cursor: pointer;
         }
+        .product-description{
+            text-align: justify;
+        }
 
         @media only screen and (min-width: 360px) and (max-width: 425px) {
             .top-crumb{
@@ -621,7 +624,7 @@
             <div class="col-md-6 product-info-card p-4">
                 <!-- Product Name -->
                 <div class="line">
-                    <h3 class="font-weight-bold mb-0">{{ $product->product_name }}</h3>
+                    <h4 class="font-weight-bold mb-0">{{ $product->product_name }}</h4>
                 </div>
                 <!-- Product Ratings and Sold Count -->
                 <div class="product-overall-rating d-flex align-items-center mt-2" style="gap: 5px;">
@@ -645,16 +648,19 @@
                         @endif
                     </span>
 
+
                     <!-- Numeric Average Rating Count -->
                     @if ($averageRating)
                         <span class="rating-count" style="font-weight: bold;">({{ $averageRating }} / 5)</span>
                     @endif
+                    |
+                    <span title="Views"><i  class="fa-regular fa-eye"></i> {{ $visitorCount }}</span> 
 
                 </div>
 
                 <!-- Product Price -->
                 <div class="product-price my-3">
-                    <h4 style="color: #e60023; font-weight: bold;">₱{{ number_format($product->price, 2) }}</h4>
+                    <h5 style="color: #e60023; font-weight: bold; margin-bottom:0;">₱{{ number_format($product->price, 2) }}</h5>
                 </div>
 
                 <!-- Product Variations -->
@@ -757,7 +763,7 @@
                 <header class="header-section">
                     <h5>Product Description</h5>
                 </header>
-                <article class="body-section">
+                <article class="body-section" >
                     <p class="product-description">{{ $product->description }}</p>
                 </article>
             </div>
@@ -815,8 +821,8 @@
 
                 <!-- Product Review Section -->
                 <article class="card">
-                    <header class="card-header">
-                        <h5>Product Reviews ({{ $reviewCount }})</h5>
+                    <header class="card-header d-flex">
+                        <h5>Product Reviews </h5> <span class="ms-1"> ({{$reviewCount}})</span>
                     </header>
                     <div class="card-body">
                         @if ($reviews->isEmpty())

@@ -497,6 +497,10 @@ class ProductController extends Controller
             // Fetch the product details based on the product ID
             $product = Product::with(['category', 'subcategory', 'images', 'variations', 'merchant.shop'])->findOrFail($id);
 
+            $visitorCount = DB::table('product_visit_logs')
+            ->where('product_id', $id)
+            ->value('view_count');
+
             ProductVisitLog::updateOrInsert(
                 ['product_id' => $product->product_id], 
                 ['view_count' => DB::raw('view_count + 1')] 
@@ -523,7 +527,7 @@ class ProductController extends Controller
             }
 
             // Pass the product, shop, reviews, and average rating to the view
-            return view('merchant.product.view', compact('product', 'shop', 'reviews', 'averageRating', 'reviewCount'));
+            return view('merchant.product.view', compact('product', 'shop', 'visitorCount', 'reviews', 'averageRating', 'reviewCount'));
         }
         public function previewProduct($id)
         {
