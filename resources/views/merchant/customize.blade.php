@@ -454,8 +454,7 @@
             }
         })
         .catch(error => {
-            console.error("Error:", error);
-            alert("An error occurred.");
+
         });
     });
 </script>
