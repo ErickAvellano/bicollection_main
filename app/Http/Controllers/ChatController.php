@@ -193,9 +193,6 @@ class ChatController extends Controller
 
         // Retrieve or create the chat
         $customerId = $request->input('customerId');
-        if(!$customerId){
-            return redirect()->route('login')->with('error', 'Unauthorized access. Only merchants can view this page.');
-        }
         $chat = Chat::where('customer_id', $customerId)->first();
 
         if (!$chat) {

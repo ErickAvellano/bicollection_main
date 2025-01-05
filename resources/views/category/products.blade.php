@@ -147,6 +147,9 @@
             <li class="breadcrumb-item active" aria-current="page">{{ $category->category_name }}</li>
         </ol>
     </nav>
+    @php
+        $filename = str_replace(' ', '', $category->category_name) . '.jpg';
+    @endphp
 
     <!-- Category Information -->
     <div class="container mt-3">
@@ -155,10 +158,12 @@
             <div class="col-md-4">
                 <div class="card">
                     <!-- Use card-img-top class to properly bind the image to the card -->
-                    <img src="{{ asset('images/assets/category/' . $category->category_name . '.jpg') }}"
+                    <img src="{{ asset('images/assets/category/' . $filename . '.jpg') }}"
                          alt="{{ $category->category_name }}"
                          class="card-img"
+                         loading="lazy"
                          style="height: 300px; object-fit: cover;">
+                         
                 </div>
             </div>
 

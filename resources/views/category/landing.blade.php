@@ -82,7 +82,7 @@
                         <div class="card shadow-sm rounded-lg" style="position: relative; overflow: hidden; height:100%;">
                             <!-- Cover Image -->
                             <div style="position: relative; height: 150px; overflow: hidden;">
-                                <img src="{{ asset('images/assets/category/' . $filename) }}" alt="{{ $category->category_name }}" class="img-fluid w-100 h-100">
+                                <img loading="lazy" src="{{ asset('images/assets/category/' . $filename) }}" alt="{{ $category->category_name }}" class="img-fluid w-100 h-100">
                             </div>
                             <div class="p-2 text-center">
                                 <!-- About Store --> 
