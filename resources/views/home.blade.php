@@ -507,12 +507,6 @@
         width: 100%;
     }
 
-    #productCarouselRecentlyAdded {
-        display: flex;
-        overflow-x: hidden;
-        scroll-behavior: smooth;
-        gap: 5px;
-    }
 
     /* Product Item Styling */
     .product-item {
@@ -711,7 +705,7 @@
         }
         .card-reviews i {
             font-size: 0.75rem; /* Adjust star size */
-          
+
         }
         .price {
             font-size: 0.75rem; /* Adjust font size */
@@ -724,11 +718,11 @@
         .shop-location-style{
             margin-left: 0.5rem;
         }
-        .popular-product-header h3, 
-        .popular-product-header h3, 
+        .popular-product-header h3,
+        .popular-product-header h3,
         .merchant-header h3,
-        .featured-product-title, 
-        .recently-product-header h3, 
+        .featured-product-title,
+        .recently-product-header h3,
         .popular-product-header h3{
             font-size:20px;
 
@@ -1005,7 +999,7 @@
                 </div>
             </div>
 
-            <div class="mt-3 col-md-12">
+            <div class="mt-3 col-md-12 popularcarouselContainer">
                 <div id="productCarouselRecentlyAdded" class="product-carousel-recently">
                     @foreach($recentlyAddedProducts as $product)
                         <a href="{{ route('product.view', $product->product_id) }}" class="text-decoration-none product-link">
