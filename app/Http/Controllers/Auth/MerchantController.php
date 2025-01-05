@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Product;
 use App\Models\Merchant;
 use App\Models\MerchantMop;
+
 class MerchantController extends Controller
 {
     // Method to handle the first step of registration
@@ -44,7 +45,6 @@ class MerchantController extends Controller
             'password.confirmed' => 'Password does not match.',
         ]);
 
-        Log::info('Validation passed.', $validated);
 
         // Begin a database transaction
         DB::beginTransaction();
@@ -146,23 +146,62 @@ class MerchantController extends Controller
             'postal_code' => 'required|string|max:20',
             'about_store' => 'required|string|max:500',
             'categories' => 'required|array|min:1',
+        ],
+        [
+            'dti_cert.required' => 'The DTI Certificate field is required.',
+            'dti_cert.file' => 'The DTI Certificate must be a valid file.',
+            'dti_cert.mimes' => 'The DTI Certificate must be a file of type: jpg, jpeg, png, pdf.',
+            'dti_cert.max' => 'The DTI Certificate must not exceed 2MB.',
+            'business_permit.required' => 'The Business Permit field is required.',
+            'business_permit.file' => 'The Business Permit must be a valid file.',
+            'business_permit.mimes' => 'The Business Permit must be a file of type: jpg, jpeg, png, pdf.',
+            'business_permit.max' => 'The Business Permit must not exceed 2MB.',
+            'shop_street.required' => 'The Shop Street field is required.',
+            'shop_street.string' => 'The Shop Street must be a valid string.',
+            'shop_street.max' => 'The Shop Street must not exceed 255 characters.',
+            'selectedProvince.required' => 'The Province field is required.',
+            'selectedProvince.string' => 'The Province must be a valid string.',
+            'selectedProvince.max' => 'The Province must not exceed 100 characters.',
+            'selectedCity.required' => 'The City field is required.',
+            'selectedCity.string' => 'The City must be a valid string.',
+            'selectedCity.max' => 'The City must not exceed 100 characters.',
+            'barangay.required' => 'The Barangay field is required.',
+            'barangay.string' => 'The Barangay must be a valid string.',
+            'barangay.max' => 'The Barangay must not exceed 100 characters.',
+            'postal_code.required' => 'The Postal Code field is required.',
+            'postal_code.string' => 'The Postal Code must be a valid string.',
+            'postal_code.max' => 'The Postal Code must not exceed 20 characters.',
+            'about_store.required' => 'The About Store field is required.',
+            'about_store.string' => 'The About Store must be a valid string.',
+            'about_store.max' => 'The About Store must not exceed 500 characters.',
+            'categories.required' => 'The Categories field is required.',
+            'categories.min' => 'At least one category is required.',
         ]);
 
         // Check for the user and their shop
         $user = Auth::user();
         $shop = Shop::where('merchant_id', $user->user_id)->first();
 
-        if ($shop) {
+        if (!$shop) {
+            return back()->withErrors(['error' => 'Shop not found']);
+        }
+
+        $dtiCertPath = null;
+        $businessPermitPath = null;
+
+        DB::beginTransaction();
+
+        try {
             // Handle file uploads
             if ($request->hasFile('dti_cert')) {
-                $dtiCertPath = $request->file('dti_cert')->store('permits/dti');
+                $dtiCertPath = $request->file('dti_cert')->store('permits/dti', 'public'); 
             }
 
             if ($request->hasFile('business_permit')) {
-                $businessPermitPath = $request->file('business_permit')->store('permits/business');
+                $businessPermitPath = $request->file('business_permit')->store('permits/business', 'public'); 
             }
 
-            // Update the shop with the new data
+            // Update shop details
             $shop->update([
                 'shop_street' => $validated['shop_street'],
                 'province' => $validated['selectedProvince'],
@@ -170,20 +209,21 @@ class MerchantController extends Controller
                 'barangay' => $validated['barangay'],
                 'postal_code' => $validated['postal_code'],
                 'description' => $validated['about_store'],
-                'dti_cert_path' => $dtiCertPath ?? null,
-                'business_permit_path' => $businessPermitPath ?? null,
-                'categories' => $validated['categories'],  // Assuming categories is a JSON or array field
+                'dti_cert_path' => $dtiCertPath,
+                'business_permit_path' => $businessPermitPath,
+                'categories' => $validated['categories'], // Ensure this field accepts JSON or array
                 'registration_step' => 'Step2',
             ]);
+
             // Create a new application entry
             Application::create([
                 'merchant_id' => $user->user_id,
                 'shop_id' => $shop->shop_id,
                 'shop_name' => $shop->shop_name,
-                'dti_cert_path' => $dtiCertPath ?? null, // Store the DTI file path
-                'mayors_permit_path' => $businessPermitPath ?? null, // Store the Business Permit file path
+                'dti_cert_path' => $dtiCertPath,
+                'mayors_permit_path' => $businessPermitPath,
                 'about_store' => $validated['about_store'],
-                'categories' => json_encode($validated['categories']), // Store categories as JSON string
+                'categories' => json_encode($validated['categories']),
                 'shop_street' => $validated['shop_street'],
                 'province' => $validated['selectedProvince'],
                 'city' => $validated['selectedCity'],
@@ -191,11 +231,21 @@ class MerchantController extends Controller
                 'postal_code' => $validated['postal_code'],
             ]);
 
+            DB::commit();
+            return redirect()->route('merchant.thirdstep')->with('success', 'Step 2 completed successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
 
-            return redirect()->route('merchant.thirdstep');  // Redirect to the third step
+            // Clean up uploaded files in case of an error
+            if ($dtiCertPath) {
+                Storage::disk('public')->delete($dtiCertPath);
+            }
+            if ($businessPermitPath) {
+                Storage::disk('public')->delete($businessPermitPath);
+            }
+
+            return back()->withErrors(['error' => 'An error occurred while processing your request: ' . $e->getMessage()]);
         }
-
-        return back()->withErrors(['error' => 'Shop not found']);
     }
 
     // Handle the third step submission

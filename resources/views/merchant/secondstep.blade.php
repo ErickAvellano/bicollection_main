@@ -153,6 +153,10 @@
             opacity: 0.5;
             pointer-events: none;
         }
+        .error{
+            font-size: 12px;
+            color: red;
+        }
     </style>
 @endsection
 
@@ -182,79 +186,73 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <div class="d-flex align-items-center">
-                                @error('dti_cert')
-                                    <div class="text-danger me-2">{{ $message }}</div>
-                                @enderror
                                 <label for="dti-cert" class="form-label">DTI Certificate</label>
                             </div>
                             <input type="file" class="form-control @error('dti_cert') is-invalid @enderror" id="dti_cert" name="dti_cert" accept="image/*" required>
+                            @if ($errors->has('dti_cert'))
+                                <span class="error" role="alert">
+                                    <ul>
+                                        @foreach ($errors->get('dti_cert') as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </span>
+                            @endif
                         </div>
-
+        
                         <div class="mb-3">
                             <label for="business-permit" class="form-label">Business Permit</label>
                             <input type="file" class="form-control @error('business_permit') is-invalid @enderror" id="business_permit" name="business_permit" accept="image/*" required>
-                            @error('business_permit')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            @if ($errors->has('business_permit'))
+                                <span class="error" role="alert">
+                                    <ul>
+                                        @foreach ($errors->get('business_permit') as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </span>
+                            @endif
                         </div>
-
+        
                         <div class="mb-3">
                             <label for="store-about" class="form-label">About Your Store</label>
-                            <textarea class="form-control @error('about_store') is-invalid @enderror" id="store-about" name="about_store" rows="4" placeholder="Tell us about your store" required></textarea>
-                            @error('about_store')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <textarea class="form-control @error('about_store') is-invalid @enderror" id="store-about" name="about_store" rows="4" placeholder="Tell us about your store">{{ old('about_store') }}</textarea>
+                            @if ($errors->has('about_store'))
+                                <span class="error" role="alert">
+                                    <ul>
+                                        @foreach ($errors->get('about_store') as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </span>
+                            @endif
                         </div>
-
+        
                         <div class="mb-3">
                             <label for="category" class="form-label">Select Product Categories:</label>
                             <div class="d-flex flex-wrap gap-2" id="categoriesContainer">
-                                <input type="checkbox" class="btn-check @error('categories') is-invalid @enderror" id="category1" autocomplete="off" name="categories[]" value="Abaca">
-                                <label class="btn btn-pill" for="category1">Abaca Products</label>
-
-                                <input type="checkbox" class="btn-check @error('categories') is-invalid @enderror" id="category2" autocomplete="off" name="categories[]" value="Clay">
-                                <label class="btn btn-pill" for="category2">Clay Pottery</label>
-
-                                <input type="checkbox" class="btn-check @error('categories') is-invalid @enderror" id="category3" autocomplete="off" name="categories[]" value="Pili">
-                                <label class="btn btn-pill" for="category3">Pili Products </label>
-
-                                <input type="checkbox" class="btn-check @error('categories') is-invalid @enderror" id="category4" autocomplete="off" name="categories[]" value="Bamboo">
-                                <label class="btn btn-pill" for="category4">Bamboo Products</label>
-
-                                <input type="checkbox" class="btn-check @error('categories') is-invalid @enderror" id="category5" autocomplete="off" name="categories[]" value="Nito Products">
-                                <label class="btn btn-pill" for="category5">Nito Products</label>
-
-                                <input type="checkbox" class="btn-check @error('categories') is-invalid @enderror" id="category6" autocomplete="off" name="categories[]" value="Ceramic Products">
-                                <label class="btn btn-pill" for="category6">Ceramic Products</label>
-
-                                <input type="checkbox" class="btn-check @error('categories') is-invalid @enderror" id="category7" autocomplete="off" name="categories[]" value="Rattan Crafts">
-                                <label class="btn btn-pill" for="category7">Rattan Crafts</label>
-
-                                <input type="checkbox" class="btn-check @error('categories') is-invalid @enderror" id="category8" autocomplete="off" name="categories[]" value="Coconut Shell Crafts">
-                                <label class="btn btn-pill" for="category8">Coconut Crafts</label>
-
-                                <input type="checkbox" class="btn-check @error('categories') is-invalid @enderror" id="category9" autocomplete="off" name="categories[]" value="Leather Crafts">
-                                <label class="btn btn-pill" for="category9">Leather Crafts</label>
-
-                                <input type="checkbox" class="btn-check @error('categories') is-invalid @enderror" id="category10" autocomplete="off" name="categories[]" value="Pineapple Crafts">
-                                <label class="btn btn-pill" for="category10">Pineapple Crafts</label>
-
-                                <input type="checkbox" class="btn-check @error('categories') is-invalid @enderror" id="category11" autocomplete="off" name="categories[]" value="Karagumoy Products">
-                                <label class="btn btn-pill" for="category11">Karagumoy Products</label>
-
-                                <input type="checkbox" class="btn-check @error('categories') is-invalid @enderror" id="category12" autocomplete="off" name="categories[]" value="Anahaw Products">
-                                <label class="btn btn-pill" for="category12">Anahaw Products</label>
-
-                                <input type="checkbox" class="btn-check @error('categories') is-invalid @enderror" id="category13" autocomplete="off" name="categories[]" value="Buri Products">
-                                <label class="btn btn-pill" for="category13">Buri Products</label>
-
-                                <input type="checkbox" class="btn-check @error('categories') is-invalid @enderror" id="category14" autocomplete="off" name="categories[]" value="Delicacies">
-                                <label class="btn btn-pill" for="category14">Delicacies</label>
+                                @php
+                                    $categories = [
+                                        'Abaca', 'Clay', 'Pili', 'Bamboo', 'Nito Products', 
+                                        'Ceramic Products', 'Rattan Crafts', 'Coconut Shell Crafts', 
+                                        'Leather Crafts', 'Pineapple Crafts', 'Karagumoy Products', 
+                                        'Anahaw Products', 'Buri Products', 'Delicacies'
+                                    ];
+                                @endphp
+                                @foreach ($categories as $category)
+                                    <input type="checkbox" class="btn-check @error('categories') is-invalid @enderror" id="category{{ $loop->index + 1 }}" name="categories[]" value="{{ $category }}" {{ in_array($category, old('categories', [])) ? 'checked' : '' }}>
+                                    <label class="btn btn-pill" for="category{{ $loop->index + 1 }}">{{ $category }}</label>
+                                @endforeach
                             </div>
-
-                            @error('categories')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
-                            @enderror
+                            @if ($errors->has('categories'))
+                                <span class="error" role="alert">
+                                    <ul>
+                                        @foreach ($errors->get('categories') as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </span>
+                            @endif
                         </div>
                     </div>
 
@@ -262,32 +260,50 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="shop-street" class="form-label">Store Address</label>
-                            <input type="text" class="form-control @error('shop_street') is-invalid @enderror" id="shop-street" name="shop_street" placeholder="Purok / Street">
-                            @error('shop_street')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <input type="text" class="form-control @error('shop_street') is-invalid @enderror" id="shop-street" value="{{ old('shop_street') }}" name="shop_street" placeholder="Purok / Street">
+                            @if ($errors->has('shop_street'))
+                                <span class="error" role="alert">
+                                    <ul>
+                                        @foreach ($errors->get('shop_street') as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </span>
+                            @endif
                         </div>
 
                         <div class="mb-3">
                             <label for="province" class="form-label">Province</label>
-                            <select class="form-select @error('province') is-invalid @enderror" id="province" name="province" required>
+                            <select class="form-select @error('selectedProvince') is-invalid @enderror" id="province" name="province" required>
                                 <option selected disabled>-- Select Province --</option>
                             </select>
-                            <input type="hidden" id="selectedProvince" name="selectedProvince" value="{{ old('province') ?? $shop->province ?? '' }}">
-                            @error('province')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <input type="hidden" id="selectedProvince" name="selectedProvince" value="{{ old('selectedProvince') ?? $shop->province ?? '' }}">
+                            @if ($errors->has('selectedProvince'))
+                                <span class="error" role="alert">
+                                    <ul>
+                                        @foreach ($errors->get('selectedProvince') as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </span>
+                            @endif
                         </div>
 
                         <div class="mb-3">
                             <label for="city" class="form-label">City/Municipality</label>
-                            <select class="form-select @error('city') is-invalid @enderror" id="city" name="city" required>
+                            <select class="form-select @error('selectedCity') is-invalid @enderror" id="city" name="city" required>
                                 <option selected disabled>-- Select City/Municipality --</option>
                             </select>
-                            <input type="hidden" id="selectedCity" name="selectedCity" value="{{ old('city') ?? $shop->city ?? '' }}">
-                            @error('city')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <input type="hidden" id="selectedCity" name="selectedCity" value="{{ old('selectedCity') ?? $shop->city ?? '' }}">
+                            @if ($errors->has('selectedCity'))
+                                <span class="error" role="alert">
+                                    <ul>
+                                        @foreach ($errors->get('selectedCity') as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </span>
+                            @endif
                         </div>
 
                         <div class="mb-3">
@@ -295,20 +311,33 @@
                             <select class="form-select @error('barangay') is-invalid @enderror" id="barangay" name="barangay" required>
                                 <option selected disabled>-- Select Barangay --</option>
                             </select>
-                             <!--<input type="hidden" id="selectedBarangay" name="selectedBarangay" value="{{ old('barangay') ?? $shop->barangay ?? '' }}">-->
-                            @error('barangay')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                             <input type="hidden" id="selectedBarangay" name="selectedBarangay" value="{{ old('barangay') ?? $shop->barangay ?? '' }}">
+                             @if ($errors->has('barangay'))
+                                <span class="error" role="alert">
+                                    <ul>
+                                        @foreach ($errors->get('barangay') as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </span>
+                            @endif
                         </div>
                         <div class="mb-3">
                             <label for="postal_code" class="form-label">Postal/Zip Code</label>
                             <input type="text" class="form-control @error('postal_code') is-invalid @enderror"
                                    id="postal_code"
                                    name="postal_code"
+                                   value="{{ old('postal_code') }}"
                                    placeholder="Postal/Zip Code">
-                            @error('postal_code')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                                   @if ($errors->has('postal_code'))
+                                   <span class="error" role="alert">
+                                       <ul>
+                                           @foreach ($errors->get('postal_code') as $error)
+                                               <li>{{ $error }}</li>
+                                           @endforeach
+                                       </ul>
+                                   </span>
+                               @endif
                         </div>
                     </div>
                 </div>
@@ -453,4 +482,5 @@
         populateProvinces();
     });
 </script>
+
 @endsection
