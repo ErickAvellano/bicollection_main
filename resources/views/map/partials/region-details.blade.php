@@ -185,7 +185,7 @@
 
 <div class="container map-landing-container" style="background-color: transparent; padding: 10px;">
     <!-- Map Section -->
-    @if(in_array(strtolower($region->name), ['albay', 'camarines sur']))
+    {{-- @if(in_array(strtolower($region->name), ['albay', 'camarines sur'])) --}}
         <!-- New row for Albay and Camarines Sur -->
         <div class="row mt-5">
             <div class="col-md-12 mb-4 text-center map-container-region img-hover-zoom--point-zoom">
@@ -221,7 +221,7 @@
         </div>
         <!-- Add extra row to move to the next row -->
         <div class="row"></div>
-    @else
+    {{-- @else
         <!-- Original row for other regions -->
         <div class="row mt-5">
             <div class="col-md-7 text-center map-container-region img-hover-zoom--point-zoom">
@@ -256,7 +256,7 @@
                 </div>
             </div>
         </div>
-    @endif
+    @endif --}}
 
 
     <!-- Info Section (About, List Products, Merchant) -->
