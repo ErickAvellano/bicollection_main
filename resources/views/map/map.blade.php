@@ -513,6 +513,7 @@
         display: block;
         width: 400px;
     }
+
     @media only screen and (min-width: 2304px) and (max-height: 1296px) {
     /* Your styles for screens matching 2304x1296 or larger */
     body {
@@ -621,7 +622,7 @@
         .albay-overlay{
             left: -125%;
         }
-        .masbate-overlay{
+        .masbate-overlay{ 
             left: -110%;
         }
         .mapmodal-content{
@@ -737,165 +738,199 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var modal = document.getElementById('regionDetailsMapModal');
-            var closeBtn = modal.querySelector('.mapmodal-close');
-            var modalBodyContent = document.getElementById('region-content');
+       document.addEventListener('DOMContentLoaded', function () {
+        var modal = document.getElementById('regionDetailsMapModal');
+        var closeBtn = modal.querySelector('.mapmodal-close');
+        var modalBodyContent = document.getElementById('region-content');
 
-            if (!modalBodyContent) {
-                console.error('The modal content element (#region-content) is missing from the DOM.');
-                return;
-            }
+        if (!modalBodyContent) {
+            console.error('The modal content element (#region-content) is missing from the DOM.');
+            return;
+        }
 
-            // Event listener for anchor tags with class 'region-link'
-            document.querySelectorAll('.region-link').forEach(function (anchor) {
-                anchor.addEventListener('click', function (event) {
-                    event.preventDefault();
-
-                    var name = this.getAttribute('data-name');  // Get the alias (e.g., camnorte)
-
-                    // Fetch region details via AJAX
-                    fetch(`/region-details/${name}`)
-                        .then(response => response.text())
-                        .then(data => {
-                            // Insert the fetched data into the modal
-                            modalBodyContent.innerHTML = data;
-
-                            // Show the modal
-                            modal.style.display = 'block';
-
-                            // Call a function to reinitialize event listeners on the newly loaded content
-                            reinitializeRegionDetailsScripts();
-                        })
-                        .catch(error => {
-                            console.error('Error loading region details:', error);
-                            modalBodyContent.innerHTML = "Unable to load region details.";
-                        });
-                });
-            });
-
-            // Event listener to close the modal
-            closeBtn.addEventListener('click', function () {
-                modal.style.display = 'none';
-            });
-
-            // Close modal if user clicks outside of the modal content
-            window.addEventListener('click', function (event) {
-                if (event.target == modal) {
-                    modal.style.display = 'none';
-                }
-            });
-        });
-
-        function reinitializeRegionDetailsScripts() {
-        const productLinks = document.querySelectorAll('.product-link-map');
-
-        productLinks.forEach(link => {
-            link.addEventListener('click', function (event) {
+        // Event listener for anchor tags with class 'region-link'
+        document.querySelectorAll('.region-link').forEach(function (anchor) {
+            anchor.addEventListener('click', function (event) {
                 event.preventDefault();
 
-                // Get selected category ID
-                const categoryId = this.getAttribute('data-category');
-                const regionName = document.getElementById('region_name').value;
+                var name = this.getAttribute('data-name');  // Get the alias (e.g., camnorte)
 
-                fetch(`/products/filter/${categoryId}/${regionName}`, {
-                    method: 'GET',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'Content-Type': 'application/json',
-                    },
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json(); // Parse the JSON response
-                })
-                .then(data => {
-                    // Get the product list container
-                    const productList = document.getElementById('product-list');
+                // Fetch region details via AJAX
+                fetch(`/region-details/${name}`, { cache: "no-cache" }) // Prevent caching
+                    .then(response => response.text())
+                    .then(data => {
+                        // Insert the fetched data into the modal
+                        modalBodyContent.innerHTML = data;
 
-                    // Clear current products
-                    productList.innerHTML = '';
+                        // Show the modal
+                        modal.style.display = 'block';
 
-                    // Check if the data array is empty
-                    if (data.length === 0) {
-                        productList.innerHTML = `
-                            <div class="text-center">
-                                <p class ="card-text">No current products listed</p>
-                            </div>
-                        `;
-                    } else {
-                        let productContent = `<div class="d-flex flex-wrap justify-content-start" style="padding:0 20px;">`;
+                        // Reinitialize scripts and magnifier
+                        reinitializeRegionDetailsScripts();
 
-                        data.forEach(product => {
-                            const productItem = `
-                                <a href="/product/${product.id}" class="text-decoration-none product-item" data-category="${product.category_id}" style="color: inherit;">
-                                    <div class="product-item p-1">
-                                        <div class="card product-card product-card-hover" style="width: 9rem; border: 2px solid transparent; transition: transform 0.3s, border-color 0.3s; position: relative;">
-                                            <img src="${product.image_url}" class="card-img-top" alt="${product.name}" style="width: 100%; height: 110px; object-fit: cover;">
-                                            <div class="card-body text-center" style="padding: 10px 0;">
-                                                <h6 class="card-title" style="font-size: 0.85rem; font-weight: bold;">${product.name}</h6>
-                                                <p class="card-text" style="font-size: 12px; color: #555;"><strong>₱${product.price}</strong></p>
-                                                <p class="card-text" style="font-size: 11px; color: #555;">No reviews</p>
-                                                <div class="d-flex justify-content-between align-items-center mt-2">
-                                                    <a href="#" class="btn btn-custom btn-sm add-to-cart" data-product-id="${product.id}" style="font-size: 12px;">
-                                                        <i class="fas fa-shopping-cart" style="margin-right: 4px;"></i> Add to Cart
-                                                    </a>
-                                                    <a href="#" class="btn btn-outline-danger btn-sm" style="width: 2rem; font-size: 12px;">
-                                                        <i class="fas fa-heart"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>`;
-
-                            productContent += productItem;
-                        });
-
-                        productContent += '</div>';
-
-                        productList.innerHTML = productContent;
-                    }
-                })
-                .catch(error => {
-                    console.error('Fetch error:', error);
-                });
-
-                productLinks.forEach(link => link.classList.remove('active'));
-
-                this.classList.add('active');
+                        // Reinitialize magnifier (if modal content has image)
+                        initializeMagnifier();
+                    })
+                    .catch(error => {
+                        console.error('Error loading region details:', error);
+                        modalBodyContent.innerHTML = "Unable to load region details.";
+                    });
             });
         });
-    }
+
+        // Event listener to close the modal
+        closeBtn.addEventListener('click', function () {
+            modal.style.display = 'none';
+        });
+
+        // Close modal if user clicks outside of the modal content
+        window.addEventListener('click', function (event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Initialize the magnifier functionality (this runs for each modal open)
+        function initializeMagnifier() {
+            var sub_width = 0;
+            var sub_height = 0;
+            $(".large").css("background", "url('" + $(".small").attr("src") + "') no-repeat");
+
+            $(".zoom-area").mousemove(function (e) {
+                if (!sub_width && !sub_height) {
+                    var image_object = new Image();
+                    image_object.src = $(".small").attr("src");
+                    sub_width = image_object.width;
+                    sub_height = image_object.height;
+                } else {
+                    var magnify_position = $(this).offset();
+                    var mx = e.pageX - magnify_position.left;
+                    var my = e.pageY - magnify_position.top;
+
+                    if (mx < $(this).width() && my < $(this).height() && mx > 0 && my > 0) {
+                        $(".large").fadeIn(100);  // Show magnifier
+                    } else {
+                        $(".large").fadeOut(100);  // Hide magnifier when out of bounds
+                    }
+
+                    if ($(".large").is(":visible")) {
+
+                        var zoomFactor = 1;
+
+                        var rx = Math.round(mx / $(".small").width() * sub_width - $(".large").width() / 2) * -1 * zoomFactor;
+                        var ry = Math.round(my / $(".small").height() * sub_height - $(".large").height() / 2) * -1 * zoomFactor;
+
+                        var bgp = rx + "px " + ry + "px";
+                        var px = mx - $(".large").width() / 2;
+                        var py = my - $(".large").height() / 2;
+
+                        $(".large").css({ left: px, top: py, backgroundPosition: bgp });
+                    }
+                }
+            });
+
+            // Hide magnifier when leaving the zoom area
+            $(".zoom-area").mouseleave(function () {
+                $(".large").fadeOut(100); // Hide magnifier
+                $(".zoom-area").css("cursor", "default");
+            });
+
+            // Show cursor as none inside zoom area
+            $(".zoom-area").mouseenter(function () {
+                $(".zoom-area").css("cursor", "none");
+            });
+        }
+
+        // Initialize magnifier on page load (if already visible content)
+        initializeMagnifier();
+
+        // Reinitialize region details event listeners
+        function reinitializeRegionDetailsScripts() {
+            const productLinks = document.querySelectorAll('.product-link-map');
+
+            productLinks.forEach(link => {
+                link.addEventListener('click', function (event) {
+                    event.preventDefault();
+
+                    // Get selected category ID
+                    const categoryId = this.getAttribute('data-category');
+                    const regionName = document.getElementById('region_name').value;
+
+                    fetch(`/products/filter/${categoryId}/${regionName}`, {
+                        method: 'GET',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Content-Type': 'application/json',
+                        },
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json(); // Parse the JSON response
+                        })
+                        .then(data => {
+                            // Get the product list container
+                            const productList = document.getElementById('product-list');
+
+                            // Clear current products
+                            productList.innerHTML = '';
+
+                            // Check if the data array is empty
+                            if (data.length === 0) {
+                                productList.innerHTML = `
+                                    <div class="text-center">
+                                        <p class ="card-text">No current products listed</p>
+                                    </div>
+                                `;
+                            } else {
+                                let productContent = `<div class="d-flex flex-wrap justify-content-start" style="padding:0 20px;">`;
+
+                                data.forEach(product => {
+                                    const productItem = `
+                                        <a href="/product/${product.id}" class="text-decoration-none product-item" data-category="${product.category_id}" style="color: inherit;">
+                                            <div class="product-item p-1">
+                                                <div class="card product-card product-card-hover" style="width: 9rem; border: 2px solid transparent; transition: transform 0.3s, border-color 0.3s; position: relative;">
+                                                    <img loading="lazy" src="${product.image_url}" class="card-img-top" alt="${product.name}" style="width: 100%; height: 110px; object-fit: cover;">
+                                                    <div class="card-body text-center" style="padding: 10px 0;">
+                                                        <h6 class="card-title" style="font-size: 0.85rem; font-weight: bold;">${product.name}</h6>
+                                                        <p class="card-text" style="font-size: 12px; color: #555;"><strong>₱${product.price}</strong></p>
+                                                        <p class="card-text" style="font-size: 11px; color: #555;">No reviews</p>
+                                                        <div class="d-flex justify-content-between align-items-center mt-2">
+                                                            <a href="#" class="btn btn-custom btn-sm add-to-cart" data-product-id="${product.id}" style="font-size: 12px;">
+                                                                <i class="fas fa-shopping-cart" style="margin-right: 4px;"></i> Add to Cart
+                                                            </a>
+                                                            <a href="#" class="btn btn-outline-danger btn-sm" style="width: 2rem; font-size: 12px;">
+                                                                <i class="fas fa-heart"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>`;
+
+                                    productContent += productItem;
+                                });
+
+                                productContent += '</div>';
+
+                                productList.innerHTML = productContent;
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Fetch error:', error);
+                        });
+
+                    productLinks.forEach(link => link.classList.remove('active'));
+
+                    this.classList.add('active');
+                });
+            });
+        }
+    });
+
+
 </script>
-<style>
-    // Select all images with the zoom effect
-    const zoomImages = document.querySelectorAll('.img-hover-zoom--point-zoom img');
 
-    zoomImages.forEach((img) => {
-    img.addEventListener('mousemove', function (e) {
-        // Get image dimensions and mouse position relative to the image
-        const rect = img.getBoundingClientRect();
-        const offsetX = e.clientX - rect.left;
-        const offsetY = e.clientY - rect.top;
-
-        // Calculate the transform-origin as percentage of the image dimensions
-        const originX = (offsetX / rect.width) * 100;
-        const originY = (offsetY / rect.height) * 100;
-
-        // Set the transform-origin based on mouse position
-        img.style.transformOrigin = `${originX}% ${originY}%`;
-    });
-
-    img.addEventListener('mouseleave', function () {
-        // Reset transform-origin when the mouse leaves the image
-        img.style.transformOrigin = 'center';
-    });
-    });
-
-
-</style>
 
 @endsection

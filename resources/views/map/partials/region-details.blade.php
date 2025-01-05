@@ -150,14 +150,15 @@
     .icon-hover:hover {
         color: #28a745; /* Change color on hover */
     }
-    .img-hover-zoom--point-zoom img {
-        transition: transform 1s, filter .5s ease-out;
-    }
+    /* .img-hover-zoom--point-zoom img { */
+        /* transition: transform 1s, filter .5s ease-out; */
+        /* transition: transform 0.3s ease, transform-origin 0.3s ease; */
+    /* } */
 
-    /* The Transformation */
+    /* The Transformation
     .img-hover-zoom--point-zoom:hover img {
         transform: scale(2);
-    }
+    } */
     .card-title{
         font-size: 1rem; 
         font-weight: 
@@ -170,6 +171,27 @@
         color: #666;
     }
 
+    .zoom-area {
+        width: 100%;
+        margin: 0 auto;
+        position: relative;
+        cursor: none; /* Hide cursor inside zoom area */
+        z-index: 999; 
+        
+    }
+    .large {
+        width: 300px;
+        height: 300px;
+        position: absolute;
+        border-radius: 50%;
+        box-shadow: 0 0 0 7px rgba(255, 255, 255, 0.85), 0 0 7px 7px rgba(0, 0, 0, 0.25), inset 0 0 40px 2px rgba(0, 0, 0, 0.25);
+        display: none;
+        z-index: 999; /* Ensure it's above the image */
+    }
+    .small {
+        display: block;
+    }
+
     @media only screen and (min-width: 1441px) and (max-width: 1920px) {
         .card-text {
             font-size:1.3rem;
@@ -179,104 +201,47 @@
         }
     }
 
-
 </style>
 
 
 <div class="container map-landing-container" style="background-color: transparent; padding: 10px;">
-    <!-- Map Section -->
-    {{-- @if(in_array(strtolower($region->name), ['albay', 'camarines sur'])) --}}
-        <!-- New row for Albay and Camarines Sur -->
-        <div class="row mt-5">
-            <div class="col-md-12 mb-4 text-center map-container-region img-hover-zoom--point-zoom">
-                <div style="width: {{ $width }}; height: {{ $height }}; margin: 0 auto; display: flex; justify-content: center; align-items: center;">
-                    <img class="map-image"
-                        src="{{ asset('images/assets/map/' .  strtolower($region->name) . 'landmark' . '.png') }}"
-                        alt="{{ ucfirst($region->name) }} Map"
-                        style="object-fit: cover; filter: drop-shadow(0px 1px 50px rgba(31, 123, 145, 0.9)); max-width: 100%; height: auto;">
-                    <h2 style="position: absolute;
-                                top: {{ $top }};
-                                left: {{ $left }};
-                                padding: 5px;
-                                border-radius: 5px;
-                                color: #333;
-                                font-weight: bold;">
-                        {{ ucfirst($region->name) }}
-                    </h2>
-                </div>
-                <input type="hidden" id="region_name" name="region_name" value="{{ $region->name }}">
+    <div class="row mt-5">
+        <div class="col-md-12 mb-4 text-center">
+            <div class="zoom-area" style="width: {{ $width }}; height: {{ $height }}; margin: 0 auto; display: flex; justify-content: center; align-items: center; position: relative;" >
+                <!-- Magnify Glass -->
+                <div class="large"></div>
+                <!-- Map Image -->
+                <img id="regionMapImage"
+                    class="map-image small"
+                    src="{{ asset('images/assets/map/' . strtolower($region->name) . 'landmark' . '.png') }}"
+                    alt="{{ ucfirst($region->name) }} Map"
+                    loading="lazy"
+                    style="object-fit: cover; filter: drop-shadow(0px 1px 50px rgba(31, 123, 145, 0.9)); max-width: 100%; height: auto; transition: transform 0.3s ease, transform-origin 0.3s ease;">
+                <h2 style="position: absolute; top: {{ $top }}; left: {{ $left }}; padding: 5px; border-radius: 5px; color: #333; font-weight: bold;">
+                    {{ ucfirst($region->name) }}
+                </h2>
             </div>
-            <div class="col-md-12 mb-4">
-                <div class="card" style="border-radius: 10px; border:none; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); text-align: justify;">
-                    <div class="card-body" style="padding: 30px;">
-                        <h6 class="card-title" style="font-size: 1rem; font-weight: bold; color: #333;">
-                            About {{ $region->name }}
-                        </h6>
-                        <p class="card-text">
-                            {!! $region->description !!}
-                        </p>
-                    </div>
-                </div>
-            </div>
+            <input type="hidden" id="region_name" name="region_name" value="{{ $region->name }}">
         </div>
-        <!-- Add extra row to move to the next row -->
-        <div class="row"></div>
-    {{-- @else
-        <!-- Original row for other regions -->
-        <div class="row mt-5">
-            <div class="col-md-7 text-center map-container-region img-hover-zoom--point-zoom">
-                <div style="width: {{ $width }}; height: {{ $height }}; margin: 0 auto; display: flex; justify-content: center; align-items: center;">
-                    <img class="map-image"
-                        src="{{ asset('images/assets/map/' .  strtolower($region->name) . 'landmark' . '.png') }}"
-
-                        alt="{{ ucfirst($region->name) }} Map"
-                        style="object-fit: cover; filter: drop-shadow(0px 1px 50px rgba(31, 123, 145, 0.9)); max-width: 100%; height: auto;">
-                    <h2 style="position: absolute;
-                                top: {{ $top }};
-                                left: {{ $left }};
-                                padding: 5px;
-                                border-radius: 5px;
-                                color: #333;
-                                font-weight: bold;">
-                        {{ ucfirst($region->name) }}
-                    </h2>
-                </div>
-                <input type="hidden" id="region_name" name="region_name" value="{{ $region->name }}">
-            </div>
-            <div class="col-md-5 mb-4">
-                <div class="card" style="border-radius: 10px; border:none; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); text-align: justify;">
-                    <div class="card-body" style="padding: 30px;">
-                        <h6 class="card-title">
-                            About {{ $region->name }}
-                        </h6>
-                        <p class="card-text">
-                            {!! $region->description !!}
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif --}}
-
-
-    {{-- <!-- Info Section (About, List Products, Merchant) -->
-    <div class="row row-equal mb-4">
-        <div class="col-md-12 equal-height">
-            <div class="card" style="border-radius: 10px; border:none; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); height:100%;">
+        
+        <div class="col-md-12 mb-4">
+            <div class="card" style="border-radius: 10px; border:none; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); text-align: justify;">
                 <div class="card-body" style="padding: 30px;">
-                    <h6 class="card-title">Product</h6>
+                    <h6 class="card-title" style="font-size: 1rem; font-weight: bold; color: #333;">
+                        About {{ $region->name }}
+                    </h6>
                     <p class="card-text">
-                        {!! $region->product_description !!}
+                        {!! $region->description !!}
                     </p>
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div>
     <div class="col-md-12 mb-4 equal-height">
         <div class="card" style="border-radius: 10px; border:none; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); height:100%;">
             <div class="card-body" style="padding: 30px;">
                 <h6 class="card-title">Product List</h6>
-                <ul class="card-text">
+                <ul class="card-text">  
                     @foreach($categories as $category)
                         <li style="padding: 5px 0; ">{{ $category->category_name }}</li>
                     @endforeach
@@ -374,3 +339,53 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    $(document).ready(function() {
+        var sub_width = 0;
+        var sub_height = 0;
+        $(".large").css("background","url('" + $(".small").attr("src") + "') no-repeat");
+
+        $(".zoom-area").mousemove(function(e) {
+            if (!sub_width && !sub_height) {
+                var image_object = new Image();
+                image_object.src = $(".small").attr("src");
+                sub_width = image_object.width;
+                sub_height = image_object.height;
+            } else {
+                var magnify_position = $(this).offset();
+                var mx = e.pageX - magnify_position.left;
+                var my = e.pageY - magnify_position.top;
+
+                if (mx < $(this).width() && my < $(this).height() && mx > 0 && my > 0) {
+                    $(".large").fadeIn(100);  // Show magnifier
+                } else {
+                    $(".large").fadeOut(100);  // Hide magnifier when out of bounds
+                }
+
+                if ($(".large").is(":visible")) {
+                    var rx = Math.round(mx / $(".small").width() * sub_width - $(".large").width() / 2) * -1;
+                    var ry = Math.round(my / $(".small").height() * sub_height - $(".large").height() / 2) * -1;
+
+                    var bgp = rx + "px " + ry + "px";
+                    var px = mx - $(".large").width() / 2;
+                    var py = my - $(".large").height() / 2;
+
+                    $(".large").css({ left: px, top: py, backgroundPosition: bgp });
+                }
+            }
+        });
+
+        // Show the cursor again when not hovering over the zoom area
+        $(".zoom-area").mouseleave(function() {
+            $(".large").fadeOut(100); // Hide magnifier when leaving the zoom area
+            $(".zoom-area").css("cursor", "default");
+        });
+
+        // Restore cursor style inside zoom area
+        $(".zoom-area").mouseenter(function() {
+            $(".zoom-area").css("cursor", "none");
+        });
+    });
+</script>
