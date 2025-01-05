@@ -655,7 +655,7 @@
                 }
             })
             .catch(error => {
-                window.open('/login');
+                window.location.href = '/login';//sss
             });
         });
             }
