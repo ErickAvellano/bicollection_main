@@ -363,7 +363,7 @@
     </script>
 @endif
 
-<script> 
+<script>
     $(document).ready(function () {
         // Add CSRF token to AJAX requests
         $.ajaxSetup({
@@ -480,7 +480,7 @@
     // Ensure the chat popup is hidden by default
     document.addEventListener("DOMContentLoaded", function () {
         const chatPopup = document.getElementById("customer-support");
-        chatPopup.style.display = "none"; 
+        chatPopup.style.display = "none";
     });
 
     // Toggle chat popup visibility on icon click
@@ -528,7 +528,7 @@
         // Listen for Live Chat button click
         liveChatButton.addEventListener('click', function (event) {
 
-            
+
             if (!dropdown.value) {
                 // Prevent the button from proceeding
                 event.preventDefault();
@@ -562,7 +562,7 @@
 
             // Send the selected topic and the corresponding data-topic to the backend
             const formData = new FormData();
-            formData.append('topic', topic);  
+            formData.append('topic', topic);
             formData.append('_token', document.querySelector('input[name="_token"]').value);  // Include CSRF token
 
             fetch("{{ route('chat.start') }}", {
@@ -642,8 +642,8 @@
                     chatBox.appendChild(messageItem);
                     chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom
 
-                    
-                    
+
+
 
                     // Simulate updating the "Sending..." status to the actual time
                     setTimeout(() => {
@@ -655,13 +655,15 @@
                 }
             })
             .catch(error => {
+                const chatPopup = document.getElementById("customer-support");
+                chatPopup.style.display = chatPopup.style.display === "none";
                 window.location.href = '/login';//sss
             });
         });
             }
         });
 
-       
+
     });
 </script>
 
