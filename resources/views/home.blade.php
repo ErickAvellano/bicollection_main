@@ -507,6 +507,12 @@
         width: 100%;
     }
 
+    #productCarouselRecentlyAdded {
+        display: flex;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+        gap: 5px;
+    }
 
     /* Product Item Styling */
     .product-item {
