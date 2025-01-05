@@ -2,6 +2,7 @@
 
 @section('styles')
     <style>
+         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
         body, html {
             overflow: auto;
             height: 100%;
@@ -328,6 +329,20 @@
             padding: 0.4rem 0.75rem;
             font-size: 1rem;
         }
+        .social-share-button {
+            display: inline-block;
+            margin: 10px;
+        }
+        .social-share-button img {
+            width: 20px; /* Adjust size of icons */
+            height: auto;
+        }
+        .fa-copy{
+            color:black;
+        }
+        #copyButton{
+            cursor: pointer;
+        }
 
         @media only screen and (min-width: 360px) and (max-width: 425px) {
             .top-crumb{
@@ -634,6 +649,7 @@
                     @if ($averageRating)
                         <span class="rating-count" style="font-weight: bold;">({{ $averageRating }} / 5)</span>
                     @endif
+
                 </div>
 
                 <!-- Product Price -->
@@ -696,6 +712,31 @@
                     </h5>
                     <p class="text-muted">Standard Shipping: 3-5 business days</p>
                 </div>
+                <div class="my-4 sharable-link d-flex">
+                    <h5 class="font-weight-bold d-flex align-items-center">
+                        Share:
+                    </h5>
+                    <!-- Facebook -->
+                    <a href="#" data-platform="facebook" class="social-share-button dynamic-share-link" target="_blank">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook">
+                    </a>
+                    <!-- Messenger -->
+                    <a href="#" data-platform="messenger" class="social-share-button dynamic-share-link" target="_blank">
+                        <img src="{{ asset('images/assets/messengerLogo.png') }}" alt="Messenger">
+                    </a>
+                    <!-- Gmail -->
+                    <a href="#" data-platform="gmail" class="social-share-button dynamic-share-link" target="_blank">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Gmail_Icon.png" alt="Gmail">
+                    </a>
+                    <!-- WhatsApp -->
+                    <a href="#" data-platform="whatsapp" class="social-share-button dynamic-share-link" target="_blank">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+                    </a>
+                    <a id="copyButton" class="social-share-button dynamic-share-link">
+                        <i class="fa-solid fa-copy"></i>
+                    </a>
+                </div>
+
 
                 <!-- Action Buttons -->
                 <div class="button-group">
@@ -1064,6 +1105,53 @@
                 }
             });
         }
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const currentURL = encodeURIComponent(window.location.href);
+        const shareLinks = document.querySelectorAll(".dynamic-share-link");
+
+        shareLinks.forEach(link => {
+            const platform = link.dataset.platform;
+
+            switch (platform) {
+                case "facebook":
+                    link.href = `https://www.facebook.com/sharer/sharer.php?u=${currentURL}`;
+                    break;
+                case "twitter":
+                    link.href = `https://twitter.com/intent/tweet?url=${currentURL}&text=Check%20this%20out!`;
+                    break;
+                case "youtube":
+                    link.href = `https://www.youtube.com/share?url=${currentURL}`;
+                    break;
+                case "messenger":
+                    link.href = `https://www.messenger.com/t/?link=${currentURL}`;
+                    break;
+                case "gmail":
+                    link.href = `https://mail.google.com/mail/?view=cm&fs=1&to=&su=Check%20this%20out&body=${currentURL}`;
+                    break;
+                case "whatsapp":
+                    link.href = `https://wa.me/?text=${currentURL}`;
+                    break;
+                case "linkedin":
+                    link.href = `https://www.linkedin.com/sharing/share-offsite/?url=${currentURL}`;
+                    break;
+            }
+        });
+    });
+
+</script>
+
+<script>
+    document.getElementById('copyButton').addEventListener('click', function() {
+
+        const input = document.createElement('input');
+        input.value = window.location.href;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        document.body.removeChild(input);
     });
 </script>
 
