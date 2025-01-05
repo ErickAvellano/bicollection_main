@@ -81,4 +81,8 @@ class HomeController extends Controller
 
         return view('home', compact('allProducts', 'products', 'shop', 'featuredProducts', 'recentlyAddedProducts', 'searchResults'));
     }
+    public function showTerms(Request $request){
+
+        return view('terms.terms-condition');
+    }
 }

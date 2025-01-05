@@ -89,9 +89,9 @@
       <!-- Terms and Policies -->
       <div class="footer-section text-center">
         <h5>TERMS AND POLICIES</h5>
-        <ul class="footer-links">
+        <ul class="footer-links"> 
+          <li><a href="{{ route('terms-condition') }}">Terms & Condition</a></li>
           <li><a href="privacy-policy.html">Privacy Policy</a></li>
-          <li><a href="terms-of-use.html">Terms of Use</a></li>
         </ul>
       </div>
 

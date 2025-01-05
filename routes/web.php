@@ -45,6 +45,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+Route::get('/terms-condition/view', [HomeController::class, 'showTerms'])->name('terms-condition');
 
 Route::get('/categories/index', [CategoryController::class, 'index'])->name('category.index');
 Route::get('/categories', [CategoryController::class, 'showCategories'])->name('categories');
