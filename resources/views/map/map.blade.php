@@ -516,7 +516,7 @@
     @media only screen and (min-width: 2304px) and (max-height: 1296px) {
     /* Your styles for screens matching 2304x1296 or larger */
     body {
-        transform: scale(0.9);
+        transform: scale(0.8);
     }
     }
 
