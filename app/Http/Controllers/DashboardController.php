@@ -78,12 +78,19 @@ class DashboardController extends Controller
         }
 
         // Fetch all products for the "All Products" section
-        $allProducts = Product::with('merchant.shop')->get();
+        $allProducts = Product::with('merchant.shop')
+            ->whereHas('merchant.shop', function ($query) {
+                $query->where('verification_status', 'Verified');
+            })
+            ->get();
 
         // Fetch only products with ratings for the "Popular Products" section
-        $productsWithRatings = Product::whereHas('reviews', function ($query) {
-            $query->where('rating', '>', 0);
+        $productsWithRatings = Product::whereHas('merchant.shop', function ($query) {
+            $query->where('verification_status', 'Verified'); // Ensure the shop is verified
+        })->whereHas('reviews', function ($query) {
+            $query->where('rating', '>', 0); // Ensure the product has ratings
         })->with('merchant.shop', 'reviews')->get();
+
 
         // Fallback to random products if no products with ratings
         if ($productsWithRatings->isEmpty()) {
@@ -91,9 +98,9 @@ class DashboardController extends Controller
         } else {
             $products = $productsWithRatings;
         }
-
-        // Fetch recently added products
-        $recentlyAddedProducts = Product::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+        $recentlyAddedProducts = Product::whereHas('merchant.shop', function ($query) {
+            $query->where('verification_status', 'Verified');
+        })->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
             ->orderBy('created_at', 'desc')
             ->get();
 

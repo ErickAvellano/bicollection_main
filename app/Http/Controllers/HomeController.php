@@ -13,7 +13,7 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        // Check if the user 
+        // Check if the user
         if (Auth::check()) {
             return redirect()->route('dashboard');
         }
@@ -23,19 +23,26 @@ class HomeController extends Controller
         // Fetch all products with their merchant and shop information
         $products = Product::with('merchant.shop')->get();
 
-        // Fetch recently added products 
-        $recentlyAddedProducts = Product::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+        $recentlyAddedProducts = Product::whereHas('merchant.shop', function ($query) {
+            $query->where('verification_status', 'Verified');
+        })->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
             ->orderBy('created_at', 'desc')
             ->get();
 
         // Initialize the featuredProducts collection
         $featuredProducts = collect();
 
-        // Fetch all products for the "All Products" section
-        $allProducts = Product::with('merchant.shop')->get();
+          // Fetch all products for the "All Products" section
+          $allProducts = Product::with('merchant.shop')
+            ->whereHas('merchant.shop', function ($query) {
+                $query->where('verification_status', 'Verified');
+            })
+            ->get();
 
         // Fetch only products with ratings for the "Popular Products" section
-        $productsWithRatings = Product::whereHas('reviews', function ($query) {
+        $productsWithRatings = Product::whereHas('merchant.shop', function ($query) {
+            $query->where('verification_status', 'Verified');
+        })->whereHas('reviews', function ($query) {
             $query->where('rating', '>', 0);
         })->with('merchant.shop', 'reviews')->get();
 
