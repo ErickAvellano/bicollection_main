@@ -798,7 +798,9 @@
         function initializeMagnifier() {
             var sub_width = 0;
             var sub_height = 0;
-            $(".large").css("background", "url('" + $(".small").attr("src") + "') no-repeat");
+            $(".large").css({
+                "background": "url('" + $(".small").attr("src") + "') no-repeat",
+                "filter": "drop-shadow(0px 1px 50px rgba(31, 123, 145, 0.9))"});
 
             $(".zoom-area").mousemove(function (e) {
                 if (!sub_width && !sub_height) {
