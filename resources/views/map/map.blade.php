@@ -789,6 +789,10 @@
                 modal.style.display = 'none';
             }
         });
+        modal.addEventListener('mouseleave', function () {
+            // Close the modal when the mouse leaves it
+            modal.style.display = 'none';
+        });
 
         // Initialize the magnifier functionality (this runs for each modal open)
         function initializeMagnifier() {
