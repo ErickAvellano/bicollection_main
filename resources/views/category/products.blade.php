@@ -163,14 +163,14 @@
                          class="card-img"
                          loading="lazy"
                          style="height: 300px; object-fit: cover;">
-                         
+
                 </div>
             </div>
 
 
             <!-- Right Section: Description -->
             <div class="col-md-8 d-flex flex-column justify-content-center">
-                <div>
+                <div style="text-align: justify">
                     <h3><strong>{{ $category->category_name }}</strong></h3>
                     <p>
                         {{ $category->category_description }}
