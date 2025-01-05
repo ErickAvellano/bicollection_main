@@ -69,10 +69,7 @@ class PurchaseController extends Controller
         elseif ($status === 'to-rate') {
             $query->where('order_status','to-rate')
                 ->whereDoesntHave('productReviews');
-        } elseif ($status === 'to-rate') {
-            $query->where('order_status','to-rate')
-                ->whereDoesntHave('productReviews');
-        } elseif ($status === 'to-refund') {
+        }  elseif ($status === 'to-refund') {
             $query->where('order_status', 'to-refund');
         }elseif ($status === 'cancel') {
             $query->whereIn('order_status', ['cancelled', 'declined','cancel/refund']);

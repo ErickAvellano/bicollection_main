@@ -368,7 +368,7 @@
 
 
     .btn-add-product {
-        background-color: #218838;
+        background-color: #228b22;
         color: white;
         padding: 10px 20px;
         border- radius: 30px;
@@ -397,7 +397,7 @@
 
 
     .btn-add-product:hover, .btn-setti   ngs:hover {
-        background-color: #1a692b;
+        background-color: #228b22;
     }
 
     .modal {
@@ -476,7 +476,7 @@
         right: 20px;
         z-index: 10;
         gap: 10px;
-        flex-direction: r ow;
+        flex-direction: row;
     }
     .modal-backdrop{
          display: none;
@@ -831,7 +831,21 @@
     <a href="{{ route('merchant.product.create') }}" class="btn btn-add-product">
         <i class="fa fa-plus"></i>&nbsp; Add Product
     </a>
-
+    <a id="support-icon" href="{{ route('customer.support') }}" style="text-decoration: none;">
+        <div style="
+            width: 50px;
+            height: 50px;
+            background-color: #228b22;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
+        ">
+            <i class="fas fa-headset" style="font-size: 20px;"></i>
+        </div>
+    </a>
     <!-- Settings Button -->
     {{-- <a href="#" class="btn btn-settings">
         <i class="fa fa-cog"></i>
