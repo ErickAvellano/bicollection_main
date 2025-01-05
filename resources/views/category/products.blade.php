@@ -158,7 +158,7 @@
             <div class="col-md-4">
                 <div class="card">
                     <!-- Use card-img-top class to properly bind the image to the card -->
-                    <img src="{{ asset('images/assets/category/' . $filename . '.jpg') }}"
+                    <img src="{{ asset('images/assets/category/' . $filename ) }}"
                          alt="{{ $category->category_name }}"
                          class="card-img"
                          loading="lazy"
