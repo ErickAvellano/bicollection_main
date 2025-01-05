@@ -509,7 +509,7 @@
 
     #productCarouselRecentlyAdded {
         display: flex;
-        overflow-x: hidden;
+        overflow-x: auto;
         scroll-behavior: smooth;
         gap: 5px;
     }
@@ -711,7 +711,7 @@
         }
         .card-reviews i {
             font-size: 0.75rem; /* Adjust star size */
-          
+
         }
         .price {
             font-size: 0.75rem; /* Adjust font size */
@@ -724,11 +724,11 @@
         .shop-location-style{
             margin-left: 0.5rem;
         }
-        .popular-product-header h3, 
-        .popular-product-header h3, 
+        .popular-product-header h3,
+        .popular-product-header h3,
         .merchant-header h3,
-        .featured-product-title, 
-        .recently-product-header h3, 
+        .featured-product-title,
+        .recently-product-header h3,
         .popular-product-header h3{
             font-size:20px;
 
@@ -1190,7 +1190,7 @@
 @include('Components.supporticon')
 @include('Components.footer')
 
-@include('Components.favorite-success-modal') 
+@include('Components.favorite-success-modal')
 @endsection
 @section('scripts')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
