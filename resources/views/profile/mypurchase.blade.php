@@ -276,7 +276,7 @@
                                 <img src="{{ asset('storage/' . $imagePath) }}" alt="Product Image" class="img-fluid border" loading="lazy"
                                     style="width: 120px; height: 120px; object-fit: cover;">
                             </div>
-    
+
                             <!-- Purchase Details -->
                             <div class="flex-grow-1">
                                 <div class="d-flex justify-content-between">
@@ -302,7 +302,7 @@
                                                 </span>
                                             </p>
                                             <p><strong>Order Date:</strong> {{ \Carbon\Carbon::parse($purchase->created_at)->format('Y-m-d') }}</p>
-    
+
                                             <p><strong>Qty:</strong> {{ $purchase->orderItems->sum('quantity') }}</p>
                                             <p><strong>Total:</strong> ₱{{ number_format($purchase->total_amount, 2) }}</p>
                                         </div>
@@ -310,7 +310,7 @@
                                 </div>
                             </div>
                         </div>
-    
+
                         <!-- Additional Products for Orders with Multiple Items -->
                         @if ($purchase->orderItems->count() > 1)
                             <div id="additionalProducts-{{ $purchase->order_id }}" class="d-none">
@@ -327,7 +327,7 @@
                                                 <img src="{{ asset('storage/' . $imagePath) }}" alt="Product Image" class="img-fluid border" loading="lazy"
                                                     style="width: 120px; height: 120px; object-fit: cover;">
                                             </div>
-    
+
                                             <!-- Purchase Details -->
                                             <div class="flex-grow-1">
                                                 <div class="d-flex justify-content-between">
@@ -347,8 +347,8 @@
                                 <button class="btn btn-link p-0" id="view-more-products-btn-{{ $purchase->order_id }}" onclick="toggleAdditionalProducts({{ $purchase->order_id }})">View More Products</button>
                             </div>
                         @endif
-    
-    
+
+
                         <!-- Action Buttons -->
                         <div class="d-flex justify-content-end mt-3">
                             @if ($purchase->payment && $purchase->payment->payment_status === 'To-pay')

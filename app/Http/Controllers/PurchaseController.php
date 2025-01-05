@@ -42,7 +42,7 @@ class PurchaseController extends Controller
             'to-refund' => Order::where('customer_id', $customerId)->where('order_status', 'to-refund')->count(),
             'completed' => Order::where('customer_id', $customerId)->where('order_status', 'completed')->count(),
             'cancel' => Order::where('customer_id', $customerId)
-                    ->whereIn('order_status', ['cancelled', 'declined'])
+                    ->whereIn('order_status', ['cancelled', 'declined', 'cancel/refund'])
                     ->count(),
         ];
 
@@ -64,13 +64,18 @@ class PurchaseController extends Controller
             $query->whereIn('order_status', ['to-received', 'ready']);
         } elseif ($status === 'completed') {
             $query->where('order_status', 'completed');
+
+        }
+        elseif ($status === 'to-rate') {
+            $query->where('order_status','to-rate')
+                ->whereDoesntHave('productReviews');
         } elseif ($status === 'to-rate') {
             $query->where('order_status','to-rate')
                 ->whereDoesntHave('productReviews');
         } elseif ($status === 'to-refund') {
             $query->where('order_status', 'to-refund');
         }elseif ($status === 'cancel') {
-            $query->whereIn('order_status', ['cancelled', 'declined']);
+            $query->whereIn('order_status', ['cancelled', 'declined','cancel/refund']);
         } else {
             return response()->json(['error' => 'Invalid status'], 400);
         }
@@ -83,7 +88,7 @@ class PurchaseController extends Controller
         $ratingOrders = Order::with(['orderItems.product.images'])
             ->where('customer_id', $customerId)
             ->where('order_status', 'to-rate')
-            ->whereDoesntHave('productReviews') 
+            ->whereDoesntHave('productReviews')
             ->get();
 
         // If it's an AJAX request, return a partial view
