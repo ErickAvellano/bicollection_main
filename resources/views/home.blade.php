@@ -475,15 +475,15 @@
     .recently-product-header .line {
         flex-grow: 1;
         height: 2px;
-        border: none;
-        border-top: 2px solid #333;
+        border: none;             /* Remove default border */
+        border-top: 2px solid #333; /* Set color and thickness */
         margin: 0 10px;
     }
     .merchant-header .line {
         flex-grow: 1;
         height: 2px;
-        border: none;
-        border-top: 2px solid #333;
+        border: none;             /* Remove default border */
+        border-top: 2px solid #333; /* Set color and thickness */
         margin: 0 10px;
     }
 
@@ -507,12 +507,12 @@
         width: 100%;
     }
 
-    /* #productCarouselRecentlyAdded {
+    #productCarouselRecentlyAdded {
         display: flex;
-        overflow-x: hidden;
+        overflow-x: auto;
         scroll-behavior: smooth;
         gap: 5px;
-    } */
+    }
 
     /* Product Item Styling */
     .product-item {
