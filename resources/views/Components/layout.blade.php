@@ -310,7 +310,7 @@
                                             <div class="col-2 category-col">
                                                 <a href="{{ route('category.product', ['category_name' => $category->category_name]) }}">
                                                     <div class="overflow-hidden text-center border rounded category-box position-relative">
-                                                        <img src="{{ asset('images/assets/category/' . $filename) }}" alt="{{ $category->category_name }}" class="img-fluid w-100 h-100">
+                                                        <img loading="lazy" src="{{ asset('images/assets/category/' . $filename) }}" alt="{{ $category->category_name }}" class="img-fluid w-100 h-100">
                                                         <div class="category-name-overlay position-absolute w-100 d-flex align-items-center justify-content-center">
                                                             <p class="m-0 text-white font-weight-bold">{{ $category->category_name }}</p>
                                                         </div>
@@ -1025,7 +1025,6 @@
                     }
                 });
             } else {
-                console.warn('Order icon or count badge is not present in the DOM.');
             }
         }
 

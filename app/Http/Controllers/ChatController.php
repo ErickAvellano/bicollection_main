@@ -189,9 +189,13 @@ class ChatController extends Controller
             'message' => 'required|string|max:255',
             'customerId' => 'required|integer|exists:customer,customer_id',
         ]);
+        
 
         // Retrieve or create the chat
         $customerId = $request->input('customerId');
+        if(!$customerId){
+            return redirect()->route('login')->with('error', 'Unauthorized access. Only merchants can view this page.');
+        }
         $chat = Chat::where('customer_id', $customerId)->first();
 
         if (!$chat) {
