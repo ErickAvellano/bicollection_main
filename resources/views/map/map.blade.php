@@ -2,9 +2,10 @@
 
 @section('styles')
 <style>
+     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
     body {
         color: #000000;
-        font-family: 'Lato', sans-serif;
+        font-family: 'Poppins', sans-serif;
         margin: 0;
         padding: 0;
         background: #89d8ec;
@@ -706,11 +707,11 @@
                 </div>
             </div>
             <!-- Second Column -->
-            <div class="col-md-4 d-flex align-items-center justify-content-center flex-column" style="z-index: 1; position: relative;">
+            <div class="col-md-4 d-flex align-items-center justify-content-center flex-column text-center" style="z-index: 1; position: relative; max-height:500px;">
                 <h3>Select a Province to Visit</h3>
                 <h4>or</h4>
                 <a class="rounded-full" href="{{ route('home') }}">
-                    <img src="{{ asset('images/assets/bicollectionlogowname2.png') }}" loading="lazy" alt="BiCollection" style="width: 200px;">
+                    <img src="{{ asset('images/assets/bicollectionlogowname2.png') }}" loading="lazy" alt="BiCollection" style="width: 150px;">
                 </a>
             </div>
         </div>
