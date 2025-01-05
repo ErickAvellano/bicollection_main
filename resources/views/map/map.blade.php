@@ -789,10 +789,10 @@
                 modal.style.display = 'none';
             }
         });
-        modal.addEventListener('mouseleave', function () {
-            // Close the modal when the mouse leaves it
-            modal.style.display = 'none';
-        });
+        // modal.addEventListener('mouseleave', function () {
+        //     // Close the modal when the mouse leaves it
+        //     modal.style.display = 'none';
+        // });
 
         // Initialize the magnifier functionality (this runs for each modal open)
         function initializeMagnifier() {
@@ -902,9 +902,9 @@
                                                         <h6 class="card-title" style="font-size: 0.85rem; font-weight: bold;">${product.name}</h6>
                                                         <p class="card-text" style="font-size: 12px; color: #555;"><strong>₱${product.price}</strong></p>
                                                         <p class="card-text" style="font-size: 11px; color: #555;">No reviews</p>
-                                                        <div class="d-flex justify-content-between align-items-center mt-2">
+                                                        <div class="d-flex justify-content-between align-items-center mt-2 p-1">
                                                             <a href="#" class="btn btn-custom btn-sm add-to-cart" data-product-id="${product.id}" style="font-size: 12px;">
-                                                                <i class="fas fa-shopping-cart" style="margin-right: 4px;"></i> Add to Cart
+                                                                Add to Cart
                                                             </a>
                                                             <a href="#" class="btn btn-outline-danger btn-sm" style="width: 2rem; font-size: 12px;">
                                                                 <i class="fas fa-heart"></i>

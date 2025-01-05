@@ -191,6 +191,23 @@
     .small {
         display: block;
     }
+    .product-title {
+        font-size: 1rem;
+        font-weight: bold;
+        margin: 0;
+        min-height: 2.5rem; /* Adjusted to allow more content */
+        max-height: 2.5rem; /* Adjusted to allow more content */
+        white-space: normal;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    
 
     @media only screen and (min-width: 1441px) and (max-width: 1920px) {
         .card-text {
@@ -314,14 +331,14 @@
                                                 alt="{{ $product->product_name }}"
                                                 style="width: 100%; height: 110px; object-fit: cover;">
                                             <div class="card-body text-center" style="padding: 10px 0;">
-                                                <h6 class="card-title" style="font-size: 0.85rem; font-weight: bold;">{{ $product->product_name }}</h6>
+                                                <h6 class="card-title product-title" style="font-size: 0.85rem; font-weight: bold;">{{ $product->product_name }}</h6>
                                                 <p class="card-text"style="font-size: 12px; color: #555;"><strong>₱{{ number_format($product->price, 2) }}</strong>
                                                 </p>
                                                 <p class="card-text" style="font-size: 11px; color: #555;">No reviews</p>
 
-                                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                                <div class="d-flex justify-content-between align-items-center mt-2 p-1">
                                                     <a href="#" class="btn btn-custom btn-sm add-to-cart" data-product-id="{{ $product->product_id }}" style="font-size: 12px;">
-                                                        <i class="fas fa-shopping-cart" style="margin-right: 4px;"></i> Add to Cart
+                                                       Add to Cart
                                                     </a>
                                                     <a href="#" class="btn btn-outline-danger btn-sm" style="width: 2rem; font-size: 12px;">
                                                         <i class="fas fa-heart"></i>
