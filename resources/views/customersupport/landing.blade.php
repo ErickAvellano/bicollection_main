@@ -655,8 +655,7 @@
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
-                alert('An unexpected error occurred.');
+                window.open('/login');
             });
         });
             }
