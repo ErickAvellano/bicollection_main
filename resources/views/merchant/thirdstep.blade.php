@@ -192,7 +192,7 @@
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="termsCheckbox" name="termsCheckbox">
                             <label class="form-check" for="termsCheckbox">
-                                I agree to the <a href="terms-and-conditions.html" target="_blank">BiCollection Terms and Conditions</a>
+                                I agree to the <a  href="{{ asset('pdf/terms-and-conditions.pdf') }}" target="_blank">BiCollection Terms and Conditions</a>
                             </label>
                         </div>
                         @error('termsCheckbox')
