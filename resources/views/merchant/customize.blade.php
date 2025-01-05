@@ -450,9 +450,7 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert("Customization saved successfully!");
             } else {
-                alert("There was an error saving the customization.");
             }
         })
         .catch(error => {
