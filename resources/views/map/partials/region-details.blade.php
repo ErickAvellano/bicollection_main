@@ -259,7 +259,7 @@
     @endif --}}
 
 
-    <!-- Info Section (About, List Products, Merchant) -->
+    {{-- <!-- Info Section (About, List Products, Merchant) -->
     <div class="row row-equal mb-4">
         <div class="col-md-12 equal-height">
             <div class="card" style="border-radius: 10px; border:none; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); height:100%;">
@@ -271,7 +271,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <div class="col-md-12 mb-4 equal-height">
         <div class="card" style="border-radius: 10px; border:none; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); height:100%;">
             <div class="card-body" style="padding: 30px;">
