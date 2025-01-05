@@ -30,7 +30,7 @@ class RegionController extends Controller
         $regionName = $regionMapping[$name] ?? null;
 
         if (!$regionName) {
-            abort(404); 
+            abort(404);
         }
 
         // Fetch the region information
@@ -88,21 +88,19 @@ class RegionController extends Controller
         ];
 
         // Get dimensions for the region or use defaults
-        $width = $dimensions[$name]['width'] ?? '800px';  
-        $height = $dimensions[$name]['height'] ?? '600px'; 
+        $width = $dimensions[$name]['width'] ?? '800px';
+        $height = $dimensions[$name]['height'] ?? '600px';
 
         // Get position values
         $top = $dimensions[$name]['top'] ?? 'auto';
         $right = $dimensions[$name]['right'] ?? 'auto';
         $bottom = $dimensions[$name]['bottom'] ?? 'auto';
         $left = $dimensions[$name]['left'] ?? 'auto';
-        
-        // Fetch shops located in the selected province
-        $shops = Shop::where('province', $regionName)->get();
 
-        if ($shops->isEmpty()) {
-            Log::info("No shops found for region: {$regionName}");
-        }
+        // Fetch shops located in the selected province
+        $shops = Shop::where('province', $regionName)
+            ->where('verification_status', 'Verified')
+            ->get();
 
         $merchantIds = $shops->pluck('merchant_id');
 
@@ -111,10 +109,6 @@ class RegionController extends Controller
         $productList = explode(',', $region->products_list);
 
         $categories = Category::whereIn('category_id', $productList)->get();
-
-        if ($categories->isEmpty()) {
-            Log::info("No categories found for region: {$regionName}");
-        }
 
         // Pass data to the view
         return view('map.partials.region-details', [
