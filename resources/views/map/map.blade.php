@@ -512,6 +512,14 @@
         display: block;
         width: 400px;
     }
+    @media only screen and (min-width: 2304px) and (max-height: 1296px) {
+    /* Your styles for screens matching 2304x1296 or larger */
+    body {
+        transform: scale(0.8);
+    }
+    }
+
+
     @media only screen and (min-width: 360px) and (max-width: 425px) {
             /* Styles for devices in this range */
             body {
@@ -869,8 +877,8 @@
     img.addEventListener('mousemove', function (e) {
         // Get image dimensions and mouse position relative to the image
         const rect = img.getBoundingClientRect();
-        const offsetX = e.clientX - rect.left; 
-        const offsetY = e.clientY - rect.top;  
+        const offsetX = e.clientX - rect.left;
+        const offsetY = e.clientY - rect.top;
 
         // Calculate the transform-origin as percentage of the image dimensions
         const originX = (offsetX / rect.width) * 100;

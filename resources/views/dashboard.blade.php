@@ -497,9 +497,8 @@
 
     .recently-product-header .button-group {
         display: flex;
-        gap: 5px; /* Adjusts space between buttons */
+        gap: 5px;
     }
-        /* Recently Added Products Header */
     .recently-product-header {
         display: flex;
         align-items: center;
@@ -606,6 +605,8 @@
         background-color:#fafafa;
         border-radius:0;
     }
+
+
 
     @media only screen and (min-width: 360px) and (max-width: 425px) {
         /* Styles for devices in this range */
