@@ -41,7 +41,7 @@
                                 </p>
 
                                 <div class="d-flex justify-content-between align-items-center mt-2" style="gap: 8px;">
-                                    <a href="#" class="btn btn-success btn-sm add-to-cart" data-product-id="{{ $product->product_id }}" style="font-size: 14px; flex: 1;">
+                                    <a href="#" class="btn btn-custom btn-sm add-to-cart" data-product-id="{{ $product->product_id }}" style="font-size: 14px; flex: 1;">
                                         Add to Cart
                                     </a>
                                     <a href="#"
